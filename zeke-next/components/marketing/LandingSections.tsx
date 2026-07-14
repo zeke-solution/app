@@ -3,7 +3,6 @@
 import { type ReactNode, useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
-import { Accordion } from "@/components/marketing/Accordion";
 
 const HOW_IT_WORKS = [
   {
@@ -288,18 +287,22 @@ export function LandingSections() {
         </div>
       </SectionShell>
 
-      <SectionShell
-        chip="FAQ"
-        title="Want to know more?"
-        isOpen={openSection === "faq"}
-        onToggle={() => toggle("faq")}
-      >
-        <div className="mt-5">
-          <Accordion
-            items={FAQ_ITEMS.map((f) => ({ id: f.id, header: f.q, body: f.a }))}
-          />
+      <section className="mb-3 rounded-[20px] border border-white/5 bg-card/55 p-5 backdrop-blur-sm">
+        <div className="mb-5 flex flex-col items-center gap-2 text-center">
+          <span className="rounded-full border border-accent/25 bg-accent/10 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-accent">
+            FAQ
+          </span>
+          <h2 className="text-base font-extrabold leading-snug text-white">Want to know more?</h2>
         </div>
-      </SectionShell>
+        <div className="space-y-2.5">
+          {FAQ_ITEMS.map((item) => (
+            <article key={item.id} className="rounded-2xl border border-border bg-card px-5 py-4">
+              <h3 className="text-sm font-semibold text-white">{item.q}</h3>
+              <p className="mt-2 text-[13.5px] leading-relaxed text-muted">{item.a}</p>
+            </article>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }
