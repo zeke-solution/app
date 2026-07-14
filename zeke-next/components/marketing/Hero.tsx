@@ -37,12 +37,12 @@ export function Hero() {
       <div className="relative z-10 mb-14 flex flex-col items-center justify-center gap-2.5 sm:flex-row sm:gap-4">
         <Link href="/register?role=brand" className="w-full sm:w-auto">
           <Button size="lg" fullWidth className="sm:w-auto">
-            I&apos;m a Brand &#8594;
+            I&apos;m a Brand
           </Button>
         </Link>
         <Link href="/register?role=influencer" className="w-full sm:w-auto">
           <Button variant="outline" size="lg" fullWidth className="sm:w-auto">
-            I&apos;m a Creator &#8594;
+            I&apos;m a Creator
           </Button>
         </Link>
       </div>

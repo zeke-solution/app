@@ -162,7 +162,7 @@ export function RegisterForm({ initialRole = "influencer" }: { initialRole?: Rol
             </div>
           )}
           <Button type="button" onClick={goStep2} fullWidth>
-            Continue &#8594;
+            Continue
           </Button>
         </div>
       )}

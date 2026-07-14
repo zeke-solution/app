@@ -20,7 +20,7 @@ export function CtaBanner() {
               className="border-white bg-white sm:w-auto"
               style={{ color: "#E94560" }}
             >
-              Join as a Brand &#8594;
+              Join as a Brand
             </Button>
           </Link>
           <Link href="/register?role=influencer" className="w-full sm:w-auto">
@@ -30,7 +30,7 @@ export function CtaBanner() {
               fullWidth
               className="border-white/30 text-white sm:w-auto"
             >
-              Join as a Creator &#8594;
+              Join as a Creator
             </Button>
           </Link>
         </div>
