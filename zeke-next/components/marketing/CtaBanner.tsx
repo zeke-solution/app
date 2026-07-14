@@ -14,7 +14,12 @@ export function CtaBanner() {
         </p>
         <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
           <Link href="/register?role=brand" className="w-full sm:w-auto">
-            <Button size="lg" fullWidth className="border-white bg-white text-accent sm:w-auto">
+            <Button
+              size="lg"
+              fullWidth
+              className="border-white bg-white sm:w-auto"
+              style={{ color: "#E94560" }}
+            >
               Join as a Brand &#8594;
             </Button>
           </Link>
