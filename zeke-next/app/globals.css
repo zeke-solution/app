@@ -1,0 +1,55 @@
+@import "tailwindcss";
+
+/* Design tokens ported from ../css/zeke.css :root. Tailwind v4 reads theme
+   colors from CSS variables directly (no tailwind.config.ts needed) — these
+   become bg-dark, text-accent, border-border, etc. */
+:root {
+  --color-dark: #0b0d1a;
+  --color-navy: #12152b;
+  --color-card: #181c35;
+  --color-border: #252a45;
+  --color-accent: #e94560;
+  --color-gold: #d97706;
+  --color-zgreen: #059669;
+  --color-muted: #7b84a3;
+  --color-light: #c8d0e7;
+  --font-inter: "Inter Variable", Inter, ui-sans-serif, system-ui, sans-serif;
+}
+
+@theme inline {
+  --color-dark: var(--color-dark);
+  --color-navy: var(--color-navy);
+  --color-card: var(--color-card);
+  --color-border: var(--color-border);
+  --color-accent: var(--color-accent);
+  --color-gold: var(--color-gold);
+  --color-zgreen: var(--color-zgreen);
+  --color-muted: var(--color-muted);
+  --color-light: var(--color-light);
+  --font-sans: var(--font-inter);
+}
+
+html,
+body {
+  background: var(--color-dark);
+  min-height: 100%;
+}
+
+body {
+  color: var(--color-light);
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-dark);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 3px;
+}

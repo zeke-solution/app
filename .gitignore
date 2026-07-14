@@ -1,0 +1,29 @@
+# Credentials and local environment
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# Dependencies and Next.js output
+node_modules/
+.next/
+out/
+
+# Build and test artifacts
+*.tsbuildinfo
+*.log
+coverage/
+.qa-visual/
+.qa-runtime.pid
+
+# Local IDE/agent state
+.claude/
+.vscode/
+.idea/
+
+# OS and temporary files
+.DS_Store
+Thumbs.db
+*.tmp
+*.temp
+
