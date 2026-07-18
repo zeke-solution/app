@@ -292,6 +292,43 @@ export interface Database {
         Args: { p_dispute_id: string };
         Returns: boolean;
       };
+      // 0003_atomic_transitions.sql. These return null on success or a short
+      // error code; TransitionCode in lib/domain/transitions.ts maps the codes
+      // to user-facing copy.
+      submit_content_transaction: {
+        Args: {
+          p_deal_id: string;
+          p_file_url: string;
+          p_file_name: string;
+          p_file_size_mb: number;
+        };
+        Returns: string | null;
+      };
+      review_submission_transaction: {
+        Args: {
+          p_submission_id: string;
+          p_deal_id: string;
+          p_decision: "approved" | "rejected";
+          p_note?: string | null;
+        };
+        Returns: string | null;
+      };
+      submit_final_link_transaction: {
+        Args: { p_deal_id: string; p_url: string };
+        Returns: string | null;
+      };
+      mark_payment_sent_transaction: {
+        Args: { p_deal_id: string; p_amount: number };
+        Returns: string | null;
+      };
+      confirm_payment_transaction: {
+        Args: { p_payment_id: string; p_deal_id: string };
+        Returns: string | null;
+      };
+      raise_dispute_transaction: {
+        Args: { p_deal_id: string; p_reason: string };
+        Returns: string | null;
+      };
     };
   };
 }

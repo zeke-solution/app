@@ -128,7 +128,7 @@ function CreatorPanel({ creator, onClose }: { creator: CreatorDetail; onClose: (
         <button onClick={onClose} className="text-2xl leading-none text-muted">&times;</button>
       </div>
       <div className="mb-3 grid grid-cols-3 gap-2">
-        <Tile label="Instagram" value={fmtNum(creator.igFollowers)} color="#E94560" />
+        <Tile label="Instagram" value={fmtNum(creator.igFollowers)} color="#6366F1" />
         <Tile label="YouTube" value={creator.ytEnabled ? fmtNum(creator.ytFollowers) : "—"} color="#f87171" />
         <Tile label="Twitter/X" value={creator.xEnabled ? fmtNum(creator.xFollowers) : "—"} color="#38bdf8" />
       </div>

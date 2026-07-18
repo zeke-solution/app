@@ -25,7 +25,7 @@ export type DealStatus =
   | "cancelled"
   | "disputed";
 
-export type BadgeVariant = "accent" | "gold" | "green" | "muted";
+export type BadgeVariant = "accent" | "gold" | "green" | "muted" | "danger";
 
 export type Viewer = "creator" | "brand" | "admin";
 
@@ -44,9 +44,9 @@ export const DEAL_STATUS_META: Record<DealStatus, StatusMeta> = {
   negotiating: {
     label: "Negotiating",
     roleLabel: { brand: "Offer" },
-    color: "#7B84A3",
-    bg: "rgba(123,132,163,.03)",
-    border: "rgba(123,132,163,.3)",
+    color: "#8B8BB5",
+    bg: "rgba(139,139,181,.03)",
+    border: "rgba(139,139,181,.3)",
     badge: "muted",
     progress: 10,
   },
@@ -60,9 +60,9 @@ export const DEAL_STATUS_META: Record<DealStatus, StatusMeta> = {
   },
   active: {
     label: "Active",
-    color: "#E94560",
-    bg: "rgba(233,69,96,.03)",
-    border: "rgba(233,69,96,.3)",
+    color: "#6366F1",
+    bg: "rgba(99,102,241,.03)",
+    border: "rgba(99,102,241,.3)",
     badge: "accent",
     progress: 30,
   },
@@ -110,18 +110,18 @@ export const DEAL_STATUS_META: Record<DealStatus, StatusMeta> = {
   },
   cancelled: {
     label: "Cancelled",
-    color: "#7B84A3",
-    bg: "rgba(123,132,163,.03)",
-    border: "rgba(123,132,163,.3)",
+    color: "#8B8BB5",
+    bg: "rgba(139,139,181,.03)",
+    border: "rgba(139,139,181,.3)",
     badge: "muted",
     progress: 0,
   },
   disputed: {
     label: "Disputed",
-    color: "#E94560",
-    bg: "rgba(233,69,96,.03)",
-    border: "rgba(233,69,96,.3)",
-    badge: "accent",
+    color: "#F43F5E",
+    bg: "rgba(244,63,94,.03)",
+    border: "rgba(244,63,94,.3)",
+    badge: "danger",
     progress: 30,
   },
 };

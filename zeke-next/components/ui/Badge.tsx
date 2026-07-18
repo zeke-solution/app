@@ -7,6 +7,7 @@ const variantClasses: Record<BadgeVariant, string> = {
   gold: "bg-gold/15 text-gold",
   green: "bg-zgreen/15 text-zgreen",
   muted: "bg-muted/15 text-muted",
+  danger: "bg-danger/15 text-danger",
 };
 
 export function Badge({

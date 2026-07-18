@@ -18,7 +18,7 @@ export function CtaBanner() {
               size="lg"
               fullWidth
               className="border-white bg-white sm:w-auto"
-              style={{ color: "#E94560" }}
+              style={{ color: "#6366F1" }}
             >
               Join as a Brand
             </Button>

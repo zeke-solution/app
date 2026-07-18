@@ -11,7 +11,7 @@ export default async function VerifyPage({
   return (
     <div>
       <p className="mb-7 text-center text-[13px] text-muted">Verify your email</p>
-      <div className="flex flex-col items-center gap-4 rounded-2xl border border-border bg-card p-7 text-center shadow-[0_0_0_1px_rgba(233,69,96,0.15),0_4px_24px_rgba(233,69,96,0.08)]">
+      <div className="flex flex-col items-center gap-4 rounded-2xl border border-border bg-card p-7 text-center shadow-[0_0_0_1px_rgba(99,102,241,0.15),0_4px_24px_rgba(99,102,241,0.08)]">
         <div className="text-4xl">&#9993;</div>
         <div className="text-base font-bold text-white">Check your inbox</div>
         <div className="text-[13px] leading-relaxed text-muted">

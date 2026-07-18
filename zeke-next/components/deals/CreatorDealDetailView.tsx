@@ -245,7 +245,7 @@ function SubmissionsTab({ dealId, submissions }: { dealId: string; submissions: 
         Upload your content file for brand review. Do not post until approved.
       </p>
       {submissions.map((s) => {
-        const color = s.status === "approved" ? "#059669" : s.status === "rejected" ? "#E94560" : "#D97706";
+        const color = s.status === "approved" ? "#059669" : s.status === "rejected" ? "#F43F5E" : "#D97706";
         return (
           <div key={s.id} className="mb-2.5 rounded-2xl border border-border bg-card p-4">
             <div className="mb-2.5 flex items-center justify-between">

@@ -36,7 +36,7 @@ export default async function AdminOverviewPage() {
       <p className="mb-5 mt-1 text-sm text-muted">Platform health at a glance</p>
 
       <StatGrid>
-        <StatCard icon={<UsersIcon width={16} height={16} />} iconColor="#E94560" value={usersRes.count ?? 0} label="Total Users" />
+        <StatCard icon={<UsersIcon width={16} height={16} />} iconColor="#6366F1" value={usersRes.count ?? 0} label="Total Users" />
         <StatCard
           icon={<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg>}
           iconColor="#059669"
@@ -44,7 +44,7 @@ export default async function AdminOverviewPage() {
           label="Active Deals"
         />
         <StatCard icon={<ShieldIcon width={16} height={16} />} iconColor="#D97706" value={shieldRes.count ?? 0} label="Shield Members" />
-        <StatCard icon={<DisputeIcon width={16} height={16} />} iconColor="#E94560" value={disputesRes.count ?? 0} label="Open Disputes" />
+        <StatCard icon={<DisputeIcon width={16} height={16} />} iconColor="#F43F5E" value={disputesRes.count ?? 0} label="Open Disputes" />
       </StatGrid>
 
       <div className="mb-5 grid grid-cols-1 gap-3 sm:grid-cols-2">

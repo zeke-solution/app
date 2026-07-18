@@ -12,6 +12,10 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Standalone migration test scripts. Run directly with node against a
+    // throwaway local Postgres, never bundled, so the app's module rules
+    // (no require(), etc.) do not apply. See supabase/tests/README.md.
+    "supabase/tests/**",
   ]),
 ]);
 

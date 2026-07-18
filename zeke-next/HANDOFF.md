@@ -1,6 +1,6 @@
 # Zeke Next.js handoff
 
-Last updated: 2026-07-14
+Last updated: 2026-07-17
 
 ## Working agreement
 
@@ -16,12 +16,67 @@ Last updated: 2026-07-14
 ## Project
 
 - App: `C:\Users\SEO EXECUTIVE\Desktop\app\zeke-next`
+- Git repository root: `C:\Users\SEO EXECUTIVE\Desktop\app`
+- GitHub repository: `https://github.com/zeke-global/app`
+- Current branch: `main`, synchronized with `origin/main`
 - Local URL: `http://localhost:3000`
 - Stack: Next.js 16, React 19, Tailwind 4, Supabase
-- The legacy static HTML site remains separate and was not modified during this QA pass.
-- Git operations and email-sender configuration were intentionally left untouched.
+- The legacy static HTML site remains at the repository root and is the version currently served by GitHub Pages.
+- The Next.js app is tracked on `main` under `zeke-next/`, but is not deployed to Vercel and does not yet serve the official domain.
 
 ## Current status
+
+### Session closeout: 2026-07-19
+
+- Colour decision made: **Purple + Indigo won**, replacing Navy + Red (see [[zeke-brand-brief]]). Re-skinned BOTH codebases this session.
+- **Legacy site re-skinned too, at the owner's explicit direction (heads-up for Codex):** the legacy site is normally Codex's territory, but Mufeed asked for it directly, so I applied the same palette across all 10 legacy files (`css/zeke.css`, 5 `*.html`, `js/{admin,auth,brand,creator}.js`) -- 686 mapped replacements + 5 favicon data-URIs. git diff is exactly 477 insertions / 477 deletions (pure in-place value swaps), line counts unchanged, no structural edits. Unlike zeke-next the legacy site hardcodes hex/rgb everywhere rather than using vars, hence the volume. Mapping used: dark `#0B0D1A→#0D0B16`, navy `#12152B→#1A1333`, card `#181C35→#241A4D`, border `#252A45→#322863`, accent `#E94560→#6366F1`, muted `#7B84A3→#8B8BB5`, light `#C8D0E7→#E5E7EB`; gold/green kept. Legacy has no `danger` split (it's being retired at cutover, so accent→indigo uniformly). NOT committed or deployed -- GitHub Pages still serves the old palette until someone commits+pushes. Backup of originals in scratchpad `legacy-backup/`.
+- `app/globals.css`: the 9 `--color-*` tokens keep their NAMES (so every `bg-navy`/`text-accent` re-skins by value, zero component rewiring) and got new values -- base `#0d0b16`, surface `#1a1333`, card `#241a4d`, border `#322863`, accent indigo `#6366f1`, muted `#8b8bb5`, light `#e5e7eb`. Added three brand secondaries (`--color-purple #a855f7`, `--color-pink #ec4899`, `--color-cyan #22d3ee`) and a semantic `--color-danger #f43f5e`.
+- Why a danger token: the new palette has no red, but the brief keeps "red for errors, green for success" for any direction. The old red accent had been doubling as the alert colour, so negative states (rejected submission, disputed deal, open-disputes counter) now use `danger` red while the brand accent is indigo. Added a `danger` variant to `BadgeVariant` + `components/ui/Badge.tsx`.
+- `lib/domain/deal-status.ts`: active -> indigo, disputed -> danger red (it previously shared the red accent, so it stays alarming), muted grey shifted to indigo-grey; gold (pending states) and green (success) unchanged.
+- Swept out every hardcoded hex/rgb that bypassed tokens: stat-card icons in admin/brand overview, `CreatorDealDetailView` rejected colour, `Sidebar` count badge, `CtaBanner`, `EntityDetailModal` Instagram tile, auth-form box-shadow glows (Login/UpdatePassword/verify), and the favicon square in `app/layout.tsx`.
+- Verified: `tsc` clean, `npm run lint` clean, clean `npm run build` passes. Grepped the freshly built CSS -- zero old-palette values remain, indigo ships. NOT yet visually eyeballed in a browser (backgrounded dev server was flaky this session); worth a screenshot pass next time.
+- Fonts NOT changed: brief calls Sora a "candidate" for headings, not locked, so left Inter as-is pending confirmation.
+
+- P1 #2 (atomic workflow transitions) implemented at code level. New migration `supabase/migrations/0003_atomic_transitions.sql` adds one `security definer` function per transition: `submit_content_transaction`, `review_submission_transaction`, `submit_final_link_transaction`, `mark_payment_sent_transaction`, `confirm_payment_transaction`, `raise_dispute_transaction`, plus a `fmt_amount` helper mirroring `fmtNum()` so event-message amounts read identically.
+- Each function takes `for update` on the deal row first, so concurrent attempts on one deal serialise and the status checks are sound. That let the follow-up writes become unconditional, which also closes QA P2 (the old `.eq("status", ...)` guards could match zero rows and report success).
+- The five Server Actions in `actions/submissions.ts`, `actions/links.ts`, `actions/payments.ts`, `actions/disputes.ts` now each make a single `supabase.rpc()` call. The functions return null on success or a short error code; `lib/domain/transitions.ts` maps codes to the existing user-facing copy, so no wording changed.
+- `AGENTS.md` is legitimate: `node_modules/next/dist/docs/` exists (422 files, Next.js 16.2.9). An earlier session's note calling it fabricated was wrong. Read those docs, not training-data assumptions.
+- Verification: `tsc --noEmit` pass, `npm run lint` pass, `npm run build` pass.
+- **The SQL was executed and tested**, against a throwaway local Postgres 17.5 (no Docker, no admin, no Supabase CLI needed -- see `supabase/tests/README.md`, which is reusable). Migrations 0001, 0002 and 0003 apply cleanly onto `../supabase/schema.sql`, and 44/44 assertions pass: all six transitions end to end, plus the negative cases (wrong role, wrong status, double review, double link, underpayment, foreign file path, stranger dispute, dispute on a closed deal) and dispute resolve restoring the pre-dispute status.
+- A separate two-connection test (`supabase/tests/02_payment_race_test.cjs`) proves the `for update` lock does what the design claims: with two brands marking payment sent on one deal simultaneously, the second blocks, then returns a clean `wrong_status` instead of hitting the `payments_one_per_deal` unique index. Exactly one payment row results.
+- Testing found one real bug, now fixed: `fmt_amount(500)` returned `'500.'` with a trailing dot where `fmtNum()` returns `'500'`, because Postgres's `FM` modifier drops trailing zeros but keeps the decimal point. Any deal under 1000 would have rendered "Payment of ₹500. sent by X". Caught only by running it.
+- Still unproven: this ran against the hand-maintained `schema.sql`, not the live project. If production has drifted, a green local run does not guarantee a green live run. Diff the real schema before trusting it. Storage bucket policies are also not behaviourally covered (the shim stubs `storage.objects`).
+- Next task: apply 0001, 0002, 0003 to the Supabase project, then live QA (restart point #1).
+
+### Session closeout: 2026-07-15
+
+- P1 #1 (cross-user `profiles` visibility) fixed at code level. Edited the `profiles_select` policy in `supabase/migrations/0002_security_hardening.sql`: it now also allows a brand to read influencer profiles and a creator to read brand profiles, mirroring the existing `influencer_profiles`/`brand_profiles` select policies. Verified by tracing all 26 `profiles` join sites in the app -- every one is own-row, admin, brand-reading-creator, or creator-reading-brand; no screen reads a same-role peer. profiles has no sensitive columns (id, role, display_name, location, created_at); email is in auth.users. Not yet run against a live DB -- needs verification after migration 0002 is applied (see restart point #1).
+- GitHub CLI: logged out of BOTH accounts (`zeke-global` and `3S-dubai`). `gh auth status` reports no logged-in hosts. Run `gh auth login` before any push.
+- Did NOT start the dev server this session. Note for next time: port 3000 is occupied by a different app ("Safe Driver Dubai"); start Zeke on port 3001 with `npx next dev -p 3001`.
+- Next task: P1 #2 -- make the six core workflow transitions atomic (restart point #2).
+
+### Session closeout: 2026-07-14
+
+- GitHub CLI contains both `zeke-global` and `3S-dubai`; `zeke-global` was used for all Zeke pushes.
+- The previously local-only Next.js application was secured with a root `.gitignore`, committed, and merged into `main` through PR #1.
+- Official phone number `+971 52 354 2485` was added to both footers; the static-site update is live.
+- The invisible Next.js lower CTA label was fixed with an explicit accent text color and visually verified.
+- Decorative arrows were removed from primary action buttons in both applications and merged through PR #2.
+- FAQ questions and answers now render visibly in the initial HTML without click-dependent dropdowns; merged through PR #3 for clearer crawling and accessibility.
+- Latest GitHub `main` commit after PR #3: `c4d2b3d20521c4f07ac59f7080e088e033ced63d`.
+- GitHub Pages successfully built that commit. The official domain still serves the legacy root `index.html`.
+- Next.js checks after the FAQ change: lint pass, production build pass, 31 routes generated, and FAQ question/answer text confirmed in the initial HTML response.
+- Local Next.js dev URL: `http://localhost:3000`. Start it with `npm run dev` if it is not already running.
+- The root-level untracked `HANDOFF.md` is an older legacy-site note. Do not treat it as canonical; this file is the current handoff.
+
+### Immediate restart point
+
+1. DONE (code-level, 2026-07-15): Fixed the P1 cross-user `profiles` visibility/RLS mismatch. The `profiles_select` policy in `supabase/migrations/0002_security_hardening.sql` now lets a brand read influencer profiles and a creator read brand profiles (plus own row and admin), mirroring the `influencer_profiles`/`brand_profiles` policies. This covers every `display_name`/`location` join in deal, chat, discovery, and agreement screens. profiles holds no sensitive columns (id, role, display_name, location, created_at); email lives in auth.users. Still needs live verification once migration 0002 is applied: confirm brand-to-creator and creator-to-brand names/locations render for real authenticated accounts.
+2. DONE (code-level, 2026-07-17): submission, approval, final-link, payment, payment-confirmation, and dispute transitions are now atomic RPCs in `0003_atomic_transitions.sql`. Unverified against a live database.
+3. RESOLVE FIRST (2026-07-17): the official Supabase project is `fslthsbjtgmdbabwcubs`, and it is shared with the live legacy site. Applying 0002 breaks that site. See the STOP section under "Database work required" before applying anything. This is now the blocking decision for launch, not a formality.
+4. Configure official Zeke credentials and production URLs without committing `.env.local`.
+5. Run authenticated creator, brand, and admin end-to-end QA.
+6. Connect `zeke-global/app` to Vercel with Root Directory `zeke-next`, deploy a preview, and move Namecheap DNS only after approval.
 
 QA update 2026-07-14:
 
@@ -60,12 +115,67 @@ Verification on 2026-06-19:
 - Shared role checks replace duplicated action-level role logic.
 - Input limits and duplicate/race guards were added where identified by QA.
 
+## STOP: 0002 breaks the live legacy site (found 2026-07-17)
+
+The Next.js app and the live legacy static site share ONE Supabase project:
+`fslthsbjtgmdbabwcubs`. Confirmed in `zeke-next/.env.local` and `../js/supabase.js`
+(same URL, same anon key). The legacy site is what the official domain serves
+today, and it writes to the database directly rather than through RPCs.
+
+Migration 0002 is not additive. It drops and replaces RLS policies and revokes
+column update privileges. Applying it to that shared project breaks the live
+site immediately:
+
+- **All legacy notifications fail.** 0002 replaces `notif_own` (a `for all`
+  policy, which permitted insert) with select-only and update-only policies.
+  There is no insert policy on `notifications`. Every direct
+  `notifications.insert(...)` in `admin.js`, `brand.js`, `creator.js` stops
+  working. The Next.js app is unaffected because it uses the
+  `create_notification` RPC.
+- **Admin Shield activation fails.** `revoke update on influencer_profiles` +
+  a grant list that excludes `shield_active`/`shield_expires`, which is exactly
+  what `admin.js:379` writes.
+- **Admin Shield approve/reject fails.** `revoke update on shield_requests` with
+  no grant back; `admin.js:378`/`:389` write directly.
+- **Admin dispute resolve/escalate fails.** `revoke update on disputes` with no
+  grant back; `admin.js:426`/`:436` write directly.
+
+Column privileges are checked before RLS, so no policy change rescues these.
+
+Consequence for launch: 0002 (and therefore 0003, which needs 0002's
+`disputes.previous_deal_status` column) cannot be applied while the legacy site
+is the live product. Options, in rough order of safety:
+
+1. Apply 0002+0003 only at cutover, in the same window the domain moves from
+   the legacy site to the Next.js app. Simplest, but makes cutover atomic and
+   irreversible-ish.
+2. Point the Next.js app at a separate Supabase project, migrate/copy data at
+   cutover. Cleanest separation; most work.
+3. Add compatibility grants/policies to 0002 so the legacy site keeps working
+   (grant back the revoked columns, add a notifications insert policy). This
+   re-opens the exact privilege holes 0002 exists to close, so it only makes
+   sense as a short bridge.
+
+The legacy site is Codex's territory per `../HANDOFF.md`, so option 3 or any
+change to `js/*.js` needs coordination, not a unilateral edit.
+
 ## Database work required
 
-Apply these files in order using the Supabase SQL Editor:
+Apply these files in order using the Supabase SQL Editor, but read the
+STOP section above first -- do not apply 0002/0003 to the shared live project
+until the legacy-site conflict is resolved:
 
 1. `supabase/migrations/0001_notifications_related_deal.sql`
 2. `supabase/migrations/0002_security_hardening.sql`
+3. `supabase/migrations/0003_atomic_transitions.sql`
+
+Migration 0003 depends on 0002: the transition functions assume 0002's
+state-machine triggers, column grants, and `disputes.previous_deal_status`
+column exist. Applying 0003 first will fail or leave gaps.
+
+Note: once 0003 is applied, the app calls these RPCs for every core transition.
+Applying 0002 without 0003 leaves submission, final-link, payment, and dispute
+actions broken, because the actions no longer do the writes themselves.
 
 Migration 0002 adds:
 
@@ -112,8 +222,11 @@ Then open `http://localhost:3000`.
 - Routes: `app/*`
 - Database migrations: `supabase/migrations/*`
 
+## Known gaps (not bugs, noted while doing other work)
+
+- The brand is never notified when a creator submits the final link, nor when a creator confirms payment. Neither `submitFinalLink()` nor `confirmPayment()` ever sent a notification, and `0003_atomic_transitions.sql` deliberately preserved that rather than mixing a behaviour change into a correctness refactor. Both are one insert inside the relevant function if the product wants them.
+
 ## Deliberately deferred
 
 - Email sender/domain configuration.
-- Git, commits, pushes, and PR work.
 - Vercel/DNS cutover until migrations and live QA pass.

@@ -25,7 +25,7 @@ export function LoginForm({ initialError = "" }: { initialError?: string }) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col gap-5 rounded-2xl border border-border bg-card p-7 shadow-[0_0_0_1px_rgba(233,69,96,0.15),0_4px_24px_rgba(233,69,96,0.08)]"
+      className="flex flex-col gap-5 rounded-2xl border border-border bg-card p-7 shadow-[0_0_0_1px_rgba(99,102,241,0.15),0_4px_24px_rgba(99,102,241,0.08)]"
     >
       <TextField
         id="login-email"

@@ -305,8 +305,21 @@ for each row execute function public.enforce_payment_confirmation();
 
 drop policy if exists profiles_own on public.profiles;
 drop policy if exists profiles_admin_read on public.profiles;
+-- Cross-user profile visibility is deliberately scoped to the opposite role:
+-- a brand may read influencer profiles, a creator may read brand profiles,
+-- admins read all, and everyone reads their own. This mirrors the
+-- influencer_profiles/brand_profiles select policies and covers every
+-- display_name/location join used by deal, chat, discovery, and agreement
+-- screens. profiles holds no sensitive data (id, role, display_name,
+-- location, created_at) -- email lives in auth.users -- so row-level access
+-- is safe; two roles still cannot read peers of their own role.
 create policy profiles_select on public.profiles for select
-  using (id = auth.uid() or public.is_admin());
+  using (
+    id = auth.uid()
+    or public.is_admin()
+    or (role = 'influencer' and public.current_app_role() = 'brand')
+    or (role = 'brand' and public.current_app_role() = 'influencer')
+  );
 create policy profiles_update_own on public.profiles for update
   using (id = auth.uid()) with check (id = auth.uid());
 

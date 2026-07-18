@@ -60,7 +60,7 @@ export function Sidebar({
             {!!item.count && (
               <span
                 className="ml-auto rounded-full px-1.5 py-0.5 text-[10px] font-bold text-white"
-                style={{ background: item.countColor ?? "#E94560" }}
+                style={{ background: item.countColor ?? "#6366F1" }}
               >
                 {item.count}
               </span>
