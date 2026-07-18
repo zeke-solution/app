@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" style="background:#0B0D1A">
+<html lang="en" style="background:#0D0B16">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Brand Dashboard - Zeke</title>
 <meta name="robots" content="noindex">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230B0D1A'/><text y='.9em' font-size='80' x='10' fill='white'>z</text></svg>">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230D0B16'/><text y='.9em' font-size='80' x='10' fill='white'>z</text></svg>">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/zeke.css">
 </head>
@@ -20,7 +20,7 @@
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
         <span class="notif-dot" id="main-notif-dot"></span>
       </button>
-      <button class="notif-btn sign-out-btn" aria-label="Sign out" title="Sign out" onclick="zekeSignOut()" style="color:#E94560">
+      <button class="notif-btn sign-out-btn" aria-label="Sign out" title="Sign out" onclick="zekeSignOut()" style="color:#6366F1">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
       </button>
     </div>
@@ -30,7 +30,7 @@
 <div class="dash-layout">
   <aside class="sidebar">
     <div class="sidebar-profile">
-      <div id="sidebar-brand-avatar" class="sidebar-avatar" style="background:rgba(15,52,96,.6);border:1px solid #0F3460;color:#C8D0E7">--</div>
+      <div id="sidebar-brand-avatar" class="sidebar-avatar" style="background:rgba(15,52,96,.6);border:1px solid #0F3460;color:#E5E7EB">--</div>
       <div><div id="sidebar-brand-name" class="sidebar-name">Loading...</div><div id="sidebar-brand-sub" class="sidebar-sub">--</div></div>
     </div>
     <button class="sidebar-nav-btn active-tab" id="brand-tab-overview" onclick="bSwitchTab('overview');bSetMob('overview')">
@@ -38,7 +38,7 @@
     </button>
     <button class="sidebar-nav-btn" id="brand-tab-campaigns" onclick="bSwitchTab('campaigns');bSetMob('campaigns')">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg> Campaigns
-      <span id="campaigns-count" class="sidebar-count" style="background:#E94560;display:none">0</span>
+      <span id="campaigns-count" class="sidebar-count" style="background:#6366F1;display:none">0</span>
     </button>
     <button class="sidebar-nav-btn" id="brand-tab-chats" onclick="bSwitchTab('chats');bSetMob('chats')">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Chats
@@ -54,7 +54,7 @@
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Brand Profile
     </button>
     <div class="sidebar-footer">
-      <a class="sidebar-nav-btn sign-out-btn" href="#" style="color:#E94560">
+      <a class="sidebar-nav-btn sign-out-btn" href="#" style="color:#6366F1">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg> Sign Out
       </a>
     </div>
@@ -67,11 +67,11 @@
       <!-- OVERVIEW -->
       <div id="btab-overview">
         <h1 id="brand-greeting" style="font-size:24px;font-weight:900;color:#fff">Welcome...</h1>
-        <p id="brand-sub" style="color:#7B84A3;font-size:14px;margin-top:4px;margin-bottom:20px">Loading...</p>
+        <p id="brand-sub" style="color:#8B8BB5;font-size:14px;margin-top:4px;margin-bottom:20px">Loading...</p>
         <div class="stats-grid" style="margin-bottom:20px">
-          <div class="stat-card" style="border-color:rgba(233,69,96,.3);background:rgba(233,69,96,.04)">
-            <div style="color:#E94560"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
-            <div id="bstat-campaigns" class="stat-val" style="color:#E94560">--</div><div class="stat-label">Campaigns</div>
+          <div class="stat-card" style="border-color:rgba(99,102,241,.3);background:rgba(99,102,241,.04)">
+            <div style="color:#6366F1"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+            <div id="bstat-campaigns" class="stat-val" style="color:#6366F1">--</div><div class="stat-label">Campaigns</div>
           </div>
           <div class="stat-card" style="border-color:rgba(5,150,105,.3);background:rgba(5,150,105,.04)">
             <div style="color:#059669"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div>
@@ -99,7 +99,7 @@
           <button class="btn btn-primary btn-sm" onclick="showCreateCampaign()">+ Create Campaign</button>
         </div>
         <!-- Create campaign form (hidden by default) -->
-        <div id="create-campaign-form" class="hidden" style="background:#181C35;border:1px solid rgba(233,69,96,.2);border-radius:16px;padding:20px;margin-bottom:20px">
+        <div id="create-campaign-form" class="hidden" style="background:#241A4D;border:1px solid rgba(99,102,241,.2);border-radius:16px;padding:20px;margin-bottom:20px">
           <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:16px">New Campaign</div>
           <div style="display:flex;flex-direction:column;gap:12px">
             <div class="input-wrap">
@@ -144,26 +144,26 @@
       <div id="btab-chats" class="hidden">
         <div id="brand-chats-list">
           <h2 style="font-size:20px;font-weight:900;color:#fff;margin-bottom:4px">Chats</h2>
-          <p style="font-size:12px;color:#7B84A3;margin-bottom:20px">Your deal conversations with creators</p>
+          <p style="font-size:12px;color:#8B8BB5;margin-bottom:20px">Your deal conversations with creators</p>
           <div id="brand-chats-list-inner"><div class="empty-state">Loading...</div></div>
         </div>
         <div id="brand-chats-window" class="hidden" style="flex-direction:column;height:calc(100vh - 140px)">
-          <div style="display:flex;align-items:center;gap:10px;padding-bottom:16px;border-bottom:1px solid #252A45;margin-bottom:16px;flex-shrink:0">
-            <button onclick="closeBrandChat()" style="background:rgba(255,255,255,.05);border:1px solid #252A45;border-radius:10px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#C8D0E7;flex-shrink:0">
+          <div style="display:flex;align-items:center;gap:10px;padding-bottom:16px;border-bottom:1px solid #322863;margin-bottom:16px;flex-shrink:0">
+            <button onclick="closeBrandChat()" style="background:rgba(255,255,255,.05);border:1px solid #322863;border-radius:10px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#E5E7EB;flex-shrink:0">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
             </button>
             <div id="brand-chat-avatar" class="item-avatar" style="width:36px;height:36px;font-size:11px;flex-shrink:0">--</div>
             <div style="flex:1;min-width:0">
               <div id="brand-chat-creator-name" style="font-size:14px;font-weight:700;color:#fff">Creator</div>
-              <div id="brand-chat-deal-sub" style="font-size:11px;color:#7B84A3">Deal active</div>
+              <div id="brand-chat-deal-sub" style="font-size:11px;color:#8B8BB5">Deal active</div>
             </div>
-            <button onclick="bSwitchTab('deals');bSetMob('deals')" style="background:none;border:none;cursor:pointer;color:#7B84A3;font-size:11px;font-weight:600;font-family:'Inter',sans-serif;flex-shrink:0">View Deal</button>
+            <button onclick="bSwitchTab('deals');bSetMob('deals')" style="background:none;border:none;cursor:pointer;color:#8B8BB5;font-size:11px;font-weight:600;font-family:'Inter',sans-serif;flex-shrink:0">View Deal</button>
           </div>
           <div id="brand-chat-messages" style="flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:12px;padding-bottom:16px"></div>
-          <div style="flex-shrink:0;padding-top:12px;border-top:1px solid #252A45">
+          <div style="flex-shrink:0;padding-top:12px;border-top:1px solid #322863">
             <div style="display:flex;gap:8px">
-              <input id="brand-chat-input" type="text" placeholder="Type a message..." onkeydown="if(event.key==='Enter')sendBrandMessage()" style="flex:1;background:#12152B;border:1px solid #252A45;border-radius:12px;padding:8px 14px;font-size:13px;color:#C8D0E7;outline:none;font-family:Inter,sans-serif">
-              <button onclick="sendBrandMessage()" style="background:#E94560;border:none;border-radius:12px;padding:8px 16px;color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif">Send</button>
+              <input id="brand-chat-input" type="text" placeholder="Type a message..." onkeydown="if(event.key==='Enter')sendBrandMessage()" style="flex:1;background:#1A1333;border:1px solid #322863;border-radius:12px;padding:8px 14px;font-size:13px;color:#E5E7EB;outline:none;font-family:Inter,sans-serif">
+              <button onclick="sendBrandMessage()" style="background:#6366F1;border:none;border-radius:12px;padding:8px 16px;color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif">Send</button>
             </div>
           </div>
         </div>
@@ -178,28 +178,28 @@
         <!-- Deal detail -->
         <div id="brand-deals-detail" class="hidden">
           <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
-            <button onclick="closeBrandDeal()" style="background:rgba(255,255,255,.05);border:1px solid #252A45;border-radius:10px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#C8D0E7;flex-shrink:0">
+            <button onclick="closeBrandDeal()" style="background:rgba(255,255,255,.05);border:1px solid #322863;border-radius:10px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#E5E7EB;flex-shrink:0">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
             </button>
             <div style="flex:1;min-width:0">
               <div id="bdeal-creator-name" style="font-size:16px;font-weight:800;color:#fff"></div>
-              <div id="bdeal-sub" style="font-size:12px;color:#7B84A3"></div>
+              <div id="bdeal-sub" style="font-size:12px;color:#8B8BB5"></div>
             </div>
             <span id="bdeal-status-badge" class="badge badge-green">Active</span>
           </div>
           <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
-            <div class="progress-bar"><div class="progress-fill" id="bdeal-progress-fill" style="width:30%;background:#E94560"></div></div>
-            <span id="bdeal-progress-label" style="font-size:12px;color:#E94560;font-weight:700;white-space:nowrap">Active</span>
+            <div class="progress-bar"><div class="progress-fill" id="bdeal-progress-fill" style="width:30%;background:#6366F1"></div></div>
+            <span id="bdeal-progress-label" style="font-size:12px;color:#6366F1;font-weight:700;white-space:nowrap">Active</span>
           </div>
-          <div style="display:flex;gap:0;border-bottom:1px solid #252A45;margin-bottom:20px;overflow-x:auto">
+          <div style="display:flex;gap:0;border-bottom:1px solid #322863;margin-bottom:20px;overflow-x:auto">
             <button class="deal-tab active" id="bdtab-overview" onclick="switchBrandDealTab('overview')">Overview</button>
             <button class="deal-tab" id="bdtab-review" onclick="switchBrandDealTab('review')">Review Content</button>
             <button class="deal-tab" id="bdtab-payment" onclick="switchBrandDealTab('payment')">Payment</button>
             <button class="deal-tab" id="bdtab-agreement" onclick="switchBrandDealTab('agreement')">Agreement</button>
           </div>
           <div id="bdpanel-overview">
-            <div id="bdeal-timeline-wrap" style="background:#181C35;border:1px solid #252A45;border-radius:14px;padding:16px;margin-bottom:14px"></div>
-            <div id="bdeal-deliverables-wrap" style="background:#181C35;border:1px solid #252A45;border-radius:14px;padding:16px;margin-bottom:14px"></div>
+            <div id="bdeal-timeline-wrap" style="background:#241A4D;border:1px solid #322863;border-radius:14px;padding:16px;margin-bottom:14px"></div>
+            <div id="bdeal-deliverables-wrap" style="background:#241A4D;border:1px solid #322863;border-radius:14px;padding:16px;margin-bottom:14px"></div>
             <div class="item-actions">
               <button class="btn btn-outline btn-sm" onclick="bSwitchTab('chats');bSetMob('chats')">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Chat
@@ -207,21 +207,21 @@
               <button class="btn btn-ghost btn-sm" onclick="switchBrandDealTab('agreement')">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Agreement
               </button>
-              <button id="raise-brand-dispute-btn" class="btn btn-ghost btn-sm" style="color:#E94560" onclick="raiseBrandDispute()">
+              <button id="raise-brand-dispute-btn" class="btn btn-ghost btn-sm" style="color:#6366F1" onclick="raiseBrandDispute()">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Raise Dispute
               </button>
             </div>
           </div>
           <div id="bdpanel-review" class="hidden">
-            <p style="font-size:12px;color:#7B84A3;margin-bottom:16px">Review submitted content from the creator before approving for posting.</p>
+            <p style="font-size:12px;color:#8B8BB5;margin-bottom:16px">Review submitted content from the creator before approving for posting.</p>
             <div id="brand-review-content"><div class="empty-state">No submissions yet.</div></div>
           </div>
           <div id="bdpanel-payment" class="hidden">
-            <p style="font-size:12px;color:#7B84A3;margin-bottom:16px">Mark payment as sent once you have transferred the agreed amount.</p>
+            <p style="font-size:12px;color:#8B8BB5;margin-bottom:16px">Mark payment as sent once you have transferred the agreed amount.</p>
             <div id="brand-payment-content"></div>
           </div>
           <div id="bdpanel-agreement" class="hidden">
-            <p style="font-size:12px;color:#7B84A3;margin-bottom:16px">The legally binding agreement for this deal.</p>
+            <p style="font-size:12px;color:#8B8BB5;margin-bottom:16px">The legally binding agreement for this deal.</p>
             <div id="brand-agreement-content"></div>
           </div>
         </div>
@@ -234,16 +234,16 @@
         </div>
         <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap">
           <div style="position:relative;flex:1;min-width:200px">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#7B84A3"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-            <input type="text" id="creator-search" oninput="filterCreators()" placeholder="Search by name or niche..." style="width:100%;background:#12152B;border:1px solid #252A45;border-radius:12px;padding:10px 16px 10px 36px;font-size:14px;color:#C8D0E7;outline:none;font-family:'Inter',sans-serif">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#8B8BB5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            <input type="text" id="creator-search" oninput="filterCreators()" placeholder="Search by name or niche..." style="width:100%;background:#1A1333;border:1px solid #322863;border-radius:12px;padding:10px 16px 10px 36px;font-size:14px;color:#E5E7EB;outline:none;font-family:'Inter',sans-serif">
           </div>
-          <select id="niche-filter" onchange="filterCreators()" style="background:#12152B;border:1px solid #252A45;border-radius:12px;padding:10px 14px;font-size:13px;color:#C8D0E7;outline:none;font-family:Inter,sans-serif">
+          <select id="niche-filter" onchange="filterCreators()" style="background:#1A1333;border:1px solid #322863;border-radius:12px;padding:10px 14px;font-size:13px;color:#E5E7EB;outline:none;font-family:Inter,sans-serif">
             <option value="">All Niches</option>
             <option>Lifestyle</option><option>Food &amp; Cooking</option><option>Travel</option>
             <option>Fashion &amp; Beauty</option><option>Tech &amp; Gadgets</option>
             <option>Health &amp; Fitness</option><option>Finance</option><option>Education</option>
           </select>
-          <select id="shield-filter" onchange="filterCreators()" style="background:#12152B;border:1px solid #252A45;border-radius:12px;padding:10px 14px;font-size:13px;color:#C8D0E7;outline:none;font-family:Inter,sans-serif">
+          <select id="shield-filter" onchange="filterCreators()" style="background:#1A1333;border:1px solid #322863;border-radius:12px;padding:10px 14px;font-size:13px;color:#E5E7EB;outline:none;font-family:Inter,sans-serif">
             <option value="">All Creators</option>
             <option value="shield">Shield Only</option>
           </select>
@@ -254,27 +254,27 @@
       <!-- PROFILE -->
       <div id="btab-profile" class="hidden">
         <h2 style="font-size:20px;font-weight:900;color:#fff;margin-bottom:4px">Brand Profile</h2>
-        <p style="font-size:13px;color:#7B84A3;margin-bottom:20px">This is how creators see your brand on Zeke</p>
+        <p style="font-size:13px;color:#8B8BB5;margin-bottom:20px">This is how creators see your brand on Zeke</p>
         <div class="card card-md" style="margin-bottom:16px">
           <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px">
-            <div id="profile-avatar-large" style="width:56px;height:56px;border-radius:50%;background:rgba(15,52,96,.6);border:2px solid #0F3460;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:#C8D0E7;flex-shrink:0">--</div>
+            <div id="profile-avatar-large" style="width:56px;height:56px;border-radius:50%;background:rgba(15,52,96,.6);border:2px solid #0F3460;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:#E5E7EB;flex-shrink:0">--</div>
             <div>
               <div id="profile-brand-name" style="font-size:18px;font-weight:900;color:#fff">--</div>
-              <div id="profile-brand-sub" style="font-size:13px;color:#7B84A3">--</div>
+              <div id="profile-brand-sub" style="font-size:13px;color:#8B8BB5">--</div>
               <div style="display:flex;align-items:center;gap:6px;margin-top:6px;flex-wrap:wrap">
-                <span id="profile-brand-type" style="font-size:11px;font-weight:700;color:#7B84A3;background:rgba(123,132,163,.1);border:1px solid #252A45;padding:3px 10px;border-radius:20px">Brand</span>
+                <span id="profile-brand-type" style="font-size:11px;font-weight:700;color:#8B8BB5;background:rgba(139,139,181,.1);border:1px solid #322863;padding:3px 10px;border-radius:20px">Brand</span>
               </div>
             </div>
           </div>
           <div class="stats-grid" style="margin-bottom:16px">
-            <div style="text-align:center;padding:12px;background:#0B0D1A;border-radius:12px;border:1px solid #252A45"><div id="profile-stat-campaigns" style="font-size:16px;font-weight:900;color:#fff">--</div><div style="font-size:11px;color:#7B84A3;margin-top:2px">Campaigns</div></div>
-            <div style="text-align:center;padding:12px;background:#0B0D1A;border-radius:12px;border:1px solid #252A45"><div id="profile-stat-deals" style="font-size:16px;font-weight:900;color:#fff">--</div><div style="font-size:11px;color:#7B84A3;margin-top:2px">Deals Done</div></div>
-            <div style="text-align:center;padding:12px;background:#0B0D1A;border-radius:12px;border:1px solid #252A45"><div id="profile-stat-spent" style="font-size:16px;font-weight:900;color:#fff">--</div><div style="font-size:11px;color:#7B84A3;margin-top:2px">Total Spent</div></div>
-            <div style="text-align:center;padding:12px;background:#0B0D1A;border-radius:12px;border:1px solid #252A45"><div id="profile-stat-rating" style="font-size:16px;font-weight:900;color:#D97706">--</div><div style="font-size:11px;color:#7B84A3;margin-top:2px">Avg Rating</div></div>
+            <div style="text-align:center;padding:12px;background:#0D0B16;border-radius:12px;border:1px solid #322863"><div id="profile-stat-campaigns" style="font-size:16px;font-weight:900;color:#fff">--</div><div style="font-size:11px;color:#8B8BB5;margin-top:2px">Campaigns</div></div>
+            <div style="text-align:center;padding:12px;background:#0D0B16;border-radius:12px;border:1px solid #322863"><div id="profile-stat-deals" style="font-size:16px;font-weight:900;color:#fff">--</div><div style="font-size:11px;color:#8B8BB5;margin-top:2px">Deals Done</div></div>
+            <div style="text-align:center;padding:12px;background:#0D0B16;border-radius:12px;border:1px solid #322863"><div id="profile-stat-spent" style="font-size:16px;font-weight:900;color:#fff">--</div><div style="font-size:11px;color:#8B8BB5;margin-top:2px">Total Spent</div></div>
+            <div style="text-align:center;padding:12px;background:#0D0B16;border-radius:12px;border:1px solid #322863"><div id="profile-stat-rating" style="font-size:16px;font-weight:900;color:#D97706">--</div><div style="font-size:11px;color:#8B8BB5;margin-top:2px">Avg Rating</div></div>
           </div>
-          <div id="brand-deal-history" style="background:#0B0D1A;border-radius:12px;padding:12px;margin-bottom:16px;border:1px solid #252A45">
-            <div style="font-size:12px;font-weight:700;color:#C8D0E7;margin-bottom:10px">Recent Deal History</div>
-            <div id="brand-deal-history-inner"><div style="font-size:12px;color:#7B84A3">Loading...</div></div>
+          <div id="brand-deal-history" style="background:#0D0B16;border-radius:12px;padding:12px;margin-bottom:16px;border:1px solid #322863">
+            <div style="font-size:12px;font-weight:700;color:#E5E7EB;margin-bottom:10px">Recent Deal History</div>
+            <div id="brand-deal-history-inner"><div style="font-size:12px;color:#8B8BB5">Loading...</div></div>
           </div>
         </div>
       </div>

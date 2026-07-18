@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" style="background:#0B0D1A">
+<html lang="en" style="background:#0D0B16">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Home - Zeke</title>
 <meta name="robots" content="noindex">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230B0D1A'/><text y='.9em' font-size='80' x='10' fill='white'>z</text></svg>">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230D0B16'/><text y='.9em' font-size='80' x='10' fill='white'>z</text></svg>">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/zeke.css">
 </head>
@@ -15,12 +15,12 @@
   <div class="nav-inner">
     <a class="nav-logo" href="index.html">zeke<span>.</span></a>
     <div style="display:flex;align-items:center;gap:12px">
-      <span id="nav-shield-badge" style="font-size:12px;color:#7B84A3;background:rgba(123,132,163,.08);border:1px solid #252A45;padding:4px 12px;border-radius:20px;font-weight:600">Free Creator</span>
+      <span id="nav-shield-badge" style="font-size:12px;color:#8B8BB5;background:rgba(139,139,181,.08);border:1px solid #322863;padding:4px 12px;border-radius:20px;font-weight:600">Free Creator</span>
       <button class="notif-btn" aria-label="Notifications" onclick="toggleNotif()">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
         <span class="notif-dot" id="main-notif-dot" style="display:none"></span>
       </button>
-      <button class="notif-btn sign-out-btn" aria-label="Sign out" title="Sign out" onclick="zekeSignOut()" style="color:#E94560">
+      <button class="notif-btn sign-out-btn" aria-label="Sign out" title="Sign out" onclick="zekeSignOut()" style="color:#6366F1">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
       </button>
     </div>
@@ -30,7 +30,7 @@
 <div class="dash-layout">
   <aside class="sidebar">
     <div class="sidebar-profile">
-      <div id="sidebar-creator-avatar" class="sidebar-avatar" style="background:rgba(233,69,96,.2);border:1px solid rgba(233,69,96,.3);color:#E94560">--</div>
+      <div id="sidebar-creator-avatar" class="sidebar-avatar" style="background:rgba(99,102,241,.2);border:1px solid rgba(99,102,241,.3);color:#6366F1">--</div>
       <div><div id="sidebar-creator-name" class="sidebar-name">Loading...</div><div id="sidebar-creator-handle" class="sidebar-sub">--</div></div>
     </div>
     <button class="sidebar-nav-btn active-tab" id="inf-tab-overview" onclick="switchTab('overview');setMob('overview')">
@@ -52,7 +52,7 @@
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> My Profile
     </button>
     <div class="sidebar-footer">
-      <a class="sidebar-nav-btn sign-out-btn" href="#" style="color:#E94560">
+      <a class="sidebar-nav-btn sign-out-btn" href="#" style="color:#6366F1">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg> Sign Out
       </a>
     </div>
@@ -65,7 +65,7 @@
       <!-- HOME -->
       <div id="tab-overview">
         <h1 id="overview-name" style="font-size:24px;font-weight:900;color:#fff">Hey...</h1>
-        <p id="overview-sub" style="color:#7B84A3;font-size:14px;margin-top:4px;margin-bottom:20px">Loading...</p>
+        <p id="overview-sub" style="color:#8B8BB5;font-size:14px;margin-top:4px;margin-bottom:20px">Loading...</p>
         <div class="stats-grid" style="margin-bottom:20px">
           <div class="stat-card" style="border-color:rgba(5,150,105,.3);background:rgba(5,150,105,.04)">
             <div style="color:#059669"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div>
@@ -88,7 +88,7 @@
           <h3 class="section-title" style="margin-bottom:16px">Connected Platforms</h3>
           <div style="display:flex;flex-direction:column;gap:12px">
             <div class="platform-row">
-              <div class="platform-label"><span style="font-size:11px;font-weight:800;color:#E94560;background:rgba(233,69,96,.12);padding:2px 7px;border-radius:6px">IG</span> Instagram</div>
+              <div class="platform-label"><span style="font-size:11px;font-weight:800;color:#6366F1;background:rgba(99,102,241,.12);padding:2px 7px;border-radius:6px">IG</span> Instagram</div>
               <div id="stat-ig" class="platform-val">--</div>
             </div>
             <div id="platform-row-yt" class="platform-row" style="display:none">
@@ -116,25 +116,25 @@
         <div id="chats-list">
           <div id="chats-list-inner">
             <h2 style="font-size:20px;font-weight:900;color:#fff;margin-bottom:4px">Chats</h2>
-            <p style="font-size:12px;color:#7B84A3;margin-bottom:20px">Your deal conversations</p>
+            <p style="font-size:12px;color:#8B8BB5;margin-bottom:20px">Your deal conversations</p>
             <div class="empty-state">Loading...</div>
           </div>
         </div>
         <div id="chats-window" class="hidden" style="flex-direction:column;height:calc(100vh - 140px)">
-          <div style="display:flex;align-items:center;gap:10px;padding-bottom:16px;border-bottom:1px solid #252A45;margin-bottom:16px;flex-shrink:0">
-            <button onclick="closeChat()" style="background:rgba(255,255,255,.05);border:1px solid #252A45;border-radius:10px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#C8D0E7;flex-shrink:0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button>
+          <div style="display:flex;align-items:center;gap:10px;padding-bottom:16px;border-bottom:1px solid #322863;margin-bottom:16px;flex-shrink:0">
+            <button onclick="closeChat()" style="background:rgba(255,255,255,.05);border:1px solid #322863;border-radius:10px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#E5E7EB;flex-shrink:0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button>
             <div class="item-avatar" id="chat-avatar" style="width:36px;height:36px;font-size:11px;flex-shrink:0">--</div>
             <div style="flex:1;min-width:0">
               <div id="chat-brand-name" style="font-size:14px;font-weight:700;color:#fff">Brand</div>
-              <div id="chat-brand-sub" style="font-size:11px;color:#7B84A3">Deal active</div>
+              <div id="chat-brand-sub" style="font-size:11px;color:#8B8BB5">Deal active</div>
             </div>
-            <button onclick="switchTab('deals');setMob('deals')" style="background:none;border:none;cursor:pointer;color:#7B84A3;font-size:11px;font-weight:600;font-family:'Inter',sans-serif;flex-shrink:0">View Deal</button>
+            <button onclick="switchTab('deals');setMob('deals')" style="background:none;border:none;cursor:pointer;color:#8B8BB5;font-size:11px;font-weight:600;font-family:'Inter',sans-serif;flex-shrink:0">View Deal</button>
           </div>
           <div id="chat-messages" style="flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:12px;padding-bottom:16px"></div>
-          <div style="flex-shrink:0;padding-top:12px;border-top:1px solid #252A45">
+          <div style="flex-shrink:0;padding-top:12px;border-top:1px solid #322863">
             <div style="display:flex;gap:8px">
-              <input id="chat-input" type="text" placeholder="Type a message..." onkeydown="if(event.key==='Enter')sendChatMessage()" style="flex:1;background:#12152B;border:1px solid #252A45;border-radius:12px;padding:8px 14px;font-size:13px;color:#C8D0E7;outline:none;font-family:Inter,sans-serif">
-              <button onclick="sendChatMessage()" style="background:#E94560;border:none;border-radius:12px;padding:8px 16px;color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif">Send</button>
+              <input id="chat-input" type="text" placeholder="Type a message..." onkeydown="if(event.key==='Enter')sendChatMessage()" style="flex:1;background:#1A1333;border:1px solid #322863;border-radius:12px;padding:8px 14px;font-size:13px;color:#E5E7EB;outline:none;font-family:Inter,sans-serif">
+              <button onclick="sendChatMessage()" style="background:#6366F1;border:none;border-radius:12px;padding:8px 16px;color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif">Send</button>
             </div>
           </div>
         </div>
@@ -150,43 +150,43 @@
         </div>
         <div id="deals-detail" class="hidden">
           <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
-            <button onclick="closeDeal()" style="background:rgba(255,255,255,.05);border:1px solid #252A45;border-radius:10px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#C8D0E7;flex-shrink:0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button>
+            <button onclick="closeDeal()" style="background:rgba(255,255,255,.05);border:1px solid #322863;border-radius:10px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#E5E7EB;flex-shrink:0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></button>
             <div style="flex:1;min-width:0">
               <div id="deal-brand-name" style="font-size:16px;font-weight:800;color:#fff"></div>
-              <div id="deal-brand-sub" style="font-size:12px;color:#7B84A3"></div>
+              <div id="deal-brand-sub" style="font-size:12px;color:#8B8BB5"></div>
             </div>
             <span id="deal-status-badge" class="badge badge-green">Active</span>
           </div>
           <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
-            <div class="progress-bar"><div class="progress-fill" id="deal-progress-fill" style="width:30%;background:#E94560"></div></div>
-            <span id="deal-progress-label" style="font-size:12px;color:#E94560;font-weight:700;white-space:nowrap">Active</span>
+            <div class="progress-bar"><div class="progress-fill" id="deal-progress-fill" style="width:30%;background:#6366F1"></div></div>
+            <span id="deal-progress-label" style="font-size:12px;color:#6366F1;font-weight:700;white-space:nowrap">Active</span>
           </div>
-          <div style="display:flex;gap:0;border-bottom:1px solid #252A45;margin-bottom:20px;overflow-x:auto">
+          <div style="display:flex;gap:0;border-bottom:1px solid #322863;margin-bottom:20px;overflow-x:auto">
             <button class="deal-tab active" id="dtab-overview"     onclick="switchDealTab('overview')">Overview</button>
             <button class="deal-tab"         id="dtab-submissions" onclick="switchDealTab('submissions')">Submissions</button>
             <button class="deal-tab"         id="dtab-finallink"   onclick="switchDealTab('finallink')">Final Link</button>
             <button class="deal-tab"         id="dtab-payment"     onclick="switchDealTab('payment')">Payment</button>
-            <button class="deal-tab"         id="dtab-cancel"      onclick="switchDealTab('cancel')" style="color:rgba(233,69,96,.5)">Cancel</button>
+            <button class="deal-tab"         id="dtab-cancel"      onclick="switchDealTab('cancel')" style="color:rgba(99,102,241,.5)">Cancel</button>
           </div>
           <div id="dpanel-overview">
-            <div id="deal-timeline-wrap" style="background:#181C35;border:1px solid #252A45;border-radius:14px;padding:16px;margin-bottom:14px"></div>
-            <div id="deal-deliverables-wrap" style="background:#181C35;border:1px solid #252A45;border-radius:14px;padding:16px;margin-bottom:14px"></div>
+            <div id="deal-timeline-wrap" style="background:#241A4D;border:1px solid #322863;border-radius:14px;padding:16px;margin-bottom:14px"></div>
+            <div id="deal-deliverables-wrap" style="background:#241A4D;border:1px solid #322863;border-radius:14px;padding:16px;margin-bottom:14px"></div>
             <div class="item-actions">
               <button class="btn btn-outline btn-sm" onclick="switchTab('chats');setMob('chats')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Chat</button>
               <button class="btn btn-ghost btn-sm" onclick="switchTab('agreements')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Agreement</button>
-              <button id="raise-dispute-btn" class="btn btn-ghost btn-sm" style="color:#E94560" onclick="raiseDispute()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Raise Dispute</button>
+              <button id="raise-dispute-btn" class="btn btn-ghost btn-sm" style="color:#6366F1" onclick="raiseDispute()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Raise Dispute</button>
             </div>
           </div>
-          <div id="dpanel-submissions" class="hidden"><p style="font-size:12px;color:#7B84A3;margin-bottom:16px">Upload your content file for brand review. Do not post until approved.</p><div id="submissions-content"></div></div>
-          <div id="dpanel-finallink" class="hidden"><p style="font-size:12px;color:#7B84A3;margin-bottom:16px">Submit the live link after brand approves your content.</p><div id="finallink-content"></div></div>
-          <div id="dpanel-payment" class="hidden"><p style="font-size:12px;color:#7B84A3;margin-bottom:16px">Confirm once you receive payment from the brand.</p><div id="payment-content"></div></div>
+          <div id="dpanel-submissions" class="hidden"><p style="font-size:12px;color:#8B8BB5;margin-bottom:16px">Upload your content file for brand review. Do not post until approved.</p><div id="submissions-content"></div></div>
+          <div id="dpanel-finallink" class="hidden"><p style="font-size:12px;color:#8B8BB5;margin-bottom:16px">Submit the live link after brand approves your content.</p><div id="finallink-content"></div></div>
+          <div id="dpanel-payment" class="hidden"><p style="font-size:12px;color:#8B8BB5;margin-bottom:16px">Confirm once you receive payment from the brand.</p><div id="payment-content"></div></div>
           <div id="dpanel-cancel" class="hidden">
-            <div style="background:rgba(233,69,96,.04);border:1px solid rgba(233,69,96,.2);border-radius:14px;padding:16px;margin-bottom:14px">
+            <div style="background:rgba(99,102,241,.04);border:1px solid rgba(99,102,241,.2);border-radius:14px;padding:16px;margin-bottom:14px">
               <div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:6px">Cancel Agreement</div>
               <div id="cancel-content"></div>
             </div>
-            <div style="background:#181C35;border:1px solid #252A45;border-radius:12px;padding:14px;font-size:12px;color:#7B84A3;line-height:1.7">
-              <div style="font-size:12px;font-weight:700;color:#C8D0E7;margin-bottom:8px">How cancellation works</div>
+            <div style="background:#241A4D;border:1px solid #322863;border-radius:12px;padding:14px;font-size:12px;color:#8B8BB5;line-height:1.7">
+              <div style="font-size:12px;font-weight:700;color:#E5E7EB;margin-bottom:8px">How cancellation works</div>
               <div>&#10137; Either party sends a request with a reason</div>
               <div style="margin-top:4px">&#10137; The other party must Accept or Decline</div>
               <div style="margin-top:4px">&#10137; Both must agree for the deal to be cancelled</div>
@@ -199,9 +199,9 @@
       <!-- AGREEMENTS -->
       <div id="tab-agreements" class="hidden">
         <h2 style="font-size:20px;font-weight:900;color:#fff;margin-bottom:4px">Agreements</h2>
-        <p style="font-size:12px;color:#7B84A3;margin-bottom:20px">Auto-generated when both sides agree on terms</p>
+        <p style="font-size:12px;color:#8B8BB5;margin-bottom:20px">Auto-generated when both sides agree on terms</p>
         <div id="agreements-list"><div class="empty-state">Loading...</div></div>
-        <div style="margin-top:12px;padding:12px 14px;background:rgba(217,119,6,.04);border:1px solid rgba(217,119,6,.15);border-radius:12px;font-size:12px;color:#7B84A3;line-height:1.6">
+        <div style="margin-top:12px;padding:12px 14px;background:rgba(217,119,6,.04);border:1px solid rgba(217,119,6,.15);border-radius:12px;font-size:12px;color:#8B8BB5;line-height:1.6">
           <span style="color:#D97706;font-weight:700">How agreements work —</span> Generated the moment both sides accept deal terms. Terms are locked immediately.
         </div>
       </div>
@@ -209,42 +209,42 @@
       <!-- PROFILE -->
       <div id="tab-profile" class="hidden">
         <h2 style="font-size:20px;font-weight:900;color:#fff;margin-bottom:4px">My Profile</h2>
-        <p style="font-size:13px;color:#7B84A3;margin-bottom:20px">How brands see you on Zeke</p>
+        <p style="font-size:13px;color:#8B8BB5;margin-bottom:20px">How brands see you on Zeke</p>
         <div class="card card-md" style="margin-bottom:16px">
           <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px">
-            <div id="profile-avatar" style="width:56px;height:56px;border-radius:50%;background:rgba(233,69,96,.2);border:2px solid rgba(233,69,96,.4);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:#E94560;flex-shrink:0">--</div>
+            <div id="profile-avatar" style="width:56px;height:56px;border-radius:50%;background:rgba(99,102,241,.2);border:2px solid rgba(99,102,241,.4);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:#6366F1;flex-shrink:0">--</div>
             <div>
               <div id="profile-name" style="font-size:18px;font-weight:900;color:#fff">--</div>
-              <div id="profile-handle" style="font-size:13px;color:#7B84A3">--</div>
+              <div id="profile-handle" style="font-size:13px;color:#8B8BB5">--</div>
               <div style="display:flex;align-items:center;gap:6px;margin-top:6px;flex-wrap:wrap">
-                <span id="profile-niche" style="font-size:11px;font-weight:700;color:#7B84A3;background:rgba(123,132,163,.1);border:1px solid #252A45;padding:3px 10px;border-radius:20px">--</span>
-                <span id="profile-shield-label" style="font-size:11px;font-weight:700;color:#7B84A3;background:rgba(123,132,163,.1);border:1px solid #252A45;padding:3px 10px;border-radius:20px">Free Creator</span>
+                <span id="profile-niche" style="font-size:11px;font-weight:700;color:#8B8BB5;background:rgba(139,139,181,.1);border:1px solid #322863;padding:3px 10px;border-radius:20px">--</span>
+                <span id="profile-shield-label" style="font-size:11px;font-weight:700;color:#8B8BB5;background:rgba(139,139,181,.1);border:1px solid #322863;padding:3px 10px;border-radius:20px">Free Creator</span>
               </div>
             </div>
           </div>
 
           <!-- Platform display -->
           <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px">
-            <div style="text-align:center;padding:12px;background:#0B0D1A;border-radius:12px;border:1px solid #252A45">
-              <div id="profile-ig-count" style="font-size:16px;font-weight:900;color:#fff">--</div><div style="font-size:11px;color:#7B84A3;margin-top:2px">Instagram</div>
+            <div style="text-align:center;padding:12px;background:#0D0B16;border-radius:12px;border:1px solid #322863">
+              <div id="profile-ig-count" style="font-size:16px;font-weight:900;color:#fff">--</div><div style="font-size:11px;color:#8B8BB5;margin-top:2px">Instagram</div>
             </div>
-            <div id="profile-yt-row" style="text-align:center;padding:12px;background:#0B0D1A;border-radius:12px;border:1px solid #252A45;display:none">
-              <div id="profile-yt-count" style="font-size:16px;font-weight:900;color:#fff">--</div><div style="font-size:11px;color:#7B84A3;margin-top:2px">YouTube</div>
+            <div id="profile-yt-row" style="text-align:center;padding:12px;background:#0D0B16;border-radius:12px;border:1px solid #322863;display:none">
+              <div id="profile-yt-count" style="font-size:16px;font-weight:900;color:#fff">--</div><div style="font-size:11px;color:#8B8BB5;margin-top:2px">YouTube</div>
             </div>
-            <div id="profile-x-row" style="text-align:center;padding:12px;background:#0B0D1A;border-radius:12px;border:1px solid #252A45;display:none">
-              <div id="profile-x-count" style="font-size:16px;font-weight:900;color:#fff">--</div><div style="font-size:11px;color:#7B84A3;margin-top:2px">Twitter / X</div>
+            <div id="profile-x-row" style="text-align:center;padding:12px;background:#0D0B16;border-radius:12px;border:1px solid #322863;display:none">
+              <div id="profile-x-count" style="font-size:16px;font-weight:900;color:#fff">--</div><div style="font-size:11px;color:#8B8BB5;margin-top:2px">Twitter / X</div>
             </div>
           </div>
 
           <!-- Deal history -->
-          <div style="background:#0B0D1A;border-radius:12px;padding:12px;margin-bottom:16px;border:1px solid #252A45">
-            <div style="font-size:12px;font-weight:700;color:#C8D0E7;margin-bottom:10px">Deal History</div>
-            <div id="profile-deal-history"><div style="font-size:12px;color:#7B84A3">Loading...</div></div>
+          <div style="background:#0D0B16;border-radius:12px;padding:12px;margin-bottom:16px;border:1px solid #322863">
+            <div style="font-size:12px;font-weight:700;color:#E5E7EB;margin-bottom:10px">Deal History</div>
+            <div id="profile-deal-history"><div style="font-size:12px;color:#8B8BB5">Loading...</div></div>
           </div>
 
           <!-- Shield upsell / status -->
           <div id="shield-upsell-card" style="padding:14px;background:rgba(217,119,6,.04);border:1px solid rgba(217,119,6,.15);border-radius:12px;display:flex;align-items:center;justify-content:space-between;gap:12px">
-            <div><div style="font-size:13px;font-weight:700;color:#D97706">&#128737; Get Zeke Shield</div><div id="shield-upsell-sub" style="font-size:12px;color:#7B84A3;margin-top:2px">Legal protection + gold badge + priority in searches</div></div>
+            <div><div style="font-size:13px;font-weight:700;color:#D97706">&#128737; Get Zeke Shield</div><div id="shield-upsell-sub" style="font-size:12px;color:#8B8BB5;margin-top:2px">Legal protection + gold badge + priority in searches</div></div>
             <button id="shield-cta-btn" class="btn btn-gold btn-sm" onclick="requestShield()">&#8377;1,999/yr</button>
           </div>
         </div>
@@ -257,9 +257,9 @@
             <!-- Instagram mandatory -->
             <div>
               <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
-                <span style="font-size:11px;font-weight:800;color:#E94560;background:rgba(233,69,96,.12);padding:2px 8px;border-radius:6px">IG</span>
+                <span style="font-size:11px;font-weight:800;color:#6366F1;background:rgba(99,102,241,.12);padding:2px 8px;border-radius:6px">IG</span>
                 <span style="font-size:13px;font-weight:700;color:#fff">Instagram</span>
-                <span style="font-size:10px;color:#E94560;font-weight:600;margin-left:auto">Required</span>
+                <span style="font-size:10px;color:#6366F1;font-weight:600;margin-left:auto">Required</span>
               </div>
               <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
                 <input class="input-field no-icon" type="text" id="edit-ig-handle" placeholder="@yourhandle" style="font-size:13px;padding:8px 12px">
@@ -273,11 +273,11 @@
                 <span style="font-size:11px;font-weight:800;color:#f87171;background:rgba(248,113,113,.12);padding:2px 8px;border-radius:6px">YT</span>
                 <span style="font-size:13px;font-weight:700;color:#fff">YouTube</span>
                 <label style="display:flex;align-items:center;gap:6px;margin-left:auto;cursor:pointer">
-                  <span style="font-size:11px;color:#7B84A3">Enable</span>
+                  <span style="font-size:11px;color:#8B8BB5">Enable</span>
                   <div style="position:relative;width:36px;height:20px">
                     <input type="checkbox" id="edit-yt-toggle" onchange="togglePlatformEdit('yt')" style="opacity:0;width:0;height:0;position:absolute">
-                    <div id="edit-yt-track" style="position:absolute;inset:0;border-radius:20px;background:#252A45;transition:background .2s;cursor:pointer" onclick="document.getElementById('edit-yt-toggle').click()"></div>
-                    <div id="edit-yt-thumb" style="position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:#7B84A3;transition:all .2s"></div>
+                    <div id="edit-yt-track" style="position:absolute;inset:0;border-radius:20px;background:#322863;transition:background .2s;cursor:pointer" onclick="document.getElementById('edit-yt-toggle').click()"></div>
+                    <div id="edit-yt-thumb" style="position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:#8B8BB5;transition:all .2s"></div>
                   </div>
                 </label>
               </div>
@@ -293,11 +293,11 @@
                 <span style="font-size:11px;font-weight:800;color:#38bdf8;background:rgba(56,189,248,.12);padding:2px 8px;border-radius:6px">X</span>
                 <span style="font-size:13px;font-weight:700;color:#fff">Twitter / X</span>
                 <label style="display:flex;align-items:center;gap:6px;margin-left:auto;cursor:pointer">
-                  <span style="font-size:11px;color:#7B84A3">Enable</span>
+                  <span style="font-size:11px;color:#8B8BB5">Enable</span>
                   <div style="position:relative;width:36px;height:20px">
                     <input type="checkbox" id="edit-x-toggle" onchange="togglePlatformEdit('x')" style="opacity:0;width:0;height:0;position:absolute">
-                    <div id="edit-x-track" style="position:absolute;inset:0;border-radius:20px;background:#252A45;transition:background .2s;cursor:pointer" onclick="document.getElementById('edit-x-toggle').click()"></div>
-                    <div id="edit-x-thumb" style="position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:#7B84A3;transition:all .2s"></div>
+                    <div id="edit-x-track" style="position:absolute;inset:0;border-radius:20px;background:#322863;transition:background .2s;cursor:pointer" onclick="document.getElementById('edit-x-toggle').click()"></div>
+                    <div id="edit-x-thumb" style="position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:#8B8BB5;transition:all .2s"></div>
                   </div>
                 </label>
               </div>
@@ -361,8 +361,8 @@ function togglePlatformEdit(platform) {
   if (!toggle || !fields) return;
   var on = toggle.checked;
   fields.style.display = on ? 'grid' : 'none';
-  if (track) track.style.background = on ? '#E94560' : '#252A45';
-  if (thumb) { thumb.style.left = on ? '19px' : '3px'; thumb.style.background = on ? '#fff' : '#7B84A3'; }
+  if (track) track.style.background = on ? '#6366F1' : '#322863';
+  if (thumb) { thumb.style.left = on ? '19px' : '3px'; thumb.style.background = on ? '#fff' : '#8B8BB5'; }
 }
 </script>
 </body>

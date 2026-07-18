@@ -130,15 +130,15 @@ function loadProfile() {
     .then(function (r) {
       var c = document.getElementById('profile-deal-history'); if (!c) return;
       var rows = r.data || [];
-      if (!rows.length) { c.innerHTML = '<div style="font-size:12px;color:#7B84A3">No deals yet.</div>'; return; }
+      if (!rows.length) { c.innerHTML = '<div style="font-size:12px;color:#8B8BB5">No deals yet.</div>'; return; }
       c.innerHTML = rows.map(function (d) {
         var brand = (d.profiles && d.profiles.display_name) || 'Brand';
         var si = _si(d.status);
-        return '<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid #252A45">'
+        return '<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid #322863">'
           + '<div><div style="font-size:12px;font-weight:600;color:#fff">' + esc(brand) + '</div>'
-          + '<div style="font-size:11px;color:#7B84A3">' + esc(d.title||'') + '</div></div>'
+          + '<div style="font-size:11px;color:#8B8BB5">' + esc(d.title||'') + '</div></div>'
           + '<div style="text-align:right"><div style="font-size:13px;font-weight:700;color:' + si.color + '">₹' + fmtNum(d.amount||0) + '</div>'
-          + '<div style="font-size:10px;color:#7B84A3">' + si.label + '</div></div></div>';
+          + '<div style="font-size:10px;color:#8B8BB5">' + si.label + '</div></div></div>';
       }).join('');
     });
 }
@@ -211,7 +211,7 @@ function loadOffers() {
           + '<div style="display:flex;align-items:center;gap:10px">'
           + '<div class="item-avatar">' + initials + '</div>'
           + '<div><div style="font-size:14px;font-weight:700;color:#fff">' + esc(brand) + '</div>'
-          + '<div style="font-size:12px;color:#7B84A3">' + esc(d.title||'') + ' · ' + esc(d.platform||'') + '</div></div></div>'
+          + '<div style="font-size:12px;color:#8B8BB5">' + esc(d.title||'') + ' · ' + esc(d.platform||'') + '</div></div></div>'
           + '<div style="font-size:14px;font-weight:900;color:#D97706">₹' + fmtNum(d.amount||0) + '</div></div>'
           + '<div class="item-actions">'
           + '<button class="btn-approve" style="flex:1" onclick="acceptOffer(\'' + d.id + '\')">&#10003; Accept</button>'
@@ -288,7 +288,7 @@ function loadChats() {
           + '<div style="display:flex;align-items:center;gap:14px">'
           + '<div class="item-avatar" style="color:' + si.color + '">' + brand.slice(0,2).toUpperCase() + '</div>'
           + '<div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:700;color:#fff">' + esc(brand) + '</div>'
-          + '<div style="font-size:12px;color:#7B84A3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + esc(d.title||'') + '</div></div>'
+          + '<div style="font-size:12px;color:#8B8BB5;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + esc(d.title||'') + '</div></div>'
           + '<span class="badge ' + si.badge + '">' + si.label + '</span>'
           + '</div></div>';
       }).join('');
@@ -355,10 +355,10 @@ function _appendMsg(m) {
     div.innerHTML = '<div class="chat-event-gold">' + esc(m.content) + '</div>';
   } else if (isMe) {
     div.style.cssText = 'display:flex;justify-content:flex-end';
-    div.innerHTML = '<div class="chat-bubble-out"><div style="font-size:13px;color:#C8D0E7">' + esc(m.content) + '</div><div style="font-size:10px;color:#7B84A3;margin-top:4px">You · ' + fmtDate(m.created_at) + '</div></div>';
+    div.innerHTML = '<div class="chat-bubble-out"><div style="font-size:13px;color:#E5E7EB">' + esc(m.content) + '</div><div style="font-size:10px;color:#8B8BB5;margin-top:4px">You · ' + fmtDate(m.created_at) + '</div></div>';
   } else {
     div.style.cssText = 'display:flex;justify-content:flex-start';
-    div.innerHTML = '<div class="chat-bubble-in"><div style="font-size:13px;color:#C8D0E7">' + esc(m.content) + '</div><div style="font-size:10px;color:#7B84A3;margin-top:4px">' + fmtDate(m.created_at) + '</div></div>';
+    div.innerHTML = '<div class="chat-bubble-in"><div style="font-size:13px;color:#E5E7EB">' + esc(m.content) + '</div><div style="font-size:10px;color:#8B8BB5;margin-top:4px">' + fmtDate(m.created_at) + '</div></div>';
   }
   c.appendChild(div);
   c.scrollTop = c.scrollHeight;
@@ -397,10 +397,10 @@ function _dealCard(d) {
     + '<div style="display:flex;align-items:center;gap:10px">'
     + '<div class="item-avatar" style="color:' + si.color + '">' + brand.slice(0,2).toUpperCase() + '</div>'
     + '<div><div style="font-size:14px;font-weight:700;color:#fff">' + esc(brand) + '</div>'
-    + '<div style="font-size:12px;color:#7B84A3">' + esc(d.title||'') + ' · ' + esc(d.platform||'') + '</div></div></div>'
+    + '<div style="font-size:12px;color:#8B8BB5">' + esc(d.title||'') + ' · ' + esc(d.platform||'') + '</div></div></div>'
     + '<div style="text-align:right"><div style="font-size:14px;font-weight:900;color:' + si.color + '">₹' + fmtNum(d.amount||0) + '</div>'
     + '<span class="badge ' + si.badge + '" style="margin-top:4px">' + si.label + '</span></div></div>'
-    + '<div style="font-size:12px;color:#E94560;font-weight:600;text-align:right">View deal →</div>'
+    + '<div style="font-size:12px;color:#6366F1;font-weight:600;text-align:right">View deal →</div>'
     + '</div>';
 }
 
@@ -461,15 +461,15 @@ function _loadTimeline(dealId) {
       var events = r.data || [];
       var w = document.getElementById('deal-timeline-wrap'); if (!w) return;
       var html = '<div style="font-size:12px;font-weight:700;color:#fff;margin-bottom:14px">Deal Timeline</div>';
-      if (!events.length) { html += '<div style="font-size:12px;color:#7B84A3">No events yet.</div>'; }
+      if (!events.length) { html += '<div style="font-size:12px;color:#8B8BB5">No events yet.</div>'; }
       else events.forEach(function (ev, i) {
         var isLast = i === events.length - 1;
         var c = ev.msg_type === 'event_gold' ? '#D97706' : '#059669';
         html += '<div style="display:flex;align-items:flex-start;gap:10px;padding:8px 0;position:relative">';
-        if (!isLast) html += '<div style="position:absolute;left:7px;top:22px;bottom:-4px;width:1px;background:#252A45"></div>';
+        if (!isLast) html += '<div style="position:absolute;left:7px;top:22px;bottom:-4px;width:1px;background:#322863"></div>';
         html += '<div style="width:15px;height:15px;border-radius:50%;border:2px solid '+c+';background:'+c+';flex-shrink:0;margin-top:2px"></div>';
-        html += '<div style="font-size:12px;color:#C8D0E7;flex:1;line-height:1.4">' + esc(ev.content) + '</div>';
-        html += '<div style="font-size:11px;color:#7B84A3;flex-shrink:0">' + fmtDate(ev.created_at) + '</div>';
+        html += '<div style="font-size:12px;color:#E5E7EB;flex:1;line-height:1.4">' + esc(ev.content) + '</div>';
+        html += '<div style="font-size:11px;color:#8B8BB5;flex-shrink:0">' + fmtDate(ev.created_at) + '</div>';
         html += '</div>';
       });
       w.innerHTML = html;
@@ -479,7 +479,7 @@ function _loadTimeline(dealId) {
 function _renderDeliverables(d) {
   var w = document.getElementById('deal-deliverables-wrap'); if (!w) return;
   w.innerHTML = '<div style="font-size:12px;font-weight:700;color:#fff;margin-bottom:8px">Deliverables</div>'
-    + '<div style="font-size:12px;color:#7B84A3;line-height:1.9">' + esc(d.deliverables || 'No deliverables specified.') + '</div>';
+    + '<div style="font-size:12px;color:#8B8BB5;line-height:1.9">' + esc(d.deliverables || 'No deliverables specified.') + '</div>';
 }
 
 function _loadSubmissions(d) {
@@ -490,23 +490,23 @@ function _loadSubmissions(d) {
       if (!subs.length) {
         c.innerHTML = '<div class="item-card" style="padding:16px">'
           + '<div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:8px">Round 1</div>'
-          + '<div id="sub-upload-area" onclick="document.getElementById(\'sub-file\').click()" style="border:2px dashed #252A45;border-radius:12px;padding:20px;text-align:center;cursor:pointer">'
-          + '<div style="font-size:13px;font-weight:600;color:#C8D0E7;margin-bottom:4px">Upload Content File</div>'
-          + '<div style="font-size:11px;color:#7B84A3">MP4, MOV, JPG up to 200MB</div>'
+          + '<div id="sub-upload-area" onclick="document.getElementById(\'sub-file\').click()" style="border:2px dashed #322863;border-radius:12px;padding:20px;text-align:center;cursor:pointer">'
+          + '<div style="font-size:13px;font-weight:600;color:#E5E7EB;margin-bottom:4px">Upload Content File</div>'
+          + '<div style="font-size:11px;color:#8B8BB5">MP4, MOV, JPG up to 200MB</div>'
           + '<input id="sub-file" type="file" accept="video/*,image/*" style="display:none" onchange="handleFileSelect(this)"></div>'
-          + '<div id="sub-file-preview" class="hidden" style="background:#0B0D1A;border:1px solid rgba(5,150,105,.3);border-radius:10px;padding:12px;display:flex;align-items:center;gap:10px;margin-top:10px">'
+          + '<div id="sub-file-preview" class="hidden" style="background:#0D0B16;border:1px solid rgba(5,150,105,.3);border-radius:10px;padding:12px;display:flex;align-items:center;gap:10px;margin-top:10px">'
           + '<div style="flex:1;min-width:0"><div id="sub-file-name" style="font-size:13px;font-weight:600;color:#fff">file</div>'
-          + '<div id="sub-file-size" style="font-size:11px;color:#7B84A3">0 MB</div></div>'
-          + '<button onclick="removeSubFile()" style="background:none;border:none;color:#7B84A3;cursor:pointer">×</button></div>'
+          + '<div id="sub-file-size" style="font-size:11px;color:#8B8BB5">0 MB</div></div>'
+          + '<button onclick="removeSubFile()" style="background:none;border:none;color:#8B8BB5;cursor:pointer">×</button></div>'
           + '<button class="btn btn-primary btn-sm btn-full" onclick="submitFile(\'' + d.id + '\')" style="margin-top:12px">Submit for Review</button></div>';
       } else {
         c.innerHTML = subs.map(function (s) {
-          var sc = s.status === 'approved' ? '#059669' : s.status === 'rejected' ? '#E94560' : '#D97706';
+          var sc = s.status === 'approved' ? '#059669' : s.status === 'rejected' ? '#6366F1' : '#D97706';
           return '<div class="item-card" style="margin-bottom:10px">'
             + '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">'
             + '<div style="font-size:13px;font-weight:700;color:#fff">Round ' + s.round + '</div>'
             + '<span style="font-size:11px;font-weight:700;color:' + sc + '">' + s.status.charAt(0).toUpperCase() + s.status.slice(1) + '</span></div>'
-            + '<div style="background:#0B0D1A;border-radius:10px;padding:10px 12px;font-size:13px;color:#C8D0E7">' + esc(s.file_name||'submission') + ' · ' + (s.file_size_mb||'') + 'MB</div>'
+            + '<div style="background:#0D0B16;border-radius:10px;padding:10px 12px;font-size:13px;color:#E5E7EB">' + esc(s.file_name||'submission') + ' · ' + (s.file_size_mb||'') + 'MB</div>'
             + (s.review_note ? '<div style="font-size:12px;color:' + sc + ';margin-top:8px;padding:8px 12px;background:rgba(0,0,0,.1);border-radius:8px">' + esc(s.review_note) + '</div>' : '')
             + '</div>';
         }).join('');
@@ -571,16 +571,16 @@ function _loadFinalLink(d) {
       if (!r.data) {
         var canSubmit = d.status === 'approved';
         c.innerHTML = canSubmit
-          ? '<div style="background:#181C35;border:1px solid rgba(5,150,105,.2);border-radius:14px;padding:16px">'
+          ? '<div style="background:#241A4D;border:1px solid rgba(5,150,105,.2);border-radius:14px;padding:16px">'
             + '<div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:10px">Submit Live Link</div>'
-            + '<input id="final-link-input" type="url" placeholder="https://instagram.com/p/..." style="width:100%;background:#0B0D1A;border:1px solid #252A45;border-radius:10px;padding:10px 14px;font-size:13px;color:#C8D0E7;outline:none;font-family:Inter,sans-serif;margin-bottom:10px">'
+            + '<input id="final-link-input" type="url" placeholder="https://instagram.com/p/..." style="width:100%;background:#0D0B16;border:1px solid #322863;border-radius:10px;padding:10px 14px;font-size:13px;color:#E5E7EB;outline:none;font-family:Inter,sans-serif;margin-bottom:10px">'
             + '<button class="btn btn-primary btn-sm btn-full" onclick="submitFinalLink(\'' + d.id + '\')">Submit Link</button></div>'
-          : '<div style="background:#181C35;border:1px solid #252A45;border-radius:14px;padding:16px;opacity:.5"><div style="font-size:13px;font-weight:700;color:#fff">Final Link</div><div style="font-size:12px;color:#7B84A3;margin-top:6px">Available after brand approves your content.</div></div>';
+          : '<div style="background:#241A4D;border:1px solid #322863;border-radius:14px;padding:16px;opacity:.5"><div style="font-size:13px;font-weight:700;color:#fff">Final Link</div><div style="font-size:12px;color:#8B8BB5;margin-top:6px">Available after brand approves your content.</div></div>';
       } else {
-        c.innerHTML = '<div style="background:#181C35;border:1px solid rgba(5,150,105,.25);border-radius:14px;padding:16px">'
+        c.innerHTML = '<div style="background:#241A4D;border:1px solid rgba(5,150,105,.25);border-radius:14px;padding:16px">'
           + '<div style="font-size:12px;font-weight:700;color:#fff;margin-bottom:8px">Submitted Link</div>'
-          + '<div style="background:#0B0D1A;border-radius:10px;padding:10px 14px;font-size:13px;color:#059669;word-break:break-all">' + esc(r.data.url) + '</div>'
-          + '<div style="font-size:11px;color:#7B84A3;margin-top:8px">Submitted ' + fmtDate(r.data.submitted_at) + '</div></div>';
+          + '<div style="background:#0D0B16;border-radius:10px;padding:10px 14px;font-size:13px;color:#059669;word-break:break-all">' + esc(r.data.url) + '</div>'
+          + '<div style="font-size:11px;color:#8B8BB5;margin-top:8px">Submitted ' + fmtDate(r.data.submitted_at) + '</div></div>';
       }
     });
 }
@@ -607,11 +607,11 @@ function _loadPayment(d) {
     .then(function (r) {
       var c = document.getElementById('payment-content'); if (!c) return;
       if (!r.data) {
-        c.innerHTML = '<div style="background:rgba(217,119,6,.06);border:1px solid rgba(217,119,6,.25);border-radius:14px;padding:16px;opacity:.5"><div style="font-size:13px;font-weight:700;color:#D97706">Confirm Payment</div><div style="font-size:12px;color:#7B84A3;margin-top:6px">Available after brand marks payment as sent.</div></div>';
+        c.innerHTML = '<div style="background:rgba(217,119,6,.06);border:1px solid rgba(217,119,6,.25);border-radius:14px;padding:16px;opacity:.5"><div style="font-size:13px;font-weight:700;color:#D97706">Confirm Payment</div><div style="font-size:12px;color:#8B8BB5;margin-top:6px">Available after brand marks payment as sent.</div></div>';
       } else if (r.data.status === 'confirmed') {
-        c.innerHTML = '<div style="background:#181C35;border:1px solid rgba(5,150,105,.25);border-radius:14px;padding:16px"><div style="font-size:12px;color:#059669;padding:10px 12px;background:rgba(5,150,105,.06);border-radius:8px;font-weight:600">✓ ₹' + fmtNum(r.data.amount) + ' received and confirmed</div></div>';
+        c.innerHTML = '<div style="background:#241A4D;border:1px solid rgba(5,150,105,.25);border-radius:14px;padding:16px"><div style="font-size:12px;color:#059669;padding:10px 12px;background:rgba(5,150,105,.06);border-radius:8px;font-weight:600">✓ ₹' + fmtNum(r.data.amount) + ' received and confirmed</div></div>';
       } else {
-        c.innerHTML = '<div style="background:#181C35;border:1px solid rgba(217,119,6,.25);border-radius:14px;padding:16px">'
+        c.innerHTML = '<div style="background:#241A4D;border:1px solid rgba(217,119,6,.25);border-radius:14px;padding:16px">'
           + '<div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:12px">Confirm Payment Received</div>'
           + '<div style="font-size:14px;color:#D97706;font-weight:700;margin-bottom:16px">₹' + fmtNum(r.data.amount) + ' sent by brand</div>'
           + '<button class="btn btn-primary btn-md btn-full" onclick="confirmPayment(\'' + r.data.id + '\',\'' + d.id + '\')">I have received the payment</button></div>';
@@ -636,11 +636,11 @@ function confirmPayment(paymentId, dealId) {
 function _renderCancel(d) {
   var c = document.getElementById('cancel-content'); if (!c) return;
   if (d.status === 'completed' || d.status === 'cancelled') {
-    c.innerHTML = '<div style="background:rgba(123,132,163,.08);border:1px solid #252A45;border-radius:10px;padding:12px;font-size:12px;color:#7B84A3;text-align:center">Cancellation not available for this deal.</div>';
+    c.innerHTML = '<div style="background:rgba(139,139,181,.08);border:1px solid #322863;border-radius:10px;padding:12px;font-size:12px;color:#8B8BB5;text-align:center">Cancellation not available for this deal.</div>';
   } else {
-    c.innerHTML = '<div style="font-size:12px;color:#7B84A3;line-height:1.7;margin-bottom:12px">Send a cancellation request. The brand must agree before the deal is cancelled.</div>'
-      + '<textarea id="cancel-reason" placeholder="Reason for cancellation..." style="width:100%;background:#0B0D1A;border:1px solid #252A45;border-radius:10px;padding:10px 14px;font-size:13px;color:#C8D0E7;outline:none;font-family:Inter,sans-serif;resize:vertical;min-height:80px;margin-bottom:10px"></textarea>'
-      + '<button onclick="requestCancel(\'' + d.id + '\')" style="width:100%;background:rgba(233,69,96,.1);color:#E94560;border:1px solid rgba(233,69,96,.3);border-radius:8px;padding:10px;font-weight:700;font-family:Inter,sans-serif;cursor:pointer">Send Request</button>';
+    c.innerHTML = '<div style="font-size:12px;color:#8B8BB5;line-height:1.7;margin-bottom:12px">Send a cancellation request. The brand must agree before the deal is cancelled.</div>'
+      + '<textarea id="cancel-reason" placeholder="Reason for cancellation..." style="width:100%;background:#0D0B16;border:1px solid #322863;border-radius:10px;padding:10px 14px;font-size:13px;color:#E5E7EB;outline:none;font-family:Inter,sans-serif;resize:vertical;min-height:80px;margin-bottom:10px"></textarea>'
+      + '<button onclick="requestCancel(\'' + d.id + '\')" style="width:100%;background:rgba(99,102,241,.1);color:#6366F1;border:1px solid rgba(99,102,241,.3);border-radius:8px;padding:10px;font-weight:700;font-family:Inter,sans-serif;cursor:pointer">Send Request</button>';
   }
 }
 
@@ -675,19 +675,19 @@ function loadAgreements() {
         var brand = (d.profiles && d.profiles.display_name) || 'Brand';
         var pdfBtn = isShield
           ? '<button class="btn btn-outline btn-sm" style="flex:1" onclick="downloadAgreementPDF(\'' + a.id + '\')">⬇ Download PDF</button>'
-          : '<div style="font-size:11px;color:#7B84A3;text-align:center;margin-top:4px">🛡 PDF available to Shield members only.</div>';
+          : '<div style="font-size:11px;color:#8B8BB5;text-align:center;margin-top:4px">🛡 PDF available to Shield members only.</div>';
         return '<div class="item-card" style="border-color:rgba(5,150,105,.25);margin-bottom:12px">'
           + '<div class="item-card-header"><div style="display:flex;align-items:center;gap:12px">'
           + '<div style="width:40px;height:40px;background:rgba(5,150,105,.1);border:1px solid rgba(5,150,105,.25);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>'
           + '<div><div style="font-size:14px;font-weight:700;color:#fff">' + esc(brand) + ' × ' + esc(ZK.display_name) + '</div>'
-          + '<div style="font-size:12px;color:#7B84A3">' + esc(d.title||'') + ' · ' + fmtDate(a.generated_at) + '</div></div>'
+          + '<div style="font-size:12px;color:#8B8BB5">' + esc(d.title||'') + ' · ' + fmtDate(a.generated_at) + '</div></div>'
           + '</div><span class="badge badge-green">Active</span></div>'
-          + '<div style="background:#0B0D1A;border-radius:10px;padding:10px 14px;font-size:12px;color:#7B84A3;line-height:1.9;margin-top:10px">'
-          + '<div><span style="color:#C8D0E7;font-weight:600">Title:</span> ' + esc(d.title||'') + '</div>'
-          + '<div><span style="color:#C8D0E7;font-weight:600">Platform:</span> ' + esc(d.platform||'—') + '</div>'
-          + '<div><span style="color:#C8D0E7;font-weight:600">Value:</span> ₹' + fmtNum(d.amount||0) + '</div>'
-          + (d.deliverables ? '<div><span style="color:#C8D0E7;font-weight:600">Deliverables:</span> ' + esc(d.deliverables) + '</div>' : '')
-          + (d.deadline ? '<div><span style="color:#C8D0E7;font-weight:600">Deadline:</span> ' + esc(d.deadline) + '</div>' : '')
+          + '<div style="background:#0D0B16;border-radius:10px;padding:10px 14px;font-size:12px;color:#8B8BB5;line-height:1.9;margin-top:10px">'
+          + '<div><span style="color:#E5E7EB;font-weight:600">Title:</span> ' + esc(d.title||'') + '</div>'
+          + '<div><span style="color:#E5E7EB;font-weight:600">Platform:</span> ' + esc(d.platform||'—') + '</div>'
+          + '<div><span style="color:#E5E7EB;font-weight:600">Value:</span> ₹' + fmtNum(d.amount||0) + '</div>'
+          + (d.deliverables ? '<div><span style="color:#E5E7EB;font-weight:600">Deliverables:</span> ' + esc(d.deliverables) + '</div>' : '')
+          + (d.deadline ? '<div><span style="color:#E5E7EB;font-weight:600">Deadline:</span> ' + esc(d.deadline) + '</div>' : '')
           + '</div>'
           + '<div class="item-actions" style="margin-top:10px">' + pdfBtn + '</div></div>';
       }).join('');
@@ -747,10 +747,10 @@ function loadNotifications() {
       if (dot) dot.style.display = notifs.some(function (n) { return !n.read; }) ? 'block' : 'none';
       var inner = document.getElementById('notif-panel-inner'); if (!inner) return;
       var header = '<div class="notif-header"><div class="notif-title">Notifications</div><button class="notif-clear" onclick="clearNotifs()">Mark all read</button></div>';
-      if (!notifs.length) { inner.innerHTML = header + '<div style="padding:20px;text-align:center;font-size:13px;color:#7B84A3">No notifications yet.</div>'; return; }
+      if (!notifs.length) { inner.innerHTML = header + '<div style="padding:20px;text-align:center;font-size:13px;color:#8B8BB5">No notifications yet.</div>'; return; }
       inner.innerHTML = header + notifs.map(function (n) {
         return '<div class="notif-item' + (!n.read ? ' unread' : '') + '">'
-          + '<div class="notif-icon" style="background:rgba(233,69,96,.12);color:#E94560"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg></div>'
+          + '<div class="notif-icon" style="background:rgba(99,102,241,.12);color:#6366F1"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg></div>'
           + '<div class="notif-body"><div class="notif-body-title">' + esc(n.title) + '</div><div class="notif-body-sub">' + esc(n.body||'') + '</div></div>'
           + '<div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px"><div class="notif-time">' + fmtDate(n.created_at) + '</div>'
           + (!n.read ? '<div class="notif-unread-dot"></div>' : '') + '</div></div>';
@@ -762,14 +762,14 @@ function loadNotifications() {
 function _si(status) {
   var map = {
     completed:    { label:'Paid',        color:'#059669', bg:'rgba(5,150,105,.03)',   border:'rgba(5,150,105,.3)',   badge:'badge-green'  },
-    active:       { label:'Active',      color:'#E94560', bg:'rgba(233,69,96,.03)',   border:'rgba(233,69,96,.3)',   badge:'badge-accent' },
-    negotiating:  { label:'Negotiating', color:'#7B84A3', bg:'rgba(123,132,163,.03)', border:'rgba(123,132,163,.3)', badge:'badge-muted'  },
+    active:       { label:'Active',      color:'#6366F1', bg:'rgba(99,102,241,.03)',   border:'rgba(99,102,241,.3)',   badge:'badge-accent' },
+    negotiating:  { label:'Negotiating', color:'#8B8BB5', bg:'rgba(139,139,181,.03)', border:'rgba(139,139,181,.3)', badge:'badge-muted'  },
     submitted:    { label:'Submitted',   color:'#D97706', bg:'rgba(217,119,6,.03)',   border:'rgba(217,119,6,.3)',   badge:'badge-gold'   },
     approved:     { label:'Approved',    color:'#059669', bg:'rgba(5,150,105,.03)',   border:'rgba(5,150,105,.3)',   badge:'badge-green'  },
     link_submitted:{ label:'Link Sent',  color:'#D97706', bg:'rgba(217,119,6,.03)',   border:'rgba(217,119,6,.3)',   badge:'badge-gold'   },
     payment_sent: { label:'Paying',      color:'#D97706', bg:'rgba(217,119,6,.03)',   border:'rgba(217,119,6,.3)',   badge:'badge-gold'   },
-    disputed:     { label:'Disputed',    color:'#E94560', bg:'rgba(233,69,96,.03)',   border:'rgba(233,69,96,.3)',   badge:'badge-accent' },
-    cancelled:    { label:'Cancelled',   color:'#7B84A3', bg:'rgba(123,132,163,.03)', border:'rgba(123,132,163,.3)', badge:'badge-muted'  }
+    disputed:     { label:'Disputed',    color:'#6366F1', bg:'rgba(99,102,241,.03)',   border:'rgba(99,102,241,.3)',   badge:'badge-accent' },
+    cancelled:    { label:'Cancelled',   color:'#8B8BB5', bg:'rgba(139,139,181,.03)', border:'rgba(139,139,181,.3)', badge:'badge-muted'  }
   };
   return map[status] || map.negotiating;
 }

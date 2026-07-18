@@ -162,7 +162,7 @@ function setAge(adult) {
   var nBtn = document.getElementById('age-no-btn');
   var gf   = document.getElementById('guardian-fields');
   var onStyle  = ';border:1px solid rgba(5,150,105,.4);border-radius:10px;cursor:pointer;font-size:13px;font-weight:700;color:#059669;background:rgba(5,150,105,.08)';
-  var offStyle = ';border:1px solid #252A45;border-radius:10px;cursor:pointer;font-size:13px;font-weight:700;color:#7B84A3;background:transparent';
+  var offStyle = ';border:1px solid #322863;border-radius:10px;cursor:pointer;font-size:13px;font-weight:700;color:#8B8BB5;background:transparent';
   var baseStyle = 'flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:10px';
   if (adult) {
     yBtn.style.cssText = baseStyle + onStyle;

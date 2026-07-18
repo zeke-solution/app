@@ -90,7 +90,7 @@ function _renderDealsTable(containerId, deals) {
     return '<div class="item-card" style="margin-bottom:8px;flex-direction:row;align-items:center;gap:12px;padding:14px 16px;cursor:pointer" onclick="openAdminDealDetail(\'' + d.id + '\')">'
       + '<div style="flex:1;min-width:0">'
       + '<div style="font-size:14px;color:#fff;font-weight:500">' + esc(creator) + ' × ' + esc(brand) + '</div>'
-      + '<div style="font-size:12px;color:#7B84A3">' + esc(d.title||'') + ' · ' + esc(d.platform||'') + '</div></div>'
+      + '<div style="font-size:12px;color:#8B8BB5">' + esc(d.title||'') + ' · ' + esc(d.platform||'') + '</div></div>'
       + '<div style="font-size:14px;font-weight:900;color:#fff;flex-shrink:0">₹' + fmtNum(d.amount||0) + '</div>'
       + '<span class="badge ' + s.cls + '">' + s.label + '</span></div>';
   }).join('');
@@ -137,10 +137,10 @@ function loadBrandsDirectory() {
           var initials = b.name.slice(0,2).toUpperCase();
           var typeLabel = b.type.charAt(0).toUpperCase() + b.type.slice(1);
           return '<div class="item-card" style="margin-bottom:8px;flex-direction:row;align-items:center;gap:12px;padding:14px 16px;cursor:pointer" onclick="openAdminBrandProfile(\'' + b.id + '\')">'
-            + '<div class="item-avatar" style="background:rgba(15,52,96,.5);color:#C8D0E7">' + initials + '</div>'
+            + '<div class="item-avatar" style="background:rgba(15,52,96,.5);color:#E5E7EB">' + initials + '</div>'
             + '<div style="flex:1;min-width:0">'
             +   '<div style="font-size:14px;font-weight:700;color:#fff">' + esc(b.name) + '</div>'
-            +   '<div style="font-size:12px;color:#7B84A3">' + esc(typeLabel) + (b.location ? ' · ' + esc(b.location) : '') + ' · Joined ' + fmtDate(b.joined) + '</div>'
+            +   '<div style="font-size:12px;color:#8B8BB5">' + esc(typeLabel) + (b.location ? ' · ' + esc(b.location) : '') + ' · Joined ' + fmtDate(b.joined) + '</div>'
             + '</div>'
             + '<div style="text-align:right;flex-shrink:0">'
             +   '<div style="font-size:13px;font-weight:700;color:#fff">' + b.dealsTotal + ' deal' + (b.dealsTotal === 1 ? '' : 's') + '</div>'
@@ -183,8 +183,8 @@ function loadCreatorsDirectory() {
             + '<div class="item-avatar">' + initials + '</div>'
             + '<div style="flex:1;min-width:0">'
             +   '<div style="font-size:14px;font-weight:700;color:#fff">' + esc(name) + '</div>'
-            +   '<div style="font-size:12px;color:#7B84A3">' + esc(cr.niche || '') + (cr.handle ? ' · @' + esc(cr.handle) : '') + (loc ? ' · ' + esc(loc) : '') + '</div>'
-            +   '<div style="font-size:11px;color:#7B84A3">IG ' + fmtNum(cr.ig_followers || 0) + ' · Joined ' + fmtDate(cr.profiles && cr.profiles.created_at) + '</div>'
+            +   '<div style="font-size:12px;color:#8B8BB5">' + esc(cr.niche || '') + (cr.handle ? ' · @' + esc(cr.handle) : '') + (loc ? ' · ' + esc(loc) : '') + '</div>'
+            +   '<div style="font-size:11px;color:#8B8BB5">IG ' + fmtNum(cr.ig_followers || 0) + ' · Joined ' + fmtDate(cr.profiles && cr.profiles.created_at) + '</div>'
             + '</div>'
             + '<div style="text-align:right;flex-shrink:0">'
             +   '<div style="font-size:13px;font-weight:700;color:#fff">' + k.dealsCompleted + ' deal' + (k.dealsCompleted === 1 ? '' : 's') + '</div>'
@@ -207,7 +207,7 @@ function _adminOpenModalShell(html) {
   modal.id = 'admin-profile-modal';
   modal.style.cssText = 'position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;padding:16px;overflow-y:auto';
   modal.onclick = function (e) { if (e.target === modal) _adminCloseModal(); };
-  modal.innerHTML = '<div style="background:#181C35;border:1px solid #252A45;border-radius:20px;padding:22px;width:100%;max-width:560px;max-height:92vh;overflow-y:auto">' + html + '</div>';
+  modal.innerHTML = '<div style="background:#241A4D;border:1px solid #322863;border-radius:20px;padding:22px;width:100%;max-width:560px;max-height:92vh;overflow-y:auto">' + html + '</div>';
   document.body.appendChild(modal);
 }
 
@@ -227,32 +227,32 @@ function openAdminBrandProfile(brandId) {
     var initials = name.slice(0,2).toUpperCase();
     var typeLabel = (br.brand_type || 'business').replace(/^./, function (c) { return c.toUpperCase(); });
     var html = '<div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">'
-      + '<div style="width:48px;height:48px;border-radius:50%;background:rgba(15,52,96,.5);color:#C8D0E7;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900">' + initials + '</div>'
+      + '<div style="width:48px;height:48px;border-radius:50%;background:rgba(15,52,96,.5);color:#E5E7EB;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900">' + initials + '</div>'
       + '<div style="flex:1;min-width:0"><div style="font-size:18px;font-weight:900;color:#fff">' + esc(name) + '</div>'
-      + '<div style="font-size:12px;color:#7B84A3">' + esc(typeLabel) + (p.location ? ' · ' + esc(p.location) : '') + ' · Joined ' + fmtDate(p.created_at) + '</div></div>'
-      + '<button onclick="_adminCloseModal()" style="background:none;border:none;color:#7B84A3;font-size:22px;cursor:pointer">&times;</button></div>'
+      + '<div style="font-size:12px;color:#8B8BB5">' + esc(typeLabel) + (p.location ? ' · ' + esc(p.location) : '') + ' · Joined ' + fmtDate(p.created_at) + '</div></div>'
+      + '<button onclick="_adminCloseModal()" style="background:none;border:none;color:#8B8BB5;font-size:22px;cursor:pointer">&times;</button></div>'
       + '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px">'
-      +   '<div style="text-align:center;padding:10px;background:#0B0D1A;border-radius:10px;border:1px solid #252A45"><div style="font-size:14px;font-weight:900;color:#fff">' + camps.length + '</div><div style="font-size:10px;color:#7B84A3">Campaigns</div></div>'
-      +   '<div style="text-align:center;padding:10px;background:#0B0D1A;border-radius:10px;border:1px solid #252A45"><div style="font-size:14px;font-weight:900;color:#fff">' + deals.length + '</div><div style="font-size:10px;color:#7B84A3">Deals</div></div>'
-      +   '<div style="text-align:center;padding:10px;background:#0B0D1A;border-radius:10px;border:1px solid #252A45"><div style="font-size:14px;font-weight:900;color:#059669">₹' + fmtNum(spent) + '</div><div style="font-size:10px;color:#7B84A3">Spent</div></div>'
+      +   '<div style="text-align:center;padding:10px;background:#0D0B16;border-radius:10px;border:1px solid #322863"><div style="font-size:14px;font-weight:900;color:#fff">' + camps.length + '</div><div style="font-size:10px;color:#8B8BB5">Campaigns</div></div>'
+      +   '<div style="text-align:center;padding:10px;background:#0D0B16;border-radius:10px;border:1px solid #322863"><div style="font-size:14px;font-weight:900;color:#fff">' + deals.length + '</div><div style="font-size:10px;color:#8B8BB5">Deals</div></div>'
+      +   '<div style="text-align:center;padding:10px;background:#0D0B16;border-radius:10px;border:1px solid #322863"><div style="font-size:14px;font-weight:900;color:#059669">₹' + fmtNum(spent) + '</div><div style="font-size:10px;color:#8B8BB5">Spent</div></div>'
       + '</div>'
-      + '<div style="font-size:12px;font-weight:700;color:#C8D0E7;margin:14px 0 8px">Campaigns</div>'
+      + '<div style="font-size:12px;font-weight:700;color:#E5E7EB;margin:14px 0 8px">Campaigns</div>'
       + (camps.length ? camps.map(function (c) {
-          return '<div style="background:#0B0D1A;border:1px solid #252A45;border-radius:10px;padding:10px 12px;margin-bottom:6px;display:flex;align-items:center;gap:10px">'
+          return '<div style="background:#0D0B16;border:1px solid #322863;border-radius:10px;padding:10px 12px;margin-bottom:6px;display:flex;align-items:center;gap:10px">'
             + '<div style="flex:1;min-width:0"><div style="font-size:13px;color:#fff;font-weight:600">' + esc(c.title) + '</div>'
-            + '<div style="font-size:11px;color:#7B84A3">' + esc(c.niche||'') + ' · ' + (c.deadline ? 'Due ' + esc(c.deadline) : '') + '</div></div>'
+            + '<div style="font-size:11px;color:#8B8BB5">' + esc(c.niche||'') + ' · ' + (c.deadline ? 'Due ' + esc(c.deadline) : '') + '</div></div>'
             + '<div style="text-align:right"><div style="font-size:12px;font-weight:700;color:#D97706">₹' + fmtNum(c.budget||0) + '</div>'
             + '<span class="badge ' + (c.status === 'active' ? 'badge-green' : 'badge-muted') + '">' + esc(c.status) + '</span></div></div>';
-        }).join('') : '<div style="font-size:12px;color:#7B84A3">No campaigns yet.</div>')
-      + '<div style="font-size:12px;font-weight:700;color:#C8D0E7;margin:14px 0 8px">Deals</div>'
+        }).join('') : '<div style="font-size:12px;color:#8B8BB5">No campaigns yet.</div>')
+      + '<div style="font-size:12px;font-weight:700;color:#E5E7EB;margin:14px 0 8px">Deals</div>'
       + (deals.length ? deals.map(function (d) {
           var creator = (d.profiles && d.profiles.display_name) || 'Creator';
-          return '<div style="background:#0B0D1A;border:1px solid #252A45;border-radius:10px;padding:10px 12px;margin-bottom:6px;display:flex;align-items:center;gap:10px;cursor:pointer" onclick="openAdminDealDetail(\'' + d.id + '\')">'
+          return '<div style="background:#0D0B16;border:1px solid #322863;border-radius:10px;padding:10px 12px;margin-bottom:6px;display:flex;align-items:center;gap:10px;cursor:pointer" onclick="openAdminDealDetail(\'' + d.id + '\')">'
             + '<div style="flex:1;min-width:0"><div style="font-size:13px;color:#fff;font-weight:600">' + esc(d.title || '') + '</div>'
-            + '<div style="font-size:11px;color:#7B84A3">with ' + esc(creator) + '</div></div>'
+            + '<div style="font-size:11px;color:#8B8BB5">with ' + esc(creator) + '</div></div>'
             + '<div style="text-align:right"><div style="font-size:12px;font-weight:700;color:#fff">₹' + fmtNum(d.amount||0) + '</div>'
             + '<span class="badge badge-muted">' + esc(d.status) + '</span></div></div>';
-        }).join('') : '<div style="font-size:12px;color:#7B84A3">No deals yet.</div>');
+        }).join('') : '<div style="font-size:12px;color:#8B8BB5">No deals yet.</div>');
     _adminOpenModalShell(html);
   });
 }
@@ -269,40 +269,40 @@ function openAdminCreatorProfile(creatorId) {
     var earned = deals.filter(function (d) { return d.status === 'completed'; }).reduce(function (s, d) { return s + (d.amount||0); }, 0);
     var name = p.display_name || 'Creator';
     var initials = name.slice(0,2).toUpperCase();
-    var avatarBg = inf.shield_active ? 'rgba(217,119,6,.2)' : 'rgba(233,69,96,.15)';
-    var avatarColor = inf.shield_active ? '#D97706' : '#E94560';
+    var avatarBg = inf.shield_active ? 'rgba(217,119,6,.2)' : 'rgba(99,102,241,.15)';
+    var avatarColor = inf.shield_active ? '#D97706' : '#6366F1';
     var html = '<div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">'
       + '<div style="width:48px;height:48px;border-radius:50%;background:' + avatarBg + ';color:' + avatarColor + ';display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900">' + initials + '</div>'
       + '<div style="flex:1;min-width:0"><div style="font-size:18px;font-weight:900;color:#fff">' + esc(name) + (inf.shield_active ? ' <span style="color:#D97706;font-size:13px">🛡</span>' : '') + '</div>'
-      + '<div style="font-size:12px;color:#7B84A3">' + esc(inf.niche || '') + (inf.handle ? ' · @' + esc(inf.handle) : '') + (p.location ? ' · ' + esc(p.location) : '') + '</div>'
-      + '<div style="font-size:11px;color:#7B84A3">Joined ' + fmtDate(p.created_at) + '</div></div>'
-      + '<button onclick="_adminCloseModal()" style="background:none;border:none;color:#7B84A3;font-size:22px;cursor:pointer">&times;</button></div>'
+      + '<div style="font-size:12px;color:#8B8BB5">' + esc(inf.niche || '') + (inf.handle ? ' · @' + esc(inf.handle) : '') + (p.location ? ' · ' + esc(p.location) : '') + '</div>'
+      + '<div style="font-size:11px;color:#8B8BB5">Joined ' + fmtDate(p.created_at) + '</div></div>'
+      + '<button onclick="_adminCloseModal()" style="background:none;border:none;color:#8B8BB5;font-size:22px;cursor:pointer">&times;</button></div>'
       + '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px">'
-      +   _platformTile('Instagram', inf.ig_followers, '#E94560', true)
+      +   _platformTile('Instagram', inf.ig_followers, '#6366F1', true)
       +   _platformTile('YouTube',   inf.yt_followers, '#f87171', !!inf.yt_enabled)
       +   _platformTile('Twitter/X', inf.x_followers,  '#38bdf8', !!inf.x_enabled)
       + '</div>'
       + '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px">'
-      +   '<div style="text-align:center;padding:10px;background:#0B0D1A;border-radius:10px;border:1px solid #252A45"><div style="font-size:14px;font-weight:900;color:#fff">' + deals.length + '</div><div style="font-size:10px;color:#7B84A3">Deals</div></div>'
-      +   '<div style="text-align:center;padding:10px;background:#0B0D1A;border-radius:10px;border:1px solid #252A45"><div style="font-size:14px;font-weight:900;color:#059669">₹' + fmtNum(earned) + '</div><div style="font-size:10px;color:#7B84A3">Earned</div></div>'
-      +   '<div style="text-align:center;padding:10px;background:#0B0D1A;border-radius:10px;border:1px solid #252A45"><div style="font-size:14px;font-weight:900;color:#D97706">★ ' + (inf.rating || '—') + '</div><div style="font-size:10px;color:#7B84A3">Rating</div></div>'
+      +   '<div style="text-align:center;padding:10px;background:#0D0B16;border-radius:10px;border:1px solid #322863"><div style="font-size:14px;font-weight:900;color:#fff">' + deals.length + '</div><div style="font-size:10px;color:#8B8BB5">Deals</div></div>'
+      +   '<div style="text-align:center;padding:10px;background:#0D0B16;border-radius:10px;border:1px solid #322863"><div style="font-size:14px;font-weight:900;color:#059669">₹' + fmtNum(earned) + '</div><div style="font-size:10px;color:#8B8BB5">Earned</div></div>'
+      +   '<div style="text-align:center;padding:10px;background:#0D0B16;border-radius:10px;border:1px solid #322863"><div style="font-size:14px;font-weight:900;color:#D97706">★ ' + (inf.rating || '—') + '</div><div style="font-size:10px;color:#8B8BB5">Rating</div></div>'
       + '</div>'
-      + '<div style="font-size:12px;font-weight:700;color:#C8D0E7;margin:14px 0 8px">Deals</div>'
+      + '<div style="font-size:12px;font-weight:700;color:#E5E7EB;margin:14px 0 8px">Deals</div>'
       + (deals.length ? deals.map(function (d) {
           var brand = (d.profiles && d.profiles.display_name) || 'Brand';
-          return '<div style="background:#0B0D1A;border:1px solid #252A45;border-radius:10px;padding:10px 12px;margin-bottom:6px;display:flex;align-items:center;gap:10px;cursor:pointer" onclick="openAdminDealDetail(\'' + d.id + '\')">'
+          return '<div style="background:#0D0B16;border:1px solid #322863;border-radius:10px;padding:10px 12px;margin-bottom:6px;display:flex;align-items:center;gap:10px;cursor:pointer" onclick="openAdminDealDetail(\'' + d.id + '\')">'
             + '<div style="flex:1;min-width:0"><div style="font-size:13px;color:#fff;font-weight:600">' + esc(d.title || '') + '</div>'
-            + '<div style="font-size:11px;color:#7B84A3">with ' + esc(brand) + '</div></div>'
+            + '<div style="font-size:11px;color:#8B8BB5">with ' + esc(brand) + '</div></div>'
             + '<div style="text-align:right"><div style="font-size:12px;font-weight:700;color:#fff">₹' + fmtNum(d.amount||0) + '</div>'
             + '<span class="badge badge-muted">' + esc(d.status) + '</span></div></div>';
-        }).join('') : '<div style="font-size:12px;color:#7B84A3">No deals yet.</div>');
+        }).join('') : '<div style="font-size:12px;color:#8B8BB5">No deals yet.</div>');
     _adminOpenModalShell(html);
   });
 }
 
 function _platformTile(label, count, color, enabled) {
-  if (!enabled) return '<div style="text-align:center;padding:10px;background:#0B0D1A;border-radius:10px;border:1px solid #252A45;opacity:.4"><div style="font-size:13px;color:#7B84A3">—</div><div style="font-size:10px;color:#7B84A3">' + label + '</div></div>';
-  return '<div style="text-align:center;padding:10px;background:#0B0D1A;border-radius:10px;border:1px solid #252A45"><div style="font-size:14px;font-weight:900;color:' + color + '">' + fmtNum(count || 0) + '</div><div style="font-size:10px;color:#7B84A3">' + label + '</div></div>';
+  if (!enabled) return '<div style="text-align:center;padding:10px;background:#0D0B16;border-radius:10px;border:1px solid #322863;opacity:.4"><div style="font-size:13px;color:#8B8BB5">—</div><div style="font-size:10px;color:#8B8BB5">' + label + '</div></div>';
+  return '<div style="text-align:center;padding:10px;background:#0D0B16;border-radius:10px;border:1px solid #322863"><div style="font-size:14px;font-weight:900;color:' + color + '">' + fmtNum(count || 0) + '</div><div style="font-size:10px;color:#8B8BB5">' + label + '</div></div>';
 }
 
 function openAdminDealDetail(dealId) {
@@ -317,21 +317,21 @@ function openAdminDealDetail(dealId) {
     var creator = (d.creator && d.creator.display_name) || 'Creator';
     var html = '<div style="display:flex;align-items:start;gap:12px;margin-bottom:14px">'
       + '<div style="flex:1;min-width:0"><div style="font-size:16px;font-weight:900;color:#fff">' + esc(brand) + ' × ' + esc(creator) + '</div>'
-      + '<div style="font-size:13px;color:#7B84A3">' + esc(d.title || '') + (d.platform ? ' · ' + esc(d.platform) : '') + '</div></div>'
-      + '<button onclick="_adminCloseModal()" style="background:none;border:none;color:#7B84A3;font-size:22px;cursor:pointer">&times;</button></div>'
+      + '<div style="font-size:13px;color:#8B8BB5">' + esc(d.title || '') + (d.platform ? ' · ' + esc(d.platform) : '') + '</div></div>'
+      + '<button onclick="_adminCloseModal()" style="background:none;border:none;color:#8B8BB5;font-size:22px;cursor:pointer">&times;</button></div>'
       + '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px">'
-      +   '<div style="text-align:center;padding:10px;background:#0B0D1A;border-radius:10px;border:1px solid #252A45"><div style="font-size:14px;font-weight:900;color:#D97706">₹' + fmtNum(d.amount||0) + '</div><div style="font-size:10px;color:#7B84A3">Value</div></div>'
-      +   '<div style="text-align:center;padding:10px;background:#0B0D1A;border-radius:10px;border:1px solid #252A45"><div style="font-size:14px;font-weight:900;color:#fff">' + esc(d.status) + '</div><div style="font-size:10px;color:#7B84A3">Status</div></div>'
-      +   '<div style="text-align:center;padding:10px;background:#0B0D1A;border-radius:10px;border:1px solid #252A45"><div style="font-size:13px;font-weight:700;color:#fff">' + (d.deadline || '—') + '</div><div style="font-size:10px;color:#7B84A3">Deadline</div></div>'
+      +   '<div style="text-align:center;padding:10px;background:#0D0B16;border-radius:10px;border:1px solid #322863"><div style="font-size:14px;font-weight:900;color:#D97706">₹' + fmtNum(d.amount||0) + '</div><div style="font-size:10px;color:#8B8BB5">Value</div></div>'
+      +   '<div style="text-align:center;padding:10px;background:#0D0B16;border-radius:10px;border:1px solid #322863"><div style="font-size:14px;font-weight:900;color:#fff">' + esc(d.status) + '</div><div style="font-size:10px;color:#8B8BB5">Status</div></div>'
+      +   '<div style="text-align:center;padding:10px;background:#0D0B16;border-radius:10px;border:1px solid #322863"><div style="font-size:13px;font-weight:700;color:#fff">' + (d.deadline || '—') + '</div><div style="font-size:10px;color:#8B8BB5">Deadline</div></div>'
       + '</div>'
-      + (d.deliverables ? '<div style="background:#0B0D1A;border:1px solid #252A45;border-radius:10px;padding:10px 12px;margin-bottom:14px"><div style="font-size:11px;font-weight:700;color:#7B84A3;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Deliverables</div><div style="font-size:13px;color:#C8D0E7;line-height:1.6">' + esc(d.deliverables) + '</div></div>' : '')
-      + '<div style="font-size:12px;font-weight:700;color:#C8D0E7;margin-bottom:8px">Timeline</div>'
+      + (d.deliverables ? '<div style="background:#0D0B16;border:1px solid #322863;border-radius:10px;padding:10px 12px;margin-bottom:14px"><div style="font-size:11px;font-weight:700;color:#8B8BB5;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Deliverables</div><div style="font-size:13px;color:#E5E7EB;line-height:1.6">' + esc(d.deliverables) + '</div></div>' : '')
+      + '<div style="font-size:12px;font-weight:700;color:#E5E7EB;margin-bottom:8px">Timeline</div>'
       + (events.length
           ? events.map(function (ev) {
               var c = ev.msg_type === 'event_gold' ? '#D97706' : '#059669';
-              return '<div style="display:flex;gap:10px;padding:6px 0;align-items:flex-start"><div style="width:10px;height:10px;border-radius:50%;background:' + c + ';flex-shrink:0;margin-top:5px"></div><div style="flex:1;font-size:12px;color:#C8D0E7;line-height:1.5">' + esc(ev.content) + '</div><div style="font-size:11px;color:#7B84A3;flex-shrink:0">' + fmtDate(ev.created_at) + '</div></div>';
+              return '<div style="display:flex;gap:10px;padding:6px 0;align-items:flex-start"><div style="width:10px;height:10px;border-radius:50%;background:' + c + ';flex-shrink:0;margin-top:5px"></div><div style="flex:1;font-size:12px;color:#E5E7EB;line-height:1.5">' + esc(ev.content) + '</div><div style="font-size:11px;color:#8B8BB5;flex-shrink:0">' + fmtDate(ev.created_at) + '</div></div>';
             }).join('')
-          : '<div style="font-size:12px;color:#7B84A3">No events yet.</div>');
+          : '<div style="font-size:12px;color:#8B8BB5">No events yet.</div>');
     _adminOpenModalShell(html);
   });
 }
@@ -358,7 +358,7 @@ function loadShieldRequests() {
           + '<div style="display:flex;align-items:center;gap:10px">'
           + '<div class="item-avatar" style="background:rgba(217,119,6,.15);color:#D97706">' + initials + '</div>'
           + '<div><div style="font-size:14px;font-weight:700;color:#fff">' + esc(name) + '</div>'
-          + '<div style="font-size:12px;color:#7B84A3">' + esc(p.location||'') + ' · Requested ' + fmtDate(s.requested_at) + '</div></div></div>'
+          + '<div style="font-size:12px;color:#8B8BB5">' + esc(p.location||'') + ' · Requested ' + fmtDate(s.requested_at) + '</div></div></div>'
           + '<div style="text-align:right"><div style="font-size:14px;font-weight:900;color:#D97706">₹' + (s.amount||1999) + '</div>'
           + '<span class="badge badge-gold" style="margin-top:4px">Pending</span></div></div>'
           + '<div class="item-actions">'
@@ -409,9 +409,9 @@ function loadDisputes() {
         return '<div class="item-card" style="margin-bottom:12px">'
           + '<div class="item-card-header" style="cursor:pointer" onclick="openAdminDealDetail(\'' + dealId + '\')"><div>'
           + '<div style="font-size:14px;font-weight:700;color:#fff">' + esc(creator) + ' × ' + esc(brand) + '</div>'
-          + '<div style="font-size:12px;color:#7B84A3">Raised by ' + esc(raiser) + ' · ' + fmtDate(dis.created_at) + '</div></div>'
+          + '<div style="font-size:12px;color:#8B8BB5">Raised by ' + esc(raiser) + ' · ' + fmtDate(dis.created_at) + '</div></div>'
           + '<span class="badge badge-accent">Open</span></div>'
-          + '<div style="font-size:13px;color:#C8D0E7;line-height:1.6">' + esc(dis.reason) + '</div>'
+          + '<div style="font-size:13px;color:#E5E7EB;line-height:1.6">' + esc(dis.reason) + '</div>'
           + '<div class="item-actions">'
           + '<button class="btn-approve" onclick="event.stopPropagation();resolveDispute(\'' + dis.id + '\',this)">&#10003; Resolve</button>'
           + '<button class="btn-reject"  onclick="event.stopPropagation();escalateDispute(\'' + dis.id + '\',this)">&#10006; Escalate</button>'
@@ -449,10 +449,10 @@ function loadAdminNotifications() {
       var inner = document.getElementById('notif-panel-inner'); if (!inner) return;
       var header = '<div class="notif-header"><div class="notif-title">Notifications</div><button class="notif-clear" onclick="clearNotifs()">Mark all read</button></div>';
       var notifs = r.data || [];
-      if (!notifs.length) { inner.innerHTML = header + '<div style="padding:20px;text-align:center;font-size:13px;color:#7B84A3">No notifications.</div>'; return; }
+      if (!notifs.length) { inner.innerHTML = header + '<div style="padding:20px;text-align:center;font-size:13px;color:#8B8BB5">No notifications.</div>'; return; }
       inner.innerHTML = header + notifs.map(function (n) {
         return '<div class="notif-item' + (!n.read ? ' unread' : '') + '">'
-          + '<div class="notif-icon" style="background:rgba(233,69,96,.12);color:#E94560"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg></div>'
+          + '<div class="notif-icon" style="background:rgba(99,102,241,.12);color:#6366F1"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg></div>'
           + '<div class="notif-body"><div class="notif-body-title">' + esc(n.title) + '</div><div class="notif-body-sub">' + esc(n.body||'') + '</div></div>'
           + '<div class="notif-time">' + fmtDate(n.created_at) + '</div></div>';
       }).join('');

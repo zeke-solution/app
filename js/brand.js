@@ -102,7 +102,7 @@ function _renderCampaigns(containerId, campaigns, expanded) {
     return '<div class="item-card" style="margin-bottom:12px">'
       + '<div class="item-card-header">'
       + '<div><div style="font-size:14px;font-weight:700;color:#fff">' + esc(item.title) + '</div>'
-      + '<div style="font-size:12px;color:#7B84A3">' + esc(item.niche||'') + (item.deadline ? ' · Deadline ' + fmtDateShort(item.deadline) : '') + '</div></div>'
+      + '<div style="font-size:12px;color:#8B8BB5">' + esc(item.niche||'') + (item.deadline ? ' · Deadline ' + fmtDateShort(item.deadline) : '') + '</div></div>'
       + '<div style="text-align:right"><div style="font-size:14px;font-weight:900;color:#D97706">₹' + fmtNum(item.budget||0) + '</div>'
       + '<span class="badge ' + sc + '" style="margin-top:4px">' + (item.status||'Active') + '</span></div></div>'
       + (expanded
@@ -164,7 +164,7 @@ function loadBrandChats() {
           + '<div style="display:flex;align-items:center;gap:14px">'
           + '<div class="item-avatar" style="color:' + si.color + '">' + creator.slice(0,2).toUpperCase() + '</div>'
           + '<div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:700;color:#fff">' + esc(creator) + '</div>'
-          + '<div style="font-size:12px;color:#7B84A3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + esc(d.title||'') + '</div></div>'
+          + '<div style="font-size:12px;color:#8B8BB5;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + esc(d.title||'') + '</div></div>'
           + '<span class="badge ' + si.badge + '">' + si.label + '</span></div></div>';
       }).join('');
     });
@@ -221,10 +221,10 @@ function _appendBrandMsg(m) {
     div.innerHTML = '<div class="chat-event-gold">' + esc(m.content) + '</div>';
   } else if (isMe) {
     div.style.cssText = 'display:flex;justify-content:flex-end';
-    div.innerHTML = '<div class="chat-bubble-out"><div style="font-size:13px;color:#C8D0E7">' + esc(m.content) + '</div><div style="font-size:10px;color:#7B84A3;margin-top:4px">You · ' + fmtDate(m.created_at) + '</div></div>';
+    div.innerHTML = '<div class="chat-bubble-out"><div style="font-size:13px;color:#E5E7EB">' + esc(m.content) + '</div><div style="font-size:10px;color:#8B8BB5;margin-top:4px">You · ' + fmtDate(m.created_at) + '</div></div>';
   } else {
     div.style.cssText = 'display:flex;justify-content:flex-start';
-    div.innerHTML = '<div class="chat-bubble-in"><div style="font-size:13px;color:#C8D0E7">' + esc(m.content) + '</div><div style="font-size:10px;color:#7B84A3;margin-top:4px">Creator · ' + fmtDate(m.created_at) + '</div></div>';
+    div.innerHTML = '<div class="chat-bubble-in"><div style="font-size:13px;color:#E5E7EB">' + esc(m.content) + '</div><div style="font-size:10px;color:#8B8BB5;margin-top:4px">Creator · ' + fmtDate(m.created_at) + '</div></div>';
   }
   c.appendChild(div); c.scrollTop = c.scrollHeight;
 }
@@ -265,10 +265,10 @@ function loadBrandDeals() {
           + '<div style="display:flex;align-items:center;gap:10px">'
           + '<div class="item-avatar" style="color:' + si.color + '">' + creator.slice(0,2).toUpperCase() + '</div>'
           + '<div><div style="font-size:14px;font-weight:700;color:#fff">' + esc(creator) + '</div>'
-          + '<div style="font-size:12px;color:#7B84A3">' + esc(d.title||'') + ' · ' + esc(d.platform||'') + '</div></div></div>'
+          + '<div style="font-size:12px;color:#8B8BB5">' + esc(d.title||'') + ' · ' + esc(d.platform||'') + '</div></div></div>'
           + '<div style="text-align:right"><div style="font-size:14px;font-weight:900;color:' + si.color + '">₹' + fmtNum(d.amount||0) + '</div>'
           + '<span class="badge ' + si.badge + '" style="margin-top:4px">' + si.label + '</span></div></div>'
-          + '<div style="font-size:12px;color:#E94560;font-weight:600;text-align:right">View deal →</div></div>';
+          + '<div style="font-size:12px;color:#6366F1;font-weight:600;text-align:right">View deal →</div></div>';
       }).join('');
     });
 }
@@ -318,15 +318,15 @@ function _loadBrandTimeline(dealId) {
       var w = document.getElementById('bdeal-timeline-wrap'); if (!w) return;
       var events = r.data || [];
       var html = '<div style="font-size:12px;font-weight:700;color:#fff;margin-bottom:14px">Deal Timeline</div>';
-      if (!events.length) { html += '<div style="font-size:12px;color:#7B84A3">No events yet.</div>'; }
+      if (!events.length) { html += '<div style="font-size:12px;color:#8B8BB5">No events yet.</div>'; }
       else events.forEach(function (ev, i) {
         var isLast = i === events.length - 1;
         var c = ev.msg_type === 'event_gold' ? '#D97706' : '#059669';
         html += '<div style="display:flex;align-items:flex-start;gap:10px;padding:8px 0;position:relative">';
-        if (!isLast) html += '<div style="position:absolute;left:7px;top:22px;bottom:-4px;width:1px;background:#252A45"></div>';
+        if (!isLast) html += '<div style="position:absolute;left:7px;top:22px;bottom:-4px;width:1px;background:#322863"></div>';
         html += '<div style="width:15px;height:15px;border-radius:50%;border:2px solid '+c+';background:'+c+';flex-shrink:0;margin-top:2px"></div>';
-        html += '<div style="font-size:12px;color:#C8D0E7;flex:1;line-height:1.4">' + esc(ev.content) + '</div>';
-        html += '<div style="font-size:11px;color:#7B84A3;flex-shrink:0">' + fmtDate(ev.created_at) + '</div></div>';
+        html += '<div style="font-size:12px;color:#E5E7EB;flex:1;line-height:1.4">' + esc(ev.content) + '</div>';
+        html += '<div style="font-size:11px;color:#8B8BB5;flex-shrink:0">' + fmtDate(ev.created_at) + '</div></div>';
       });
       w.innerHTML = html;
     });
@@ -334,7 +334,7 @@ function _loadBrandTimeline(dealId) {
 
 function _renderBrandDeliverables(d) {
   var w = document.getElementById('bdeal-deliverables-wrap'); if (!w) return;
-  w.innerHTML = '<div style="font-size:12px;font-weight:700;color:#fff;margin-bottom:8px">Deliverables</div><div style="font-size:12px;color:#7B84A3;line-height:1.9">' + esc(d.deliverables||'No deliverables specified.') + '</div>';
+  w.innerHTML = '<div style="font-size:12px;font-weight:700;color:#fff;margin-bottom:8px">Deliverables</div><div style="font-size:12px;color:#8B8BB5;line-height:1.9">' + esc(d.deliverables||'No deliverables specified.') + '</div>';
 }
 
 function raiseBrandDispute() {
@@ -400,9 +400,9 @@ function openEditOfferModal(dealId) {
     modal.id = 'edit-offer-modal';
     modal.style.cssText = 'position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;padding:20px';
     modal.innerHTML =
-      '<div style="background:#181C35;border:1px solid #252A45;border-radius:20px;padding:24px;width:100%;max-width:440px">'
+      '<div style="background:#241A4D;border:1px solid #322863;border-radius:20px;padding:24px;width:100%;max-width:440px">'
       + '<div style="font-size:16px;font-weight:700;color:#fff;margin-bottom:4px">Update Offer</div>'
-      + '<div style="font-size:12px;color:#7B84A3;margin-bottom:16px">To: ' + esc(creator) + '</div>'
+      + '<div style="font-size:12px;color:#8B8BB5;margin-bottom:16px">To: ' + esc(creator) + '</div>'
       + '<div style="display:flex;flex-direction:column;gap:10px">'
       +   '<div class="input-wrap"><label class="input-label">Title</label><input class="input-field no-icon" id="eo-title" type="text" value="' + esc(d.title || '') + '" style="font-size:13px;padding:10px 14px"></div>'
       +   '<div class="input-wrap"><label class="input-label">Platform</label><input class="input-field no-icon" id="eo-platform" type="text" value="' + esc(d.platform || '') + '" style="font-size:13px;padding:10px 14px"></div>'
@@ -473,9 +473,9 @@ function _renderBrandCancelRequest(d) {
   if (!d.cancel_requested_by || d.cancel_requested_by === ZK.id || d.status === 'cancelled' || d.status === 'completed') return;
   var banner = document.createElement('div');
   banner.id = 'brand-cancel-banner';
-  banner.style.cssText = 'background:rgba(233,69,96,.06);border:1px solid rgba(233,69,96,.25);border-radius:14px;padding:16px;margin-bottom:14px';
-  banner.innerHTML = '<div style="font-size:13px;font-weight:700;color:#E94560;margin-bottom:6px">⊘ Cancellation requested by creator</div>'
-    + '<div style="font-size:12px;color:#C8D0E7;line-height:1.6;margin-bottom:12px">' + esc(d.cancel_reason||'') + '</div>'
+  banner.style.cssText = 'background:rgba(99,102,241,.06);border:1px solid rgba(99,102,241,.25);border-radius:14px;padding:16px;margin-bottom:14px';
+  banner.innerHTML = '<div style="font-size:13px;font-weight:700;color:#6366F1;margin-bottom:6px">⊘ Cancellation requested by creator</div>'
+    + '<div style="font-size:12px;color:#E5E7EB;line-height:1.6;margin-bottom:12px">' + esc(d.cancel_reason||'') + '</div>'
     + '<div style="display:flex;gap:8px">'
     + '<button class="btn-approve" style="flex:1" onclick="acceptCancel(\'' + d.id + '\')">Accept Cancellation</button>'
     + '<button class="btn-reject" onclick="declineCancel(\'' + d.id + '\')">Decline</button></div>';
@@ -519,15 +519,15 @@ function _loadBrandReview(dealId, status) {
       if (!subs.length) { c.innerHTML = '<div class="empty-state">No submissions yet.</div>'; return; }
       c.innerHTML = subs.map(function (s) {
         var isPending = s.status === 'pending';
-        var sc = isPending ? 'rgba(217,119,6,.25)' : (s.status==='approved' ? 'rgba(5,150,105,.25)' : 'rgba(233,69,96,.25)');
+        var sc = isPending ? 'rgba(217,119,6,.25)' : (s.status==='approved' ? 'rgba(5,150,105,.25)' : 'rgba(99,102,241,.25)');
         var sl = isPending ? 'badge-gold' : (s.status==='approved' ? 'badge-green' : 'badge-accent');
-        return '<div style="background:#181C35;border:1px solid ' + sc + ';border-radius:14px;padding:14px;margin-bottom:10px">'
+        return '<div style="background:#241A4D;border:1px solid ' + sc + ';border-radius:14px;padding:14px;margin-bottom:10px">'
           + '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">'
           + '<div style="font-size:13px;font-weight:700;color:#fff">Round ' + s.round + '</div>'
           + '<span class="badge ' + sl + '">' + (isPending ? 'Awaiting Review' : s.status.charAt(0).toUpperCase()+s.status.slice(1)) + '</span></div>'
-          + (s.file_name ? '<div style="background:#0B0D1A;border-radius:10px;padding:10px 12px;font-size:13px;color:#C8D0E7;margin-bottom:12px">' + esc(s.file_name) + ' · ' + (s.file_size_mb||'') + 'MB</div>' : '')
+          + (s.file_name ? '<div style="background:#0D0B16;border-radius:10px;padding:10px 12px;font-size:13px;color:#E5E7EB;margin-bottom:12px">' + esc(s.file_name) + ' · ' + (s.file_size_mb||'') + 'MB</div>' : '')
           + (isPending ? '<div style="display:flex;gap:8px"><button class="btn-approve" style="flex:1" onclick="reviewSubmission(\'' + s.id + '\',\'' + dealId + '\',\'approved\')">&#10003; Approve</button><button class="btn-reject" onclick="reviewSubmission(\'' + s.id + '\',\'' + dealId + '\',\'rejected\')">&#10006; Request Changes</button></div>' : '')
-          + (s.review_note ? '<div style="font-size:12px;color:#7B84A3;margin-top:8px;padding:6px 10px;border-radius:8px;background:rgba(0,0,0,.1)">' + esc(s.review_note) + '</div>' : '')
+          + (s.review_note ? '<div style="font-size:12px;color:#8B8BB5;margin-top:8px;padding:6px 10px;border-radius:8px;background:rgba(0,0,0,.1)">' + esc(s.review_note) + '</div>' : '')
           + '</div>';
       }).join('');
     });
@@ -564,14 +564,14 @@ function _loadBrandPaymentPanel(dealId, deal) {
   zeke_sb.from('payments').select('*').eq('deal_id',dealId).maybeSingle()
     .then(function (r) {
       if (!r.data) {
-        c.innerHTML = '<div style="background:#181C35;border:1px solid rgba(217,119,6,.25);border-radius:14px;padding:16px">'
+        c.innerHTML = '<div style="background:#241A4D;border:1px solid rgba(217,119,6,.25);border-radius:14px;padding:16px">'
           + '<div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:12px">Mark Payment as Sent</div>'
-          + '<div style="font-size:13px;color:#7B84A3;margin-bottom:16px">Agreed amount: <span style="color:#fff;font-weight:700">₹' + fmtNum(deal.amount||0) + '</span></div>'
+          + '<div style="font-size:13px;color:#8B8BB5;margin-bottom:16px">Agreed amount: <span style="color:#fff;font-weight:700">₹' + fmtNum(deal.amount||0) + '</span></div>'
           + '<button class="btn btn-primary btn-md btn-full" onclick="markPaymentSent(\'' + dealId + '\',' + (deal.amount||0) + ')">I have sent the payment</button></div>';
       } else {
-        c.innerHTML = '<div style="background:#181C35;border:1px solid rgba(5,150,105,.25);border-radius:14px;padding:16px">'
+        c.innerHTML = '<div style="background:#241A4D;border:1px solid rgba(5,150,105,.25);border-radius:14px;padding:16px">'
           + '<div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:12px">Payment Status</div>'
-          + '<div style="background:#0B0D1A;border:1px solid rgba(5,150,105,.3);border-radius:10px;padding:10px 12px;display:flex;align-items:center;gap:10px">'
+          + '<div style="background:#0D0B16;border:1px solid rgba(5,150,105,.3);border-radius:10px;padding:10px 12px;display:flex;align-items:center;gap:10px">'
           + '<div style="flex:1"><div style="font-size:13px;font-weight:600;color:#fff">₹' + fmtNum(r.data.amount||0) + ' sent</div></div>'
           + '<span class="badge ' + (r.data.status==='confirmed' ? 'badge-green' : 'badge-gold') + '">' + (r.data.status==='confirmed' ? 'Confirmed by Creator' : 'Awaiting Confirmation') + '</span></div></div>';
       }
@@ -608,7 +608,7 @@ function _loadBrandAgreement(dealId) {
     .eq('deal_id', dealId).maybeSingle()
     .then(function (r) {
       if (!r.data) {
-        c.innerHTML = '<div style="background:#181C35;border:1px solid #252A45;border-radius:14px;padding:16px;opacity:.6"><div style="font-size:13px;font-weight:700;color:#fff">No Agreement Yet</div><div style="font-size:12px;color:#7B84A3;margin-top:6px">Generated automatically once the creator accepts the offer.</div></div>';
+        c.innerHTML = '<div style="background:#241A4D;border:1px solid #322863;border-radius:14px;padding:16px;opacity:.6"><div style="font-size:13px;font-weight:700;color:#fff">No Agreement Yet</div><div style="font-size:12px;color:#8B8BB5;margin-top:6px">Generated automatically once the creator accepts the offer.</div></div>';
         return;
       }
       var a = r.data, d = a.deals || {};
@@ -619,15 +619,15 @@ function _loadBrandAgreement(dealId) {
           var shield = !!(rr && rr.data && rr.data.shield_active);
           var pdfBtn = shield
             ? '<button class="btn btn-outline btn-sm" style="flex:1" onclick="downloadBrandAgreementPDF(\'' + a.id + '\')">⬇ Download PDF</button>'
-            : '<div style="font-size:11px;color:#7B84A3;text-align:center">PDF available when the creator is a Shield member.</div>';
+            : '<div style="font-size:11px;color:#8B8BB5;text-align:center">PDF available when the creator is a Shield member.</div>';
           c.innerHTML = '<div class="item-card" style="border-color:rgba(5,150,105,.25)">'
             + '<div style="font-size:13px;font-weight:700;color:#fff;margin-bottom:10px">Agreement</div>'
-            + '<div style="background:#0B0D1A;border-radius:10px;padding:10px 14px;font-size:12px;color:#7B84A3;line-height:1.9;margin-bottom:12px">'
-            + '<div><span style="color:#C8D0E7;font-weight:600">Title:</span> ' + esc(d.title||'') + '</div>'
-            + '<div><span style="color:#C8D0E7;font-weight:600">Platform:</span> ' + esc(d.platform||'—') + '</div>'
-            + '<div><span style="color:#C8D0E7;font-weight:600">Value:</span> ₹' + fmtNum(d.amount||0) + '</div>'
-            + (d.deliverables ? '<div><span style="color:#C8D0E7;font-weight:600">Deliverables:</span> ' + esc(d.deliverables) + '</div>' : '')
-            + '<div><span style="color:#C8D0E7;font-weight:600">Generated:</span> ' + fmtDate(a.generated_at) + '</div></div>'
+            + '<div style="background:#0D0B16;border-radius:10px;padding:10px 14px;font-size:12px;color:#8B8BB5;line-height:1.9;margin-bottom:12px">'
+            + '<div><span style="color:#E5E7EB;font-weight:600">Title:</span> ' + esc(d.title||'') + '</div>'
+            + '<div><span style="color:#E5E7EB;font-weight:600">Platform:</span> ' + esc(d.platform||'—') + '</div>'
+            + '<div><span style="color:#E5E7EB;font-weight:600">Value:</span> ₹' + fmtNum(d.amount||0) + '</div>'
+            + (d.deliverables ? '<div><span style="color:#E5E7EB;font-weight:600">Deliverables:</span> ' + esc(d.deliverables) + '</div>' : '')
+            + '<div><span style="color:#E5E7EB;font-weight:600">Generated:</span> ' + fmtDate(a.generated_at) + '</div></div>'
             + '<div class="item-actions">' + pdfBtn + '</div></div>';
         });
     });
@@ -710,11 +710,11 @@ function _renderCreatorGrid(containerId, creators, expanded) {
       + '<div style="flex:1;min-width:0">'
       + '<div style="display:flex;align-items:center;gap:6px"><div style="font-size:14px;font-weight:700;color:#fff">' + esc(name) + '</div>'
       + (item.shield_active ? '<span style="color:#D97706;font-size:12px">&#128737;</span>' : '') + '</div>'
-      + '<div style="font-size:12px;color:#7B84A3">' + esc(item.handle ? '@'+item.handle : item.niche||'') + '</div></div>'
+      + '<div style="font-size:12px;color:#8B8BB5">' + esc(item.handle ? '@'+item.handle : item.niche||'') + '</div></div>'
       + '<div style="text-align:right;flex-shrink:0">'
       + '<div style="font-size:14px;font-weight:700;color:#fff">' + fmtNum(item.ig_followers||0) + '</div>'
       + '<div style="font-size:12px;color:#D97706">&#9733; ' + (item.rating||'--') + '</div></div></div>'
-      + '<div style="font-size:12px;color:#7B84A3">' + esc([item.niche,loc].filter(Boolean).join(' · ')) + '</div>'
+      + '<div style="font-size:12px;color:#8B8BB5">' + esc([item.niche,loc].filter(Boolean).join(' · ')) + '</div>'
       + (expanded ? '<div class="item-actions"><button class="btn btn-primary btn-sm" style="flex:1" onclick="openOfferModal(\'' + item.id + '\',\'' + esc(name) + '\')">Send Offer</button><button class="btn btn-outline btn-sm" onclick="openCreatorProfile(\'' + item.id + '\')">View Profile</button></div>' : '')
       + '</div>';
   }).join('');
@@ -730,8 +730,8 @@ function openCampaignSendModal(campaignId) {
     modal.id = 'camp-send-modal';
     modal.style.cssText = 'position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;padding:16px;overflow-y:auto';
     modal.innerHTML = ''
-      + '<div style="background:#181C35;border:1px solid #252A45;border-radius:20px;padding:22px;width:100%;max-width:520px;max-height:92vh;display:flex;flex-direction:column;gap:14px">'
-      + '<div style="display:flex;align-items:center;gap:10px"><div style="flex:1;min-width:0"><div style="font-size:16px;font-weight:800;color:#fff">Send "' + esc(camp.title) + '"</div><div style="font-size:12px;color:#7B84A3">Pick creators to send this campaign as an offer.</div></div><button onclick="closeCampaignSendModal()" style="background:none;border:none;color:#7B84A3;font-size:22px;cursor:pointer">&times;</button></div>'
+      + '<div style="background:#241A4D;border:1px solid #322863;border-radius:20px;padding:22px;width:100%;max-width:520px;max-height:92vh;display:flex;flex-direction:column;gap:14px">'
+      + '<div style="display:flex;align-items:center;gap:10px"><div style="flex:1;min-width:0"><div style="font-size:16px;font-weight:800;color:#fff">Send "' + esc(camp.title) + '"</div><div style="font-size:12px;color:#8B8BB5">Pick creators to send this campaign as an offer.</div></div><button onclick="closeCampaignSendModal()" style="background:none;border:none;color:#8B8BB5;font-size:22px;cursor:pointer">&times;</button></div>'
       + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">'
       +   '<input class="input-field no-icon" id="cs-platform" type="text" placeholder="Platform (e.g. Instagram Reel)" style="font-size:13px;padding:10px 14px">'
       +   '<select class="input-field no-icon" id="cs-niche-filter" onchange="_csFilter()" style="font-size:13px;padding:10px 14px">'
@@ -742,12 +742,12 @@ function openCampaignSendModal(campaignId) {
       +   '</select>'
       + '</div>'
       + '<div style="display:flex;gap:8px;align-items:center">'
-      +   '<input id="cs-search" type="text" oninput="_csFilter()" placeholder="Search creators..." style="flex:1;background:#0B0D1A;border:1px solid #252A45;border-radius:10px;padding:8px 12px;font-size:13px;color:#C8D0E7;outline:none;font-family:Inter,sans-serif">'
-      +   '<label style="display:flex;align-items:center;gap:6px;font-size:12px;color:#7B84A3;cursor:pointer"><input type="checkbox" id="cs-shield-only" onchange="_csFilter()"> Shield only</label>'
+      +   '<input id="cs-search" type="text" oninput="_csFilter()" placeholder="Search creators..." style="flex:1;background:#0D0B16;border:1px solid #322863;border-radius:10px;padding:8px 12px;font-size:13px;color:#E5E7EB;outline:none;font-family:Inter,sans-serif">'
+      +   '<label style="display:flex;align-items:center;gap:6px;font-size:12px;color:#8B8BB5;cursor:pointer"><input type="checkbox" id="cs-shield-only" onchange="_csFilter()"> Shield only</label>'
       + '</div>'
-      + '<div id="cs-creators-list" style="flex:1;overflow-y:auto;border:1px solid #252A45;border-radius:12px;background:#0B0D1A;max-height:42vh"><div class="empty-state" style="padding:20px">Loading...</div></div>'
+      + '<div id="cs-creators-list" style="flex:1;overflow-y:auto;border:1px solid #322863;border-radius:12px;background:#0D0B16;max-height:42vh"><div class="empty-state" style="padding:20px">Loading...</div></div>'
       + '<div id="cs-error" class="error-msg hidden"></div>'
-      + '<div style="display:flex;gap:10px;align-items:center"><div id="cs-summary" style="flex:1;font-size:12px;color:#7B84A3">0 selected · ₹' + fmtNum(camp.budget||0) + ' each</div>'
+      + '<div style="display:flex;gap:10px;align-items:center"><div id="cs-summary" style="flex:1;font-size:12px;color:#8B8BB5">0 selected · ₹' + fmtNum(camp.budget||0) + ' each</div>'
       +   '<button class="btn btn-outline btn-md" onclick="closeCampaignSendModal()">Cancel</button>'
       +   '<button class="btn btn-primary btn-md" id="cs-send-btn" onclick="submitCampaignOffers(\'' + campaignId + '\')">Send Offers</button>'
       + '</div></div>';
@@ -796,14 +796,14 @@ function _csRender(creators) {
     var loc      = (item.profiles && item.profiles.location)     || '';
     var initials = name.slice(0,2).toUpperCase();
     var checked  = _csSelected[item.id] ? 'checked' : '';
-    return '<label style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid #252A45;cursor:pointer" onclick="event.stopPropagation()">'
-      + '<input type="checkbox" data-creator="' + item.id + '" ' + checked + ' onchange="_csToggle(\'' + item.id + '\',this.checked)" style="margin:0;width:16px;height:16px;accent-color:#E94560">'
-      + '<div style="width:32px;height:32px;border-radius:50%;background:rgba(233,69,96,.15);color:#E94560;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0">' + initials + '</div>'
+    return '<label style="display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid #322863;cursor:pointer" onclick="event.stopPropagation()">'
+      + '<input type="checkbox" data-creator="' + item.id + '" ' + checked + ' onchange="_csToggle(\'' + item.id + '\',this.checked)" style="margin:0;width:16px;height:16px;accent-color:#6366F1">'
+      + '<div style="width:32px;height:32px;border-radius:50%;background:rgba(99,102,241,.15);color:#6366F1;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0">' + initials + '</div>'
       + '<div style="flex:1;min-width:0">'
       +   '<div style="font-size:13px;font-weight:700;color:#fff">' + esc(name) + (item.shield_active ? ' <span style="color:#D97706;font-size:11px">&#128737;</span>' : '') + '</div>'
-      +   '<div style="font-size:11px;color:#7B84A3">' + esc([item.niche, loc].filter(Boolean).join(' · ')) + '</div>'
+      +   '<div style="font-size:11px;color:#8B8BB5">' + esc([item.niche, loc].filter(Boolean).join(' · ')) + '</div>'
       + '</div>'
-      + '<div style="text-align:right;flex-shrink:0;font-size:12px;color:#7B84A3">' + fmtNum(item.ig_followers||0) + '</div>'
+      + '<div style="text-align:right;flex-shrink:0;font-size:12px;color:#8B8BB5">' + fmtNum(item.ig_followers||0) + '</div>'
       + '</label>';
   }).join('');
 }
@@ -880,30 +880,30 @@ function openCreatorProfile(influencerId) {
       var modal = document.createElement('div');
       modal.id = 'creator-profile-modal';
       modal.style.cssText = 'position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;padding:20px;overflow-y:auto';
-      var avatarBg = inf.shield_active ? 'rgba(217,119,6,.2)' : 'rgba(233,69,96,.15)';
-      var avatarBorder = inf.shield_active ? 'rgba(217,119,6,.4)' : 'rgba(233,69,96,.3)';
-      var avatarColor = inf.shield_active ? '#D97706' : '#E94560';
+      var avatarBg = inf.shield_active ? 'rgba(217,119,6,.2)' : 'rgba(99,102,241,.15)';
+      var avatarBorder = inf.shield_active ? 'rgba(217,119,6,.4)' : 'rgba(99,102,241,.3)';
+      var avatarColor = inf.shield_active ? '#D97706' : '#6366F1';
       var shieldBadge = inf.shield_active
         ? '<span style="font-size:11px;font-weight:700;color:#D97706;background:rgba(217,119,6,.12);border:1px solid rgba(217,119,6,.3);padding:3px 10px;border-radius:20px">🛡 Shield Member</span>'
-        : '<span style="font-size:11px;font-weight:700;color:#7B84A3;background:rgba(123,132,163,.1);border:1px solid #252A45;padding:3px 10px;border-radius:20px">Free Creator</span>';
+        : '<span style="font-size:11px;font-weight:700;color:#8B8BB5;background:rgba(139,139,181,.1);border:1px solid #322863;padding:3px 10px;border-radius:20px">Free Creator</span>';
       var verifiedBadge = '';
       modal.innerHTML =
-        '<div style="background:#181C35;border:1px solid #252A45;border-radius:20px;padding:24px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto">'
+        '<div style="background:#241A4D;border:1px solid #322863;border-radius:20px;padding:24px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto">'
         + '<div style="display:flex;align-items:center;gap:14px;margin-bottom:16px">'
         + '<div style="width:56px;height:56px;border-radius:50%;background:' + avatarBg + ';border:2px solid ' + avatarBorder + ';display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:900;color:' + avatarColor + ';flex-shrink:0">' + initials + '</div>'
         + '<div style="flex:1;min-width:0"><div style="font-size:18px;font-weight:900;color:#fff">' + esc(name) + '</div>'
-        + '<div style="font-size:13px;color:#7B84A3">' + esc(inf.handle ? '@' + inf.handle.replace('@','') : '—') + ' · ' + esc(p.location || '') + '</div></div>'
-        + '<button onclick="closeCreatorProfile()" style="background:none;border:none;color:#7B84A3;font-size:22px;cursor:pointer;line-height:1">&times;</button></div>'
+        + '<div style="font-size:13px;color:#8B8BB5">' + esc(inf.handle ? '@' + inf.handle.replace('@','') : '—') + ' · ' + esc(p.location || '') + '</div></div>'
+        + '<button onclick="closeCreatorProfile()" style="background:none;border:none;color:#8B8BB5;font-size:22px;cursor:pointer;line-height:1">&times;</button></div>'
         + '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px">' + shieldBadge + verifiedBadge
-        + '<span style="font-size:11px;font-weight:700;color:#7B84A3;background:rgba(123,132,163,.1);border:1px solid #252A45;padding:3px 10px;border-radius:20px">' + esc(inf.niche || 'Creator') + '</span></div>'
+        + '<span style="font-size:11px;font-weight:700;color:#8B8BB5;background:rgba(139,139,181,.1);border:1px solid #322863;padding:3px 10px;border-radius:20px">' + esc(inf.niche || 'Creator') + '</span></div>'
         + '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px">'
-        + _platformStat('Instagram', inf.ig_followers, '#E94560', true)
+        + _platformStat('Instagram', inf.ig_followers, '#6366F1', true)
         + _platformStat('YouTube',   inf.yt_followers, '#f87171', !!inf.yt_enabled)
         + _platformStat('Twitter/X', inf.x_followers,  '#38bdf8', !!inf.x_enabled)
         + '</div>'
         + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px">'
-        + '<div style="text-align:center;padding:10px;background:#0B0D1A;border-radius:10px;border:1px solid #252A45"><div style="font-size:14px;font-weight:900;color:#D97706">★ ' + (inf.rating || '—') + '</div><div style="font-size:10px;color:#7B84A3">Rating</div></div>'
-        + '<div style="text-align:center;padding:10px;background:#0B0D1A;border-radius:10px;border:1px solid #252A45"><div id="cprof-deals-count" style="font-size:14px;font-weight:900;color:#fff">…</div><div style="font-size:10px;color:#7B84A3">Completed deals</div></div>'
+        + '<div style="text-align:center;padding:10px;background:#0D0B16;border-radius:10px;border:1px solid #322863"><div style="font-size:14px;font-weight:900;color:#D97706">★ ' + (inf.rating || '—') + '</div><div style="font-size:10px;color:#8B8BB5">Rating</div></div>'
+        + '<div style="text-align:center;padding:10px;background:#0D0B16;border-radius:10px;border:1px solid #322863"><div id="cprof-deals-count" style="font-size:14px;font-weight:900;color:#fff">…</div><div style="font-size:10px;color:#8B8BB5">Completed deals</div></div>'
         + '</div>'
         + '<div style="display:flex;gap:10px">'
         + '<button class="btn btn-primary btn-md" style="flex:1" onclick="closeCreatorProfile();openOfferModal(\'' + inf.id + '\',\'' + esc(name) + '\')">Send Offer</button>'
@@ -916,8 +916,8 @@ function openCreatorProfile(influencerId) {
 }
 
 function _platformStat(label, count, color, enabled) {
-  if (!enabled) return '<div style="text-align:center;padding:10px;background:#0B0D1A;border-radius:10px;border:1px solid #252A45;opacity:.4"><div style="font-size:13px;color:#7B84A3">—</div><div style="font-size:10px;color:#7B84A3">' + label + '</div></div>';
-  return '<div style="text-align:center;padding:10px;background:#0B0D1A;border-radius:10px;border:1px solid #252A45"><div style="font-size:14px;font-weight:900;color:' + color + '">' + fmtNum(count || 0) + '</div><div style="font-size:10px;color:#7B84A3">' + label + '</div></div>';
+  if (!enabled) return '<div style="text-align:center;padding:10px;background:#0D0B16;border-radius:10px;border:1px solid #322863;opacity:.4"><div style="font-size:13px;color:#8B8BB5">—</div><div style="font-size:10px;color:#8B8BB5">' + label + '</div></div>';
+  return '<div style="text-align:center;padding:10px;background:#0D0B16;border-radius:10px;border:1px solid #322863"><div style="font-size:14px;font-weight:900;color:' + color + '">' + fmtNum(count || 0) + '</div><div style="font-size:10px;color:#8B8BB5">' + label + '</div></div>';
 }
 
 function closeCreatorProfile() {
@@ -932,9 +932,9 @@ function openOfferModal(influencerId, creatorName) {
   modal.id = 'offer-modal';
   modal.style.cssText = 'position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;padding:20px';
   modal.innerHTML =
-    '<div style="background:#181C35;border:1px solid #252A45;border-radius:20px;padding:24px;width:100%;max-width:420px">'
+    '<div style="background:#241A4D;border:1px solid #322863;border-radius:20px;padding:24px;width:100%;max-width:420px">'
     + '<div style="font-size:16px;font-weight:700;color:#fff;margin-bottom:4px">Send Offer</div>'
-    + '<div style="font-size:12px;color:#7B84A3;margin-bottom:16px">To: ' + esc(creatorName) + '</div>'
+    + '<div style="font-size:12px;color:#8B8BB5;margin-bottom:16px">To: ' + esc(creatorName) + '</div>'
     + '<div style="display:flex;flex-direction:column;gap:10px">'
     + '<input class="input-field no-icon" id="offer-title" type="text" placeholder="Deal title (e.g. Eid Collection Reel)" style="font-size:13px;padding:10px 14px">'
     + '<input class="input-field no-icon" id="offer-platform" type="text" placeholder="Platform (e.g. Instagram Reel)" style="font-size:13px;padding:10px 14px">'
@@ -985,15 +985,15 @@ function _loadBrandDealHistory() {
     .then(function (r) {
       var c = document.getElementById('brand-deal-history-inner'); if (!c) return;
       var rows = r.data||[];
-      if (!rows.length) { c.innerHTML = '<div style="font-size:12px;color:#7B84A3">No deals yet.</div>'; return; }
+      if (!rows.length) { c.innerHTML = '<div style="font-size:12px;color:#8B8BB5">No deals yet.</div>'; return; }
       c.innerHTML = rows.map(function (d) {
         var creator = (d.profiles&&d.profiles.display_name)||'Creator';
         var si = _si(d.status);
-        return '<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid #252A45">'
+        return '<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid #322863">'
           + '<div><div style="font-size:12px;font-weight:600;color:#fff">' + esc(creator) + '</div>'
-          + '<div style="font-size:11px;color:#7B84A3">' + esc(d.title||'') + '</div></div>'
+          + '<div style="font-size:11px;color:#8B8BB5">' + esc(d.title||'') + '</div></div>'
           + '<div style="text-align:right"><div style="font-size:13px;font-weight:700;color:' + si.color + '">₹' + fmtNum(d.amount||0) + '</div>'
-          + '<div style="font-size:10px;color:#7B84A3">' + si.label + '</div></div></div>';
+          + '<div style="font-size:10px;color:#8B8BB5">' + si.label + '</div></div></div>';
       }).join('');
     });
 }
@@ -1007,10 +1007,10 @@ function loadBrandNotifications() {
       var dot = document.getElementById('main-notif-dot');
       if (dot) dot.style.display = notifs.some(function(n){return !n.read;}) ? 'block' : 'none';
       var header = '<div class="notif-header"><div class="notif-title">Notifications</div><button class="notif-clear" onclick="clearNotifs()">Mark all read</button></div>';
-      if (!notifs.length) { inner.innerHTML = header + '<div style="padding:20px;text-align:center;font-size:13px;color:#7B84A3">No notifications yet.</div>'; return; }
+      if (!notifs.length) { inner.innerHTML = header + '<div style="padding:20px;text-align:center;font-size:13px;color:#8B8BB5">No notifications yet.</div>'; return; }
       inner.innerHTML = header + notifs.map(function (n) {
         return '<div class="notif-item' + (!n.read?' unread':'') + '">'
-          + '<div class="notif-icon" style="background:rgba(233,69,96,.12);color:#E94560"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg></div>'
+          + '<div class="notif-icon" style="background:rgba(99,102,241,.12);color:#6366F1"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg></div>'
           + '<div class="notif-body"><div class="notif-body-title">' + esc(n.title) + '</div><div class="notif-body-sub">' + esc(n.body||'') + '</div></div>'
           + '<div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px"><div class="notif-time">' + fmtDate(n.created_at) + '</div>'
           + (!n.read ? '<div class="notif-unread-dot"></div>' : '') + '</div></div>';
@@ -1029,14 +1029,14 @@ function subscribeToNotifications() {
 function _si(status) {
   var map = {
     completed:    { label:'Paid',        color:'#059669', bg:'rgba(5,150,105,.03)',   border:'rgba(5,150,105,.3)',   badge:'badge-green'  },
-    active:       { label:'Active',      color:'#E94560', bg:'rgba(233,69,96,.03)',   border:'rgba(233,69,96,.3)',   badge:'badge-accent' },
+    active:       { label:'Active',      color:'#6366F1', bg:'rgba(99,102,241,.03)',   border:'rgba(99,102,241,.3)',   badge:'badge-accent' },
     negotiating:  { label:'Offer',       color:'#D97706', bg:'rgba(217,119,6,.03)',   border:'rgba(217,119,6,.3)',   badge:'badge-gold'   },
     submitted:    { label:'Reviewing',   color:'#D97706', bg:'rgba(217,119,6,.03)',   border:'rgba(217,119,6,.3)',   badge:'badge-gold'   },
     approved:     { label:'Approved',    color:'#059669', bg:'rgba(5,150,105,.03)',   border:'rgba(5,150,105,.3)',   badge:'badge-green'  },
     link_submitted:{ label:'Link Sent', color:'#D97706', bg:'rgba(217,119,6,.03)',   border:'rgba(217,119,6,.3)',   badge:'badge-gold'   },
     payment_sent: { label:'Paying',      color:'#D97706', bg:'rgba(217,119,6,.03)',   border:'rgba(217,119,6,.3)',   badge:'badge-gold'   },
-    cancelled:    { label:'Cancelled',   color:'#7B84A3', bg:'rgba(123,132,163,.03)', border:'rgba(123,132,163,.3)', badge:'badge-muted'  },
-    disputed:     { label:'Disputed',    color:'#E94560', bg:'rgba(233,69,96,.03)',   border:'rgba(233,69,96,.3)',   badge:'badge-accent' }
+    cancelled:    { label:'Cancelled',   color:'#8B8BB5', bg:'rgba(139,139,181,.03)', border:'rgba(139,139,181,.3)', badge:'badge-muted'  },
+    disputed:     { label:'Disputed',    color:'#6366F1', bg:'rgba(99,102,241,.03)',   border:'rgba(99,102,241,.3)',   badge:'badge-accent' }
   };
   return map[status] || map.negotiating;
 }
