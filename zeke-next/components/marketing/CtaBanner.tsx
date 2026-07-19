@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Button } from "@/components/ui/Button";
+import { buttonClassName } from "@/components/ui/Button";
 
 export function CtaBanner() {
   return (
@@ -14,20 +14,22 @@ export function CtaBanner() {
           </p>
         </div>
         <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <Link href="/register?role=brand" className="w-full sm:w-auto">
-            <Button size="lg" fullWidth className="sm:w-auto">
-              Join as a Brand
-            </Button>
+          <Link
+            href="/register?role=brand"
+            className={buttonClassName({ size: "lg", fullWidth: true, className: "sm:w-auto" })}
+          >
+            Join as a Brand
           </Link>
-          <Link href="/register?role=influencer" className="w-full sm:w-auto">
-            <Button
-              variant="outline"
-              size="lg"
-              fullWidth
-              className="border-white/30 text-white sm:w-auto"
-            >
-              Join as a Creator
-            </Button>
+          <Link
+            href="/register?role=influencer"
+            className={buttonClassName({
+              variant: "outline",
+              size: "lg",
+              fullWidth: true,
+              className: "border-white/30 text-white sm:w-auto",
+            })}
+          >
+            Join as a Creator
           </Link>
         </div>
       </div>

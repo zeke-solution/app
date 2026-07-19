@@ -9,7 +9,7 @@ import {
   ShieldIcon,
   UsersIcon,
 } from "@/components/layout/icons";
-import { Button } from "@/components/ui/Button";
+import { buttonClassName } from "@/components/ui/Button";
 
 const PROBLEMS = [
   { icon: DealsIcon, title: "Late payments", text: "Work delivered. Payment delayed—or never clearly confirmed." },
@@ -106,7 +106,7 @@ function CheckList({ items, dark = false }: { items: string[]; dark?: boolean })
 export function LandingSections() {
   return (
     <div className="bg-white text-dark">
-      <section id="creators" className="px-5 py-16 sm:px-6 sm:py-20">
+      <section id="creators" className="scroll-mt-20 px-5 py-16 sm:px-6 sm:py-20">
         <div className="mx-auto max-w-[1180px]">
           <SectionHeading
             eyebrow="Why structure matters"
@@ -143,7 +143,7 @@ export function LandingSections() {
         </div>
       </section>
 
-      <section id="how-it-works" className="bg-[#f5f4fc] px-5 py-16 sm:px-6 sm:py-20">
+      <section id="how-it-works" className="scroll-mt-20 bg-[#f5f4fc] px-5 py-16 sm:px-6 sm:py-20">
         <div className="mx-auto max-w-[1180px]">
           <SectionHeading eyebrow="How Zeke works" title="Protection at every step." body="A six-step deal flow keeps both sides aligned—from discovery to payment confirmation." />
           <div className="relative mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-6">
@@ -160,7 +160,7 @@ export function LandingSections() {
         </div>
       </section>
 
-      <section id="shield" className="px-5 py-16 sm:px-6 sm:py-20">
+      <section id="shield" className="scroll-mt-20 px-5 py-16 sm:px-6 sm:py-20">
         <div className="mx-auto max-w-[1040px]">
           <SectionHeading eyebrow="Shield or Free" title="Choose the support level that fits." body="The marketplace stays free. Shield adds deeper protection and direct support for creators who want it." />
           <div className="mt-10 grid overflow-hidden rounded-[28px] border border-[#d7d4eb] shadow-[0_22px_60px_rgba(40,25,85,0.1)] lg:grid-cols-2">
@@ -169,14 +169,14 @@ export function LandingSections() {
               <div className="flex items-center gap-3"><span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-accent to-purple text-white"><ShieldIcon width={24} height={24} /></span><div><h3 className="text-xl font-extrabold">Zeke Shield</h3><p className="text-xs text-muted">Protection plus human backup</p></div></div>
               <div className="mt-7 flex items-end gap-2"><span className="text-4xl font-black">₹1,999</span><span className="pb-1 text-sm text-muted">/ year</span></div>
               <div className="mt-6"><CheckList dark items={SHIELD_FEATURES} /></div>
-              <Link href="/register?role=influencer" className="mt-7 block"><Button fullWidth>Join with Shield</Button></Link>
+              <Link href="/register?role=influencer" className={buttonClassName({ fullWidth: true, className: "mt-7" })}>Join with Shield</Link>
             </article>
             <article className="bg-white p-7 sm:p-9">
               <span className="rounded-full border border-zgreen/25 bg-zgreen/[0.07] px-3 py-1 text-[9px] font-black uppercase tracking-wider text-zgreen">Free forever</span>
               <div className="mt-5 flex items-center gap-3"><span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#eeecff] text-accent"><UsersIcon width={24} height={24} /></span><div><h3 className="text-xl font-extrabold text-dark">Zeke Free</h3><p className="text-xs text-[#6a6682]">The complete core marketplace</p></div></div>
               <div className="mt-7 text-4xl font-black text-dark">₹0</div>
               <div className="mt-6"><CheckList items={FREE_FEATURES} /></div>
-              <Link href="/register" className="mt-7 block"><Button variant="outline" fullWidth className="!text-dark">Start free</Button></Link>
+              <Link href="/register" className={buttonClassName({ variant: "outline", fullWidth: true, className: "mt-7 !text-dark" })}>Start free</Link>
             </article>
           </div>
         </div>
@@ -201,7 +201,7 @@ export function LandingSections() {
               <h3 className="mt-3 text-2xl font-extrabold text-dark">We have seen the pattern. Zeke keeps the record.</h3>
               <div className="mt-6"><CheckList items={REAL_PROBLEMS} /></div>
             </article>
-            <article id="brands" className="relative overflow-hidden rounded-[24px] border border-purple/25 bg-gradient-to-br from-[#f0eeff] to-white p-6 sm:p-8">
+            <article id="brands" className="relative scroll-mt-20 overflow-hidden rounded-[24px] border border-purple/25 bg-gradient-to-br from-[#f0eeff] to-white p-6 sm:p-8">
               <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-purple/10 blur-2xl" aria-hidden />
               <div className="relative text-[11px] font-extrabold uppercase tracking-[0.16em] text-accent">Verified brand promise</div>
               <h3 className="relative mt-3 text-2xl font-extrabold text-dark">Know more before the campaign starts.</h3>
@@ -229,7 +229,7 @@ export function LandingSections() {
         </div>
       </section>
 
-      <section id="faq" className="bg-[#f5f4fc] px-5 py-16 sm:px-6 sm:py-20">
+      <section id="faq" className="scroll-mt-20 bg-[#f5f4fc] px-5 py-16 sm:px-6 sm:py-20">
         <div className="mx-auto grid max-w-[1120px] gap-8 lg:grid-cols-[0.82fr_1.18fr]">
           <div>
             <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-purple">FAQ</div>
@@ -253,14 +253,14 @@ export function LandingSections() {
                 <h3 className="mt-5 text-lg font-extrabold text-dark">Free</h3>
                 <div className="mt-2 text-4xl font-black text-dark">₹0</div>
                 <p className="mt-3 text-xs leading-5 text-[#68647f]">For creators and brands ready to discover, structure, and complete campaigns.</p>
-                <Link href="/register" className="mt-6 block"><Button variant="outline" fullWidth className="!text-dark">Sign up free</Button></Link>
+                <Link href="/register" className={buttonClassName({ variant: "outline", fullWidth: true, className: "mt-6 !text-dark" })}>Sign up free</Link>
               </article>
               <article className="relative rounded-[24px] border border-purple/50 bg-white p-6 shadow-[0_18px_55px_rgba(99,102,241,0.13)]">
                 <span className="absolute right-5 top-5 rounded-full bg-gradient-to-r from-purple to-pink px-3 py-1 text-[9px] font-black uppercase tracking-wider text-white">Creator upgrade</span>
                 <h3 className="mt-8 text-lg font-extrabold text-dark">Shield</h3>
                 <div className="mt-2 text-4xl font-black text-dark">₹1,999<span className="text-sm font-semibold text-[#68647f]"> / year</span></div>
                 <p className="mt-3 text-xs leading-5 text-[#68647f]">For creators who want agreements, verified status, priority, and dispute support.</p>
-                <Link href="/register?role=influencer" className="mt-6 block"><Button fullWidth>Choose Shield</Button></Link>
+                <Link href="/register?role=influencer" className={buttonClassName({ fullWidth: true, className: "mt-6" })}>Choose Shield</Link>
               </article>
             </div>
           </div>

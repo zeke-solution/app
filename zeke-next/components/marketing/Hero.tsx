@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { AgreementIcon, DealsIcon, ShieldIcon } from "@/components/layout/icons";
-import { Button } from "@/components/ui/Button";
+import { buttonClassName } from "@/components/ui/Button";
 
 const BENEFITS = [
   { icon: DealsIcon, title: "Payment clarity", detail: "Every milestone tracked" },
@@ -49,15 +49,17 @@ export function Hero() {
           </div>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Link href="/register?role=influencer" className="w-full sm:w-auto">
-              <Button size="lg" fullWidth className="sm:w-auto">
-                Creators: Join Zeke
-              </Button>
+            <Link
+              href="/register?role=influencer"
+              className={buttonClassName({ size: "lg", fullWidth: true, className: "sm:w-auto" })}
+            >
+              Creators: Join Zeke
             </Link>
-            <Link href="/register?role=brand" className="w-full sm:w-auto">
-              <Button variant="outline" size="lg" fullWidth className="sm:w-auto">
-                Brands: Get verified
-              </Button>
+            <Link
+              href="/register?role=brand"
+              className={buttonClassName({ variant: "outline", size: "lg", fullWidth: true, className: "sm:w-auto" })}
+            >
+              Brands: Get verified
             </Link>
           </div>
           <Link href="#how-it-works" className="mt-4 inline-flex text-xs font-semibold text-light transition-colors hover:text-cyan">

@@ -29,13 +29,13 @@ Last updated: 2026-07-17
 ### Homepage QA pass: 2026-07-19
 
 - QA scope was explicitly narrowed to the Next.js application; the legacy HTML site is not part of the forward product work.
-- Green: ESLint, `tsc --noEmit --incremental false`, production build (31 routes), public-route smoke tests, creator/brand/admin anonymous guards, role-specific registration links, mobile-menu interaction, FAQ content in initial HTML, all homepage hash targets, and responsive overflow checks at 320/360/390/414/768/1024/1280/1440px.
+- Green: ESLint, `tsc --noEmit --incremental false`, production build (32 routes), public-route smoke tests, creator/brand/admin anonymous guards, role-specific registration links, mobile-menu interaction, FAQ content in initial HTML, all homepage hash targets, and responsive overflow checks at 320/360/390/414/768/1024/1280/1440px.
 - Green: fresh production-browser run reported no console exceptions, HTTP errors, or non-aborted resource failures. Desktop and mobile full-page visual review found no clipping, broken wrapping, or hierarchy regressions.
-- Open P2: the rendered homepage contains 10 nested interactive controls (`<a><button>...</button></a>`) because `Link` wraps the shared `Button`. This is invalid HTML and an accessibility/keyboard risk. Marketing CTAs should be links styled as buttons or the shared component should support link rendering.
-- Open P2: `.brand-nav { position: relative; }` in `app/globals.css` overrides `sticky` on `TopNav`, so the header is not actually sticky.
-- Open P2: the footer's “Terms of Service” link points to `/privacy`; `/terms` currently returns 404. Do not ship that legal-navigation mismatch.
-- Open P3: the marketing layout/page has no `<main>` landmark (`mainCount: 0`), although heading order, one-H1 usage, accessible control names, duplicate IDs, and hash targets otherwise passed the basic DOM audit.
-- No fixes were applied during this QA-only pass. The production preview remains available at `http://localhost:3001`.
+- Resolved P2: exported `buttonClassName()` from the shared Button module and applied it directly to marketing `Link` elements. The rendered homepage now has zero nested interactive controls while retaining the exact branded button styles.
+- Resolved P2: removed the `position: relative` override from `.brand-nav`; `TopNav` now computes to `position: sticky`. Homepage targets use `scroll-mt-20`, and mobile anchor QA places target content at 80px below the 65px header.
+- Resolved P2: added the static `/terms` route with ten semantic `<details>` sections and corrected the footer link. The page has its own H1/main landmark, responsive layout, visible initial HTML, and contact/privacy links. The product-specific terms copy still requires qualified legal review before production launch.
+- Resolved P3: the marketing layout now wraps page content in `<main>`. Browser QA reports exactly one main landmark on the homepage.
+- Post-fix regression: zero nested controls, no missing hash targets, no horizontal overflow, and no console/runtime errors on the production bundle. The production preview remains available at `http://localhost:3001`.
 
 ### Homepage model restructure: 2026-07-19
 
@@ -46,7 +46,7 @@ Last updated: 2026-07-17
 - Product-direction decision: future homepage work targets the Next.js application only. The attempted legacy HTML restructure was reverted at the owner's direction; do not mirror new structure or design work into the root HTML site unless explicitly requested.
 - Brand application remains the approved system: dark indigo hero/protection surfaces, white and soft-lilac reading sections, purple-to-pink gradients for primary emphasis, cyan for small supporting accents, Sora headings, and Inter body text.
 - Next.js visual QA passed at 1440px desktop and mobile widths. No visible horizontal overflow, broken wrapping, or section-order mismatch was observed.
-- Verification: `tsc --noEmit --incremental false` passes; `npm run lint` passes; and a clean `npm run build` passes with all 31 routes generated.
+- Verification: `tsc --noEmit --incremental false` passes; `npm run lint` passes; and a clean `npm run build` passes with all 32 routes generated.
 - Status: the restructure is local and uncommitted. The unrelated root-level `HANDOFF.md` remains intentionally untracked and must not be included in a future commit.
 
 ### Brand-board correction: 2026-07-19

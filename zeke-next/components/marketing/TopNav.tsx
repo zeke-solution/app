@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Button } from "@/components/ui/Button";
+import { buttonClassName } from "@/components/ui/Button";
 
 // Port of index.html's #top-nav + .nav-dropdown (hamburger menu on mobile).
 export function TopNav() {
@@ -33,15 +33,11 @@ export function TopNav() {
             <Link href="/about" className="rounded-[10px] px-3 py-2 text-xs font-semibold text-muted transition-colors hover:bg-white/5 hover:text-white">About</Link>
           </div>
           <div className="hidden items-center gap-2.5 sm:flex">
-            <Link href="/login">
-              <Button variant="outline" size="sm">
-                Log In
-              </Button>
+            <Link href="/login" className={buttonClassName({ variant: "outline", size: "sm" })}>
+              Log In
             </Link>
-            <Link href="/register">
-              <Button variant="primary" size="sm">
-                Get Started
-              </Button>
+            <Link href="/register" className={buttonClassName({ size: "sm" })}>
+              Get Started
             </Link>
           </div>
           <button
@@ -56,7 +52,7 @@ export function TopNav() {
       </div>
 
       {open && (
-        <div className="brand-nav flex flex-col gap-1 border-b border-border bg-navy px-4 py-3 sm:hidden">
+        <div className="brand-nav relative flex flex-col gap-1 border-b border-border bg-navy px-4 py-3 sm:hidden">
           <Link
             href="/#creators"
             onClick={() => setOpen(false)}
@@ -76,15 +72,19 @@ export function TopNav() {
           <Link href="/about" onClick={() => setOpen(false)} className="block rounded-[10px] px-4 py-3 text-[15px] font-medium text-light hover:bg-white/5 hover:text-white">About</Link>
           <div className="my-1 border-t border-border" />
           <div className="flex gap-2 py-1">
-            <Link href="/login" className="flex-1" onClick={() => setOpen(false)}>
-              <Button variant="outline" size="sm" fullWidth>
-                Log In
-              </Button>
+            <Link
+              href="/login"
+              className={buttonClassName({ variant: "outline", size: "sm", fullWidth: true, className: "flex-1" })}
+              onClick={() => setOpen(false)}
+            >
+              Log In
             </Link>
-            <Link href="/register" className="flex-1" onClick={() => setOpen(false)}>
-              <Button variant="primary" size="sm" fullWidth>
-                Get Started
-              </Button>
+            <Link
+              href="/register"
+              className={buttonClassName({ size: "sm", fullWidth: true, className: "flex-1" })}
+              onClick={() => setOpen(false)}
+            >
+              Get Started
             </Link>
           </div>
         </div>

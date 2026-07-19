@@ -21,6 +21,30 @@ const variantClasses: Record<Variant, string> = {
   gold: "bg-gold text-white border-gold hover:opacity-90",
 };
 
+export interface ButtonStyleOptions {
+  variant?: Variant;
+  size?: Size;
+  fullWidth?: boolean;
+  className?: string;
+}
+
+export function buttonClassName({
+  variant = "primary",
+  size = "md",
+  fullWidth,
+  className = "",
+}: ButtonStyleOptions = {}) {
+  return [
+    base,
+    sizeClasses[size],
+    variantClasses[variant],
+    fullWidth ? "w-full" : "",
+    className,
+  ]
+    .filter(Boolean)
+    .join(" ");
+}
+
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: Variant;
   size?: Size;
@@ -30,19 +54,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ variant = "primary", size = "md", fullWidth, className = "", ...props }, ref) => {
     return (
-      <button
-        ref={ref}
-        className={[
-          base,
-          sizeClasses[size],
-          variantClasses[variant],
-          fullWidth ? "w-full" : "",
-          className,
-        ]
-          .filter(Boolean)
-          .join(" ")}
-        {...props}
-      />
+      <button ref={ref} className={buttonClassName({ variant, size, fullWidth, className })} {...props} />
     );
   }
 );
