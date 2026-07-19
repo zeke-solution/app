@@ -19,12 +19,35 @@ Last updated: 2026-07-17
 - Git repository root: `C:\Users\SEO EXECUTIVE\Desktop\app`
 - GitHub repository: `https://github.com/zeke-global/app`
 - Current branch: `main`, synchronized with `origin/main`
-- Local URL: `http://localhost:3000`
+- Current local preview: `http://localhost:3001`
 - Stack: Next.js 16, React 19, Tailwind 4, Supabase
 - The legacy static HTML site remains at the repository root and is the version currently served by GitHub Pages.
 - The Next.js app is tracked on `main` under `zeke-next/`, but is not deployed to Vercel and does not yet serve the official domain.
 
 ## Current status
+
+### Homepage QA pass: 2026-07-19
+
+- QA scope was explicitly narrowed to the Next.js application; the legacy HTML site is not part of the forward product work.
+- Green: ESLint, `tsc --noEmit --incremental false`, production build (31 routes), public-route smoke tests, creator/brand/admin anonymous guards, role-specific registration links, mobile-menu interaction, FAQ content in initial HTML, all homepage hash targets, and responsive overflow checks at 320/360/390/414/768/1024/1280/1440px.
+- Green: fresh production-browser run reported no console exceptions, HTTP errors, or non-aborted resource failures. Desktop and mobile full-page visual review found no clipping, broken wrapping, or hierarchy regressions.
+- Open P2: the rendered homepage contains 10 nested interactive controls (`<a><button>...</button></a>`) because `Link` wraps the shared `Button`. This is invalid HTML and an accessibility/keyboard risk. Marketing CTAs should be links styled as buttons or the shared component should support link rendering.
+- Open P2: `.brand-nav { position: relative; }` in `app/globals.css` overrides `sticky` on `TopNav`, so the header is not actually sticky.
+- Open P2: the footer's “Terms of Service” link points to `/privacy`; `/terms` currently returns 404. Do not ship that legal-navigation mismatch.
+- Open P3: the marketing layout/page has no `<main>` landmark (`mainCount: 0`), although heading order, one-H1 usage, accessible control names, duplicate IDs, and hash targets otherwise passed the basic DOM audit.
+- No fixes were applied during this QA-only pass. The production preview remains available at `http://localhost:3001`.
+
+### Homepage model restructure: 2026-07-19
+
+- The owner supplied a long-form creator-protection homepage as an information-architecture reference and asked Zeke to follow that model while preserving the approved Purple + Indigo identity.
+- Rebuilt the Next.js marketing homepage: split hero, deal-report product visual, audience CTAs, proof bar, creator/brand pain points, protection banner, six-step workflow, Free-vs-Shield comparison, platform differentiators, real-problem and brand-verification proof, support strip, FAQ/pricing, and closing CTA.
+- Kept all copy, positioning, pricing, and visual assets specific to Zeke. The reference site's identity and photography were not copied; the hero visual is an original code-built Zeke campaign report.
+- Updated the Next.js navigation and footer anchors to match the new sections.
+- Product-direction decision: future homepage work targets the Next.js application only. The attempted legacy HTML restructure was reverted at the owner's direction; do not mirror new structure or design work into the root HTML site unless explicitly requested.
+- Brand application remains the approved system: dark indigo hero/protection surfaces, white and soft-lilac reading sections, purple-to-pink gradients for primary emphasis, cyan for small supporting accents, Sora headings, and Inter body text.
+- Next.js visual QA passed at 1440px desktop and mobile widths. No visible horizontal overflow, broken wrapping, or section-order mismatch was observed.
+- Verification: `tsc --noEmit --incremental false` passes; `npm run lint` passes; and a clean `npm run build` passes with all 31 routes generated.
+- Status: the restructure is local and uncommitted. The unrelated root-level `HANDOFF.md` remains intentionally untracked and must not be included in a future commit.
 
 ### Brand-board correction: 2026-07-19
 

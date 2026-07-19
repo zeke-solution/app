@@ -1,307 +1,269 @@
-"use client";
-
-import { type ReactNode, useState } from "react";
 import Link from "next/link";
+import {
+  AgreementIcon,
+  CampaignIcon,
+  ChatIcon,
+  DealsIcon,
+  DiscoverIcon,
+  ProfileIcon,
+  ShieldIcon,
+  UsersIcon,
+} from "@/components/layout/icons";
 import { Button } from "@/components/ui/Button";
 
-const HOW_IT_WORKS = [
-  {
-    num: "01",
-    title: "Brand posts a campaign",
-    desc: "Any verified brand can post a campaign with their requirements, budget and timeline. Free, always.",
-  },
-  {
-    num: "02",
-    title: "Creator gets the offer",
-    desc: "Creators receive structured offers directly on Zeke. No DMs, no chasing. Just a clean offer waiting for your response.",
-  },
-  {
-    num: "03",
-    title: "Chat, negotiate, close",
-    desc: "Both sides chat freely on the platform. Agree on terms, deliverables and payment until the deal is done.",
-  },
-  {
-    num: "04",
-    title: "Shield users get Zeke's backup",
-    desc: "Zeke Shield members get a legally binding PDF agreement on every deal. If anything goes wrong, the Zeke team steps in.",
-  },
+const PROBLEMS = [
+  { icon: DealsIcon, title: "Late payments", text: "Work delivered. Payment delayed—or never clearly confirmed." },
+  { icon: CampaignIcon, title: "Content reused", text: "A post becomes an ad without an agreed usage window." },
+  { icon: AgreementIcon, title: "Contract gaps", text: "Important terms stay scattered across chats and voice notes." },
+  { icon: ChatIcon, title: "Terms change", text: "Deliverables move after the creator has already started." },
+  { icon: ShieldIcon, title: "No clear recourse", text: "Neither side knows what happens when a deal goes wrong." },
+  { icon: UsersIcon, title: "Trust breaks", text: "Good creators and good brands both lose time and confidence." },
 ];
 
-const SHIELD_PERKS = [
-  "PDF legal agreement on every deal - only available to Shield members",
-  "If a brand disputes your content after delivery, Zeke takes your side first",
-  "Our team works with both parties to reach a fair resolution",
-  "Verified gold badge on your profile - brands trust Shield creators more",
-  "Your profile appears first in brand searches",
-  "Monthly PDF report: profile views, offers received, conversion rate",
-  "Annual Zeke legal certificate in your name as a verified creator",
+const STEPS = [
+  { icon: ProfileIcon, title: "Join & verify", text: "Create your profile and tell Zeke who you are." },
+  { icon: DiscoverIcon, title: "Discover", text: "Brands find creators or creators receive structured offers." },
+  { icon: ShieldIcon, title: "Verify the fit", text: "Profiles, requirements, budgets, and timelines stay visible." },
+  { icon: ChatIcon, title: "Agree together", text: "Chat, negotiate, and lock the campaign terms in one place." },
+  { icon: CampaignIcon, title: "Create & review", text: "Submit work, receive feedback, and publish the final link." },
+  { icon: DealsIcon, title: "Close the deal", text: "Track payment, confirm completion, and preserve the record." },
 ];
 
-const COMPARE_ROWS: [string, boolean, boolean][] = [
-  ["Create profile and get discovered", true, true],
-  ["Receive brand offers", true, true],
-  ["Chat, negotiate and close deals", true, true],
-  ["Earnings tracker", true, true],
-  ["PDF legal agreement", false, true],
-  ["Zeke backs you in disputes", false, true],
-  ["Verified gold badge", false, true],
-  ["Priority in brand searches", false, true],
-  ["Monthly performance report", false, true],
-  ["Annual Zeke legal certificate", false, true],
+const DIFFERENTIATORS = [
+  { icon: DealsIcon, title: "No deal commission", text: "Zeke does not take a percentage from creator earnings." },
+  { icon: DiscoverIcon, title: "Two-way discovery", text: "Brands find creators—and creators choose which offers fit." },
+  { icon: ShieldIcon, title: "Verified network", text: "Better context before either side commits to a campaign." },
+  { icon: AgreementIcon, title: "Full transparency", text: "Every offer, approval, link, and payment lives together." },
+  { icon: CampaignIcon, title: "Monitored workflow", text: "A clear status trail keeps the next step visible to both sides." },
+  { icon: UsersIcon, title: "Human support", text: "Shield gives creators a team in their corner when needed." },
 ];
 
-const FAQ_ITEMS = [
-  {
-    id: "pay",
-    q: "Do you have to pay at all?",
-    a: "No. Both creators and brands join completely free. Zeke Shield is an optional upgrade for creators who want legal backing if a deal goes wrong.",
-  },
-  {
-    id: "protect",
-    q: "What exactly does Zeke Shield protect me from?",
-    a: "If a brand does not pay, rejects your content unfairly, or ghosts you after delivery - the Zeke team steps in and works to resolve it on your behalf.",
-  },
-  {
-    id: "nodispute",
-    q: "What happens if I have a dispute without Shield?",
-    a: "You still have the Zeke platform as your record. However Zeke will not actively intervene without Shield.",
-  },
-  {
-    id: "pdf",
-    q: "How does the PDF agreement work?",
-    a: "Once a Shield member and a brand agree on a deal, Zeke auto-generates a PDF contract with all deal details. Both sides sign it digitally on the platform.",
-  },
-  {
-    id: "kerala",
-    q: "Is Zeke only for Kerala creators?",
-    a: "We are starting with Kerala first. We want to build something deep and trusted here before expanding to the rest of India and the GCC.",
-  },
-  {
-    id: "dms",
-    q: "How is Zeke different from Instagram DMs?",
-    a: "Instagram DMs have no structure, no paper trail and no recourse. Zeke gives you a structured offer system, negotiation chat, and for Shield members a signed PDF agreement.",
-  },
+const REAL_PROBLEMS = [
+  "A post is reused in ads without an agreed permission window.",
+  "Payment promised in 30 days drifts without a visible update.",
+  "Deliverables change after the creator has already started.",
+  "A deal is cancelled after meaningful work has been completed.",
+  "Exclusivity language blocks future work without clear boundaries.",
 ];
 
-function SectionShell({
-  chip,
-  chipGold,
-  title,
-  isOpen,
-  onToggle,
-  children,
-}: {
-  chip: string;
-  chipGold?: boolean;
-  title: string;
-  isOpen: boolean;
-  onToggle: () => void;
-  children: ReactNode;
-}) {
+const BRAND_PROMISE = [
+  "Business identity and profile verification",
+  "Clear campaign brief, budget, and delivery history",
+  "Structured offers before creators begin work",
+  "One transparent review and approval record",
+  "Problem accounts can be investigated and removed",
+];
+
+const FAQS = [
+  ["Do creators and brands have to pay?", "No. Both sides can join and use the core marketplace free. Zeke Shield is an optional creator upgrade."],
+  ["What does Zeke Shield protect?", "Shield adds a PDF agreement, priority support, verified status, and active help if a campaign dispute develops."],
+  ["How does the deal workflow help?", "Offers, terms, content reviews, final links, payments, and disputes are kept in one structured campaign record."],
+  ["Can creators reject or negotiate an offer?", "Yes. A creator can decline or negotiate before accepting. The deal terms are not locked until both sides agree."],
+  ["How are brands verified?", "Zeke records business profile information and keeps campaign activity visible so creators can assess the opportunity before accepting."],
+  ["Is Zeke only for Kerala?", "Kerala is the launch market. The product is being built deeply here before expanding across India and the GCC."],
+];
+
+const FREE_FEATURES = [
+  "Create a creator or brand profile",
+  "Discover creators and campaigns",
+  "Send and receive structured offers",
+  "Chat, negotiate, submit, and review",
+  "Track deal and payment progress",
+];
+
+const SHIELD_FEATURES = [
+  "Everything in the free marketplace",
+  "PDF agreement on every eligible deal",
+  "Zeke support during disputes",
+  "Verified Shield profile badge",
+  "Priority creator discovery",
+  "Monthly performance report",
+];
+
+function SectionHeading({ eyebrow, title, body }: { eyebrow: string; title: string; body: string }) {
   return (
-    <div
-      data-open={isOpen}
-      className={`brand-panel relative mb-3 overflow-hidden rounded-[20px] border backdrop-blur-sm transition-colors ${
-        isOpen ? "border-accent/25" : "border-white/5 hover:bg-card/75"
-      }`}
-    >
-      <div
-        className="flex cursor-pointer items-center justify-between gap-3.5 p-5"
-        onClick={onToggle}
-      >
-        <div className="flex flex-1 flex-col items-center gap-2 text-center">
-          <span
-            className={`rounded-full border px-3 py-1 text-[10px] font-bold uppercase tracking-wider ${
-              chipGold
-                ? "border-gold/25 bg-gold/10 text-gold"
-                : "brand-chip"
-            }`}
-          >
-            {chip}
-          </span>
-          <span className="text-base font-extrabold leading-snug text-white">{title}</span>
+    <div className="mx-auto max-w-[760px] text-center">
+      <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-purple">{eyebrow}</div>
+      <h2 className="mt-3 text-[28px] font-extrabold leading-tight tracking-[-0.035em] text-dark sm:text-[40px]">{title}</h2>
+      <p className="mx-auto mt-3 max-w-[680px] text-sm leading-6 text-[#5b5874] sm:text-base">{body}</p>
+    </div>
+  );
+}
+
+function CheckList({ items, dark = false }: { items: string[]; dark?: boolean }) {
+  return (
+    <div className="space-y-2.5">
+      {items.map((item) => (
+        <div key={item} className={`flex items-start gap-2.5 text-sm ${dark ? "text-light" : "text-[#3f3b5c]"}`}>
+          <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-accent to-purple text-[10px] font-black text-white">✓</span>
+          <span className="leading-5">{item}</span>
         </div>
-        <span
-          className={`flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full border border-white/5 bg-white/[0.03] text-base font-light text-muted transition-transform ${
-            isOpen ? "rotate-45 border-accent/30 bg-accent/15 text-white" : ""
-          }`}
-        >
-          +
-        </span>
-      </div>
-      {isOpen && <div className="px-5 pb-5">{children}</div>}
+      ))}
     </div>
   );
 }
 
 export function LandingSections() {
-  const [openSection, setOpenSection] = useState<string | null>(null);
-  const toggle = (id: string) => setOpenSection((cur) => (cur === id ? null : id));
-
   return (
-    <div className="relative mx-auto max-w-[900px] overflow-hidden px-4 pt-8 sm:px-6">
-      <SectionShell
-        chip="How It Works"
-        title="From first message to signed deal"
-        isOpen={openSection === "hiw"}
-        onToggle={() => toggle("hiw")}
-      >
-        <div className="mt-5 grid grid-cols-2 gap-5 sm:grid-cols-4">
-          {HOW_IT_WORKS.map((s) => (
-            <div key={s.num} className="brand-card flex flex-col gap-3 rounded-2xl border p-6">
-              <div className="brand-gradient-text text-[28px] font-black">{s.num}</div>
-              <div className="text-[15px] font-bold text-white">{s.title}</div>
-              <div className="text-[13px] leading-relaxed text-muted">{s.desc}</div>
-            </div>
-          ))}
-        </div>
-      </SectionShell>
-
-      <SectionShell
-        chip="Zeke Shield"
-        chipGold
-        title="Everyone deals free. Shield members deal protected."
-        isOpen={openSection === "shield"}
-        onToggle={() => toggle("shield")}
-      >
-        <div className="mt-5 grid gap-10 sm:grid-cols-2">
-          <div className="flex flex-col gap-2.5">
-            <p className="mb-3.5 text-sm font-bold text-white">
-              What Shield actually means in practice
-            </p>
-            {SHIELD_PERKS.map((perk) => (
-              <div key={perk} className="flex items-start gap-2.5 text-sm text-light">
-                <span className="mt-px flex-shrink-0 text-gold">&#128737;</span>
-                <span>{perk}</span>
-              </div>
+    <div className="bg-white text-dark">
+      <section id="creators" className="px-5 py-16 sm:px-6 sm:py-20">
+        <div className="mx-auto max-w-[1180px]">
+          <SectionHeading
+            eyebrow="Why structure matters"
+            title="Great work should not depend on a lucky DM thread."
+            body="Creators and brands both lose when terms, approvals, usage rights, and payments live in different places. Zeke brings the whole deal into one trusted workflow."
+          />
+          <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-6">
+            {PROBLEMS.map(({ icon: Icon, title, text }) => (
+              <article key={title} className="rounded-2xl border border-[#dedcf1] bg-[#faf9ff] p-4 text-center transition-transform hover:-translate-y-1 hover:border-purple/35">
+                <span className="mx-auto flex h-11 w-11 items-center justify-center rounded-2xl border border-pink/20 bg-pink/[0.07] text-pink">
+                  <Icon width={21} height={21} />
+                </span>
+                <h3 className="mt-3 text-[13px] font-extrabold text-dark">{title}</h3>
+                <p className="mt-1.5 text-[11px] leading-[1.55] text-[#65617d]">{text}</p>
+              </article>
             ))}
-            <div className="mt-4 rounded-xl border border-gold/20 bg-gold/[0.06] p-3.5 text-[13px] leading-relaxed text-gold">
-              &#128161; <strong>Think about it:</strong> One brand deal can pay for your Shield
-              many times over.
-            </div>
-          </div>
-          <div className="flex flex-col gap-4 rounded-[20px] border border-gold/30 bg-card p-8">
-            <div>&#128737; Zeke Shield</div>
-            <div className="flex items-baseline gap-1">
-              <span className="text-[44px] font-black text-white">&#8377;1,999</span>
-              <span className="text-sm text-muted">&nbsp;/ year</span>
-            </div>
-            <p className="text-[13px] text-muted">Just &#8377;166 a month</p>
-            <Link href="/register?role=influencer">
-              <Button variant="gold" fullWidth className="mt-2">
-                &#128737; Get Zeke Shield
-              </Button>
-            </Link>
-            <div className="mt-1 flex flex-col gap-2 border-t border-border pt-3">
-              <div className="text-xs text-muted">&#10003; Zeke team in your corner on every dispute</div>
-              <div className="text-xs text-muted">&#10003; Gold verified badge on your profile</div>
-              <div className="text-xs text-muted">&#10003; Priority placement in brand searches</div>
-              <div className="text-xs text-muted">&#128274; Backed by Zeke legal infrastructure</div>
-            </div>
           </div>
         </div>
-      </SectionShell>
+      </section>
 
-      <SectionShell
-        chip="Free vs Shield"
-        title="What you get at each tier"
-        isOpen={openSection === "compare"}
-        onToggle={() => toggle("compare")}
-      >
-        <div className="mt-5 overflow-x-auto">
-          <table className="w-full border-collapse">
-            <thead>
-              <tr>
-                <th />
-                <th className="w-[140px] pb-2.5 text-center text-xs font-bold uppercase tracking-wider text-muted">
-                  Free Creator
-                </th>
-                <th className="w-[140px] bg-gold/[0.04] pb-2.5 text-center text-xs font-bold uppercase tracking-wider text-gold">
-                  &#128737; Shield
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {COMPARE_ROWS.map(([feature, free, shield]) => (
-                <tr key={feature} className="border-b border-border hover:bg-white/[0.02]">
-                  <td className="py-3.5 px-4 text-sm font-medium text-light">{feature}</td>
-                  <td className="py-3.5 px-4 text-center text-base text-zgreen">
-                    {free ? "✓" : <span className="text-accent">✕</span>}
-                  </td>
-                  <td className="bg-gold/[0.04] py-3.5 px-4 text-center text-base text-zgreen">
-                    {shield ? "✓" : <span className="text-accent">✕</span>}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+      <section className="px-5 pb-16 sm:px-6 sm:pb-20">
+        <div className="relative mx-auto grid max-w-[1120px] overflow-hidden rounded-[28px] border border-purple/35 bg-dark p-7 text-white shadow-[0_24px_70px_rgba(35,20,80,0.22)] sm:p-10 lg:grid-cols-[0.25fr_1fr_0.55fr] lg:items-center lg:gap-8">
+          <div className="mx-auto flex h-28 w-24 items-center justify-center rounded-[28px] border-2 border-purple bg-gradient-to-br from-accent/30 via-purple/25 to-pink/20 shadow-[0_0_42px_rgba(168,85,247,0.25)] lg:mx-0">
+            <div className="brand-wordmark text-5xl text-white">Z</div>
+          </div>
+          <div className="mt-6 text-center lg:mt-0 lg:text-left">
+            <div className="text-[11px] font-bold uppercase tracking-[0.17em] text-cyan">Zeke exists to protect the deal</div>
+            <h2 className="mt-3 text-2xl font-extrabold leading-tight sm:text-3xl">Every creator deserves structure without needing a lawyer.</h2>
+            <p className="mt-3 text-sm leading-6 text-muted">Zeke levels the playing field with a shared record, clear milestones, and an escalation path when a Shield deal needs help.</p>
+          </div>
+          <div className="mt-7 rounded-2xl border border-white/10 bg-white/[0.05] p-5 lg:mt-0">
+            <CheckList dark items={["Your work", "Your payment trail", "Your usage terms", "Your deal history"]} />
+          </div>
         </div>
-        <div className="mt-5 text-center">
-          <Link href="/register?role=influencer">
-            <Button variant="gold">&#128737; Get Zeke Shield - &#8377;1,999/yr</Button>
-          </Link>
-        </div>
-      </SectionShell>
+      </section>
 
-      <SectionShell
-        chip="Pricing"
-        title="Simple, transparent pricing"
-        isOpen={openSection === "pricing"}
-        onToggle={() => toggle("pricing")}
-      >
-        <div className="mt-5 grid gap-4 sm:grid-cols-3">
-          <div className="brand-card flex flex-col gap-3 rounded-[20px] border p-6">
-            <div className="text-xs font-bold uppercase tracking-wider text-muted">Brand</div>
-            <div className="text-[26px] font-black text-white">
-              Free <span className="text-[13px] font-normal text-muted">forever</span>
-            </div>
-            <div className="text-[13px] leading-relaxed text-muted">
-              Post campaigns, search creators, send offers and close deals - all free.
-            </div>
-          </div>
-          <div className="brand-card flex flex-col gap-3 rounded-[20px] border p-6">
-            <div className="text-xs font-bold uppercase tracking-wider text-muted">Creator</div>
-            <div className="text-[26px] font-black text-white">
-              Free <span className="text-[13px] font-normal text-muted">forever</span>
-            </div>
-            <div className="text-[13px] leading-relaxed text-muted">
-              Join free, build your profile and start getting real brand offers.
-            </div>
-          </div>
-          <div className="flex flex-col gap-3 rounded-[20px] border border-gold/40 bg-card p-6">
-            <div className="text-xs font-bold uppercase tracking-wider text-gold">Zeke Shield</div>
-            <div className="text-[26px] font-black text-gold">
-              &#8377;1,999 <span className="text-[13px] font-normal text-muted">/ year</span>
-            </div>
-            <div className="text-[13px] leading-relaxed text-muted">
-              Legal protection, PDF agreements, priority discovery and Zeke in your corner.
-            </div>
-            <Link href="/register?role=influencer" className="mt-1">
-              <Button variant="gold" size="sm" fullWidth>
-                Get Shield
-              </Button>
-            </Link>
+      <section id="how-it-works" className="bg-[#f5f4fc] px-5 py-16 sm:px-6 sm:py-20">
+        <div className="mx-auto max-w-[1180px]">
+          <SectionHeading eyebrow="How Zeke works" title="Protection at every step." body="A six-step deal flow keeps both sides aligned—from discovery to payment confirmation." />
+          <div className="relative mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-6">
+            <div className="absolute left-[8%] right-[8%] top-9 hidden h-px bg-gradient-to-r from-accent via-purple to-pink lg:block" aria-hidden />
+            {STEPS.map(({ icon: Icon, title, text }, index) => (
+              <article key={title} className="relative rounded-2xl border border-[#dedcf1] bg-white p-4 text-center shadow-[0_10px_30px_rgba(30,20,70,0.05)]">
+                <span className="absolute -top-2 left-3 flex h-6 w-6 items-center justify-center rounded-full bg-gradient-to-br from-accent to-purple text-[10px] font-black text-white">{index + 1}</span>
+                <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-[#eeecff] text-purple"><Icon width={23} height={23} /></span>
+                <h3 className="mt-3 text-xs font-extrabold text-dark">{title}</h3>
+                <p className="mt-1.5 text-[10px] leading-[1.55] text-[#6a6682]">{text}</p>
+              </article>
+            ))}
           </div>
         </div>
-        <div className="mt-5 rounded-xl border border-zgreen/20 bg-zgreen/[0.06] px-5 py-3.5 text-center text-sm font-semibold text-zgreen">
-          &#10003; Do you have to pay at all? No - Zeke is free. Shield is optional.
-        </div>
-      </SectionShell>
+      </section>
 
-      <section className="brand-panel relative mb-3 rounded-[20px] border border-white/5 p-5 backdrop-blur-sm">
-        <div className="mb-5 flex flex-col items-center gap-2 text-center">
-          <span className="brand-chip rounded-full border px-3 py-1 text-[10px] font-bold uppercase tracking-wider">
-            FAQ
-          </span>
-          <h2 className="text-base font-extrabold leading-snug text-white">Want to know more?</h2>
-        </div>
-        <div className="space-y-2.5">
-          {FAQ_ITEMS.map((item) => (
-            <article key={item.id} className="brand-card rounded-2xl border px-5 py-4">
-              <h3 className="text-sm font-semibold text-white">{item.q}</h3>
-              <p className="mt-2 text-[13.5px] leading-relaxed text-muted">{item.a}</p>
+      <section id="shield" className="px-5 py-16 sm:px-6 sm:py-20">
+        <div className="mx-auto max-w-[1040px]">
+          <SectionHeading eyebrow="Shield or Free" title="Choose the support level that fits." body="The marketplace stays free. Shield adds deeper protection and direct support for creators who want it." />
+          <div className="mt-10 grid overflow-hidden rounded-[28px] border border-[#d7d4eb] shadow-[0_22px_60px_rgba(40,25,85,0.1)] lg:grid-cols-2">
+            <article className="relative bg-dark p-7 text-white sm:p-9">
+              <span className="absolute right-6 top-6 rounded-full bg-gradient-to-r from-purple to-pink px-3 py-1 text-[9px] font-black uppercase tracking-wider">Optional upgrade</span>
+              <div className="flex items-center gap-3"><span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-accent to-purple text-white"><ShieldIcon width={24} height={24} /></span><div><h3 className="text-xl font-extrabold">Zeke Shield</h3><p className="text-xs text-muted">Protection plus human backup</p></div></div>
+              <div className="mt-7 flex items-end gap-2"><span className="text-4xl font-black">₹1,999</span><span className="pb-1 text-sm text-muted">/ year</span></div>
+              <div className="mt-6"><CheckList dark items={SHIELD_FEATURES} /></div>
+              <Link href="/register?role=influencer" className="mt-7 block"><Button fullWidth>Join with Shield</Button></Link>
             </article>
-          ))}
+            <article className="bg-white p-7 sm:p-9">
+              <span className="rounded-full border border-zgreen/25 bg-zgreen/[0.07] px-3 py-1 text-[9px] font-black uppercase tracking-wider text-zgreen">Free forever</span>
+              <div className="mt-5 flex items-center gap-3"><span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#eeecff] text-accent"><UsersIcon width={24} height={24} /></span><div><h3 className="text-xl font-extrabold text-dark">Zeke Free</h3><p className="text-xs text-[#6a6682]">The complete core marketplace</p></div></div>
+              <div className="mt-7 text-4xl font-black text-dark">₹0</div>
+              <div className="mt-6"><CheckList items={FREE_FEATURES} /></div>
+              <Link href="/register" className="mt-7 block"><Button variant="outline" fullWidth className="!text-dark">Start free</Button></Link>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-[#f5f4fc] px-5 py-16 sm:px-6 sm:py-20">
+        <div className="mx-auto max-w-[1180px]">
+          <SectionHeading eyebrow="Built differently" title="What makes Zeke work for both sides." body="The platform is designed around clarity, choice, and a complete record—not another inbox." />
+          <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-6">
+            {DIFFERENTIATORS.map(({ icon: Icon, title, text }) => (
+              <article key={title} className="rounded-2xl border border-[#dedcf1] bg-white p-4 text-center">
+                <span className="mx-auto flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-accent/10 via-purple/10 to-pink/10 text-accent"><Icon width={21} height={21} /></span>
+                <h3 className="mt-3 text-xs font-extrabold text-dark">{title}</h3>
+                <p className="mt-1.5 text-[10px] leading-[1.55] text-[#6a6682]">{text}</p>
+              </article>
+            ))}
+          </div>
+
+          <div className="mt-12 grid gap-5 lg:grid-cols-2">
+            <article className="rounded-[24px] border border-[#dedcf1] bg-white p-6 sm:p-8">
+              <div className="text-[11px] font-extrabold uppercase tracking-[0.16em] text-pink">Real problems we solve</div>
+              <h3 className="mt-3 text-2xl font-extrabold text-dark">We have seen the pattern. Zeke keeps the record.</h3>
+              <div className="mt-6"><CheckList items={REAL_PROBLEMS} /></div>
+            </article>
+            <article id="brands" className="relative overflow-hidden rounded-[24px] border border-purple/25 bg-gradient-to-br from-[#f0eeff] to-white p-6 sm:p-8">
+              <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-purple/10 blur-2xl" aria-hidden />
+              <div className="relative text-[11px] font-extrabold uppercase tracking-[0.16em] text-accent">Verified brand promise</div>
+              <h3 className="relative mt-3 text-2xl font-extrabold text-dark">Know more before the campaign starts.</h3>
+              <div className="relative mt-6"><CheckList items={BRAND_PROMISE} /></div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section className="px-5 py-14 sm:px-6">
+        <div className="mx-auto grid max-w-[1120px] gap-8 rounded-[28px] border border-purple/30 bg-dark p-7 text-white sm:p-10 lg:grid-cols-[1fr_0.42fr] lg:items-center">
+          <div>
+            <div className="text-[11px] font-extrabold uppercase tracking-[0.17em] text-cyan">Real help when a deal needs it</div>
+            <h2 className="mt-3 text-2xl font-extrabold sm:text-3xl">You stay in control. Zeke helps open the right door.</h2>
+            <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
+              {["Creator friendly", "Clear evidence", "No deal commission", "Transparent process"].map((item) => (
+                <div key={item} className="rounded-2xl border border-white/10 bg-white/[0.04] p-3 text-center text-[11px] font-semibold text-light">{item}</div>
+              ))}
+            </div>
+          </div>
+          <div className="rounded-2xl border border-white/10 bg-white/[0.05] p-5">
+            <ShieldIcon width={30} height={30} className="text-purple" />
+            <p className="mt-3 text-sm leading-6 text-muted">If the Zeke team cannot resolve a Shield dispute, we help organise the deal record so the creator can choose the next step.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="faq" className="bg-[#f5f4fc] px-5 py-16 sm:px-6 sm:py-20">
+        <div className="mx-auto grid max-w-[1120px] gap-8 lg:grid-cols-[0.82fr_1.18fr]">
+          <div>
+            <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-purple">FAQ</div>
+            <h2 className="mt-3 text-[30px] font-extrabold tracking-[-0.035em] text-dark">Questions before your first deal?</h2>
+            <div className="mt-6 space-y-2.5">
+              {FAQS.map(([question, answer]) => (
+                <details key={question} className="group rounded-2xl border border-[#dedcf1] bg-white px-4 py-3 open:border-purple/35">
+                  <summary className="cursor-pointer list-none pr-5 text-sm font-bold text-dark marker:hidden">{question}<span className="float-right text-purple transition-transform group-open:rotate-45">+</span></summary>
+                  <p className="mt-3 text-xs leading-5 text-[#68647f]">{answer}</p>
+                </details>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-purple">Simple pricing</div>
+            <h2 className="mt-3 text-[30px] font-extrabold tracking-[-0.035em] text-dark">Start free. Add Shield when you want backup.</h2>
+            <div className="mt-6 grid gap-4 sm:grid-cols-2">
+              <article className="rounded-[24px] border border-[#d8d5eb] bg-white p-6">
+                <span className="rounded-full bg-zgreen/10 px-3 py-1 text-[9px] font-black uppercase tracking-wider text-zgreen">Marketplace</span>
+                <h3 className="mt-5 text-lg font-extrabold text-dark">Free</h3>
+                <div className="mt-2 text-4xl font-black text-dark">₹0</div>
+                <p className="mt-3 text-xs leading-5 text-[#68647f]">For creators and brands ready to discover, structure, and complete campaigns.</p>
+                <Link href="/register" className="mt-6 block"><Button variant="outline" fullWidth className="!text-dark">Sign up free</Button></Link>
+              </article>
+              <article className="relative rounded-[24px] border border-purple/50 bg-white p-6 shadow-[0_18px_55px_rgba(99,102,241,0.13)]">
+                <span className="absolute right-5 top-5 rounded-full bg-gradient-to-r from-purple to-pink px-3 py-1 text-[9px] font-black uppercase tracking-wider text-white">Creator upgrade</span>
+                <h3 className="mt-8 text-lg font-extrabold text-dark">Shield</h3>
+                <div className="mt-2 text-4xl font-black text-dark">₹1,999<span className="text-sm font-semibold text-[#68647f]"> / year</span></div>
+                <p className="mt-3 text-xs leading-5 text-[#68647f]">For creators who want agreements, verified status, priority, and dispute support.</p>
+                <Link href="/register?role=influencer" className="mt-6 block"><Button fullWidth>Choose Shield</Button></Link>
+              </article>
+            </div>
+          </div>
         </div>
       </section>
     </div>

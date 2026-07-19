@@ -3,15 +3,16 @@ import { Button } from "@/components/ui/Button";
 
 export function CtaBanner() {
   return (
-    <section className="px-6 py-20">
-      <div className="brand-cta mx-auto max-w-[700px] rounded-3xl border px-8 py-14 text-center sm:px-10">
-        <h2 className="mb-4 text-[28px] font-black leading-tight text-white sm:text-4xl">
-          Kerala&apos;s creator economy - <span className="brand-gradient-text">starts here.</span>
-        </h2>
-        <p className="mx-auto mb-8 max-w-[480px] text-base leading-relaxed text-white/70">
-          Whether you are a brand looking for genuine reach or a creator ready to deal with
-          confidence - Zeke is built for you.
-        </p>
+    <section className="bg-[#f5f4fc] px-5 pb-16 sm:px-6 sm:pb-20">
+      <div className="brand-cta mx-auto grid max-w-[1120px] items-center gap-7 rounded-3xl border px-7 py-9 text-center sm:px-10 lg:grid-cols-[1fr_auto] lg:text-left">
+        <div>
+          <h2 className="text-[28px] font-black leading-tight text-white sm:text-4xl">
+            Create with confidence. <span className="brand-gradient-text">Close with clarity.</span>
+          </h2>
+          <p className="mt-3 max-w-[620px] text-sm leading-6 text-white/70 sm:text-base">
+            Zeke gives creators and brands a better way to meet, agree, deliver, and get the deal done.
+          </p>
+        </div>
         <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
           <Link href="/register?role=brand" className="w-full sm:w-auto">
             <Button size="lg" fullWidth className="sm:w-auto">

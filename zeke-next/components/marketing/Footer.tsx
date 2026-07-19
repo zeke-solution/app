@@ -42,15 +42,16 @@ export function Footer() {
               Platform
             </div>
             <div className="flex flex-col gap-2">
-              <Link href="/register" className="text-[13px] text-muted hover:text-white">
+              <Link href="/#brands" className="text-[13px] text-muted hover:text-white">
                 For Brands
               </Link>
-              <Link href="/register" className="text-[13px] text-muted hover:text-white">
+              <Link href="/#creators" className="text-[13px] text-muted hover:text-white">
                 For Creators
               </Link>
               <Link href="/#shield" className="text-[13px] text-muted hover:text-white">
                 Zeke Shield
               </Link>
+              <Link href="/#how-it-works" className="text-[13px] text-muted hover:text-white">How It Works</Link>
             </div>
           </div>
           <div>
