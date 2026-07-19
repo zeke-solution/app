@@ -55,7 +55,7 @@ function BrandPanel({ brand, onClose }: { brand: BrandDetail; onClose: () => voi
   return (
     <div>
       <div className="mb-4 flex items-center gap-3">
-        <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-[#0F3460]/50 text-base font-black text-light">
+        <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-purple/15 text-base font-black text-purple">
           {brand.name.slice(0, 2).toUpperCase()}
         </div>
         <div className="min-w-0 flex-1">

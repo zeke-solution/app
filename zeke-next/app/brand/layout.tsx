@@ -44,7 +44,7 @@ export default async function BrandLayout({
         userId={session.id}
         dealHrefPrefix="/brand/deals"
         rightExtra={
-          <a href="/brand/campaigns" className="hidden rounded-xl bg-accent px-4 py-2 text-xs font-bold text-white sm:inline">
+          <a href="/brand/campaigns" className="brand-button-primary hidden rounded-xl border px-4 py-2 text-xs font-bold text-white sm:inline">
             + New Campaign
           </a>
         }
@@ -52,7 +52,7 @@ export default async function BrandLayout({
       <div className="flex min-h-[calc(100vh-64px)]">
         <Sidebar
           avatarInitials={initials}
-          avatarClassName="bg-[#0F3460]/60 border border-[#0F3460] text-light"
+          avatarClassName="brand-avatar border"
           name={name}
           sub={sub || "Brand"}
           navItems={navItems}

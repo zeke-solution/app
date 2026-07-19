@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "@fontsource-variable/inter";
+import "@fontsource-variable/sora";
 import "./globals.css";
 
 // Same inline SVG favicon ("z" on a rounded dark square) as every legacy

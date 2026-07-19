@@ -35,7 +35,7 @@ export default async function BrandProfilePage() {
 
       <Card>
         <div className="mb-5 flex items-center gap-4">
-          <div className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full border-2 border-[#0F3460] bg-[#0F3460]/60 text-base font-black text-light">
+          <div className="brand-avatar flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full border-2 text-base font-black">
             {initials}
           </div>
           <div>

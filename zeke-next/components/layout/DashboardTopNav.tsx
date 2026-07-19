@@ -17,10 +17,10 @@ export function DashboardTopNav({
   rightExtra?: ReactNode;
 }) {
   return (
-    <nav className="sticky top-0 z-40 border-b border-border bg-navy/90 backdrop-blur-md">
+    <nav className="brand-nav sticky top-0 z-40 border-b border-transparent backdrop-blur-md">
       <div className="mx-auto flex h-16 items-center justify-between px-6">
-        <Link href="/" className="text-[22px] font-black tracking-tight text-white">
-          zeke<span className="text-accent">.</span>
+        <Link href="/" className="brand-wordmark text-[22px] text-white">
+          zeke<span className="brand-wordmark-accent">.</span>
         </Link>
         <div className="flex items-center gap-3">
           {badge}

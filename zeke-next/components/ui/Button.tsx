@@ -6,7 +6,7 @@ type Variant = "primary" | "outline" | "ghost" | "gold";
 type Size = "sm" | "md" | "lg";
 
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-[10px] border font-bold tracking-[0.02em] transition-colors disabled:opacity-50 disabled:cursor-not-allowed";
+  "inline-flex items-center justify-center gap-2 rounded-[10px] border font-bold tracking-[0.02em] transition-all disabled:cursor-not-allowed disabled:opacity-50";
 
 const sizeClasses: Record<Size, string> = {
   sm: "px-4 py-1.5 text-xs rounded-lg",
@@ -15,8 +15,8 @@ const sizeClasses: Record<Size, string> = {
 };
 
 const variantClasses: Record<Variant, string> = {
-  primary: "bg-accent text-white border-accent hover:opacity-90",
-  outline: "bg-transparent text-white border-border hover:border-muted",
+  primary: "brand-button-primary text-white",
+  outline: "brand-button-outline bg-transparent text-white",
   ghost: "bg-transparent text-muted border-transparent hover:text-white",
   gold: "bg-gold text-white border-gold hover:opacity-90",
 };

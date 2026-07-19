@@ -15,7 +15,7 @@ export function StatCard({
   valueColor?: string;
 }) {
   return (
-    <div className="flex flex-col gap-2 rounded-2xl border border-border bg-card p-4">
+    <div className="brand-card flex flex-col gap-2 rounded-2xl border p-4">
       <div style={{ color: iconColor }}>{icon}</div>
       <div className="text-[22px] font-black" style={{ color: valueColor }}>
         {value}

@@ -26,6 +26,18 @@ Last updated: 2026-07-17
 
 ## Current status
 
+### Brand-board correction: 2026-07-19
+
+- The owner rejected the initial flat Purple + Indigo re-skin and supplied a visual board showing the intended application: indigo as the base, purple-to-pink gradients for emphasis, cyan as a sharp supporting accent, soft neon glows, dark violet surfaces, Sora headings, and Inter body text.
+- Corrected both the Next.js and legacy applications to follow that hierarchy rather than merely swapping hex values. Primary actions, headline emphasis, active navigation, logo punctuation, progress/chat actions, selected borders, and CTA surfaces now use the brand gradient; cyan/purple/pink are distributed as secondary highlights; core surfaces remain dark for contrast.
+- Added `@fontsource-variable/sora` to the Next.js app and imported it locally. Added the same Sora variable font as `../fonts/sora-latin-wght-normal.woff2` for the legacy app, so its headings do not depend on a new remote font request.
+- Added reusable Next.js brand treatments in `app/globals.css` (`brand-gradient-text`, primary/outline buttons, navigation, hero, panels/cards, CTA, avatar, sidebar, and active navigation). Shared `Button`, `Card`, `StatCard`, navigation, auth, marketing, and selected dashboard components now use them.
+- Updated the legacy shared stylesheet and homepage treatment to match: gradient buttons, Sora display typography, multi-colour hero/CTA glows, purple/pink/cyan accents, gradient-border panels, dashboard cards/navigation, chat/progress actions, and semantic red for errors/rejections.
+- Removed the obsolete `#0F3460`/`rgba(15,52,96,...)` blue from active Next.js and legacy sources. It remains only inside the historical `reference-homepage.html` snapshot, which was deliberately not edited.
+- Visual QA passed for both codebases at 1440px desktop and a true 390px CSS mobile viewport. The layouts match each other and the supplied board much more closely; no horizontal overflow was observed.
+- Verification: legacy JavaScript syntax checks pass for all six files; `tsc --noEmit --incremental false` passes; `npm run lint` passes; clean `npm run build` passes with all 31 routes generated.
+- Deployment status: the legacy changes take effect only after a pushed `main` commit completes its GitHub Pages build; the Next.js application remains undeployed until the separate Vercel/database cutover.
+
 ### Session closeout: 2026-07-19
 
 - Colour decision made: **Purple + Indigo won**, replacing Navy + Red (see [[zeke-brand-brief]]). Re-skinned BOTH codebases this session.

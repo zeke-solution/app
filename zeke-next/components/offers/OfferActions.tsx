@@ -32,7 +32,7 @@ export function OfferActions({ dealId }: { dealId: string }) {
       <Button
         size="sm"
         variant="primary"
-        className="flex-1 !bg-zgreen !border-zgreen"
+        className="flex-1 !border-zgreen !bg-zgreen !bg-none"
         onClick={handleAccept}
         disabled={pending !== null}
       >

@@ -27,7 +27,7 @@ export function UsersDirectoryTable({
             onClick={() => setTarget({ type: "brand", id: b.id })}
             className="mb-2 flex w-full items-center gap-3 rounded-2xl border border-border bg-card px-4 py-3.5 text-left transition-colors hover:border-accent/30"
           >
-            <div className="flex h-9.5 w-9.5 flex-shrink-0 items-center justify-center rounded-xl bg-[#0F3460]/50 text-[11px] font-black text-light">
+            <div className="flex h-9.5 w-9.5 flex-shrink-0 items-center justify-center rounded-xl bg-purple/15 text-[11px] font-black text-purple">
               {b.name.slice(0, 2).toUpperCase()}
             </div>
             <div className="min-w-0 flex-1">

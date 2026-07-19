@@ -24,9 +24,9 @@ const FOUNDERS = [
     name: "Mufeed",
     role: "Platform & Legal Compliance",
     desc: "Leads platform development, resource management, and the legal infrastructure that powers Zeke Shield.",
-    bg: "bg-[#0F3460]/40",
-    border: "border-[#0F3460]/60",
-    color: "text-light",
+    bg: "bg-cyan/15",
+    border: "border-cyan/30",
+    color: "text-cyan",
   },
   {
     initial: "M",
@@ -71,7 +71,7 @@ export default function AboutPage() {
           About Zeke
         </div>
         <h2 className="mb-4 text-[26px] font-black leading-tight tracking-tight text-white sm:text-4xl">
-          Built in Kerala, for <span className="text-accent">every creator</span>
+          Built in Kerala, for <span className="brand-gradient-text">every creator</span>
         </h2>
         <p className="mb-12 max-w-[600px] text-base leading-relaxed text-muted">
           Zeke started with a simple frustration - creators doing great work and getting burned

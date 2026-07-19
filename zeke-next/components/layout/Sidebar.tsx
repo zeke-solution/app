@@ -32,7 +32,7 @@ export function Sidebar({
   const pathname = usePathname();
 
   return (
-    <aside className="hidden w-56 flex-shrink-0 flex-col gap-1 border-r border-border bg-navy p-4 md:flex">
+    <aside className="brand-sidebar hidden w-56 flex-shrink-0 flex-col gap-1 border-r p-4 md:flex">
       <div className="mb-3 flex items-center gap-2.5 border-b border-border px-2 pb-5">
         <div
           className={`flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full text-xs font-black ${avatarClassName}`}
@@ -52,7 +52,7 @@ export function Sidebar({
             key={item.href}
             href={item.href}
             className={`flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors ${
-              active ? "bg-accent/10 text-accent" : "text-muted hover:bg-white/5 hover:text-light"
+              active ? "brand-nav-active" : "text-muted hover:bg-white/5 hover:text-light"
             }`}
           >
             {item.icon}

@@ -2,12 +2,12 @@ import Link from "next/link";
 
 export function Footer() {
   return (
-    <footer className="border-t border-border bg-navy px-6 pb-6 pt-12">
+    <footer className="brand-nav border-t border-transparent px-6 pb-6 pt-12">
       <div className="mx-auto max-w-[1000px]">
         <div className="mb-10 grid gap-10 md:grid-cols-[2fr_1fr_1fr]">
           <div>
-            <div className="mb-2 text-xl font-black text-white">
-              zeke<span className="text-accent">.</span>
+            <div className="brand-wordmark mb-2 text-xl text-white">
+              zeke<span className="brand-wordmark-accent">.</span>
             </div>
             <p className="mb-4 text-[13px] leading-relaxed text-muted">
               Kerala&apos;s first legally-protected influencer marketplace.

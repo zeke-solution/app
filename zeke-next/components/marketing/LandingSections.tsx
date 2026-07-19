@@ -100,7 +100,8 @@ function SectionShell({
 }) {
   return (
     <div
-      className={`mb-3 overflow-hidden rounded-[20px] border bg-card/55 backdrop-blur-sm transition-colors ${
+      data-open={isOpen}
+      className={`brand-panel relative mb-3 overflow-hidden rounded-[20px] border backdrop-blur-sm transition-colors ${
         isOpen ? "border-accent/25" : "border-white/5 hover:bg-card/75"
       }`}
     >
@@ -113,7 +114,7 @@ function SectionShell({
             className={`rounded-full border px-3 py-1 text-[10px] font-bold uppercase tracking-wider ${
               chipGold
                 ? "border-gold/25 bg-gold/10 text-gold"
-                : "border-accent/25 bg-accent/10 text-accent"
+                : "brand-chip"
             }`}
           >
             {chip}
@@ -147,8 +148,8 @@ export function LandingSections() {
       >
         <div className="mt-5 grid grid-cols-2 gap-5 sm:grid-cols-4">
           {HOW_IT_WORKS.map((s) => (
-            <div key={s.num} className="flex flex-col gap-3 rounded-2xl border border-border bg-card p-6">
-              <div className="text-[28px] font-black text-accent/40">{s.num}</div>
+            <div key={s.num} className="brand-card flex flex-col gap-3 rounded-2xl border p-6">
+              <div className="brand-gradient-text text-[28px] font-black">{s.num}</div>
               <div className="text-[15px] font-bold text-white">{s.title}</div>
               <div className="text-[13px] leading-relaxed text-muted">{s.desc}</div>
             </div>
@@ -249,7 +250,7 @@ export function LandingSections() {
         onToggle={() => toggle("pricing")}
       >
         <div className="mt-5 grid gap-4 sm:grid-cols-3">
-          <div className="flex flex-col gap-3 rounded-[20px] border border-border bg-card p-6">
+          <div className="brand-card flex flex-col gap-3 rounded-[20px] border p-6">
             <div className="text-xs font-bold uppercase tracking-wider text-muted">Brand</div>
             <div className="text-[26px] font-black text-white">
               Free <span className="text-[13px] font-normal text-muted">forever</span>
@@ -258,7 +259,7 @@ export function LandingSections() {
               Post campaigns, search creators, send offers and close deals - all free.
             </div>
           </div>
-          <div className="flex flex-col gap-3 rounded-[20px] border border-border bg-card p-6">
+          <div className="brand-card flex flex-col gap-3 rounded-[20px] border p-6">
             <div className="text-xs font-bold uppercase tracking-wider text-muted">Creator</div>
             <div className="text-[26px] font-black text-white">
               Free <span className="text-[13px] font-normal text-muted">forever</span>
@@ -287,16 +288,16 @@ export function LandingSections() {
         </div>
       </SectionShell>
 
-      <section className="mb-3 rounded-[20px] border border-white/5 bg-card/55 p-5 backdrop-blur-sm">
+      <section className="brand-panel relative mb-3 rounded-[20px] border border-white/5 p-5 backdrop-blur-sm">
         <div className="mb-5 flex flex-col items-center gap-2 text-center">
-          <span className="rounded-full border border-accent/25 bg-accent/10 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-accent">
+          <span className="brand-chip rounded-full border px-3 py-1 text-[10px] font-bold uppercase tracking-wider">
             FAQ
           </span>
           <h2 className="text-base font-extrabold leading-snug text-white">Want to know more?</h2>
         </div>
         <div className="space-y-2.5">
           {FAQ_ITEMS.map((item) => (
-            <article key={item.id} className="rounded-2xl border border-border bg-card px-5 py-4">
+            <article key={item.id} className="brand-card rounded-2xl border px-5 py-4">
               <h3 className="text-sm font-semibold text-white">{item.q}</h3>
               <p className="mt-2 text-[13.5px] leading-relaxed text-muted">{item.a}</p>
             </article>

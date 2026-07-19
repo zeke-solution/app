@@ -124,7 +124,7 @@ export function ChatThread({
           />
           <button
             onClick={handleSend}
-            className="rounded-xl bg-accent px-4 py-2 text-[13px] font-bold text-white"
+            className="brand-button-primary rounded-xl border px-4 py-2 text-[13px] font-bold text-white"
           >
             Send
           </button>

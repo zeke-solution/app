@@ -137,7 +137,7 @@ function loadBrandsDirectory() {
           var initials = b.name.slice(0,2).toUpperCase();
           var typeLabel = b.type.charAt(0).toUpperCase() + b.type.slice(1);
           return '<div class="item-card" style="margin-bottom:8px;flex-direction:row;align-items:center;gap:12px;padding:14px 16px;cursor:pointer" onclick="openAdminBrandProfile(\'' + b.id + '\')">'
-            + '<div class="item-avatar" style="background:rgba(15,52,96,.5);color:#E5E7EB">' + initials + '</div>'
+            + '<div class="item-avatar" style="background:rgba(168,85,247,.15);color:#A855F7">' + initials + '</div>'
             + '<div style="flex:1;min-width:0">'
             +   '<div style="font-size:14px;font-weight:700;color:#fff">' + esc(b.name) + '</div>'
             +   '<div style="font-size:12px;color:#8B8BB5">' + esc(typeLabel) + (b.location ? ' · ' + esc(b.location) : '') + ' · Joined ' + fmtDate(b.joined) + '</div>'
@@ -227,7 +227,7 @@ function openAdminBrandProfile(brandId) {
     var initials = name.slice(0,2).toUpperCase();
     var typeLabel = (br.brand_type || 'business').replace(/^./, function (c) { return c.toUpperCase(); });
     var html = '<div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">'
-      + '<div style="width:48px;height:48px;border-radius:50%;background:rgba(15,52,96,.5);color:#E5E7EB;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900">' + initials + '</div>'
+      + '<div style="width:48px;height:48px;border-radius:50%;background:rgba(168,85,247,.15);border:1px solid rgba(168,85,247,.28);color:#A855F7;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900">' + initials + '</div>'
       + '<div style="flex:1;min-width:0"><div style="font-size:18px;font-weight:900;color:#fff">' + esc(name) + '</div>'
       + '<div style="font-size:12px;color:#8B8BB5">' + esc(typeLabel) + (p.location ? ' · ' + esc(p.location) : '') + ' · Joined ' + fmtDate(p.created_at) + '</div></div>'
       + '<button onclick="_adminCloseModal()" style="background:none;border:none;color:#8B8BB5;font-size:22px;cursor:pointer">&times;</button></div>'
