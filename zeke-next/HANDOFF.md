@@ -22,7 +22,7 @@ Last updated: 2026-07-22
 - Current local preview: `http://localhost:3001`
 - Stack: Next.js 16, React 19, Tailwind 4, Supabase
 - The legacy static HTML site remains at the repository root for history only and is retired as a product target.
-- The Next.js app under `zeke-next/` is deployed to Vercel and serves both custom domains over HTTPS. The current deployment was made directly from the verified local tree; publish the matching changes to GitHub next.
+- The Next.js app under `zeke-next/` is deployed to Vercel and serves both custom domains over HTTPS. The matching production fixes are pushed at commit `0c6a05c` on `agent/production-cutover`; draft PR #4 is open against `main` and its Vercel checks pass.
 
 ## Current status
 
