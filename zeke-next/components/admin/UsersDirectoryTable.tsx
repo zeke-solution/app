@@ -32,7 +32,7 @@ export function UsersDirectoryTable({
             </div>
             <div className="min-w-0 flex-1">
               <div className="text-sm font-bold text-white">{b.name}</div>
-              <div className="text-xs text-muted">
+              <div className="text-xs text-muted" suppressHydrationWarning>
                 {b.type.replace(/^./, (c) => c.toUpperCase())} {b.location ? `· ${b.location}` : ""} · Joined {fmtDate(b.joined)}
               </div>
             </div>
@@ -65,7 +65,9 @@ export function UsersDirectoryTable({
             <div className="text-xs text-muted">
               {c.niche} {c.handle ? `· @${c.handle}` : ""} {c.location ? `· ${c.location}` : ""}
             </div>
-            <div className="text-[11px] text-muted">IG {fmtNum(c.igFollowers)} · Joined {fmtDate(c.joined)}</div>
+            <div className="text-[11px] text-muted" suppressHydrationWarning>
+              IG {fmtNum(c.igFollowers)} · Joined {fmtDate(c.joined)}
+            </div>
           </div>
           <div className="flex-shrink-0 text-right">
             <div className="text-[13px] font-bold text-white">{c.dealsCompleted} deal{c.dealsCompleted === 1 ? "" : "s"}</div>

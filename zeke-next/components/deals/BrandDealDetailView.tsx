@@ -10,11 +10,11 @@ import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { markPaymentSent } from "@/actions/payments";
 import { createSubmissionDownloadUrl, reviewSubmission } from "@/actions/submissions";
-import { acceptCancel, declineCancel } from "@/actions/deals";
+import { acceptCancel, declineCancel, requestCancel } from "@/actions/deals";
 import { raiseDispute } from "@/actions/disputes";
 import { editOffer } from "@/actions/offers";
 
-type TabKey = "overview" | "review" | "finallink" | "payment" | "agreement";
+type TabKey = "overview" | "review" | "finallink" | "payment" | "agreement" | "cancel";
 
 interface EventRow {
   msg_type: string | null;
@@ -79,6 +79,7 @@ export function BrandDealDetailView({
     { key: "finallink", label: "Final Link" },
     { key: "payment", label: "Payment" },
     { key: "agreement", label: "Agreement" },
+    { key: "cancel", label: "Cancel" },
   ];
 
   return (
@@ -139,6 +140,9 @@ export function BrandDealDetailView({
       {tab === "finallink" && <FinalLinkTab finalLink={finalLink} />}
       {tab === "payment" && <PaymentTab dealId={dealId} amount={amount} status={status} payment={payment} />}
       {tab === "agreement" && <AgreementTab agreement={agreement} title={title} platform={platform} amount={amount} deliverables={deliverables} />}
+      {tab === "cancel" && (
+        <BrandCancelTab dealId={dealId} status={status} cancelRequestedBy={cancelRequestedBy} viewerId={viewerId} />
+      )}
     </div>
   );
 
@@ -515,4 +519,116 @@ export function BrandDealDetailView({
       </div>
     );
   }
+}
+
+function BrandCancelTab({
+  dealId,
+  status,
+  cancelRequestedBy,
+  viewerId,
+}: {
+  dealId: string;
+  status: DealStatus;
+  cancelRequestedBy: string | null;
+  viewerId: string;
+}) {
+  const [reason, setReason] = useState("");
+  const [pending, setPending] = useState(false);
+  const [sent, setSent] = useState(false);
+  const router = useRouter();
+
+  async function handleSubmit() {
+    setPending(true);
+    const res = await requestCancel(dealId, reason);
+    setPending(false);
+    if (!res.ok) alert(res.error);
+    else {
+      setSent(true);
+      router.refresh();
+    }
+  }
+
+  async function handleAccept() {
+    setPending(true);
+    const res = await acceptCancel(dealId);
+    setPending(false);
+    if (!res.ok) alert(res.error);
+    else router.refresh();
+  }
+
+  async function handleDecline() {
+    setPending(true);
+    const res = await declineCancel(dealId);
+    setPending(false);
+    if (!res.ok) alert(res.error);
+    else router.refresh();
+  }
+
+  const alreadyRequestedByMe = cancelRequestedBy === viewerId;
+  const unavailable = status === "completed" || status === "cancelled";
+
+  return (
+    <div>
+      <div className="mb-3.5 rounded-2xl border border-accent/20 bg-accent/[0.04] p-4">
+        <div className="mb-1.5 text-[13px] font-bold text-white">Cancel Agreement</div>
+        {unavailable ? (
+          <div className="rounded-lg bg-white/5 p-3 text-center text-xs text-muted">
+            Cancellation not available for this deal.
+          </div>
+        ) : cancelRequestedBy && !alreadyRequestedByMe ? (
+          <div>
+            <div className="mb-3 rounded-lg border border-gold/20 bg-gold/[0.06] p-3 text-xs font-semibold text-gold">
+              The creator requested cancellation. Accepting will close the deal.
+            </div>
+            <div className="flex gap-2">
+              <button
+                onClick={handleAccept}
+                disabled={pending}
+                className="flex-1 rounded-lg border border-zgreen/30 bg-zgreen/[0.05] py-2.5 text-xs font-bold text-zgreen disabled:opacity-50"
+              >
+                Accept cancellation
+              </button>
+              <button
+                onClick={handleDecline}
+                disabled={pending}
+                className="flex-1 rounded-lg border border-accent/30 bg-accent/[0.05] py-2.5 text-xs font-bold text-accent disabled:opacity-50"
+              >
+                Decline
+              </button>
+            </div>
+          </div>
+        ) : sent || alreadyRequestedByMe ? (
+          <div className="rounded-lg border border-gold/20 bg-gold/[0.06] p-3 text-xs font-semibold text-gold">
+            Cancellation request sent. The creator must agree before the deal closes.
+          </div>
+        ) : (
+          <>
+            <div className="mb-3 text-xs leading-relaxed text-muted">
+              Send a cancellation request. The creator must agree before the deal is cancelled.
+            </div>
+            <textarea
+              value={reason}
+              onChange={(event) => setReason(event.target.value)}
+              placeholder="Reason for cancellation..."
+              className="mb-2.5 min-h-20 w-full resize-y rounded-xl border border-border bg-dark px-3.5 py-2.5 text-[13px] text-light outline-none"
+            />
+            <button
+              onClick={handleSubmit}
+              disabled={pending || !reason.trim()}
+              className="w-full rounded-lg border border-accent/30 bg-accent/10 py-2.5 font-bold text-accent disabled:opacity-50"
+            >
+              {pending ? "Sending..." : "Send Request"}
+            </button>
+          </>
+        )}
+      </div>
+      <div className="rounded-xl border border-border bg-card p-3.5 text-xs leading-relaxed text-muted">
+        <div className="mb-2 text-xs font-bold text-light">How cancellation works</div>
+        <div>&#10137; Either party sends a request with a reason</div>
+        <div className="mt-1">&#10137; The other party must Accept or Decline</div>
+        <div className="mt-1">&#10137; Both must agree for the deal to be cancelled</div>
+        <div className="mt-1">&#10137; If stuck, open a dispute and Zeke steps in</div>
+      </div>
+    </div>
+  );
 }

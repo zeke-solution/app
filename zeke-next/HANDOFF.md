@@ -28,12 +28,20 @@ Last updated: 2026-07-22
 
 ### Vercel and DNS cutover: 2026-07-22
 
-- Vercel production deployment `dpl_2C9tz3PKabKfvg68JuoUr8266rqp` is Ready at `app-fa4f60hug-mufeed-4343s-projects.vercel.app`. It was built from the verified local tree on Next.js 16.2.10 and generated all 32 routes.
+- Vercel production deployment `dpl_6EF3oC7ZRrVnRtfp5CHy1dkMwdnu` is Ready at `app-28ymqr83a-mufeed-4343s-projects.vercel.app` and aliased to `zekesolution.com`. It was built from the verified local tree on Next.js 16.2.10 and generated all 32 routes.
 - Project `mufeed-4343s-projects/app` uses Framework Preset Next.js and Root Directory `zeke-next`. The prior production deployment predated that root configuration and still served the retired root `index.html`; the 2026-07-22 deployment replaced it.
 - `zekesolution.com` resolves to Vercel `76.76.21.21`; `www.zekesolution.com` is a CNAME to `cname.vercel-dns-0.com`. Both are attached as aliases to the new deployment.
 - Cache-bypassed HTTPS probes returned 200 from both domains with the new Next.js hero and `/_next/static/` assets, not the legacy HTML. `/login` and creator registration return 200; anonymous `/creator` returns 307 to `/login`.
-- Vercel Production now contains `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, and `NEXT_PUBLIC_SITE_URL=https://zekesolution.com`. `SUPABASE_SERVICE_ROLE_KEY` was intentionally not added because the admin client helper is unused by application code.
-- Production migrations 0001-0003 were applied successfully to Supabase on 2026-07-22. The remaining launch gate is authenticated creator/brand/admin workflow QA.
+- Vercel Production now contains `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, and `NEXT_PUBLIC_SITE_URL=https://zekesolution.com`. The first CLI upload accidentally prefixed the values with a UTF-8 BOM and broke login; all three were replaced with raw BOM-free values and authenticated production login now passes. `SUPABASE_SERVICE_ROLE_KEY` was intentionally not added because the admin client helper is unused by application code.
+- Production migrations 0001-0003 were applied successfully to Supabase on 2026-07-22. Authenticated creator/brand/admin production QA is complete; only real-inbox auth email callbacks remain as a manual launch check.
+
+### Authenticated production QA: 2026-07-22
+
+- Final live run against `https://zekesolution.com` passed every creator, brand, and admin assertion with no material browser console/page errors. Temporary QA users, deals, campaigns, messages, submissions, files, payments, agreements, disputes, notifications, and Shield records were removed successfully after the run.
+- Verified: cross-role dashboard guards; cross-role profile visibility; protection against role/Shield self-promotion and invalid deal-state jumps; campaign create/close; direct offers; accept/decline; two-way chat; private content upload/download and review; final-link submission; payment send/confirmation; Shield request/activation and agreement PDF authorization; dispute creation/resolution/status restoration; both cancellation directions; and admin user/deal visibility.
+- QA found and fixed a missing brand-side cancellation control. Brands can now initiate, accept, or decline cancellation requests from the deal's Cancel tab; the creator side completed the reciprocal live test.
+- QA also found React hydration warnings on relative "Joined" timestamps in the admin directory. The timestamp text is now explicitly marked as hydration-variant, and the final production browser run is clean.
+- Password-reset and signup-confirmation email delivery/callbacks still require a manual inbox test and Supabase redirect allowlist review before public launch; password authentication itself passed for all three roles.
 
 ### Supabase production migration: 2026-07-22
 
@@ -140,7 +148,7 @@ Last updated: 2026-07-22
 2. DONE (database applied, 2026-07-22): submission, approval, final-link, payment, payment-confirmation, and dispute transitions are live as atomic RPCs from `0003_atomic_transitions.sql`.
 3. DONE (2026-07-22): migrations 0001-0003 are applied and directly verified on the official Supabase project `fslthsbjtgmdbabwcubs`.
 4. DONE (2026-07-22): configured the public Supabase values and production site URL in Vercel without committing `.env.local`.
-5. Run authenticated creator, brand, and admin end-to-end QA.
+5. DONE (2026-07-22): authenticated creator, brand, and admin end-to-end production QA passed with a clean browser console; all temporary QA data was removed.
 6. DONE (2026-07-22): Vercel Root Directory is `zeke-next`; apex and `www` DNS point to Vercel; both custom domains serve the Next.js app over HTTPS.
 
 QA update 2026-07-14:
@@ -252,18 +260,12 @@ Migration 0002 adds:
 
 RPC-backed Shield, dispute, and notification actions are now installed. Duplicate data was reviewed and reconciled without deleting deals or messages; see "Supabase production migration" above.
 
-## Remaining live QA
+## Remaining manual launch QA
 
 Use real authenticated accounts to test:
 
-1. Password-reset link through `/update-password`.
-2. Creator accepts/declines offer and submits/re-submits content.
-3. Brand reviews content, opens the private file, receives the final link, and marks payment sent.
-4. Creator confirms payment and completes the deal.
-5. Both cancellation directions, including decline.
-6. Both parties raise a dispute; admin escalates/resolves it; deal status restores correctly.
-7. Creator requests Shield; admin activates/rejects it.
-8. Direct Supabase attempts cannot change role, Shield, deal state, submission review, or payment state outside allowed rules.
+1. Complete a real-inbox signup confirmation and password-reset link through `/auth/callback` and `/update-password`.
+2. Confirm the production Supabase Site URL and redirect allowlist include the apex domain and required auth callback paths.
 
 ## Run locally
 

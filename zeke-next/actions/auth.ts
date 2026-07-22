@@ -33,6 +33,12 @@ export async function signInUser(input: LoginInput): Promise<ActionResult> {
   const supabase = await createClient();
   const { data, error } = await supabase.auth.signInWithPassword(parsed.data);
   if (error || !data.user) {
+    console.error("[auth] sign-in failed", {
+      name: error?.name ?? "MissingUser",
+      code: error?.code ?? null,
+      status: error?.status ?? null,
+      message: error?.message ?? "Authentication returned no user.",
+    });
     return { ok: false, error: "Invalid email or password." };
   }
 
