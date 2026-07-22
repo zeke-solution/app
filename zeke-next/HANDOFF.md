@@ -1,6 +1,6 @@
 # Zeke Next.js handoff
 
-Last updated: 2026-07-17
+Last updated: 2026-07-22
 
 ## Working agreement
 
@@ -17,14 +17,44 @@ Last updated: 2026-07-17
 
 - App: `C:\Users\SEO EXECUTIVE\Desktop\app\zeke-next`
 - Git repository root: `C:\Users\SEO EXECUTIVE\Desktop\app`
-- GitHub repository: `https://github.com/zeke-global/app`
-- Current branch: `main`, synchronized with `origin/main`
+- GitHub repository/remote: `https://github.com/zeke-solution/app`
+- Production base: `main`; current publish branch: `agent/production-cutover`
 - Current local preview: `http://localhost:3001`
 - Stack: Next.js 16, React 19, Tailwind 4, Supabase
-- The legacy static HTML site remains at the repository root and is the version currently served by GitHub Pages.
-- The Next.js app is tracked on `main` under `zeke-next/`, but is not deployed to Vercel and does not yet serve the official domain.
+- The legacy static HTML site remains at the repository root for history only and is retired as a product target.
+- The Next.js app under `zeke-next/` is deployed to Vercel and serves both custom domains over HTTPS. The current deployment was made directly from the verified local tree; publish the matching changes to GitHub next.
 
 ## Current status
+
+### Vercel and DNS cutover: 2026-07-22
+
+- Vercel production deployment `dpl_2C9tz3PKabKfvg68JuoUr8266rqp` is Ready at `app-fa4f60hug-mufeed-4343s-projects.vercel.app`. It was built from the verified local tree on Next.js 16.2.10 and generated all 32 routes.
+- Project `mufeed-4343s-projects/app` uses Framework Preset Next.js and Root Directory `zeke-next`. The prior production deployment predated that root configuration and still served the retired root `index.html`; the 2026-07-22 deployment replaced it.
+- `zekesolution.com` resolves to Vercel `76.76.21.21`; `www.zekesolution.com` is a CNAME to `cname.vercel-dns-0.com`. Both are attached as aliases to the new deployment.
+- Cache-bypassed HTTPS probes returned 200 from both domains with the new Next.js hero and `/_next/static/` assets, not the legacy HTML. `/login` and creator registration return 200; anonymous `/creator` returns 307 to `/login`.
+- Vercel Production now contains `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, and `NEXT_PUBLIC_SITE_URL=https://zekesolution.com`. `SUPABASE_SERVICE_ROLE_KEY` was intentionally not added because the admin client helper is unused by application code.
+- Production migrations 0001-0003 were applied successfully to Supabase on 2026-07-22. The remaining launch gate is authenticated creator/brand/admin workflow QA.
+
+### Supabase production migration: 2026-07-22
+
+- Applied `0001_notifications_related_deal.sql`, `0002_security_hardening.sql`, and `0003_atomic_transitions.sql` to project `fslthsbjtgmdbabwcubs`. The migration ledger records all three versions.
+- The hosted project contained operation-specific RLS policy names from an earlier unrecorded hardening pass. Migration 0002 now drops its target policy names before recreating them, making the migration reconcile that drift safely.
+- Duplicate preflight found three campaign/creator pairs. Two contained an already-cancelled historical offer. The remaining pair contained a three-minute-old negotiating offer followed by an accepted active replacement. Migration 0002 preserves the old row and its three chat messages, marks only that superseded negotiation `cancelled`, and installs a partial unique index that permits cancelled history while allowing only one non-cancelled offer per campaign/creator.
+- Post-migration verification: the stale deal `0d65d0d4-3f23-4644-a11b-c35b1e3a9495` is cancelled; active replacement `e4dd0ac6-667d-4690-b770-a75ba6146342` remains active; zero non-cancelled duplicate groups remain; the expected partial index exists; both new columns exist; and all six atomic transaction RPCs are present.
+- Local regression after the migration reconciliation: ESLint pass, TypeScript pass, production build pass (32 routes, Next.js 16.2.10).
+
+### Resume audit: 2026-07-22
+
+- Owner decision (2026-07-22): Zeke is not live yet, the legacy HTML application is no longer needed, and the launch target is the existing Supabase project plus Vercel with the Namecheap domain. The shared-database blocker is resolved; retire the legacy application at cutover rather than preserving compatibility with it.
+- The older copy at `C:\Users\SEO EXECUTIVE\Desktop\Project-Handoffs\Zeke\NextJS-HANDOFF.md` was read first, but its July 15 restart point is stale. This file reflects the later committed work and is the canonical continuation note.
+- `main` is synchronized with `origin/main` at `073026e`. Atomic-transition work is already committed in `fa9a403`; later brand/homepage QA commits are also present. Do not reimplement P1 #2.
+- Production migrations 0001-0003 are now applied and verified against project `fslthsbjtgmdbabwcubs`; the new columns, security policies, uniqueness guards, and six atomic RPCs are live.
+- The local Supabase CLI metadata is linked to the correct project. `supabase/.temp/zeke-migrate.ps1` uses invisible password entry, a dry-run, and an explicit `APPLY` gate. The password is never stored in this handoff or source control.
+- `.env.local` has the public Supabase URL/key and local site URL configured. `SUPABASE_SERVICE_ROLE_KEY` is blank. No secrets were added to source control.
+- Current local verification on the existing working tree: `npm run lint` pass; `npx tsc --noEmit --incremental false` pass; `npm run build` pass with 32 routes on Next.js 16.2.10.
+- `npm audit --omit=dev` reports one low-severity DOMPurify advisory inherited through `jspdf@4.2.1` (`dompurify@3.4.11`). No audit fix was applied during this audit.
+- Pre-existing uncommitted work was preserved: root `.gitignore`, `zeke-next/package.json`, `zeke-next/package-lock.json`, `zeke-next/supabase/config.toml`, and `zeke-next/supabase/.gitignore`, plus the unrelated untracked root `HANDOFF.md`. Review ownership/scope before committing any of these.
+- Required next action: publish the reconciled production source to GitHub, then run authenticated creator/brand/admin end-to-end QA.
 
 ### Homepage QA pass: 2026-07-19
 
@@ -106,12 +136,12 @@ Last updated: 2026-07-17
 
 ### Immediate restart point
 
-1. DONE (code-level, 2026-07-15): Fixed the P1 cross-user `profiles` visibility/RLS mismatch. The `profiles_select` policy in `supabase/migrations/0002_security_hardening.sql` now lets a brand read influencer profiles and a creator read brand profiles (plus own row and admin), mirroring the `influencer_profiles`/`brand_profiles` policies. This covers every `display_name`/`location` join in deal, chat, discovery, and agreement screens. profiles holds no sensitive columns (id, role, display_name, location, created_at); email lives in auth.users. Still needs live verification once migration 0002 is applied: confirm brand-to-creator and creator-to-brand names/locations render for real authenticated accounts.
-2. DONE (code-level, 2026-07-17): submission, approval, final-link, payment, payment-confirmation, and dispute transitions are now atomic RPCs in `0003_atomic_transitions.sql`. Unverified against a live database.
-3. RESOLVE FIRST (2026-07-17): the official Supabase project is `fslthsbjtgmdbabwcubs`, and it is shared with the live legacy site. Applying 0002 breaks that site. See the STOP section under "Database work required" before applying anything. This is now the blocking decision for launch, not a formality.
-4. Configure official Zeke credentials and production URLs without committing `.env.local`.
+1. DONE (database applied, 2026-07-22): Fixed the P1 cross-user `profiles` visibility/RLS mismatch. Authenticated UI verification of brand-to-creator and creator-to-brand names/locations remains part of live QA.
+2. DONE (database applied, 2026-07-22): submission, approval, final-link, payment, payment-confirmation, and dispute transitions are live as atomic RPCs from `0003_atomic_transitions.sql`.
+3. DONE (2026-07-22): migrations 0001-0003 are applied and directly verified on the official Supabase project `fslthsbjtgmdbabwcubs`.
+4. DONE (2026-07-22): configured the public Supabase values and production site URL in Vercel without committing `.env.local`.
 5. Run authenticated creator, brand, and admin end-to-end QA.
-6. Connect `zeke-global/app` to Vercel with Root Directory `zeke-next`, deploy a preview, and move Namecheap DNS only after approval.
+6. DONE (2026-07-22): Vercel Root Directory is `zeke-next`; apex and `www` DNS point to Vercel; both custom domains serve the Next.js app over HTTPS.
 
 QA update 2026-07-14:
 
@@ -150,7 +180,9 @@ Verification on 2026-06-19:
 - Shared role checks replace duplicated action-level role logic.
 - Input limits and duplicate/race guards were added where identified by QA.
 
-## STOP: 0002 breaks the live legacy site (found 2026-07-17)
+## RESOLVED: legacy compatibility is not required (decision 2026-07-22)
+
+The owner confirmed that Zeke is not live yet and the legacy HTML site will be retired. Use the existing Supabase project, apply migrations 0001-0003 after backup/preflight, deploy `zeke-next` on Vercel, and then point the Namecheap domain to Vercel. The analysis below is retained only to explain why the migrations and legacy app must not run side-by-side.
 
 The Next.js app and the live legacy static site share ONE Supabase project:
 `fslthsbjtgmdbabwcubs`. Confirmed in `zeke-next/.env.local` and `../js/supabase.js`
@@ -194,19 +226,15 @@ is the live product. Options, in rough order of safety:
 The legacy site is Codex's territory per `../HANDOFF.md`, so option 3 or any
 change to `js/*.js` needs coordination, not a unilateral edit.
 
-## Database work required
+## Database deployment complete
 
-Apply these files in order using the Supabase SQL Editor, but read the
-STOP section above first -- do not apply 0002/0003 to the shared live project
-until the legacy-site conflict is resolved:
+These files were applied in order to the hosted Supabase project on 2026-07-22:
 
 1. `supabase/migrations/0001_notifications_related_deal.sql`
 2. `supabase/migrations/0002_security_hardening.sql`
 3. `supabase/migrations/0003_atomic_transitions.sql`
 
-Migration 0003 depends on 0002: the transition functions assume 0002's
-state-machine triggers, column grants, and `disputes.previous_deal_status`
-column exist. Applying 0003 first will fail or leave gaps.
+Migration 0003 depends on 0002: the transition functions assume 0002's state-machine triggers, column grants, and `disputes.previous_deal_status` column exist. The production ledger confirms the correct 0001 -> 0002 -> 0003 order.
 
 Note: once 0003 is applied, the app calls these RPCs for every core transition.
 Applying 0002 without 0003 leaves submission, final-link, payment, and dispute
@@ -222,7 +250,7 @@ Migration 0002 adds:
 - dispute previous-status tracking
 - uniqueness guards for agreements, payments, final links, submissions, offers, Shield requests, and disputes
 
-Important: RPC-backed Shield, dispute, and notification actions will not work against the live project until migration 0002 is applied. Review existing data for duplicates before applying its unique indexes.
+RPC-backed Shield, dispute, and notification actions are now installed. Duplicate data was reviewed and reconciled without deleting deals or messages; see "Supabase production migration" above.
 
 ## Remaining live QA
 
@@ -264,4 +292,4 @@ Then open `http://localhost:3000`.
 ## Deliberately deferred
 
 - Email sender/domain configuration.
-- Vercel/DNS cutover until migrations and live QA pass.
+- Authenticated creator/brand/admin live workflow QA.

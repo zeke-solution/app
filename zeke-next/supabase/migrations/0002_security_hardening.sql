@@ -303,6 +303,45 @@ for each row execute function public.enforce_payment_confirmation();
 -- Replace broad FOR ALL policies with operation-specific policies.
 -- ---------------------------------------------------------------------------
 
+-- The hosted project may contain operation-specific policy names from an
+-- earlier manual hardening pass even when this migration is not recorded in
+-- supabase_migrations. Drop every target name as well as the legacy names
+-- below so this migration reconciles that drift instead of failing midway.
+drop policy if exists profiles_select on public.profiles;
+drop policy if exists profiles_update_own on public.profiles;
+drop policy if exists influencer_select on public.influencer_profiles;
+drop policy if exists influencer_update_own on public.influencer_profiles;
+drop policy if exists influencer_update_admin on public.influencer_profiles;
+drop policy if exists brand_select on public.brand_profiles;
+drop policy if exists brand_update_own on public.brand_profiles;
+drop policy if exists guardian_select on public.guardians;
+drop policy if exists campaign_select on public.campaigns;
+drop policy if exists campaign_insert_brand on public.campaigns;
+drop policy if exists campaign_update_brand on public.campaigns;
+drop policy if exists deal_select on public.deals;
+drop policy if exists deal_insert_brand on public.deals;
+drop policy if exists deal_update_parties on public.deals;
+drop policy if exists message_select on public.deal_messages;
+drop policy if exists message_insert on public.deal_messages;
+drop policy if exists submission_select on public.submissions;
+drop policy if exists submission_insert_creator on public.submissions;
+drop policy if exists submission_update_brand on public.submissions;
+drop policy if exists final_link_select on public.final_links;
+drop policy if exists final_link_insert_creator on public.final_links;
+drop policy if exists payment_select on public.payments;
+drop policy if exists payment_insert_brand on public.payments;
+drop policy if exists payment_update_creator on public.payments;
+drop policy if exists agreement_select on public.agreements;
+drop policy if exists agreement_insert_creator on public.agreements;
+drop policy if exists dispute_select on public.disputes;
+drop policy if exists dispute_insert_party on public.disputes;
+drop policy if exists dispute_update_admin on public.disputes;
+drop policy if exists notification_select_own on public.notifications;
+drop policy if exists notification_update_own on public.notifications;
+drop policy if exists shield_select on public.shield_requests;
+drop policy if exists shield_insert_creator on public.shield_requests;
+drop policy if exists shield_update_admin on public.shield_requests;
+
 drop policy if exists profiles_own on public.profiles;
 drop policy if exists profiles_admin_read on public.profiles;
 -- Cross-user profile visibility is deliberately scoped to the opposite role:
@@ -480,8 +519,29 @@ create unique index if not exists shield_one_pending_per_creator
 create unique index if not exists disputes_one_active_per_deal
   on public.disputes (deal_id) where status in ('open','escalated');
 create unique index if not exists submissions_unique_round on public.submissions (deal_id, round);
-create unique index if not exists campaign_offer_one_per_creator
-  on public.deals (campaign_id, influencer_id) where campaign_id is not null;
+
+-- Preserve cancelled offer history while allowing only one current offer per
+-- creator and campaign. This legacy negotiation was superseded by an accepted
+-- replacement three minutes later; keep its messages, but close the stale row.
+update public.deals
+set status = 'cancelled', updated_at = now()
+where id = '0d65d0d4-3f23-4644-a11b-c35b1e3a9495'
+  and campaign_id = '193a5a2b-5f1e-4e89-9ef7-31b83c3fbe4e'
+  and influencer_id = 'c97d554a-c41b-45de-9605-5858685dcdb2'
+  and status = 'negotiating'
+  and exists (
+    select 1
+    from public.deals replacement
+    where replacement.id = 'e4dd0ac6-667d-4690-b770-a75ba6146342'
+      and replacement.campaign_id = public.deals.campaign_id
+      and replacement.influencer_id = public.deals.influencer_id
+      and replacement.status <> 'cancelled'
+  );
+
+drop index if exists public.campaign_offer_one_per_creator;
+create unique index campaign_offer_one_per_creator
+  on public.deals (campaign_id, influencer_id)
+  where campaign_id is not null and status <> 'cancelled';
 
 drop policy if exists dispute_parties on public.disputes;
 create policy dispute_select on public.disputes for select
