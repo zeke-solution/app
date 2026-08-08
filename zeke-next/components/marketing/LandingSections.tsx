@@ -56,7 +56,7 @@ const BRAND_PROMISE = [
 
 const FAQS = [
   ["Do creators and brands have to pay?", "No. Both sides can join and use the core marketplace free. Zeke Shield is an optional creator upgrade."],
-  ["What does Zeke Shield protect?", "Shield adds a PDF agreement, priority support, verified status, and active help if a campaign dispute develops."],
+  ["What does Zeke Shield include?", "Shield adds a PDF agreement, verified status, priority discovery, assisted follow-ups and table talks. If a creator chooses legal action, they directly hire and pay an independent provider while Zeke coordinates authorised records."],
   ["How does the deal workflow help?", "Offers, terms, content reviews, final links, payments, and disputes are kept in one structured campaign record."],
   ["Can creators reject or negotiate an offer?", "Yes. A creator can decline or negotiate before accepting. The deal terms are not locked until both sides agree."],
   ["How are brands verified?", "Zeke records business profile information and keeps campaign activity visible so creators can assess the opportunity before accepting."],
@@ -74,7 +74,9 @@ const FREE_FEATURES = [
 const SHIELD_FEATURES = [
   "Everything in the free marketplace",
   "PDF agreement on every eligible deal",
-  "Zeke support during disputes",
+  "Professional follow-ups and table talks",
+  "Creator-controlled legal-provider access",
+  "Authorised case and lawyer coordination",
   "Verified Shield profile badge",
   "Priority creator discovery",
   "Monthly performance report",
@@ -134,8 +136,8 @@ export function LandingSections() {
           </div>
           <div className="mt-6 text-center lg:mt-0 lg:text-left">
             <div className="text-[11px] font-bold uppercase tracking-[0.17em] text-cyan">Zeke exists to protect the deal</div>
-            <h2 className="mt-3 text-2xl font-extrabold leading-tight sm:text-3xl">Every creator deserves structure without needing a lawyer.</h2>
-            <p className="mt-3 text-sm leading-6 text-muted">Zeke levels the playing field with a shared record, clear milestones, and an escalation path when a Shield deal needs help.</p>
+            <h2 className="mt-3 text-2xl font-extrabold leading-tight sm:text-3xl">Every creator deserves structure—and a clear path when a deal goes wrong.</h2>
+            <p className="mt-3 text-sm leading-6 text-muted">Zeke keeps the record, handles assisted follow-ups, and lets the creator decide whether and when to seek independent legal help.</p>
           </div>
           <div className="mt-7 rounded-2xl border border-white/10 bg-white/[0.05] p-5 lg:mt-0">
             <CheckList dark items={["Your work", "Your payment trail", "Your usage terms", "Your deal history"]} />
@@ -162,14 +164,15 @@ export function LandingSections() {
 
       <section id="shield" className="scroll-mt-20 px-5 py-16 sm:px-6 sm:py-20">
         <div className="mx-auto max-w-[1040px]">
-          <SectionHeading eyebrow="Shield or Free" title="Choose the support level that fits." body="The marketplace stays free. Shield adds deeper protection and direct support for creators who want it." />
+          <SectionHeading eyebrow="Shield or Free" title="Choose the support level that fits." body="The marketplace stays free. Shield adds assisted dispute support and creator-controlled access to independent legal providers." />
           <div className="mt-10 grid overflow-hidden rounded-[28px] border border-[#d7d4eb] shadow-[0_22px_60px_rgba(40,25,85,0.1)] lg:grid-cols-2">
             <article className="relative bg-dark p-7 text-white sm:p-9">
               <span className="absolute right-6 top-6 rounded-full bg-gradient-to-r from-purple to-pink px-3 py-1 text-[9px] font-black uppercase tracking-wider">Optional upgrade</span>
-              <div className="flex items-center gap-3"><span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-accent to-purple text-white"><ShieldIcon width={24} height={24} /></span><div><h3 className="text-xl font-extrabold">Zeke Shield</h3><p className="text-xs text-muted">Protection plus human backup</p></div></div>
+              <div className="flex items-center gap-3"><span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-accent to-purple text-white"><ShieldIcon width={24} height={24} /></span><div><h3 className="text-xl font-extrabold">Zeke Shield</h3><p className="text-xs text-muted">Follow-up, coordination and legal access</p></div></div>
               <div className="mt-7 flex items-end gap-2"><span className="text-4xl font-black">₹1,999</span><span className="pb-1 text-sm text-muted">/ year</span></div>
               <div className="mt-6"><CheckList dark items={SHIELD_FEATURES} /></div>
               <Link href="/register?role=influencer" className={buttonClassName({ fullWidth: true, className: "mt-7" })}>Join with Shield</Link>
+              <Link href="/shield" className="mt-3 block text-center text-xs font-semibold text-gold underline underline-offset-4">See exactly how Shield works</Link>
             </article>
             <article className="bg-white p-7 sm:p-9">
               <span className="rounded-full border border-zgreen/25 bg-zgreen/[0.07] px-3 py-1 text-[9px] font-black uppercase tracking-wider text-zgreen">Free forever</span>
@@ -224,7 +227,7 @@ export function LandingSections() {
           </div>
           <div className="rounded-2xl border border-white/10 bg-white/[0.05] p-5">
             <ShieldIcon width={30} height={30} className="text-purple" />
-            <p className="mt-3 text-sm leading-6 text-muted">If the Zeke team cannot resolve a Shield dispute, we help organise the deal record so the creator can choose the next step.</p>
+            <p className="mt-3 text-sm leading-6 text-muted">Shield creators can continue table talks as long as they wish. If they choose legal action, they directly engage a provider and Zeke coordinates authorised case records.</p>
           </div>
         </div>
       </section>
@@ -259,7 +262,7 @@ export function LandingSections() {
                 <span className="absolute right-5 top-5 rounded-full bg-gradient-to-r from-purple to-pink px-3 py-1 text-[9px] font-black uppercase tracking-wider text-white">Creator upgrade</span>
                 <h3 className="mt-8 text-lg font-extrabold text-dark">Shield</h3>
                 <div className="mt-2 text-4xl font-black text-dark">₹1,999<span className="text-sm font-semibold text-[#68647f]"> / year</span></div>
-                <p className="mt-3 text-xs leading-5 text-[#68647f]">For creators who want agreements, verified status, priority, and dispute support.</p>
+                <p className="mt-3 text-xs leading-5 text-[#68647f]">For creators who want agreements, assisted follow-ups, table talks and creator-controlled legal access. Legal costs are separate.</p>
                 <Link href="/register?role=influencer" className={buttonClassName({ fullWidth: true, className: "mt-6" })}>Choose Shield</Link>
               </article>
             </div>

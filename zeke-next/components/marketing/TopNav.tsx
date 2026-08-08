@@ -29,7 +29,7 @@ export function TopNav() {
               For Brands
             </Link>
             <Link href="/#how-it-works" className="rounded-[10px] px-3 py-2 text-xs font-semibold text-muted transition-colors hover:bg-white/5 hover:text-white">How It Works</Link>
-            <Link href="/#shield" className="rounded-[10px] px-3 py-2 text-xs font-semibold text-muted transition-colors hover:bg-white/5 hover:text-white">Shield</Link>
+            <Link href="/shield" className="rounded-[10px] px-3 py-2 text-xs font-semibold text-muted transition-colors hover:bg-white/5 hover:text-white">Shield</Link>
             <Link href="/about" className="rounded-[10px] px-3 py-2 text-xs font-semibold text-muted transition-colors hover:bg-white/5 hover:text-white">About</Link>
           </div>
           <div className="hidden items-center gap-2.5 sm:flex">
@@ -68,7 +68,7 @@ export function TopNav() {
             For Brands
           </Link>
           <Link href="/#how-it-works" onClick={() => setOpen(false)} className="block rounded-[10px] px-4 py-3 text-[15px] font-medium text-light hover:bg-white/5 hover:text-white">How It Works</Link>
-          <Link href="/#shield" onClick={() => setOpen(false)} className="block rounded-[10px] px-4 py-3 text-[15px] font-medium text-light hover:bg-white/5 hover:text-white">Shield</Link>
+          <Link href="/shield" onClick={() => setOpen(false)} className="block rounded-[10px] px-4 py-3 text-[15px] font-medium text-light hover:bg-white/5 hover:text-white">Shield</Link>
           <Link href="/about" onClick={() => setOpen(false)} className="block rounded-[10px] px-4 py-3 text-[15px] font-medium text-light hover:bg-white/5 hover:text-white">About</Link>
           <div className="my-1 border-t border-border" />
           <div className="flex gap-2 py-1">

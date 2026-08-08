@@ -28,7 +28,7 @@ export default async function AdminDisputesPage() {
   return (
     <div>
       <h2 className="text-xl font-black text-white">Disputes</h2>
-      <p className="mb-5 mt-1 text-sm text-muted">Active disputes between creators and brands</p>
+      <p className="mb-5 mt-1 text-sm text-muted">General dispute review. A Shield creator controls any move to independent legal help from their Shield case.</p>
       {disputes.length === 0 ? (
         <div className="rounded-2xl border border-border bg-card p-12 text-center text-sm text-muted">No open disputes.</div>
       ) : (

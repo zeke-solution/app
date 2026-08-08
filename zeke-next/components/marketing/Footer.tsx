@@ -10,7 +10,7 @@ export function Footer() {
               zeke<span className="brand-wordmark-accent">.</span>
             </div>
             <p className="mb-4 text-[13px] leading-relaxed text-muted">
-              Kerala&apos;s first legally-protected influencer marketplace.
+              Kerala&apos;s structured creator-brand deal platform.
             </p>
             <a
               href="tel:+971523542485"
@@ -48,7 +48,7 @@ export function Footer() {
               <Link href="/#creators" className="text-[13px] text-muted hover:text-white">
                 For Creators
               </Link>
-              <Link href="/#shield" className="text-[13px] text-muted hover:text-white">
+              <Link href="/shield" className="text-[13px] text-muted hover:text-white">
                 Zeke Shield
               </Link>
               <Link href="/#how-it-works" className="text-[13px] text-muted hover:text-white">How It Works</Link>
@@ -75,7 +75,7 @@ export function Footer() {
           <div className="text-xs text-muted">
             &copy; {new Date().getFullYear()} Zeke. All rights reserved.
           </div>
-          <div className="text-xs text-light">&#128737; Legally protected deals</div>
+          <div className="text-xs text-light">&#128737; Clear deals. Creator-controlled support.</div>
         </div>
       </div>
     </footer>

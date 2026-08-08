@@ -34,6 +34,8 @@ export async function raiseDispute(dealId: string, reason: string): Promise<Acti
 
   revalidatePath(`/creator/deals/${dealId}`);
   revalidatePath(`/brand/deals/${dealId}`);
+  revalidatePath("/creator/shield");
+  revalidatePath("/admin/shield/cases");
   return { ok: true };
 }
 
@@ -53,17 +55,5 @@ export async function resolveDispute(disputeId: string, resolution: string): Pro
   revalidatePath("/admin/disputes");
   revalidatePath("/admin/overview");
   revalidatePath("/admin/deals");
-  return { ok: true };
-}
-
-export async function escalateDispute(disputeId: string): Promise<ActionResult> {
-  const supabase = await createClient();
-  const { data, error } = await supabase.rpc("escalate_dispute_transaction", {
-    p_dispute_id: disputeId,
-  });
-  if (error) return { ok: false, error: "Could not escalate dispute." };
-  if (!data) return { ok: false, error: "Only open disputes can be escalated." };
-
-  revalidatePath("/admin/disputes");
   return { ok: true };
 }

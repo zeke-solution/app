@@ -21,6 +21,38 @@ type SubmissionStatus = "pending" | "approved" | "rejected";
 type PaymentStatus = "pending" | "confirmed";
 type DisputeStatus = "open" | "resolved" | "escalated";
 type ShieldStatus = "pending" | "activated" | "rejected";
+type LegalProviderType = "advocate" | "law_firm";
+type LegalProviderScale = "independent" | "boutique" | "mid_size" | "full_service";
+type ShieldCaseStatus =
+  | "intake"
+  | "assisted_follow_up"
+  | "settlement_talks"
+  | "lawyer_selection"
+  | "legal_coordination"
+  | "resolved"
+  | "closed";
+type ShieldCasePath = "undecided" | "follow_up" | "legal";
+type ShieldCaseActorRole = "creator" | "admin" | "system";
+type ShieldCaseUpdateKind =
+  | "case_opened"
+  | "creator_decision"
+  | "follow_up"
+  | "settlement_talk"
+  | "provider_selected"
+  | "engagement_confirmed"
+  | "legal_coordination"
+  | "document_added"
+  | "status_change"
+  | "note"
+  | "outcome";
+type ShieldCaseDocumentCategory =
+  | "agreement"
+  | "invoice"
+  | "communication"
+  | "payment_record"
+  | "deliverable"
+  | "legal"
+  | "other";
 
 export interface Database {
   public: {
@@ -264,6 +296,95 @@ export interface Database {
         };
         Update: Partial<Database["public"]["Tables"]["shield_requests"]["Insert"]>;
       };
+      legal_providers: {
+        Row: {
+          id: string;
+          display_name: string;
+          provider_type: LegalProviderType;
+          firm_scale: LegalProviderScale;
+          city: string | null;
+          state: string | null;
+          languages: string[];
+          matter_types: string[];
+          profile_summary: string | null;
+          fee_note: string | null;
+          contact_email: string | null;
+          contact_phone: string | null;
+          website: string | null;
+          enrollment_reference: string | null;
+          verified_at: string | null;
+          active: boolean;
+          created_by: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: Omit<
+          Database["public"]["Tables"]["legal_providers"]["Row"],
+          "id" | "created_at" | "updated_at"
+        > & { id?: string };
+        Update: Partial<Database["public"]["Tables"]["legal_providers"]["Insert"]>;
+      };
+      shield_cases: {
+        Row: {
+          id: string;
+          dispute_id: string;
+          creator_id: string;
+          status: ShieldCaseStatus;
+          creator_path: ShieldCasePath;
+          selected_provider_id: string | null;
+          contact_brand_consent: boolean;
+          share_with_provider_consent: boolean;
+          legal_cost_acknowledged: boolean;
+          independent_advice_acknowledged: boolean;
+          creator_decided_at: string | null;
+          engagement_confirmed_at: string | null;
+          outcome: string | null;
+          opened_at: string;
+          updated_at: string;
+          closed_at: string | null;
+        };
+        Insert: Omit<
+          Database["public"]["Tables"]["shield_cases"]["Row"],
+          "id" | "opened_at" | "updated_at"
+        > & { id?: string };
+        Update: Partial<Database["public"]["Tables"]["shield_cases"]["Insert"]>;
+      };
+      shield_case_updates: {
+        Row: {
+          id: string;
+          case_id: string;
+          actor_id: string | null;
+          actor_role: ShieldCaseActorRole;
+          kind: ShieldCaseUpdateKind;
+          body: string;
+          audience: "creator_and_admin" | "admin_only";
+          created_at: string;
+        };
+        Insert: Omit<
+          Database["public"]["Tables"]["shield_case_updates"]["Row"],
+          "id" | "created_at"
+        > & { id?: string };
+        Update: Partial<Database["public"]["Tables"]["shield_case_updates"]["Insert"]>;
+      };
+      shield_case_documents: {
+        Row: {
+          id: string;
+          case_id: string;
+          uploaded_by: string;
+          category: ShieldCaseDocumentCategory;
+          file_name: string;
+          storage_path: string;
+          mime_type: string;
+          size_bytes: number;
+          shared_with_provider: boolean;
+          created_at: string;
+        };
+        Insert: Omit<
+          Database["public"]["Tables"]["shield_case_documents"]["Row"],
+          "id" | "created_at"
+        > & { id?: string };
+        Update: Partial<Database["public"]["Tables"]["shield_case_documents"]["Insert"]>;
+      };
     };
     Functions: {
       create_notification: {
@@ -286,10 +407,6 @@ export interface Database {
       };
       resolve_dispute_transaction: {
         Args: { p_dispute_id: string; p_resolution: string };
-        Returns: boolean;
-      };
-      escalate_dispute_transaction: {
-        Args: { p_dispute_id: string };
         Returns: boolean;
       };
       // 0003_atomic_transitions.sql. These return null on success or a short
@@ -327,6 +444,56 @@ export interface Database {
       };
       raise_dispute_transaction: {
         Args: { p_deal_id: string; p_reason: string };
+        Returns: string | null;
+      };
+      has_active_shield: {
+        Args: { p_creator_id?: string };
+        Returns: boolean;
+      };
+      choose_shield_case_path: {
+        Args: {
+          p_case_id: string;
+          p_path: "follow_up" | "legal";
+          p_contact_brand_consent: boolean;
+          p_legal_cost_acknowledged?: boolean;
+          p_independent_advice_acknowledged?: boolean;
+        };
+        Returns: string | null;
+      };
+      select_shield_legal_provider: {
+        Args: {
+          p_case_id: string;
+          p_provider_id: string;
+          p_share_consent: boolean;
+          p_legal_cost_acknowledged: boolean;
+          p_independent_advice_acknowledged: boolean;
+        };
+        Returns: string | null;
+      };
+      confirm_shield_legal_engagement: {
+        Args: { p_case_id: string };
+        Returns: string | null;
+      };
+      withdraw_shield_provider_sharing: {
+        Args: { p_case_id: string };
+        Returns: string | null;
+      };
+      add_shield_case_update: {
+        Args: {
+          p_case_id: string;
+          p_body: string;
+          p_kind?: "follow_up" | "settlement_talk" | "legal_coordination" | "note";
+          p_audience?: "creator_and_admin" | "admin_only";
+        };
+        Returns: string | null;
+      };
+      admin_update_shield_case: {
+        Args: {
+          p_case_id: string;
+          p_status: ShieldCaseStatus;
+          p_note: string;
+          p_outcome?: string | null;
+        };
         Returns: string | null;
       };
     };

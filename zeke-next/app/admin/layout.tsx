@@ -2,7 +2,7 @@ import { requireRole } from "@/lib/auth/roles";
 import { DashboardTopNav } from "@/components/layout/DashboardTopNav";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { MobileBottomNav } from "@/components/layout/MobileBottomNav";
-import { GridIcon, UsersIcon, ShieldIcon, DisputeIcon, ListIcon } from "@/components/layout/icons";
+import { GridIcon, UsersIcon, ShieldIcon, DisputeIcon, ListIcon, AgreementIcon } from "@/components/layout/icons";
 
 export default async function AdminLayout({
   children,
@@ -15,7 +15,9 @@ export default async function AdminLayout({
     { href: "/admin/overview", label: "Overview", icon: <GridIcon /> },
     { href: "/admin/users", label: "Users", icon: <UsersIcon /> },
     { href: "/admin/shield", label: "Shield Requests", icon: <ShieldIcon /> },
-    { href: "/admin/disputes", label: "Disputes", icon: <DisputeIcon /> },
+    { href: "/admin/shield/cases", label: "Shield Cases", icon: <DisputeIcon /> },
+    { href: "/admin/legal-pool", label: "Legal Pool", icon: <AgreementIcon /> },
+    { href: "/admin/disputes", label: "All Disputes", icon: <DisputeIcon /> },
     { href: "/admin/deals", label: "All Deals", icon: <ListIcon /> },
   ];
 

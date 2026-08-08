@@ -22,7 +22,7 @@ export function buildAgreementPdf(input: {
 
   doc.setFont("helvetica", "bold").setFontSize(20).text("ZEKE", 20, y);
   y += 8;
-  doc.setFont("helvetica", "normal").setFontSize(10).setTextColor(120).text("Legally Protected Influencer Marketplace", 20, y);
+  doc.setFont("helvetica", "normal").setFontSize(10).setTextColor(120).text("Structured Creator-Brand Deal Record", 20, y);
   y += 14;
   doc.setTextColor(0).setFontSize(14).setFont("helvetica", "bold").text("Deal Agreement", 20, y);
   y += 10;

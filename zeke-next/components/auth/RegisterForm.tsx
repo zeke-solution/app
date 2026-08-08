@@ -384,7 +384,7 @@ export function RegisterForm({ initialRole = "influencer" }: { initialRole?: Rol
                 <div>
                   <div className="text-xs font-bold text-gold">Upgrade to Zeke Shield later</div>
                   <div className="mt-0.5 text-xs text-muted">
-                    &#8377;1,999/yr — legal protection, verified badge &amp; priority discovery
+                    &#8377;1,999/yr — assisted dispute support, verified badge &amp; priority discovery
                   </div>
                 </div>
               </div>

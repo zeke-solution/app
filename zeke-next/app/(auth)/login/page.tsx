@@ -16,7 +16,7 @@ export default async function LoginPage({
       <p className="mb-7 text-center text-[13px] text-muted">Sign in to your account</p>
       <LoginForm initialError={initialError} />
       <div className="mt-5 flex items-center justify-center gap-1.5 text-[11px] text-muted">
-        &#128737; Legally protected deals on Zeke
+        &#128737; Structured deals and creator-controlled support
       </div>
     </div>
   );

@@ -11,7 +11,7 @@ const FAVICON_SVG =
 export const metadata: Metadata = {
   title: "Zeke - Your Perfect PR Partner",
   description:
-    "Zeke connects content creators with brands through structured, legally protected deals.",
+    "Zeke connects creators and brands through structured deals, clear records, and creator-controlled Shield support.",
   icons: { icon: FAVICON_SVG },
 };
 

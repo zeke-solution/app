@@ -9,6 +9,7 @@ import {
   DealsIcon,
   AgreementIcon,
   ProfileIcon,
+  ShieldIcon,
 } from "@/components/layout/icons";
 
 export default async function CreatorLayout({
@@ -28,6 +29,7 @@ export default async function CreatorLayout({
     { href: "/creator/chats", label: "Chats", icon: <ChatIcon /> },
     { href: "/creator/deals", label: "Deals", icon: <DealsIcon /> },
     { href: "/creator/agreements", label: "Agreements", icon: <AgreementIcon /> },
+    { href: "/creator/shield", label: "Zeke Shield", icon: <ShieldIcon /> },
     { href: "/creator/profile", label: "My Profile", icon: <ProfileIcon /> },
   ];
 
