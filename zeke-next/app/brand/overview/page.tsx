@@ -12,6 +12,7 @@ export default async function BrandOverviewPage() {
   const session = await getSessionProfile();
   if (!session) return null;
   const supabase = await createClient();
+  const today = new Date().toISOString().slice(0, 10);
 
   const [activeCampaignsRes, activeDealsRes, completedDealsRes, campaignsPreviewRes, creatorsRes] = await Promise.all([
     supabase.from("campaigns").select("id", { count: "exact", head: true }).eq("brand_id", session.id).eq("status", "active"),
@@ -24,8 +25,9 @@ export default async function BrandOverviewPage() {
     supabase.from("campaigns").select("*").eq("brand_id", session.id).eq("status", "active").order("created_at", { ascending: false }).limit(2),
     supabase
       .from("influencer_profiles")
-      .select("id,niche,ig_followers,rating,shield_active,handle,profiles!influencer_profiles_id_fkey(display_name,location)")
+      .select("id,niche,ig_followers,rating,shield_active,shield_expires,handle,profiles!influencer_profiles_id_fkey(display_name,location)")
       .eq("shield_active", true)
+      .or(`shield_expires.is.null,shield_expires.gte.${today}`)
       .order("ig_followers", { ascending: false })
       .limit(4),
   ]);

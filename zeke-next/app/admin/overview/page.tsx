@@ -6,11 +6,12 @@ import { UsersIcon, ShieldIcon, DisputeIcon } from "@/components/layout/icons";
 
 export default async function AdminOverviewPage() {
   const supabase = await createClient();
+  const today = new Date().toISOString().slice(0, 10);
 
   const [usersRes, dealsRes, shieldRes, disputesRes, shieldPendingRes, recentDealsRes] = await Promise.all([
     supabase.from("profiles").select("id", { count: "exact", head: true }),
     supabase.from("deals").select("id", { count: "exact", head: true }).not("status", "in", '("completed","cancelled")'),
-    supabase.from("influencer_profiles").select("id", { count: "exact", head: true }).eq("shield_active", true),
+    supabase.from("influencer_profiles").select("id", { count: "exact", head: true }).eq("shield_active", true).or(`shield_expires.is.null,shield_expires.gte.${today}`),
     supabase.from("disputes").select("id", { count: "exact", head: true }).eq("status", "open"),
     supabase.from("shield_requests").select("id", { count: "exact", head: true }).eq("status", "pending"),
     supabase

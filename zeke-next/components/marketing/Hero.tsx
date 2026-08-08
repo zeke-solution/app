@@ -31,7 +31,7 @@ export function Hero() {
           </h1>
           <p className="mt-6 max-w-[620px] text-[15px] leading-7 text-muted sm:text-[17px]">
             Zeke gives creators and brands one trusted place to discover, agree, deliver, and
-            close campaigns—with every decision recorded from first offer to final payment.
+            close campaigns - with every decision recorded from first offer to final payment.
           </p>
 
           <div className="mt-7 grid max-w-[650px] gap-3 sm:grid-cols-3">
@@ -67,9 +67,9 @@ export function Hero() {
           </Link>
         </div>
 
-        <div className="relative mx-auto min-h-[440px] w-full max-w-[520px] sm:min-h-[500px]">
+        <div className="relative mx-auto min-h-[440px] w-full max-w-[520px] sm:min-h-[500px] lg:min-h-[580px]">
           <div className="absolute inset-[8%] rounded-full bg-gradient-to-br from-accent/25 via-purple/20 to-pink/20 blur-[58px]" aria-hidden />
-          <div className="brand-panel absolute inset-x-3 top-5 overflow-hidden rounded-[28px] border border-purple/35 p-5 shadow-[0_28px_90px_rgba(8,4,24,0.55)] sm:inset-x-7 sm:p-6">
+          <div className="brand-panel absolute inset-x-3 top-5 overflow-hidden rounded-[28px] lg:top-16 border border-purple/35 p-5 shadow-[0_28px_90px_rgba(8,4,24,0.55)] sm:inset-x-7 sm:p-6">
             <div className="flex items-center justify-between gap-4 border-b border-white/10 pb-4">
               <div className="flex items-center gap-3">
                 <div className="brand-avatar flex h-11 w-11 items-center justify-center rounded-2xl border text-xs font-black">AC</div>
@@ -120,7 +120,7 @@ export function Hero() {
             <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-cyan/15 text-cyan"><ShieldIcon width={16} height={16} /></span>
             <span><strong className="block text-[11px] text-white">Deal protected</strong><span className="text-[9px] text-muted">Recorded by Zeke</span></span>
           </div>
-          <div className="absolute bottom-20 right-0 hidden items-center gap-2 rounded-2xl border border-pink/25 bg-navy/95 px-3 py-2.5 shadow-xl sm:flex">
+          <div className="absolute bottom-0 right-0 hidden items-center gap-2 rounded-2xl border border-pink/25 bg-navy/95 px-3 py-2.5 shadow-xl sm:flex">
             <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-pink/15 text-pink"><AgreementIcon width={16} height={16} /></span>
             <span><strong className="block text-[11px] text-white">Usage rights clear</strong><span className="text-[9px] text-muted">Terms in one place</span></span>
           </div>

@@ -3,12 +3,13 @@ import { createClient } from "@/lib/supabase/server";
 import { fmtDate, fmtNum } from "@/lib/domain/format";
 import { AgreementIcon } from "@/components/layout/icons";
 import { Badge } from "@/components/ui/Badge";
+import { isShieldMembershipActive } from "@/lib/domain/shield-membership";
 
 export default async function CreatorAgreementsPage() {
   const session = await getSessionProfile();
   if (!session) return null;
   const supabase = await createClient();
-  const isShield = !!session.inf?.shield_active;
+  const isShield = isShieldMembershipActive(session.inf);
 
   const { data } = await supabase
     .from("agreements")
@@ -62,7 +63,7 @@ export default async function CreatorAgreementsPage() {
                   <span className="font-semibold text-light">Title:</span> {deal.title}
                 </div>
                 <div>
-                  <span className="font-semibold text-light">Platform:</span> {deal.platform || "—"}
+                  <span className="font-semibold text-light">Platform:</span> {deal.platform || "-"}
                 </div>
                 <div>
                   <span className="font-semibold text-light">Value:</span> ₹{fmtNum(deal.amount)}
@@ -93,7 +94,7 @@ export default async function CreatorAgreementsPage() {
       )}
 
       <div className="mt-3 rounded-xl border border-gold/15 bg-gold/[0.04] p-3.5 text-xs leading-relaxed text-muted">
-        <span className="font-bold text-gold">How agreements work —</span> Generated the moment
+        <span className="font-bold text-gold">How agreements work -</span> Generated the moment
         both sides accept deal terms. Terms are locked immediately.
       </div>
     </div>

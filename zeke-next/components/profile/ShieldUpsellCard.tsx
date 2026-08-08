@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { requestShield } from "@/actions/shield";
 import { Button } from "@/components/ui/Button";
-import { SHIELD_ANNUAL_PRICE_INR } from "@/lib/domain/constants";
+import { SHIELD_MONTHLY_PRICE_INR } from "@/lib/domain/constants";
 
 type Status = "active" | "pending" | "none";
 
@@ -16,7 +16,7 @@ export function ShieldUpsellCard({ initialStatus }: { initialStatus: Status }) {
   async function handleRequest() {
     if (
       !confirm(
-        `Request Zeke Shield (₹${SHIELD_ANNUAL_PRICE_INR}/yr)? Our team will follow up to confirm payment, then activate your Shield within 24h.`
+        `Request Zeke Shield (₹${SHIELD_MONTHLY_PRICE_INR}/month)? Our team will follow up to confirm payment, then activate your Shield within 24h.`
       )
     )
       return;
@@ -52,7 +52,7 @@ export function ShieldUpsellCard({ initialStatus }: { initialStatus: Status }) {
         </div>
       </div>
       <Button variant="gold" size="sm" onClick={handleRequest} disabled={pending || status === "pending"}>
-        {status === "pending" ? "Pending" : `₹${SHIELD_ANNUAL_PRICE_INR}/yr`}
+        {status === "pending" ? "Pending" : `₹${SHIELD_MONTHLY_PRICE_INR}/month`}
       </Button>
     </div>
   );

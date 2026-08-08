@@ -504,7 +504,7 @@ export function BrandDealDetailView({
         <div className="mb-2.5 text-[13px] font-bold text-white">Agreement</div>
         <div className="mb-3 rounded-xl bg-dark px-3.5 py-2.5 text-xs leading-relaxed text-muted">
           <div><span className="font-semibold text-light">Title:</span> {title}</div>
-          <div><span className="font-semibold text-light">Platform:</span> {platform || "—"}</div>
+          <div><span className="font-semibold text-light">Platform:</span> {platform || "-"}</div>
           <div><span className="font-semibold text-light">Value:</span> ₹{fmtNum(amount)}</div>
           {deliverables && <div><span className="font-semibold text-light">Deliverables:</span> {deliverables}</div>}
           <div><span className="font-semibold text-light">Generated:</span> {fmtDate(agreement.generatedAt)}</div>

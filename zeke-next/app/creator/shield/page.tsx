@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { requireRole } from "@/lib/auth/roles";
 import { createClient } from "@/lib/supabase/server";
-import { SHIELD_ANNUAL_PRICE_INR } from "@/lib/domain/constants";
+import { SHIELD_MONTHLY_PRICE_INR } from "@/lib/domain/constants";
+import { isShieldMembershipActive } from "@/lib/domain/shield-membership";
 import { SHIELD_CASE_STATUS, LEGAL_PROVIDER_SCALE } from "@/lib/domain/shield-case";
 import { fmtDate } from "@/lib/domain/format";
 import { ShieldCoverage } from "@/components/shield/ShieldCoverage";
@@ -34,8 +35,7 @@ interface ProviderSummary {
 export default async function CreatorShieldPage() {
   const session = await requireRole("influencer");
   const supabase = await createClient();
-  const isShield = !!session.inf?.shield_active &&
-    (!session.inf.shield_expires || session.inf.shield_expires >= new Date().toISOString().slice(0, 10));
+  const isShield = isShieldMembershipActive(session.inf);
 
   const [casesResult, providersResult] = isShield
     ? await Promise.all([
@@ -69,7 +69,7 @@ export default async function CreatorShieldPage() {
           </p>
         </div>
         <span className={`rounded-full border px-3 py-1 text-xs font-bold ${isShield ? "border-gold/35 bg-gold/10 text-gold" : "border-border text-muted"}`}>
-          {isShield ? "Shield active" : `Optional · ₹${SHIELD_ANNUAL_PRICE_INR}/year`}
+          {isShield ? "Shield active" : `Optional · ₹${SHIELD_MONTHLY_PRICE_INR}/month`}
         </span>
       </div>
 
@@ -77,7 +77,7 @@ export default async function CreatorShieldPage() {
         <div className="mb-5 rounded-2xl border border-gold/25 bg-gradient-to-br from-gold/[0.10] to-transparent p-5">
           <h2 className="text-base font-extrabold text-white">Activate Shield before you need it</h2>
           <p className="mt-2 max-w-2xl text-sm leading-6 text-muted">
-            Shield is an annual support membership. It covers Zeke&apos;s follow-up and coordination work; it does not pay lawyer or court costs.
+            Shield is a monthly support membership. It covers Zeke&apos;s follow-up and coordination work; it does not pay lawyer or court costs.
           </p>
           <Link href="/creator/profile" className="mt-4 inline-block">
             <Button variant="gold">Request Shield</Button>
@@ -133,7 +133,7 @@ export default async function CreatorShieldPage() {
           <section className="mt-6">
             <h2 className="text-base font-extrabold text-white">Independent legal-provider pool</h2>
             <p className="mt-1 text-xs leading-5 text-muted">
-              Factual profiles only—no rankings, paid placement or referral commission. You contact and hire a provider directly.
+              Factual profiles only - no rankings, paid placement or referral commission. You contact and hire a provider directly.
             </p>
             {providers.length === 0 ? (
               <div className="mt-3 rounded-2xl border border-border bg-card p-5 text-sm text-muted">

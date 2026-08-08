@@ -2,6 +2,7 @@ import { requireRole } from "@/lib/auth/roles";
 import { DashboardTopNav } from "@/components/layout/DashboardTopNav";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { MobileBottomNav } from "@/components/layout/MobileBottomNav";
+import { isShieldMembershipActive } from "@/lib/domain/shield-membership";
 import {
   HomeIcon,
   OffersIcon,
@@ -21,7 +22,7 @@ export default async function CreatorLayout({
   const name = session.profile.display_name;
   const initials = name.slice(0, 2).toUpperCase();
   const handle = session.inf?.handle ? `@${session.inf.handle.replace("@", "")}` : (session.inf?.niche ?? "--");
-  const isShield = !!session.inf?.shield_active;
+  const isShield = isShieldMembershipActive(session.inf);
 
   const navItems = [
     { href: "/creator/overview", label: "Home", icon: <HomeIcon /> },

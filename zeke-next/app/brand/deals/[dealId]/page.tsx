@@ -3,6 +3,7 @@ import { getSessionProfile } from "@/lib/auth/roles";
 import { createClient } from "@/lib/supabase/server";
 import type { DealStatus } from "@/lib/domain/deal-status";
 import { BrandDealDetailView } from "@/components/deals/BrandDealDetailView";
+import { isShieldMembershipActive } from "@/lib/domain/shield-membership";
 
 export default async function BrandDealDetailPage({
   params,
@@ -38,13 +39,13 @@ export default async function BrandDealDetailPage({
   if (agreementRes.data) {
     const { data: inf } = await supabase
       .from("influencer_profiles")
-      .select("shield_active")
+      .select("shield_active,shield_expires")
       .eq("id", deal.influencer_id ?? "")
       .maybeSingle();
     agreement = {
       id: agreementRes.data.id,
       generatedAt: agreementRes.data.generated_at,
-      creatorIsShield: !!inf?.shield_active,
+      creatorIsShield: isShieldMembershipActive(inf),
     };
   }
 

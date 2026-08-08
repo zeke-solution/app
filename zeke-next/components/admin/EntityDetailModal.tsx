@@ -129,13 +129,13 @@ function CreatorPanel({ creator, onClose }: { creator: CreatorDetail; onClose: (
       </div>
       <div className="mb-3 grid grid-cols-3 gap-2">
         <Tile label="Instagram" value={fmtNum(creator.igFollowers)} color="#6366F1" />
-        <Tile label="YouTube" value={creator.ytEnabled ? fmtNum(creator.ytFollowers) : "—"} color="#f87171" />
-        <Tile label="Twitter/X" value={creator.xEnabled ? fmtNum(creator.xFollowers) : "—"} color="#38bdf8" />
+        <Tile label="YouTube" value={creator.ytEnabled ? fmtNum(creator.ytFollowers) : "-"} color="#f87171" />
+        <Tile label="Twitter/X" value={creator.xEnabled ? fmtNum(creator.xFollowers) : "-"} color="#38bdf8" />
       </div>
       <div className="mb-4 grid grid-cols-3 gap-2">
         <Tile label="Deals" value={creator.deals.length} />
         <Tile label="Earned" value={`₹${fmtNum(creator.earned)}`} color="#059669" />
-        <Tile label="Rating" value={`★ ${creator.rating ?? "—"}`} color="#D97706" />
+        <Tile label="Rating" value={`★ ${creator.rating ?? "-"}`} color="#D97706" />
       </div>
       <div className="mb-2 text-xs font-bold text-light">Deals</div>
       {creator.deals.length === 0 ? (
@@ -171,7 +171,7 @@ function DealPanel({ deal, onClose }: { deal: AdminDealDetail; onClose: () => vo
       <div className="mb-3.5 grid grid-cols-3 gap-2">
         <Tile label="Value" value={`₹${fmtNum(deal.amount)}`} color="#D97706" />
         <Tile label="Status" value={deal.status} />
-        <Tile label="Deadline" value={deal.deadline ?? "—"} />
+        <Tile label="Deadline" value={deal.deadline ?? "-"} />
       </div>
       {deal.deliverables && (
         <div className="mb-3.5 rounded-[10px] border border-border bg-dark px-3 py-2.5">

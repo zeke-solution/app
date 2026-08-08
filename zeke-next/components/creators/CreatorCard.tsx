@@ -7,6 +7,7 @@ export interface CreatorRow {
   ig_followers: number | null;
   rating: number | null;
   shield_active: boolean | null;
+  shield_expires: string | null;
   handle: string | null;
   profiles: { display_name?: string; location?: string } | null;
 }

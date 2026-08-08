@@ -29,7 +29,7 @@ const SECTIONS = [
   {
     id: "payments",
     q: "6. Payments, fees, and taxes",
-    a: "Payment amounts and due dates are set by the parties in each deal. The core Zeke marketplace is free, while optional services such as Shield use the price shown when selected. Each party remains responsible for its own taxes, banking charges, legal costs and legally required records. Zeke does not take a percentage of creator earnings, legal fees or dispute recoveries.",
+    a: "Payment amounts and due dates are set by the parties in each deal. The core Zeke marketplace is free. Shield currently costs ₹1,999 for one month of access. Each approved request starts a one-month access period and does not renew automatically; a creator may request another month after expiry. Each party remains responsible for its own taxes, banking charges, legal costs and legally required records. Zeke does not take a percentage of creator earnings, legal fees or dispute recoveries.",
   },
   {
     id: "shield",

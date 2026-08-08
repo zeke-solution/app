@@ -29,7 +29,7 @@ export const GUARDIAN_RELATIONS = [
 
 export const BRAND_TYPES = ["business", "ngo", "agency"] as const;
 
-export const SHIELD_ANNUAL_PRICE_INR = 1999;
+export const SHIELD_MONTHLY_PRICE_INR = 1999;
 
 // supabase/schema.sql storage bucket comment block.
 export const STORAGE_BUCKETS = {

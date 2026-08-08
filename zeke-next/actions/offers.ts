@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/server";
 import { createNotification } from "@/lib/supabase/notifications";
 import { getSessionForRole } from "@/lib/auth/roles";
 import { fmtNum } from "@/lib/domain/format";
+import { isShieldMembershipActive } from "@/lib/domain/shield-membership";
 import {
   sendOfferSchema,
   sendCampaignOffersSchema,
@@ -33,10 +34,10 @@ export async function acceptOffer(dealId: string): Promise<ActionResult> {
 
   const { data: inf } = await supabase
     .from("influencer_profiles")
-    .select("shield_active")
+    .select("shield_active,shield_expires")
     .eq("id", userRes.user.id)
     .single();
-  const isShield = !!inf?.shield_active;
+  const isShield = isShieldMembershipActive(inf);
 
   const { data: profile } = await supabase
     .from("profiles")

@@ -31,14 +31,14 @@ export function buildAgreementPdf(input: {
   const lines: [string, string][] = [
     ["Brand", input.brandName],
     ["Creator", input.creatorName],
-    ["Title", input.title || "—"],
-    ["Platform", input.platform || "—"],
+    ["Title", input.title || "-"],
+    ["Platform", input.platform || "-"],
     ["Value", `₹${input.amount || 0}`],
-    ["Deliverables", input.deliverables || "—"],
+    ["Deliverables", input.deliverables || "-"],
     ["Usage rights", input.usageRights || "As agreed"],
     ["Payment terms", input.paymentTerms || "On completion"],
     ["Deadline", input.deadline || "As agreed"],
-    ["Generated", input.generatedAt ? new Date(input.generatedAt).toLocaleString() : "—"],
+    ["Generated", input.generatedAt ? new Date(input.generatedAt).toLocaleString() : "-"],
   ];
 
   for (const [label, value] of lines) {

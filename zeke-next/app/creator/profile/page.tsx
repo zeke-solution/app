@@ -5,12 +5,14 @@ import { DEAL_STATUS_META, dealStatusLabel, type DealStatus } from "@/lib/domain
 import { Card } from "@/components/ui/Card";
 import { InfluencerProfileForm } from "@/components/profile/InfluencerProfileForm";
 import { ShieldUpsellCard } from "@/components/profile/ShieldUpsellCard";
+import { isShieldMembershipActive } from "@/lib/domain/shield-membership";
 
 export default async function CreatorProfilePage() {
   const session = await getSessionProfile();
   if (!session) return null;
   const supabase = await createClient();
   const inf = session.inf;
+  const isShield = isShieldMembershipActive(inf);
 
   const [dealsRes, pendingShieldRes] = await Promise.all([
     supabase
@@ -19,7 +21,7 @@ export default async function CreatorProfilePage() {
       .eq("influencer_id", session.id)
       .order("updated_at", { ascending: false })
       .limit(3),
-    inf?.shield_active
+    isShield
       ? Promise.resolve({ data: null })
       : supabase
           .from("shield_requests")
@@ -30,7 +32,7 @@ export default async function CreatorProfilePage() {
   ]);
 
   const deals = dealsRes.data ?? [];
-  const shieldStatus = inf?.shield_active ? "active" : pendingShieldRes.data ? "pending" : "none";
+  const shieldStatus = isShield ? "active" : pendingShieldRes.data ? "pending" : "none";
   const initials = session.profile.display_name.slice(0, 2).toUpperCase();
 
   return (
@@ -53,7 +55,7 @@ export default async function CreatorProfilePage() {
                 {inf?.niche || "--"}
               </span>
               <span className="rounded-full border border-border bg-white/[0.03] px-2.5 py-0.5 text-[11px] font-bold text-muted">
-                {inf?.shield_active ? "🛡 Shield Member" : "Free Creator"}
+                {isShield ? "🛡 Shield Member" : "Free Creator"}
               </span>
             </div>
           </div>

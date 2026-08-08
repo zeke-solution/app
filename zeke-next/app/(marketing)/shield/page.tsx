@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ShieldCoverage } from "@/components/shield/ShieldCoverage";
 import { ShieldIcon } from "@/components/layout/icons";
 import { buttonClassName } from "@/components/ui/Button";
-import { SHIELD_ANNUAL_PRICE_INR } from "@/lib/domain/constants";
+import { SHIELD_MONTHLY_PRICE_INR } from "@/lib/domain/constants";
 
 const STEPS = [
   ["1", "Open a dispute", "The deal, messages, agreement, deliverables and payment history remain connected to one case."],
@@ -22,7 +22,7 @@ export default function ShieldPage() {
           <div>
             <div className="text-[11px] font-black uppercase tracking-[0.2em] text-gold">Zeke Shield</div>
             <h1 className="mt-4 max-w-3xl text-4xl font-black leading-tight tracking-tight sm:text-6xl">
-              From unpaid deal to a clear next step—without losing control.
+              From unpaid deal to a clear next step - without losing control.
             </h1>
             <p className="mt-5 max-w-2xl text-base leading-7 text-muted sm:text-lg">
               Zeke handles professional follow-ups and table talks. If you decide to seek legal help, you choose and hire an independent provider while Zeke coordinates the authorised case record.
@@ -34,8 +34,8 @@ export default function ShieldPage() {
           </div>
           <div className="rounded-[28px] border border-gold/30 bg-gold/[0.07] p-7 shadow-[0_25px_70px_rgba(0,0,0,0.25)]">
             <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gold/15 text-gold"><ShieldIcon width={29} height={29} /></span>
-            <div className="mt-5 text-sm font-bold text-gold">Annual Shield membership</div>
-            <div className="mt-2 text-4xl font-black">₹{SHIELD_ANNUAL_PRICE_INR}<span className="text-sm font-medium text-muted"> / year</span></div>
+            <div className="mt-5 text-sm font-bold text-gold">Monthly Shield membership</div>
+            <div className="mt-2 text-4xl font-black">₹{SHIELD_MONTHLY_PRICE_INR}<span className="text-sm font-medium text-muted"> / month</span></div>
             <div className="mt-4 border-t border-white/10 pt-4 text-xs leading-5 text-muted">
               This price covers Zeke&apos;s Shield support and coordination. It does not include lawyer fees, court fees, filing charges or a guaranteed recovery.
             </div>
@@ -76,7 +76,7 @@ export default function ShieldPage() {
         <div className="mx-auto max-w-3xl">
           <h2 className="text-3xl font-black tracking-tight">Support first. Legal action only by your choice.</h2>
           <p className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-[#65617d]">
-            Zeke is a case coordinator—not a law firm, legal representative, debt-recovery guarantee or provider-ranking service.
+            Zeke is a case coordinator - not a law firm, legal representative, debt-recovery guarantee or provider-ranking service.
           </p>
           <Link href="/register?role=influencer" className={buttonClassName({ className: "mt-6" })}>Create a creator account</Link>
         </div>

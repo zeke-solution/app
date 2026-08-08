@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { isShieldMembershipActive } from "@/lib/domain/shield-membership";
 import { getSessionForRole } from "@/lib/auth/roles";
 
 async function requireAdminClient() {
@@ -74,7 +75,7 @@ export async function getCreatorsDirectory(): Promise<CreatorDirectoryRow[]> {
 
   const { data: creators } = await supabase
     .from("influencer_profiles")
-    .select("id,niche,handle,ig_followers,shield_active,profiles!influencer_profiles_id_fkey(display_name,location,created_at)")
+    .select("id,niche,handle,ig_followers,shield_active,shield_expires,profiles!influencer_profiles_id_fkey(display_name,location,created_at)")
     .order("shield_active", { ascending: false })
     .order("ig_followers", { ascending: false });
   if (!creators?.length) return [];
@@ -93,7 +94,7 @@ export async function getCreatorsDirectory(): Promise<CreatorDirectoryRow[]> {
       niche: c.niche,
       handle: c.handle,
       igFollowers: c.ig_followers ?? 0,
-      shieldActive: !!c.shield_active,
+      shieldActive: isShieldMembershipActive(c),
       joined: p?.created_at ?? null,
       dealsCompleted: completed.length,
       earned: completed.reduce((s, d) => s + (d.amount ?? 0), 0),
@@ -202,7 +203,7 @@ export async function getCreatorDetail(creatorId: string): Promise<CreatorDetail
     xFollowers: inf.x_followers,
     xEnabled: !!inf.x_enabled,
     rating: inf.rating,
-    shieldActive: !!inf.shield_active,
+    shieldActive: isShieldMembershipActive(inf),
     deals: dealRows,
     earned: dealRows.filter((d) => d.status === "completed").reduce((s, d) => s + (d.amount ?? 0), 0),
   };

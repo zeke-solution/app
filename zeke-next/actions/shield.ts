@@ -2,7 +2,8 @@
 
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
-import { SHIELD_ANNUAL_PRICE_INR } from "@/lib/domain/constants";
+import { SHIELD_MONTHLY_PRICE_INR } from "@/lib/domain/constants";
+import { isShieldMembershipActive } from "@/lib/domain/shield-membership";
 import type { ActionResult } from "@/actions/auth";
 
 export type ShieldRequestResult = ActionResult | { ok: true; alreadyPending: true };
@@ -15,11 +16,11 @@ export async function requestShield(): Promise<ShieldRequestResult> {
 
   const { data: inf } = await supabase
     .from("influencer_profiles")
-    .select("shield_active")
+    .select("shield_active,shield_expires")
     .eq("id", uid)
     .single();
   if (!inf) return { ok: false, error: "Creator profile not found." };
-  if (inf.shield_active) return { ok: false, error: "You are already a Shield member." };
+  if (isShieldMembershipActive(inf)) return { ok: false, error: "You already have an active Shield membership." };
 
   const { data: pending } = await supabase
     .from("shield_requests")
@@ -31,7 +32,7 @@ export async function requestShield(): Promise<ShieldRequestResult> {
 
   const { error } = await supabase.from("shield_requests").insert({
     influencer_id: uid,
-    amount: SHIELD_ANNUAL_PRICE_INR,
+    amount: SHIELD_MONTHLY_PRICE_INR,
     status: "pending",
   });
   if (error) return { ok: false, error: "Could not submit Shield request." };

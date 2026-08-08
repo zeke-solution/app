@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { buildAgreementPdf } from "@/lib/pdf/agreement-pdf";
+import { isShieldMembershipActive } from "@/lib/domain/shield-membership";
 
 // Plan deviation #4: the legacy app only hid the "Download PDF" button for
 // non-Shield creators (loadAgreements()/_loadBrandAgreement()) — any
@@ -49,10 +50,10 @@ export async function GET(
 
   const { data: inf } = await supabase
     .from("influencer_profiles")
-    .select("shield_active")
+    .select("shield_active,shield_expires")
     .eq("id", deal.influencer_id ?? "")
     .maybeSingle();
-  if (!inf?.shield_active) {
+  if (!isShieldMembershipActive(inf)) {
     return new Response("PDF available only when the creator on this deal is a Shield member.", {
       status: 403,
     });

@@ -1,6 +1,6 @@
 # Zeke Shield service model
 
-Status: implemented in application code; database migrations 0004–0008 await deployment.
+Status: implemented in application code and deployed to the production database.
 
 This document is the operating and technical source of truth for Shield. It describes the product boundary; it is not legal advice. Zeke should have Indian counsel review the public terms, provider-directory approach, recovery communications, retention schedule and staff scripts before launch.
 
@@ -8,7 +8,11 @@ This document is the operating and technical source of truth for Shield. It desc
 
 Zeke Shield gives creators professional deal follow-ups, documented table talks, and creator-controlled access to independent legal help when a brand-deal dispute cannot be resolved informally.
 
-## What the annual membership pays for
+## Membership price and renewal
+
+Zeke Shield costs ₹1,999 for one month of access. Admin approval starts a one-month period. Access does not renew automatically in the current workflow; after expiry, the creator can submit a new request for another month. Existing memberships retain their recorded expiry date.
+
+## What the monthly membership pays for
 
 - Deal and dispute records kept in one case.
 - Professional follow-ups with the brand after the creator gives permission.
@@ -37,7 +41,7 @@ Zeke receives no referral commission, legal-fee share or percentage of a recover
 | Legal provider | Conflict checks; client engagement; fee agreement; legal advice; professional confidentiality; strategy; filings; representation; outcome communications. |
 | Brand | Responding to the dispute and meeting its contractual and legal obligations. |
 
-Zeke is a case coordinator. It is not a law firm, advocate, legal representative, payment guarantor, provider-ranking service or party to the creator–provider engagement.
+Zeke is a case coordinator. It is not a law firm, advocate, legal representative, payment guarantor, provider-ranking service or party to the creator-provider engagement.
 
 ## Case flow
 
@@ -156,7 +160,7 @@ Before setting `verified_at` and activating a record:
 
 ## Main implementation locations
 
-- Migrations: `supabase/migrations/0004_shield_case_coordination.sql` through `0008_separate_provider_choice_from_sharing.sql`
+- Migrations: `supabase/migrations/0004_shield_case_coordination.sql` through `0009_monthly_shield_membership.sql`
 - Creator routes: `app/creator/shield/`
 - Admin cases: `app/admin/shield/cases/`
 - Provider pool: `app/admin/legal-pool/`
@@ -168,7 +172,7 @@ Before setting `verified_at` and activating a record:
 
 - Obtain Indian counsel review of Shield terms, staff follow-up scripts and provider-directory operation.
 - Back up the production database.
-- Review migrations 0004–0008 in a Supabase dry run.
+- Review pending Shield migrations in a Supabase dry run.
 - Apply migrations in numeric order.
 - Add at least one checked provider record but keep it inactive until permission and verification are complete.
 - Test with separate creator, brand and admin accounts.

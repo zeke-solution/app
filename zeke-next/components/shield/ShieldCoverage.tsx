@@ -53,7 +53,7 @@ function CoverageList({
         {items.map((item) => (
           <div key={item} className="flex items-start gap-2 text-xs leading-5 text-muted">
             <span className={`mt-0.5 font-black ${positive ? "text-zgreen" : "text-light"}`}>
-              {positive ? "✓" : "—"}
+              {positive ? "✓" : "-"}
             </span>
             <span>{item}</span>
           </div>

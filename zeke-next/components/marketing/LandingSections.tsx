@@ -12,7 +12,7 @@ import {
 import { buttonClassName } from "@/components/ui/Button";
 
 const PROBLEMS = [
-  { icon: DealsIcon, title: "Late payments", text: "Work delivered. Payment delayed—or never clearly confirmed." },
+  { icon: DealsIcon, title: "Late payments", text: "Work delivered. Payment delayed - or never clearly confirmed." },
   { icon: CampaignIcon, title: "Content reused", text: "A post becomes an ad without an agreed usage window." },
   { icon: AgreementIcon, title: "Contract gaps", text: "Important terms stay scattered across chats and voice notes." },
   { icon: ChatIcon, title: "Terms change", text: "Deliverables move after the creator has already started." },
@@ -31,7 +31,7 @@ const STEPS = [
 
 const DIFFERENTIATORS = [
   { icon: DealsIcon, title: "No deal commission", text: "Zeke does not take a percentage from creator earnings." },
-  { icon: DiscoverIcon, title: "Two-way discovery", text: "Brands find creators—and creators choose which offers fit." },
+  { icon: DiscoverIcon, title: "Two-way discovery", text: "Brands find creators - and creators choose which offers fit." },
   { icon: ShieldIcon, title: "Verified network", text: "Better context before either side commits to a campaign." },
   { icon: AgreementIcon, title: "Full transparency", text: "Every offer, approval, link, and payment lives together." },
   { icon: CampaignIcon, title: "Monitored workflow", text: "A clear status trail keeps the next step visible to both sides." },
@@ -136,7 +136,7 @@ export function LandingSections() {
           </div>
           <div className="mt-6 text-center lg:mt-0 lg:text-left">
             <div className="text-[11px] font-bold uppercase tracking-[0.17em] text-cyan">Zeke exists to protect the deal</div>
-            <h2 className="mt-3 text-2xl font-extrabold leading-tight sm:text-3xl">Every creator deserves structure—and a clear path when a deal goes wrong.</h2>
+            <h2 className="mt-3 text-2xl font-extrabold leading-tight sm:text-3xl">Every creator deserves structure - and a clear path when a deal goes wrong.</h2>
             <p className="mt-3 text-sm leading-6 text-muted">Zeke keeps the record, handles assisted follow-ups, and lets the creator decide whether and when to seek independent legal help.</p>
           </div>
           <div className="mt-7 rounded-2xl border border-white/10 bg-white/[0.05] p-5 lg:mt-0">
@@ -147,7 +147,7 @@ export function LandingSections() {
 
       <section id="how-it-works" className="scroll-mt-20 bg-[#f5f4fc] px-5 py-16 sm:px-6 sm:py-20">
         <div className="mx-auto max-w-[1180px]">
-          <SectionHeading eyebrow="How Zeke works" title="Protection at every step." body="A six-step deal flow keeps both sides aligned—from discovery to payment confirmation." />
+          <SectionHeading eyebrow="How Zeke works" title="Protection at every step." body="A six-step deal flow keeps both sides aligned - from discovery to payment confirmation." />
           <div className="relative mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-6">
             <div className="absolute left-[8%] right-[8%] top-9 hidden h-px bg-gradient-to-r from-accent via-purple to-pink lg:block" aria-hidden />
             {STEPS.map(({ icon: Icon, title, text }, index) => (
@@ -169,7 +169,7 @@ export function LandingSections() {
             <article className="relative bg-dark p-7 text-white sm:p-9">
               <span className="absolute right-6 top-6 rounded-full bg-gradient-to-r from-purple to-pink px-3 py-1 text-[9px] font-black uppercase tracking-wider">Optional upgrade</span>
               <div className="flex items-center gap-3"><span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-accent to-purple text-white"><ShieldIcon width={24} height={24} /></span><div><h3 className="text-xl font-extrabold">Zeke Shield</h3><p className="text-xs text-muted">Follow-up, coordination and legal access</p></div></div>
-              <div className="mt-7 flex items-end gap-2"><span className="text-4xl font-black">₹1,999</span><span className="pb-1 text-sm text-muted">/ year</span></div>
+              <div className="mt-7 flex items-end gap-2"><span className="text-4xl font-black">₹1,999</span><span className="pb-1 text-sm text-muted">/ month</span></div>
               <div className="mt-6"><CheckList dark items={SHIELD_FEATURES} /></div>
               <Link href="/register?role=influencer" className={buttonClassName({ fullWidth: true, className: "mt-7" })}>Join with Shield</Link>
               <Link href="/shield" className="mt-3 block text-center text-xs font-semibold text-gold underline underline-offset-4">See exactly how Shield works</Link>
@@ -187,7 +187,7 @@ export function LandingSections() {
 
       <section className="bg-[#f5f4fc] px-5 py-16 sm:px-6 sm:py-20">
         <div className="mx-auto max-w-[1180px]">
-          <SectionHeading eyebrow="Built differently" title="What makes Zeke work for both sides." body="The platform is designed around clarity, choice, and a complete record—not another inbox." />
+          <SectionHeading eyebrow="Built differently" title="What makes Zeke work for both sides." body="The platform is designed around clarity, choice, and a complete record - not another inbox." />
           <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-6">
             {DIFFERENTIATORS.map(({ icon: Icon, title, text }) => (
               <article key={title} className="rounded-2xl border border-[#dedcf1] bg-white p-4 text-center">
@@ -261,7 +261,7 @@ export function LandingSections() {
               <article className="relative rounded-[24px] border border-purple/50 bg-white p-6 shadow-[0_18px_55px_rgba(99,102,241,0.13)]">
                 <span className="absolute right-5 top-5 rounded-full bg-gradient-to-r from-purple to-pink px-3 py-1 text-[9px] font-black uppercase tracking-wider text-white">Creator upgrade</span>
                 <h3 className="mt-8 text-lg font-extrabold text-dark">Shield</h3>
-                <div className="mt-2 text-4xl font-black text-dark">₹1,999<span className="text-sm font-semibold text-[#68647f]"> / year</span></div>
+                <div className="mt-2 text-4xl font-black text-dark">₹1,999<span className="text-sm font-semibold text-[#68647f]"> / month</span></div>
                 <p className="mt-3 text-xs leading-5 text-[#68647f]">For creators who want agreements, assisted follow-ups, table talks and creator-controlled legal access. Legal costs are separate.</p>
                 <Link href="/register?role=influencer" className={buttonClassName({ fullWidth: true, className: "mt-6" })}>Choose Shield</Link>
               </article>
