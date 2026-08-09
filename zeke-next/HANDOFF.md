@@ -22,7 +22,7 @@ Last updated: 2026-08-10
 - Local preview command: `npm run dev -- -p 3000` from this folder
 - Stack: Next.js 16, React 19, Tailwind 4, Supabase
 - The legacy static HTML site remains at the repository root for history only and is retired as a product target.
-- The Next.js app under `zeke-next/` is deployed from `main` to Vercel and serves both custom domains over HTTPS. The current application release is feature commit `fb122d3`; Vercel deployment `dpl_4WGEKWfwEQB43WFMBHWdTQXk82r4` is Ready.
+- The Next.js app under `zeke-next/` is deployed from `main` to Vercel and serves both custom domains over HTTPS. The current application release is feature commit `fb122d3`; Vercel Production is Ready on both custom-domain aliases.
 
 ## Current status
 
@@ -34,7 +34,7 @@ Last updated: 2026-08-10
 - Exact Chrome device emulation at 390 x 844 reported `innerWidth=390` and `scrollWidth=390`. Visual review confirmed two-column stat cards, long campaign references, status chips, inputs, and primary actions remain fully inside the screen.
 - All dashboard semantic foreground colors pass WCAG AA on white. The lowest measured contrast is muted text at 5.24:1; the other semantic colors range from 5.36:1 to 14.87:1.
 - Verification passed: exact mobile render, compiled CSS assertions, TypeScript, ESLint, `git diff --check`, zero-vulnerability production dependency audit, optimized 36-route production build, mobile-overlay assertions, live CSS checks, and public/protected route smoke tests.
-- Release commit `fb122d3` is on `main`. Final automatic deployment `dpl_4WGEKWfwEQB43WFMBHWdTQXk82r4` is Ready and aliased to both production domains; dynamic functions remain in Singapore (`sin1`).
+- Release commit `fb122d3` is on `main`. Vercel Production is Ready and aliased to both production domains; dynamic functions remain in Singapore (`sin1`).
 
 ### Dashboard contrast, media uploads, mobile overlays, and security QA: 2026-08-09
 

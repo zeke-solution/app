@@ -48,14 +48,14 @@ Last updated: 2026-08-10
 - On signed-in mobile screens, use 14 px for normal reading, 13 px for secondary labels, 12 px only for compact metadata, and 16 px for form controls. Keep the official agreement preview exempt from global mobile scaling.
 - Signed-in content must stay at the viewport width, wrap long user content, and avoid horizontal page scrolling. Mobile overlays are full-height `100dvh` sheets; desktop overlays remain centered cards.
 - The 2026-08-10 exact 390 x 844 browser QA measured document width equal to viewport width, visually passed representative dashboard cards and controls, and reconfirmed every semantic dashboard color at WCAG AA or better.
-- Current mobile-readability release: feature commit `fb122d3`, Ready Vercel deployment `dpl_4WGEKWfwEQB43WFMBHWdTQXk82r4`, both production aliases active, functions in `sin1`.
+- Current mobile-readability release: feature commit `fb122d3`, Vercel Production Ready, both production aliases active, functions in `sin1`.
 
 - In signed-in pages, use semantic `text-light`, `text-muted`, and dashboard-local tokens for normal content. Reserve `text-white` for genuinely dark or filled surfaces. Never restore a blanket `.dashboard-content .text-white` override.
 - Normal dashboard text colors must keep at least 4.5:1 contrast on white.
 - Submission content supports JPG, PNG, WebP, HEIC, HEIF, MP4, and MOV. Small file sizes keep three-decimal precision. Uploads use resumable TUS with 6 MB chunks, retry, and progress.
 - App and bucket limits are 100 MB, but Supabase Free still caps the project's global Storage limit at 50 MB. Upgrade and set global Storage to at least 100 MB before describing 50-100 MB uploads as active.
 - Mobile overlays are full-height `100dvh` sheets with safe-area padding and internal scrolling. Desktop overlays stay centered.
-- Migration 0013 is live. The current baseline is Next.js 16.3.0, feature commit `fb122d3`, and production deployment `dpl_4WGEKWfwEQB43WFMBHWdTQXk82r4`. The final dependency audit is clean.
+- Migration 0013 is live. The current baseline is Next.js 16.3.0 and feature commit `fb122d3`; Vercel Production is Ready. The final dependency audit is clean.
 ## Deal safety, notifications, and dashboard performance
 
 - Migration 0011 was applied and live-tested on 2026-08-09. `deal_messages` and `notifications` are now in the Realtime publication; database constraints reject blank or over-4,000-character chat; final-link and payment-confirmation RPCs now alert the brand atomically. The targeted production retest passed 8/8.
