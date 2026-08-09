@@ -2,7 +2,7 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
 // Called from the root proxy.ts (Next.js 16 renamed `middleware` -> `proxy`).
-// Only checks "is there a valid session" — never queries Postgres for role
+// Only checks "is there a valid session" - never queries Postgres for role
 // here (that happens per-dashboard in lib/auth/roles.ts). Also responsible
 // for refreshing the auth cookie on every request, since @supabase/ssr does
 // not auto-refresh server-side the way the browser SDK does.
@@ -31,7 +31,7 @@ export async function updateSession(request: NextRequest) {
   );
 
   // Revalidates the JWT against Supabase Auth (cheap, no Postgres hit) and
-  // refreshes the session cookie if needed. Do not remove — required for
+  // refreshes the session cookie if needed. Do not remove - required for
   // server-side session refresh per @supabase/ssr's documented pattern.
   const { data } = await supabase.auth.getUser();
 

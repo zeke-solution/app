@@ -27,7 +27,7 @@ const STATUS_DISPLAY: Record<string, { label: string; variant: BadgeVariant }> =
 };
 
 // Port of admin.js's _renderDealsTable() (used by both the overview preview
-// and the all-deals page) — clicking a row opens the shared EntityDetailModal.
+// and the all-deals page) - clicking a row opens the shared EntityDetailModal.
 export function DealsTable({ deals }: { deals: AdminDealRow[] }) {
   const [openDealId, setOpenDealId] = useState<string | null>(null);
 

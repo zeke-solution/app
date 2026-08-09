@@ -6,7 +6,7 @@ type Variant = "primary" | "outline" | "ghost" | "gold";
 type Size = "sm" | "md" | "lg";
 
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-[10px] border font-bold tracking-[0.02em] transition-all disabled:cursor-not-allowed disabled:opacity-50";
+  "inline-flex min-w-0 items-center justify-center gap-2 rounded-[10px] border text-center font-bold leading-snug tracking-[0.02em] [overflow-wrap:normal] [word-break:normal] transition-all disabled:cursor-not-allowed disabled:opacity-50";
 
 const sizeClasses: Record<Size, string> = {
   sm: "px-4 py-1.5 text-xs rounded-lg",

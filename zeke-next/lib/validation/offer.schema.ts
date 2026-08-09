@@ -1,14 +1,5 @@
 import { z } from 'zod';
 
-export const sendOfferSchema = z.object({
-  influencerId: z.string().uuid(),
-  title: z.string().trim().min(1, 'Enter a deal title.'),
-  platform: z.string().trim().min(1, 'Enter the platform.'),
-  amount: z.coerce.number().positive('Enter a valid amount.'),
-  deliverables: z.string().trim().optional(),
-});
-export type SendOfferInput = z.infer<typeof sendOfferSchema>;
-
 export const sendCampaignOffersSchema = z.object({
   campaignId: z.string().uuid(),
   influencerIds: z

@@ -1,5 +1,5 @@
 // Ports of the fmtNum/fmtDate/fmtDateShort helpers duplicated across
-// creator.js/brand.js/admin.js — one canonical copy now.
+// creator.js/brand.js/admin.js - one canonical copy now.
 
 export function fmtNum(n: number | null | undefined): string {
   if (!n) return "0";

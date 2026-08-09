@@ -91,7 +91,7 @@ export function ChatThread({
 
   return (
     <div className='flex min-h-0 flex-1 flex-col'>
-      <div className='min-h-0 flex-1 space-y-3 overflow-y-auto overscroll-contain pb-4'>
+      <div className='min-h-0 flex-1 space-y-3 overflow-y-auto overscroll-contain pb-24 md:pb-4'>
         {messages.map((message, index) => {
           if (
             message.msg_type === 'event' ||
@@ -140,7 +140,7 @@ export function ChatThread({
         <div ref={bottomRef} />
       </div>
 
-      <div className='z-20 flex-shrink-0 border-t border-border bg-dark pt-3 pb-0.5'>
+      <div className='fixed inset-x-3 bottom-[calc(64px+env(safe-area-inset-bottom))] z-20 flex-shrink-0 rounded-t-2xl border border-b-0 border-border bg-dark/95 p-2.5 shadow-[0_-10px_30px_rgba(13,11,22,0.12)] backdrop-blur-md md:static md:inset-auto md:rounded-none md:border-x-0 md:border-b-0 md:bg-dark md:px-0 md:pb-0.5 md:pt-3 md:shadow-none'>
         {!canSend ? (
           <div className='rounded-xl border border-gold/25 bg-gold/[0.08] px-4 py-3 text-xs font-semibold text-gold'>
             {blockedMessage}

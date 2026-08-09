@@ -1,7 +1,7 @@
 import "server-only";
 import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 
-// Service-role client. Bypasses RLS entirely — reserve for the rare case a
+// Service-role client. Bypasses RLS entirely - reserve for the rare case a
 // read/write genuinely cannot be expressed under RLS efficiently, and
 // document why at the call site. Never import this file from a Client
 // Component or return its instance from a Server Action; the `server-only`

@@ -49,7 +49,7 @@ Last updated: 2026-08-10
 - When an avatar save fails, remove a newly orphaned object if it is not the previously referenced path. After a successful extension change, remove the replaced old object.
 
 - Keep the public marketing `.brand-card` treatment dark, but always override `.dashboard-content .brand-card` to the signed-in white surface. A dark marketing gradient combined with dashboard dark text is the confirmed source of unreadable blue stat cards.
-- On signed-in mobile screens, use 14 px for normal reading, 13 px for secondary labels, 12 px only for compact metadata, and 16 px for form controls. Keep the official agreement preview exempt from global mobile scaling.
+- On signed-in mobile screens, use 13 px for normal compact labels, 12 px for secondary labels, 11 px only for micro metadata, and 16 px for form controls. Keep the official agreement preview exempt from global mobile scaling.
 - Signed-in content must stay at the viewport width, wrap long user content, and avoid horizontal page scrolling. Mobile overlays are full-height `100dvh` sheets; desktop overlays remain centered cards.
 - The 2026-08-10 exact 390 x 844 browser QA measured document width equal to viewport width, visually passed representative dashboard cards and controls, and reconfirmed every semantic dashboard color at WCAG AA or better.
 - Current mobile-readability release: feature commit `fb122d3`, Vercel Production Ready, both production aliases active, functions in `sin1`.
@@ -63,11 +63,12 @@ Last updated: 2026-08-10
 
 ## Campaign workspace, mobile chat, and shared avatar rules
 
-- Brand Campaigns is the management source for both published reusable briefs and one-to-one campaigns sent directly from Discover Creators. Do not send a successful direct offer to Deals while it is negotiating.
+- Brand Campaigns is the management source for published reusable briefs and every creator recipient. Discover must select one of the brand's existing active campaigns; do not restore a second custom-campaign form there.
+- `sendCampaignOffers` must verify brand ownership and active status, skip recipients with an existing non-cancelled offer for that campaign, and keep the partial unique database index as the race-safe final duplicate guard.
 - Keep navigation status-aware: a negotiating campaign opens Chat; an accepted workflow record opens Deals. The Deals list itself remains accepted-only.
 - Campaign briefs persist platform, objective, deliverables, creator requirements, usage rights, exclusivity, payment terms, fee, and deadline. Bulk offers must inherit the applicable saved terms rather than reconstructing them from one free-text description.
-- Signed-in chat pages reserve the visible workspace with `100dvh`. The page header and completed-chat control are fixed-height siblings; the message pane is the internal scroller; the composer is the final flex item above mobile navigation. Preserve this structure so keyboard viewport changes do not hide the composer.
-- Exact mobile QA on 2026-08-10 passed at 390 x 844 and keyboard-reduced 390 x 500. Document width matched viewport width, form controls stayed inside the screen, and the composer cleared the mobile nav by 8 px in both measurements.
+- Signed-in chat pages reserve the visible workspace with `100dvh`. The message pane is the internal scroller. On mobile, the composer is fixed directly above the 64 px safe-area-aware bottom navigation; on desktop it returns to normal flow.
+- Exact mobile QA on 2026-08-10 measured the composer at y=713-780 and navigation at y=780-844 in a 390 x 844 viewport. They touch without a gap or overlap, and document width remains 390.
 - Creator cards and brand-facing campaign, chat, and deal surfaces must request and render `profiles.avatar_url` through `ProfileAvatar`, with initials only as fallback.
 - Replacement avatars reuse the owner-only Storage object path but save a versioned public URL through `set_profile_avatar`. Keep migration 0017's URL validation and anonymous execute denial so cache busting does not broaden mutation access. Migration 0018 backfills a version token only for existing official Supabase avatar URLs that did not already have one.
 
@@ -91,8 +92,9 @@ Last updated: 2026-08-10
 ## Production data reset
 
 - Latest production reset on 2026-08-10 supersedes the historical snapshots below. Current retained state: 6 Auth users, 6 profiles, 4 creator profiles, 1 brand profile, and 1 admin profile. All identities are confirmed and role rows are complete.
-- All campaign, deal, message, delivery, payment, agreement, dispute, notification, Shield case/request, guardian, and legal-provider records are zero. All non-avatar Storage objects are zero. One creator avatar remains.
-- Preserve creator/brand profile fields and avatar objects when the owner asks for a profile-preserving fresh slate. Shield membership fields live on `influencer_profiles` and were deliberately retained as profile data.
+- The reset reached zero transactional rows. As of the final 2026-08-10 audit, production later contains one active campaign (`Curios`) and two negotiating deals (`Test` and `Curios`). They were not created by responsive QA and must not be deleted without a new instruction.
+- All 6 profiles remain, including Fida Sherin. All 4 creator Shield flags are false and every Shield expiry is null.
+- Preserve creator/brand profile fields and avatar objects when the owner asks for a profile-preserving fresh slate. If the owner separately asks to remove Shield from everyone, clear only `shield_active` and `shield_expires`.
 - On 2026-08-09 the owner requested a production fresh slate. The reset retained exactly two confirmed login accounts and their required role records: one creator and one brand.
 - All other authentication accounts and all rows in campaigns, deals, messages, submissions, final links, payments, agreements, disputes, notifications, Shield requests/cases/updates/documents, guardians, and legal providers were deleted. The single uploaded QA file was removed through the Supabase Storage API.
 - Post-reset audit: 2 auth users, 2 profiles, 1 influencer profile, 1 brand profile, zero rows in every transactional table, and zero storage objects.
@@ -116,3 +118,12 @@ Last updated: 2026-08-10
 - Preserve unrelated work in a dirty tree. Stage only explicit intended paths, never the stale root handoff.
 - Before publishing, run TypeScript, ESLint, a production build, targeted browser QA, and a remote/live verification appropriate to the change.
 - Keep `devIndicators: false` in local config so the Next.js development badge and its viewport guide line do not obstruct visual review. Framework errors still surface normally.
+
+## Mobile product and infrastructure follow-up
+
+- Mobile words must wrap only at normal word boundaries. Never restore `overflow-wrap: anywhere` on dashboard labels, cards, links, or buttons.
+- Marketing mobile must keep the desktop campaign illustration hidden and keep Create account and Log in in the first loaded viewport. The burger menu is a fixed overlay and must not push the page down.
+- Sign out belongs at the desktop sidebar bottom and inside the mobile Profile or Account destination, not as a permanent top-right icon.
+- Shield payment lives at `/creator/shield/payment`. `ZEKE_SHIELD_PAYMENT_URL` is the optional server-side HTTPS provider link. Until configured, collect no card details and offer only verified payment instructions plus payment-reviewed activation.
+- Cloudflare is still not configured. Before broad launch, add the domain carefully around Vercel, SSL/TLS Full (strict), managed WAF rules, bot review, and rate limits for auth and write-heavy routes, then retest Auth callback URLs.
+- Android APK packaging is possible. Prefer Capacitor after mobile-web acceptance so push notifications, deep links, uploads, and camera access can be integrated cleanly. Use a Trusted Web Activity only if the fastest thin web wrapper is more important than native control.

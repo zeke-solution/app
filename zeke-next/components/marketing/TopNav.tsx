@@ -42,18 +42,25 @@ export function TopNav() {
             </Link>
           </div>
           <button
-            aria-label="Open menu"
+            aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
             onClick={() => setOpen((o) => !o)}
-            className="p-1.5 text-2xl leading-none text-light sm:hidden"
+            className="relative z-[72] flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-2xl leading-none text-light sm:hidden"
           >
-            &#9776;
+            {open ? <span aria-hidden>&times;</span> : <span aria-hidden>&#9776;</span>}
           </button>
         </div>
       </div>
 
       {open && (
-        <div className="brand-nav relative flex flex-col gap-1 border-b border-border bg-navy px-4 py-3 sm:hidden">
+        <>
+          <button
+            type="button"
+            aria-label="Close menu"
+            className="fixed inset-0 top-16 z-[60] bg-black/55 sm:hidden"
+            onClick={() => setOpen(false)}
+          />
+          <div className="brand-nav fixed inset-x-3 top-[72px] z-[70] flex max-h-[calc(100dvh-84px)] flex-col gap-1 overflow-y-auto rounded-2xl border border-border bg-navy px-4 py-3 shadow-[0_22px_70px_rgba(0,0,0,0.55)] sm:hidden">
           <Link
             href="/#creators"
             onClick={() => setOpen(false)}
@@ -88,7 +95,8 @@ export function TopNav() {
               Get Started
             </Link>
           </div>
-        </div>
+          </div>
+        </>
       )}
     </nav>
   );

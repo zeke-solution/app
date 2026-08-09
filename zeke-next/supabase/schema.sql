@@ -1,5 +1,5 @@
 -- ═══════════════════════════════════════════════════════════
---  ZEKE — SUPABASE SCHEMA
+--  ZEKE - SUPABASE SCHEMA
 --  Run this entire file in the Supabase SQL Editor
 --  Dashboard → SQL Editor → New Query → Paste → Run
 -- ═══════════════════════════════════════════════════════════
@@ -219,7 +219,7 @@ alter table public.notifications       enable row level security;
 alter table public.shield_requests     enable row level security;
 
 
--- PROFILES — own row only
+-- PROFILES - own row only
 create policy "profiles_own" on public.profiles
   for all using (auth.uid() = id);
 
@@ -229,7 +229,7 @@ create policy "profiles_admin_read" on public.profiles
     exists (select 1 from public.profiles where id = auth.uid() and role = 'admin')
   );
 
--- INFLUENCER PROFILES — own + brands can read
+-- INFLUENCER PROFILES - own + brands can read
 create policy "inf_own" on public.influencer_profiles
   for all using (auth.uid() = id);
 
@@ -238,7 +238,7 @@ create policy "inf_brand_read" on public.influencer_profiles
     exists (select 1 from public.profiles where id = auth.uid() and role in ('brand','admin'))
   );
 
--- BRAND PROFILES — own + influencers can read
+-- BRAND PROFILES - own + influencers can read
 create policy "brand_own" on public.brand_profiles
   for all using (auth.uid() = id);
 
@@ -247,14 +247,14 @@ create policy "brand_inf_read" on public.brand_profiles
     exists (select 1 from public.profiles where id = auth.uid() and role in ('influencer','admin'))
   );
 
--- GUARDIANS — influencer owns their row
+-- GUARDIANS - influencer owns their row
 create policy "guardian_own" on public.guardians
   for all using (
     influencer_id = auth.uid() or
     exists (select 1 from public.profiles where id = auth.uid() and role = 'admin')
   );
 
--- CAMPAIGNS — brand owns; influencers/admin can read
+-- CAMPAIGNS - brand owns; influencers/admin can read
 create policy "campaign_brand_own" on public.campaigns
   for all using (brand_id = auth.uid());
 
@@ -263,14 +263,14 @@ create policy "campaign_read" on public.campaigns
     exists (select 1 from public.profiles where id = auth.uid() and role in ('influencer','admin'))
   );
 
--- DEALS — both parties + admin
+-- DEALS - both parties + admin
 create policy "deal_parties" on public.deals
   for all using (
     brand_id = auth.uid() or influencer_id = auth.uid() or
     exists (select 1 from public.profiles where id = auth.uid() and role = 'admin')
   );
 
--- DEAL MESSAGES — both parties + admin
+-- DEAL MESSAGES - both parties + admin
 create policy "msg_parties" on public.deal_messages
   for all using (
     exists (
@@ -280,7 +280,7 @@ create policy "msg_parties" on public.deal_messages
     exists (select 1 from public.profiles where id = auth.uid() and role = 'admin')
   );
 
--- SUBMISSIONS — both parties + admin
+-- SUBMISSIONS - both parties + admin
 create policy "sub_parties" on public.submissions
   for all using (
     exists (
@@ -290,7 +290,7 @@ create policy "sub_parties" on public.submissions
     exists (select 1 from public.profiles where id = auth.uid() and role = 'admin')
   );
 
--- FINAL LINKS — both parties
+-- FINAL LINKS - both parties
 create policy "link_parties" on public.final_links
   for all using (
     exists (
@@ -300,7 +300,7 @@ create policy "link_parties" on public.final_links
     exists (select 1 from public.profiles where id = auth.uid() and role = 'admin')
   );
 
--- PAYMENTS — both parties
+-- PAYMENTS - both parties
 create policy "pay_parties" on public.payments
   for all using (
     exists (
@@ -310,7 +310,7 @@ create policy "pay_parties" on public.payments
     exists (select 1 from public.profiles where id = auth.uid() and role = 'admin')
   );
 
--- AGREEMENTS — both parties
+-- AGREEMENTS - both parties
 create policy "agree_parties" on public.agreements
   for all using (
     exists (
@@ -320,7 +320,7 @@ create policy "agree_parties" on public.agreements
     exists (select 1 from public.profiles where id = auth.uid() and role = 'admin')
   );
 
--- DISPUTES — both parties + admin
+-- DISPUTES - both parties + admin
 create policy "dispute_parties" on public.disputes
   for all using (
     raised_by = auth.uid() or
@@ -331,11 +331,11 @@ create policy "dispute_parties" on public.disputes
     exists (select 1 from public.profiles where id = auth.uid() and role = 'admin')
   );
 
--- NOTIFICATIONS — own only
+-- NOTIFICATIONS - own only
 create policy "notif_own" on public.notifications
   for all using (user_id = auth.uid());
 
--- SHIELD REQUESTS — influencer can see/insert own; admin can read/update all
+-- SHIELD REQUESTS - influencer can see/insert own; admin can read/update all
 create policy "shield_own" on public.shield_requests
   for all using (
     influencer_id = auth.uid() or
@@ -344,7 +344,7 @@ create policy "shield_own" on public.shield_requests
 
 
 -- ═══════════════════════════════════════════════════════════
---  AUTH TRIGGER — auto-create profile rows on signup
+--  AUTH TRIGGER - auto-create profile rows on signup
 --  Handles email-confirmation flow: signUp metadata is read
 --  by this server-side trigger, so profile rows exist by the
 --  time the user clicks the verification link.

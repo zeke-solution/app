@@ -8,6 +8,7 @@ import { AvatarUpload } from "@/components/profile/AvatarUpload";
 import { ShareProfileLink } from "@/components/profile/ShareProfileLink";
 import { ShieldUpsellCard } from "@/components/profile/ShieldUpsellCard";
 import { isShieldMembershipActive } from "@/lib/domain/shield-membership";
+import { SignOutButton } from "@/components/auth/SignOutButton";
 
 export default async function CreatorProfilePage() {
   const session = await getSessionProfile();
@@ -101,6 +102,14 @@ export default async function CreatorProfilePage() {
       </Card>
 
       <InfluencerProfileForm inf={inf} />
+
+      <Card className="mt-4">
+        <div className="mb-2 text-sm font-black text-light">Account</div>
+        <p className="mb-3 text-xs text-muted">
+          Sign out safely on this device.
+        </p>
+        <SignOutButton fullWidth />
+      </Card>
     </div>
   );
 }

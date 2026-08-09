@@ -3,15 +3,24 @@
 import { useState, useTransition } from "react";
 import { searchCreators } from "@/actions/creators";
 import { CreatorGrid } from "@/components/creators/CreatorGrid";
-import { OfferModal } from "@/components/offers/OfferModal";
+import {
+  ExistingCampaignOfferModal,
+  type DiscoverCampaign,
+} from "@/components/offers/ExistingCampaignOfferModal";
 import { Button } from "@/components/ui/Button";
 import { NICHE_OPTIONS } from "@/lib/domain/constants";
 import type { CreatorRow } from "@/components/creators/CreatorCard";
 
-// Port of brand.js's loadAllCreators()/filterCreators() — moved server-side
+// Port of brand.js's loadAllCreators()/filterCreators() - moved server-side
 // filtering (searchCreators Server Action) instead of fetch-everything-then-
 // filter-in-JS, since this is the page most likely to need pagination later.
-export function DiscoverClient({ initialCreators }: { initialCreators: CreatorRow[] }) {
+export function DiscoverClient({
+  initialCreators,
+  campaigns,
+}: {
+  initialCreators: CreatorRow[];
+  campaigns: DiscoverCampaign[];
+}) {
   const [creators, setCreators] = useState(initialCreators);
   const [query, setQuery] = useState("");
   const [niche, setNiche] = useState("");
@@ -76,14 +85,19 @@ export function DiscoverClient({ initialCreators }: { initialCreators: CreatorRo
               className="flex-1"
               onClick={() => setOfferTarget({ id: c.id, name: c.profiles?.display_name ?? "Creator" })}
             >
-              Send Offer
+              Send campaign
             </Button>
           </div>
         )}
       />
 
       {offerTarget && (
-        <OfferModal influencerId={offerTarget.id} creatorName={offerTarget.name} onClose={() => setOfferTarget(null)} />
+        <ExistingCampaignOfferModal
+          influencerId={offerTarget.id}
+          creatorName={offerTarget.name}
+          campaigns={campaigns}
+          onClose={() => setOfferTarget(null)}
+        />
       )}
     </div>
   );

@@ -36,7 +36,7 @@ export default async function BrandLayout({
     { href: "/brand/campaigns", label: "Campaigns", icon: <CampaignIcon width={18} height={18} /> },
     { href: "/brand/chats", label: "Chats", icon: <ChatIcon width={18} height={18} /> },
     { href: "/brand/deals", label: "Deals", icon: <DealsIcon width={18} height={18} /> },
-    { href: "/brand/discover", label: "Discover", icon: <DiscoverIcon width={18} height={18} /> },
+    { href: "/brand/profile", label: "Profile", icon: <ProfileIcon width={18} height={18} /> },
   ];
 
   return (

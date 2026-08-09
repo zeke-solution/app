@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /* Design tokens ported from ../css/zeke.css :root. Tailwind v4 reads theme
-   colors from CSS variables directly (no tailwind.config.ts needed) — these
+   colors from CSS variables directly (no tailwind.config.ts needed) - these
    become bg-dark, text-accent, border-border, etc. */
 /* Purple + Indigo direction (chosen 2026-07-19, replaces Navy + Red).
    Variable NAMES are kept identical so every bg-navy/text-accent/etc. across
@@ -309,22 +309,22 @@ h3 {
   opacity: 1;
 }
 
-/* Mobile reading scale follows the compact hierarchy used by familiar social
-   apps: 14px body copy, 13px secondary labels, and 12px micro metadata. */
+/* Mobile reading scale follows a compact social-app hierarchy while keeping
+   complete words intact in narrow cards and controls. */
 @media (max-width: 767px) {
   .dashboard-content :where(.text-xs, [class~=text-[12px]], [class~=text-[13px]]):not(.agreement-document *) {
-    font-size: 14px;
-    line-height: 1.35rem;
+    font-size: 13px;
+    line-height: 1.15rem;
   }
 
   .dashboard-content :where([class~=text-[11px]]):not(.agreement-document *) {
-    font-size: 13px;
-    line-height: 1.125rem;
+    font-size: 12px;
+    line-height: 1rem;
   }
 
   .dashboard-content :where([class~=text-[9px]], [class~=text-[10px]]):not(.agreement-document *) {
-    font-size: 12px;
-    line-height: 1rem;
+    font-size: 11px;
+    line-height: 0.95rem;
   }
 
   .dashboard-content :where(input, select, textarea) {
@@ -332,6 +332,12 @@ h3 {
   }
 
   .dashboard-content :where(p, span, a, button, td, th, label) {
-    overflow-wrap: anywhere;
+    overflow-wrap: break-word;
+    word-break: normal;
+    hyphens: none;
+  }
+
+  .dashboard-content :where(a, button) {
+    overflow-wrap: normal;
   }
 }

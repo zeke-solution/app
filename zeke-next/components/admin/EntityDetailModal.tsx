@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/Badge";
 type Target = { type: "brand"; id: string } | { type: "creator"; id: string } | { type: "deal"; id: string };
 
 // Shared read-only deep-dive modal for admin's users/shield/disputes/deals
-// list pages — port of admin.js's openAdminBrandProfile()/
+// list pages - port of admin.js's openAdminBrandProfile()/
 // openAdminCreatorProfile()/openAdminDealDetail().
 export function EntityDetailModal({ target, onClose }: { target: Target; onClose: () => void }) {
   const [loading, setLoading] = useState(true);
@@ -18,7 +18,7 @@ export function EntityDetailModal({ target, onClose }: { target: Target; onClose
 
   useEffect(() => {
     // Modal is always a fresh mount per open (parent conditionally renders
-    // it, unmounting on close — see DealsTable/UsersDirectoryTable/
+    // it, unmounting on close - see DealsTable/UsersDirectoryTable/
     // ShieldRequestCard/DisputeCard), so the initial `loading: true` state
     // above covers the reset; no need to set it again here.
     if (target.type === "brand") getBrandDetail(target.id).then((d) => { setBrand(d); setLoading(false); });

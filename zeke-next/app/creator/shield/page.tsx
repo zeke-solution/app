@@ -6,7 +6,7 @@ import { isShieldMembershipActive } from "@/lib/domain/shield-membership";
 import { SHIELD_CASE_STATUS, LEGAL_PROVIDER_SCALE } from "@/lib/domain/shield-case";
 import { fmtDate } from "@/lib/domain/format";
 import { ShieldCoverage } from "@/components/shield/ShieldCoverage";
-import { Button } from "@/components/ui/Button";
+import { buttonClassName } from "@/components/ui/Button";
 
 interface CaseSummary {
   id: string;
@@ -79,8 +79,11 @@ export default async function CreatorShieldPage() {
           <p className="mt-2 max-w-2xl text-sm leading-6 text-muted">
             Shield is a monthly support membership. It covers Zeke&apos;s follow-up and coordination work; it does not pay lawyer or court costs.
           </p>
-          <Link href="/creator/profile" className="mt-4 inline-block">
-            <Button variant="gold">Request Shield</Button>
+          <Link
+            href="/creator/shield/payment"
+            className={buttonClassName({ variant: "gold", className: "mt-4" })}
+          >
+            Continue to Shield payment
           </Link>
         </div>
       )}

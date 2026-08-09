@@ -1,6 +1,6 @@
 // Hand-written from supabase/schema.sql (no DB introspection available in
 // this environment). Once `supabase` CLI access exists, replace with
-// `supabase gen types typescript` output — keep the shape compatible.
+// `supabase gen types typescript` output - keep the shape compatible.
 
 type Role = "influencer" | "brand" | "admin";
 type BrandType = "business" | "ngo" | "agency";

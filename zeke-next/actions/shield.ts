@@ -38,6 +38,8 @@ export async function requestShield(): Promise<ShieldRequestResult> {
   if (error) return { ok: false, error: "Could not submit Shield request." };
 
   revalidatePath("/creator/profile");
+  revalidatePath("/creator/shield");
+  revalidatePath("/creator/shield/payment");
   return { ok: true };
 }
 

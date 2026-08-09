@@ -16,7 +16,7 @@ type UploadTargetResult =
 
 // Validates the file metadata server-side (real security boundary) and
 // returns a deterministic storage path for the client to upload to directly
-// via the browser Supabase client — see plan section 6.2 for why we don't
+// via the browser Supabase client - see plan section 6.2 for why we don't
 // proxy the file bytes through this action (200MB videos would blow past
 // Server Action body limits).
 export async function createSubmissionUploadTarget(
@@ -51,7 +51,7 @@ export async function createSubmissionUploadTarget(
 
 type CreateRecordResult = { ok: true } | { ok: false; error: string };
 
-// Port of creator.js's submitFile() (post-upload half — the upload itself
+// Port of creator.js's submitFile() (post-upload half - the upload itself
 // happens client-side against the path from createSubmissionUploadTarget).
 export async function createSubmissionRecord(
   dealId: string,

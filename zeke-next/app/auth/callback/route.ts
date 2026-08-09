@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 
 // PKCE code-exchange endpoint. Replaces the old hash-fragment handling in
-// auth.js (ZEKE_RECOVERY_FLOW / onAuthStateChange('PASSWORD_RECOVERY')) —
+// auth.js (ZEKE_RECOVERY_FLOW / onAuthStateChange('PASSWORD_RECOVERY')) -
 // with PKCE the email link carries `?code=...` (a real query param, sent to
 // the server) instead of a `#access_token=...` fragment (never sent to a
 // server), plus a `next` param we set ourselves when generating the link

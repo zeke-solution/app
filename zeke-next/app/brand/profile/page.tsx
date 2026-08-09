@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { fmtNum } from "@/lib/domain/format";
 import { DEAL_STATUS_META, dealStatusLabel, type DealStatus } from "@/lib/domain/deal-status";
 import { Card } from "@/components/ui/Card";
+import { SignOutButton } from "@/components/auth/SignOutButton";
 
 export default async function BrandProfilePage() {
   const session = await getSessionProfile();
@@ -47,7 +48,7 @@ export default async function BrandProfilePage() {
           </div>
         </div>
 
-        <div className="mb-4 grid grid-cols-4 gap-2.5">
+        <div className="mb-4 grid grid-cols-2 gap-2.5 sm:grid-cols-4">
           <ProfileStat value={campaignsRes.count ?? 0} label="Campaigns" />
           <ProfileStat value={completed.length} label="Deals Done" />
           <ProfileStat value={`₹${fmtNum(totalSpent)}`} label="Total Spent" />
@@ -77,6 +78,14 @@ export default async function BrandProfilePage() {
             })
           )}
         </div>
+      </Card>
+
+      <Card className="mt-4">
+        <div className="mb-2 text-sm font-black text-light">Account</div>
+        <p className="mb-3 text-xs text-muted">
+          Sign out safely on this device.
+        </p>
+        <SignOutButton fullWidth />
       </Card>
     </div>
   );

@@ -14,7 +14,7 @@ export interface SidebarNavItem {
   countColor?: string;
 }
 
-// Generic port of .sidebar/.sidebar-nav-btn from css/zeke.css — takes nav
+// Generic port of .sidebar/.sidebar-nav-btn from css/zeke.css - takes nav
 // items as props so creator/brand/admin dashboards all reuse this.
 export function Sidebar({
   avatarInitials,

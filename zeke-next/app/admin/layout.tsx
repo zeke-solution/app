@@ -2,7 +2,7 @@ import { requireRole } from "@/lib/auth/roles";
 import { DashboardTopNav } from "@/components/layout/DashboardTopNav";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { MobileBottomNav } from "@/components/layout/MobileBottomNav";
-import { GridIcon, UsersIcon, ShieldIcon, DisputeIcon, ListIcon, AgreementIcon } from "@/components/layout/icons";
+import { GridIcon, UsersIcon, ShieldIcon, DisputeIcon, ListIcon, AgreementIcon, ProfileIcon } from "@/components/layout/icons";
 
 export default async function AdminLayout({
   children,
@@ -19,6 +19,7 @@ export default async function AdminLayout({
     { href: "/admin/legal-pool", label: "Legal Pool", icon: <AgreementIcon /> },
     { href: "/admin/disputes", label: "All Disputes", icon: <DisputeIcon /> },
     { href: "/admin/deals", label: "All Deals", icon: <ListIcon /> },
+    { href: "/admin/account", label: "Account", icon: <ProfileIcon /> },
   ];
 
   const mobileItems = [
@@ -26,6 +27,7 @@ export default async function AdminLayout({
     { href: "/admin/shield", label: "Shield", icon: <ShieldIcon width={18} height={18} /> },
     { href: "/admin/disputes", label: "Disputes", icon: <DisputeIcon width={18} height={18} /> },
     { href: "/admin/deals", label: "Deals", icon: <ListIcon width={18} height={18} /> },
+    { href: "/admin/account", label: "Account", icon: <ProfileIcon width={18} height={18} /> },
   ];
 
   return (

@@ -3,7 +3,7 @@ import { createServerClient } from "@supabase/ssr";
 
 // Per-request, RLS-scoped Supabase client for Server Components/Actions/Route
 // Handlers. Must be created fresh every call (it's bound to that request's
-// cookies) — never hoist to a module-level singleton.
+// cookies) - never hoist to a module-level singleton.
 export async function createClient() {
   const cookieStore = await cookies();
 

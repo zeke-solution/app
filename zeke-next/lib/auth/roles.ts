@@ -22,7 +22,7 @@ export type SessionProfile = {
 // Direct replacement for session.js's window.ZK. Wrapped in React's cache()
 // so a layout and its child pages calling this in the same request only hit
 // Postgres once. Returns null if there's no valid session or no profile row
-// (mirrors the old "no profile -> bounce to auth" behavior) — callers decide
+// (mirrors the old "no profile -> bounce to auth" behavior) - callers decide
 // whether to redirect.
 export const getSessionProfile = cache(async (): Promise<SessionProfile | null> => {
   const supabase = await createClient();

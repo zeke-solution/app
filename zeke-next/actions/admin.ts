@@ -21,7 +21,7 @@ export interface BrandDirectoryRow {
 }
 
 // Port of admin.js's loadBrandsDirectory(). Today's app does one query per
-// brand (N+1) to get deal stats — rewritten here as: one query for all
+// brand (N+1) to get deal stats - rewritten here as: one query for all
 // brands, one query for all their deals, aggregated in JS. Still not a true
 // SQL aggregate (group by), but removes the N+1 round trips, which is the
 // practical win; RLS under the admin user already grants full visibility so
@@ -68,7 +68,7 @@ export interface CreatorDirectoryRow {
   earned: number;
 }
 
-// Port of admin.js's loadCreatorsDirectory() — same N+1-removal treatment.
+// Port of admin.js's loadCreatorsDirectory() - same N+1-removal treatment.
 export async function getCreatorsDirectory(): Promise<CreatorDirectoryRow[]> {
   const supabase = await requireAdminClient();
   if (!supabase) return [];

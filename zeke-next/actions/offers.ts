@@ -7,10 +7,8 @@ import { getSessionForRole } from "@/lib/auth/roles";
 import { fmtNum } from "@/lib/domain/format";
 import { isShieldMembershipActive } from "@/lib/domain/shield-membership";
 import {
-  sendOfferSchema,
   sendCampaignOffersSchema,
   editOfferSchema,
-  type SendOfferInput,
   type SendCampaignOffersInput,
   type EditOfferInput,
 } from "@/lib/validation/offer.schema";
@@ -145,54 +143,6 @@ export async function declineOffer(dealId: string): Promise<ActionResult> {
   return { ok: true };
 }
 
-// Port of brand.js's submitOffer().
-export async function sendOffer(input: SendOfferInput): Promise<ActionResult> {
-  const parsed = sendOfferSchema.safeParse(input);
-  if (!parsed.success) return { ok: false, error: parsed.error.issues[0]?.message ?? "Invalid input." };
-  const v = parsed.data;
-
-  const session = await getSessionForRole("brand");
-  if (!session) return { ok: false, error: "Brand account required." };
-  const supabase = await createClient();
-
-  const { data: profile } = await supabase.from("profiles").select("display_name").eq("id", session.id).single();
-  const brandName = profile?.display_name ?? "Brand";
-
-  const { data: deal, error } = await supabase
-    .from("deals")
-    .insert({
-      brand_id: session.id,
-      influencer_id: v.influencerId,
-      title: v.title,
-      amount: v.amount,
-      platform: v.platform,
-      deliverables: v.deliverables || null,
-      status: "negotiating",
-    })
-    .select("id")
-    .single();
-  if (error || !deal) return { ok: false, error: error?.message ?? "Could not send offer." };
-
-  await supabase.from("deal_messages").insert({
-    deal_id: deal.id,
-    sender_id: session.id,
-    msg_type: "event",
-    content: `📩 Offer sent by ${brandName} · ${v.title} · ₹${fmtNum(v.amount)} · ${v.platform}`,
-  });
-  await createNotification(supabase, {
-    userId: v.influencerId,
-    title: `New offer from ${brandName}`,
-    body: `${v.title} · ₹${fmtNum(v.amount)}`,
-    type: "deal",
-    relatedDealId: deal.id,
-  });
-
-  revalidatePath("/brand/deals");
-  revalidatePath("/brand/chats");
-  revalidatePath("/brand/campaigns");
-  return { ok: true };
-}
-
 // Port of brand.js's submitCampaignOffers() (bulk send).
 export async function sendCampaignOffers(input: SendCampaignOffersInput): Promise<ActionResult> {
   const parsed = sendCampaignOffersSchema.safeParse(input);
@@ -218,7 +168,32 @@ export async function sendCampaignOffers(input: SendCampaignOffersInput): Promis
   v.platform = v.platform || campaign.platform || undefined;
   if (!v.platform) return { ok: false, error: 'Add a platform to this campaign before sending it.' };
 
-  const rows = v.influencerIds.map((influencerId) => ({
+  const { data: existingOffers, error: existingOffersError } = await supabase
+    .from("deals")
+    .select("influencer_id")
+    .eq("campaign_id", v.campaignId)
+    .in("influencer_id", v.influencerIds)
+    .neq("status", "cancelled");
+  if (existingOffersError) {
+    return { ok: false, error: "Could not verify existing campaign offers." };
+  }
+  const existingCreatorIds = new Set(
+    (existingOffers ?? []).map((offer) => offer.influencer_id),
+  );
+  const newInfluencerIds = v.influencerIds.filter(
+    (influencerId) => !existingCreatorIds.has(influencerId),
+  );
+  if (newInfluencerIds.length === 0) {
+    return {
+      ok: false,
+      error:
+        v.influencerIds.length === 1
+          ? "This campaign has already been sent to this creator."
+          : "This campaign has already been sent to every selected creator.",
+    };
+  }
+
+  const rows = newInfluencerIds.map((influencerId) => ({
     campaign_id: v.campaignId,
     brand_id: session.id,
     influencer_id: influencerId,
@@ -234,7 +209,15 @@ export async function sendCampaignOffers(input: SendCampaignOffersInput): Promis
   }));
 
   const { data: inserted, error } = await supabase.from("deals").insert(rows).select("id,influencer_id");
-  if (error) return { ok: false, error: error.message };
+  if (error) {
+    return {
+      ok: false,
+      error:
+        error.code === "23505"
+          ? "This campaign is already active for one of the selected creators."
+          : "Could not send this campaign. Please try again.",
+    };
+  }
 
   const msgRows = (inserted ?? []).map((d) => ({
     deal_id: d.id,
@@ -257,6 +240,8 @@ export async function sendCampaignOffers(input: SendCampaignOffersInput): Promis
   revalidatePath("/brand/deals");
   revalidatePath("/brand/chats");
   revalidatePath("/brand/campaigns");
+  revalidatePath("/creator/offers");
+  revalidatePath("/creator/chats");
   return { ok: true };
 }
 

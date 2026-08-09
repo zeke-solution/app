@@ -26,11 +26,28 @@ Last updated: 2026-08-10
 
 ## Current status
 
+### Campaign-first Discover, compact mobile UX, and Shield checkout: 2026-08-10
+
+- Discover Creators now sends an existing active campaign brief instead of opening a second custom-campaign form. The picker shows saved platform, niche, deadline, and fee, and links brands to create a complete brief when none exists. The server still checks campaign ownership and active status, skips already-sent recipients, and the database unique index remains the final duplicate-send guard.
+- The shared mobile wording rule no longer breaks words at arbitrary characters. Dashboard type is compact again, shared buttons preserve complete words, and representative two-column cards and actions pass at 390 x 844 with zero vertical-text cases and zero horizontal overflow.
+- Mobile marketing now hides the desktop campaign-record illustration, keeps Create account and Log in above the first viewport, and uses an overlay burger menu that does not move page content. Exact QA measured a 390 px document width, both actions ending at y=472, the hero visual hidden, and the fixed menu beginning at y=72.
+- The chat composer is explicitly fixed above the 64 px mobile bottom navigation. Exact QA measured the composer at y=713-780 and the navigation at y=780-844, with no gap, overlap, or horizontal overflow.
+- Sign out was removed from the dashboard top-right. Desktop keeps it at the bottom of the sidebar. Creator and brand mobile users sign out from Profile, and admin mobile has a dedicated Account destination.
+- All production creator Shield flags and expiries were cleared while preserving all 6 profiles. The final audit reports 4 creator profiles, 0 active Shield memberships, 0 Shield expiries, and one retained Fida Sherin profile.
+- `/creator/shield/payment` now provides the honest one-month ₹1,999 plan summary, no-automatic-renewal language, scope exclusions, payment-verification state, and no raw card collection. If `ZEKE_SHIELD_PAYMENT_URL` is configured with an HTTPS provider link, secure checkout appears; otherwise users request verified payment instructions and admin activation remains payment-gated.
+- Production currently contains one active campaign (`Curios`) and two negotiating deals (`Test` and `Curios`) created on 2026-08-10 Dubai time. This release did not create or delete them.
+- Browser QA passed on exact 390 x 844 mobile and 1440 x 1000 desktop viewports. TypeScript, full ESLint, `git diff --check`, the optimized production build, and linked Supabase database lint all pass.
+
+### Required infrastructure follow-up
+
+- Add Cloudflare protection before broad launch: onboard the apex and `www` records without breaking Vercel verification, use SSL/TLS Full (strict), enable managed WAF rules, add rate limits for auth and write-heavy routes, review bot protection, and retest Supabase Auth callback and reset URLs after DNS cutover.
+- The same app can be packaged as an Android APK. Finish mobile-web acceptance first, then use Capacitor for the recommended Play Store path because Zeke needs push notifications, deep links, file uploads, camera access, and controlled native updates. A Trusted Web Activity is faster but offers less native control.
+
 ### Production profile-preserving reset: 2026-08-10
 
 - The owner requested a fresh production slate while retaining every account and profile. The reset preserved all 6 Auth identities, all 6 `profiles` rows, 4 `influencer_profiles`, 1 `brand_profiles` row, the admin profile, creator handles/details, Shield membership fields, and the single saved avatar object.
 - The retained profile audit has no Auth users without a profile and no profiles without an Auth identity. All 6 retained email identities are confirmed.
-- Campaigns, deals, messages, submissions, final links, payments, agreements, disputes, notifications, Shield requests/cases/updates/documents, guardians, and legal providers are all at zero rows.
+- That reset reached zero transactional rows. Production later received one active campaign and two negotiating deals; preserve them unless the owner explicitly requests another reset.
 - The `submissions`, `shield-case-files`, `payment-proof`, and `agreements` Storage buckets contain zero objects. The `avatars` bucket still contains the one retained creator DP.
 - The reset used the service-role key only in process memory. No key, password, temporary reset utility, or personal profile list was written to source control.
 
@@ -42,7 +59,7 @@ Last updated: 2026-08-10
 - Campaign creation is a structured three-part brief with labelled fields, helper copy, inline validation, mobile-safe controls, and a readiness summary. Migration 0016 stores platform, objective, deliverables, creator requirements, usage rights, exclusivity, and payment terms; bulk offers inherit the applicable platform and commercial terms.
 - Creator DPs now appear to brands in discovery cards, campaign recipient selection, direct campaign records, chat lists and headers, and accepted-deal cards. Migration 0017 persists a versioned public avatar URL after each replacement upload, preventing another user from seeing a stale one-hour cached image while keeping the owner-only avatar path and narrow authenticated RPC. Migration 0018 adds the same one-time version token to avatars uploaded before this release, so the already-uploaded DP refreshes without another upload.
 - Production migrations reconcile through 0018 and linked database lint is clean. The new campaign columns return HTTP 200 through PostgREST, while an anonymous avatar RPC call remains denied with HTTP 401 and PostgreSQL code 42501.
-- Exact browser QA passed at 390 x 844 and a keyboard-reduced 390 x 500 viewport. Both reported document width 390, zero overflowing controls, independent message scrolling, and an 8 px gap between composer and mobile navigation.
+- That release's earlier flex-composer QA passed at 390 x 844 and 390 x 500. The current campaign-first release supersedes it with an explicitly fixed composer that touches the mobile navigation without a gap or overlap.
 - Final verification passes: TypeScript, full ESLint, `git diff --check`, optimized 36-route production build, zero-vulnerability dependency audit, migration ledger, database lint, and targeted production API security checks.
 
 ### Creator DP permission repair: 2026-08-10
@@ -57,7 +74,7 @@ Last updated: 2026-08-10
 ### Mobile dashboard readability and viewport QA: 2026-08-10
 
 - Fixed the remaining unreadable blue dashboard cards at the shared source. The reusable `.brand-card` retained a hard-coded dark marketing gradient while signed-in text correctly used dark light-workspace tokens; dashboard cards now use a white surface, visible border, and restrained shadow without changing marketing cards.
-- Mobile signed-in typography now uses a compact readable hierarchy: 14 px body and normal labels, 13 px secondary labels, 12 px micro metadata, and 16 px form fields to prevent iOS input zoom. The formal agreement preview is explicitly exempt so its letterhead layout stays stable.
+- Mobile signed-in typography now uses a compact readable hierarchy: 13 px normal compact labels, 12 px secondary labels, 11 px micro metadata, and 16 px form fields to prevent iOS input zoom. The formal agreement preview is explicitly exempt so its letterhead layout stays stable.
 - The dashboard content area is constrained to the viewport, clips accidental horizontal paint overflow, and wraps long user-generated text. The four mobile overlays remain full-height `100dvh` sheets with internal scrolling instead of floating desktop dialogs.
 - Exact Chrome device emulation at 390 x 844 reported `innerWidth=390` and `scrollWidth=390`. Visual review confirmed two-column stat cards, long campaign references, status chips, inputs, and primary actions remain fully inside the screen.
 - All dashboard semantic foreground colors pass WCAG AA on white. The lowest measured contrast is muted text at 5.24:1; the other semantic colors range from 5.36:1 to 14.87:1.

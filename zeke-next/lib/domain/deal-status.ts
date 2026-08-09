@@ -4,7 +4,7 @@
 // Reconciliation notes (plan deviation #6):
 // - Colors/badges are now consistent everywhere. The old admin.js table had
 //   `active` as green and `completed` as muted, while creator.js/brand.js
-//   had `active` as accent(pink) and `completed` as green — that was a real
+//   had `active` as accent(pink) and `completed` as green - that was a real
 //   inconsistency (not intentional perspective), fixed here in favor of the
 //   creator/brand version since it's used in two places vs admin's one.
 // - Labels for "negotiating" and "submitted" genuinely differ by who's

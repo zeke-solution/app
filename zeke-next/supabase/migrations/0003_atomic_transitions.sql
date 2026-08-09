@@ -121,7 +121,7 @@ begin
     values (
       v_deal.brand_id,
       left('New submission from ' || v_name, 200),
-      left(v_deal.title || ' — review pending', 1000),
+      left(v_deal.title || ' - review pending', 1000),
       'deal',
       p_deal_id
     );
@@ -194,8 +194,8 @@ begin
       case when p_decision = 'approved' then 'Content approved' else 'Changes requested' end,
       left(
         case when p_decision = 'approved'
-          then v_deal.title || ' — you can now submit the live link.'
-          else v_deal.title || ' — ' || coalesce(v_note, 'Brand requested changes.')
+          then v_deal.title || ' - you can now submit the live link.'
+          else v_deal.title || ' - ' || coalesce(v_note, 'Brand requested changes.')
         end,
         1000
       ),
