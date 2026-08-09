@@ -268,3 +268,24 @@ h3 {
   background: var(--color-border);
   border-radius: 3px;
 }
+
+/* Signed-in work areas use a light canvas while the global nav stays dark. */
+.dashboard-content {
+  --color-dark: #f7f7fb;
+  --color-navy: #f1eff6;
+  --color-card: #ffffff;
+  --color-border: #e3deeb;
+  --color-light: #2b2438;
+  --color-muted: #70697d;
+  background: #f7f7fb;
+  color: #2b2438;
+}
+
+.dashboard-content .text-white {
+  color: #211a2e;
+}
+
+.dashboard-content .brand-button-primary,
+.dashboard-content .brand-button-primary.text-white {
+  color: #ffffff;
+}

@@ -8,11 +8,13 @@ import { BrandLogo } from "@/components/ui/BrandLogo";
 // (logo + optional badge slot + notif bell + sign out).
 export function DashboardTopNav({
   userId,
+  homeHref,
   dealHrefPrefix,
   badge,
   rightExtra,
 }: {
   userId: string;
+  homeHref: string;
   dealHrefPrefix: string;
   badge?: ReactNode;
   rightExtra?: ReactNode;
@@ -20,7 +22,7 @@ export function DashboardTopNav({
   return (
     <nav className="brand-nav sticky top-0 z-40 border-b border-transparent backdrop-blur-md">
       <div className="mx-auto flex h-16 items-center justify-between px-6">
-        <Link href="/" aria-label="Zeke home" className="inline-flex">
+        <Link href={homeHref} aria-label="Zeke dashboard home" className="inline-flex">
           <BrandLogo className="w-[82px]" preload />
         </Link>
         <div className="flex items-center gap-3">

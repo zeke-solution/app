@@ -46,6 +46,7 @@ export default async function CreatorLayout({
     <div className="min-h-screen bg-dark">
       <DashboardTopNav
         userId={session.id}
+        homeHref="/creator/overview"
         dealHrefPrefix="/creator/deals"
         badge={
           <span className="rounded-full border border-border bg-white/[0.03] px-3 py-1 text-xs font-semibold text-muted">
@@ -54,8 +55,8 @@ export default async function CreatorLayout({
         }
       />
       <div className="flex min-h-[calc(100vh-64px)]">
-        <Sidebar avatarInitials={initials} name={name} sub={handle} navItems={navItems} />
-        <main className="min-w-0 flex-1 pb-20 md:pb-0">
+        <Sidebar avatarInitials={initials} avatarUrl={session.profile.avatar_url} name={name} sub={handle} navItems={navItems} />
+        <main className="dashboard-content min-w-0 flex-1 pb-20 md:pb-0">
           <div className="mx-auto max-w-[900px] p-4 md:p-6">{children}</div>
         </main>
       </div>

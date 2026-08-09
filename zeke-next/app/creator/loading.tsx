@@ -1,5 +1,5 @@
 import { DashboardLoading } from "@/components/layout/DashboardLoading";
 
-export default function CreatorLoading() {
+export default function Loading() {
   return <DashboardLoading />;
 }

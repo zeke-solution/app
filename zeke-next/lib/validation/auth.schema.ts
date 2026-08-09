@@ -40,7 +40,12 @@ const influencerRegisterSchema = z
     password: z.string().min(8, "Password must be at least 8 characters."),
     niche: z.string().trim().min(1, "Select or enter your niche."),
     location: z.string().trim().min(1, "Enter your location."),
-    igHandle: z.string().trim().min(1, "Enter your Instagram handle."),
+    igHandle: z
+      .string()
+      .trim()
+      .min(2, "Instagram handle must be at least 2 characters.")
+      .max(31, "Instagram handle is too long.")
+      .regex(/^@?[a-zA-Z0-9._]+$/, "Use only letters, numbers, dots, or underscores in your Instagram handle."),
     igFollowers: z.coerce.number().int().min(1, "Enter your Instagram follower count."),
     ytEnabled: z.boolean(),
     ytHandle: z.string().trim().optional(),

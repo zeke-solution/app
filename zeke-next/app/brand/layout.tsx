@@ -43,6 +43,7 @@ export default async function BrandLayout({
     <div className="min-h-screen bg-dark">
       <DashboardTopNav
         userId={session.id}
+        homeHref="/brand/overview"
         dealHrefPrefix="/brand/deals"
         rightExtra={
           <Link href="/brand/campaigns" className="brand-button-primary hidden rounded-xl border px-4 py-2 text-xs font-bold text-white sm:inline">
@@ -58,7 +59,7 @@ export default async function BrandLayout({
           sub={sub || "Brand"}
           navItems={navItems}
         />
-        <main className="min-w-0 flex-1 pb-20 md:pb-0">
+        <main className="dashboard-content min-w-0 flex-1 pb-20 md:pb-0">
           <div className="mx-auto max-w-[900px] p-4 md:p-6">{children}</div>
         </main>
       </div>

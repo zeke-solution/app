@@ -18,12 +18,14 @@ export interface SidebarNavItem {
 // items as props so creator/brand/admin dashboards all reuse this.
 export function Sidebar({
   avatarInitials,
+  avatarUrl,
   avatarClassName = "bg-accent/20 border border-accent/30 text-accent",
   name,
   sub,
   navItems,
 }: {
   avatarInitials: string;
+  avatarUrl?: string | null;
   avatarClassName?: string;
   name: string;
   sub: string;
@@ -35,9 +37,10 @@ export function Sidebar({
     <aside className="brand-sidebar hidden w-56 flex-shrink-0 flex-col gap-1 border-r p-4 md:flex">
       <div className="mb-3 flex items-center gap-2.5 border-b border-border px-2 pb-5">
         <div
-          className={`flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full text-xs font-black ${avatarClassName}`}
+          className={`flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-cover bg-center text-xs font-black ${avatarClassName}`}
+          style={avatarUrl ? { backgroundImage: `url(${avatarUrl})` } : undefined}
         >
-          {avatarInitials}
+          {!avatarUrl && avatarInitials}
         </div>
         <div>
           <div className="text-sm font-bold text-white">{name}</div>

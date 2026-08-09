@@ -63,6 +63,7 @@ export interface Database {
           role: Role;
           display_name: string;
           location: string | null;
+          avatar_url: string | null;
           created_at: string | null;
         };
         Insert: {
@@ -70,6 +71,7 @@ export interface Database {
           role: Role;
           display_name: string;
           location?: string | null;
+          avatar_url?: string | null;
         };
         Update: Partial<Database["public"]["Tables"]["profiles"]["Insert"]>;
       };
@@ -158,6 +160,7 @@ export interface Database {
           status: DealStatus;
           cancel_requested_by: string | null;
           cancel_reason: string | null;
+          creator_chat_closed_at: string | null;
           created_at: string | null;
           updated_at: string | null;
         };
@@ -387,6 +390,29 @@ export interface Database {
       };
     };
     Functions: {
+      get_public_creator_profile: {
+        Args: { p_handle: string };
+        Returns: Array<{
+          display_name: string;
+          location: string | null;
+          avatar_url: string | null;
+          handle: string;
+          niche: string | null;
+          ig_followers: number;
+          yt_followers: number | null;
+          x_followers: number | null;
+          yt_enabled: boolean;
+          x_enabled: boolean;
+          rating: number | null;
+          verified: boolean;
+          shield_active: boolean;
+          completed_deals: number;
+        }>;
+      };
+      set_creator_chat_closed: {
+        Args: { p_deal_id: string; p_closed: boolean };
+        Returns: string | null;
+      };
       create_notification: {
         Args: {
           p_user_id: string;

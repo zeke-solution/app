@@ -4,6 +4,8 @@ import { fmtNum } from "@/lib/domain/format";
 import { DEAL_STATUS_META, dealStatusLabel, type DealStatus } from "@/lib/domain/deal-status";
 import { Card } from "@/components/ui/Card";
 import { InfluencerProfileForm } from "@/components/profile/InfluencerProfileForm";
+import { AvatarUpload } from "@/components/profile/AvatarUpload";
+import { ShareProfileLink } from "@/components/profile/ShareProfileLink";
 import { ShieldUpsellCard } from "@/components/profile/ShieldUpsellCard";
 import { isShieldMembershipActive } from "@/lib/domain/shield-membership";
 
@@ -41,10 +43,8 @@ export default async function CreatorProfilePage() {
       <p className="mb-5 mt-1 text-sm text-muted">How brands see you on Zeke</p>
 
       <Card className="mb-4">
+        <AvatarUpload userId={session.id} avatarUrl={session.profile.avatar_url} initials={initials} />
         <div className="mb-5 flex items-center gap-4">
-          <div className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full border-2 border-accent/40 bg-accent/20 text-base font-black text-accent">
-            {initials}
-          </div>
           <div>
             <div className="text-lg font-black text-white">{session.profile.display_name}</div>
             <div className="text-[13px] text-muted">
@@ -60,6 +60,10 @@ export default async function CreatorProfilePage() {
             </div>
           </div>
         </div>
+
+        {inf?.handle && (
+          <div className="mb-4"><ShareProfileLink handle={inf.handle} /></div>
+        )}
 
         <div className="mb-4 grid grid-cols-3 gap-2.5">
           <PlatformStat label="Instagram" value={inf?.ig_followers} />

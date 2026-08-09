@@ -73,7 +73,7 @@ export async function registerUser(input: RegisterInput): Promise<ActionResult> 
   } else {
     meta.location = v.location;
     meta.niche = v.niche;
-    meta.handle = v.igHandle.replace("@", "");
+    meta.handle = v.igHandle.replace(/^@/, "").toLowerCase();
     meta.ig_followers = v.igFollowers;
     meta.yt_enabled = v.ytEnabled;
     meta.x_enabled = v.xEnabled;

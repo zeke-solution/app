@@ -25,6 +25,21 @@ Last updated: 2026-08-09
 - The Next.js app under `zeke-next/` is deployed from `main` to Vercel and serves both custom domains over HTTPS. The dispute and notification feature release is `main` commit `fac490f`; its Vercel production deployment is Ready.
 
 ## Current status
+### Dashboard identity, creator controls, public profiles, auth email, and cache: 2026-08-09
+
+- Dashboard Zeke logos now route to the signed-in role home (`/creator/overview`, `/brand/overview`, or `/admin/overview`) instead of leaving the app for the marketing site.
+- Dashboard content uses a light canvas with white cards while the global top navigation, side navigation, and mobile navigation remain dark. The shared loading skeleton was adjusted for the light work area.
+- Notification dropdowns and realtime popup cards close reliably on outside pointer interaction through document-level containment checks.
+- Migration `0012_creator_profiles_and_chat_control.sql` is applied to production. It adds profile avatars, the public avatars Storage bucket and owner policies, unique case-insensitive creator handles, curated public creator-profile RPC access, completed-chat control, and a database trigger that blocks brand text messages after a creator closes a completed conversation.
+- Creators can close or reopen brand messaging only after successful completion. Brands retain the conversation record but see a disabled composer when closed. The restriction is enforced in the server action and database, not only in UI.
+- Creator profiles now support JPG, PNG, or WebP DP upload up to 5 MB, show the uploaded image in the dashboard sidebar, and provide a share link at `/c/{handle}`. Public output is curated and excludes email, private messages, deal amounts, and private case data.
+- Admin dispute cards now label `Standard dispute` versus `Shield protected`. Every dispute remains in the general dispute record; active Shield coverage additionally creates a dedicated Shield coordination case.
+- Hosted Supabase confirmation, recovery, and magic-link/OTP email templates are branded with Zeke's official logo, colors, security copy, styled code, and buttons. Local template sources are versioned in `supabase/templates` and referenced from `supabase/config.toml`.
+- Password reset intentionally keeps generic account-existence wording to prevent email enumeration. The screen now gives useful retry, spam-folder, spelling, and registration guidance without disclosing whether an address is registered.
+- Safe caching is enabled for public creator profiles (5 minutes with immediate invalidation after creator updates) and stable `/images/*` assets (1 day plus stale-while-revalidate). Private dashboard, deal, chat, payment, and dispute data is not shared-cached. The remaining infrastructure latency is primarily the Singapore Vercel to Tokyo Supabase region gap.
+- Browser push is documented in `docs/PUSH-NOTIFICATION-SETUP.md` but not enabled until the OneSignal App ID, server key, service worker, user association, and delivery worker are configured. Existing in-app realtime notifications remain active.
+- Verification: TypeScript, ESLint, `git diff --check`, full Next.js 16.2.10 production build with 36 routes, linked migration reconciliation through 0012, linked database lint, anonymous public-profile RPC smoke test, and anonymous chat-control denial all pass.
+- Deployment status: production Supabase migration and auth mailer templates are live. Application deployment is pending the feature commit in this handoff entry.
 ### Production remediation, admin, capacity, and performance: 2026-08-09
 
 - Created `mufeed@zekesolution.com` as a confirmed Supabase Auth user with profile role `admin`. A one-time recovery flow was opened directly in the browser so the owner can choose the password. No password was emailed, printed, or stored. Production now has 3 auth users and 1 admin profile.

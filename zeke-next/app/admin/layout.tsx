@@ -32,6 +32,7 @@ export default async function AdminLayout({
     <div className="min-h-screen bg-dark">
       <DashboardTopNav
         userId={session.id}
+        homeHref="/admin/overview"
         dealHrefPrefix="/admin/deals"
         badge={
           <span className="rounded-full border border-accent/30 bg-accent/10 px-3 py-1 text-[11px] font-bold tracking-wide text-accent">
@@ -46,7 +47,7 @@ export default async function AdminLayout({
           sub="Full access"
           navItems={navItems}
         />
-        <main className="min-w-0 flex-1 pb-20 md:pb-0">
+        <main className="dashboard-content min-w-0 flex-1 pb-20 md:pb-0">
           <div className="mx-auto max-w-[900px] p-4 md:p-6">{children}</div>
         </main>
       </div>

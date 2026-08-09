@@ -28,6 +28,8 @@ export function NotificationsPanel({
   const [notifs, setNotifs] = useState<NotificationRow[]>([]);
   const [popups, setPopups] = useState<NotificationRow[]>([]);
   const popupTimers = useRef(new Map<string, number>());
+  const panelRef = useRef<HTMLDivElement>(null);
+  const popupAreaRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const supabase = createClient();
 
@@ -37,6 +39,20 @@ export function NotificationsPanel({
     popupTimers.current.delete(notificationId);
     setPopups((current) => current.filter((item) => item.id !== notificationId));
   }, []);
+  useEffect(() => {
+    if (!open && popups.length === 0) return;
+
+    function handleOutsidePointer(event: PointerEvent) {
+      const target = event.target as Node;
+      if (open && !panelRef.current?.contains(target)) setOpen(false);
+      if (popups.length > 0 && !popupAreaRef.current?.contains(target)) {
+        for (const popup of popups) dismissPopup(popup.id);
+      }
+    }
+
+    document.addEventListener("pointerdown", handleOutsidePointer);
+    return () => document.removeEventListener("pointerdown", handleOutsidePointer);
+  }, [dismissPopup, open, popups]);
 
   useEffect(() => {
     let active = true;
@@ -99,7 +115,7 @@ export function NotificationsPanel({
 
   return (
     <>
-      <div className="relative">
+      <div ref={panelRef} className="relative">
         <button
           aria-label={unreadCount > 0 ? `Notifications, ${unreadCount} unread` : "Notifications"}
           onClick={() => setOpen((current) => !current)}
@@ -154,6 +170,7 @@ export function NotificationsPanel({
       </div>
 
       <div
+        ref={popupAreaRef}
         className="pointer-events-none fixed right-4 top-20 z-[80] flex w-[min(22rem,calc(100vw-2rem))] flex-col gap-2"
         aria-live="polite"
         aria-atomic="false"

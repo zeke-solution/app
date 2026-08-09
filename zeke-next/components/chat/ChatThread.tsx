@@ -13,32 +13,28 @@ export interface ChatMessage {
   created_at: string | null;
 }
 
-// The one genuinely realtime piece of the app (plan section 3.4). Server
-// Component fetches initialMessages for a fast first paint; this client
-// component seeds from that, then opens a browser Supabase client in a
-// useEffect keyed on dealId to subscribe to new inserts — a 1:1 port of
-// creator.js's _subscribeChat()/_appendMsg().
 export function ChatThread({
   dealId,
   currentUserId,
   counterpartLabel,
   initialMessages = [],
+  canSend = true,
+  blockedMessage = "Messaging is unavailable.",
 }: {
   dealId: string;
   currentUserId: string;
   counterpartLabel: string;
   initialMessages?: ChatMessage[];
+  canSend?: boolean;
+  blockedMessage?: string;
 }) {
   const [messages, setMessages] = useState<ChatMessage[]>(initialMessages);
   const [input, setInput] = useState("");
+  const [error, setError] = useState("");
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const supabase = createClient();
-
-    // Capture the channel in a local variable (not module/ref-shared) so
-    // Strict Mode's double-invoke in dev removes the exact instance this
-    // effect run created, not a stale one — see plan section 6.4.
     const channel = supabase
       .channel(`chat:${dealId}`)
       .on(
@@ -52,7 +48,7 @@ export function ChatThread({
       .subscribe();
 
     return () => {
-      supabase.removeChannel(channel);
+      void supabase.removeChannel(channel);
     };
   }, [dealId, currentUserId]);
 
@@ -62,14 +58,20 @@ export function ChatThread({
 
   async function handleSend() {
     const text = input.trim();
-    if (!text) return;
+    if (!text || !canSend) return;
+    setError("");
     setInput("");
+    const optimisticId = `pending-${Date.now()}`;
     setMessages((prev) => [
       ...prev,
-      { sender_id: currentUserId, msg_type: "text", content: text, created_at: new Date().toISOString() },
+      { id: optimisticId, sender_id: currentUserId, msg_type: "text", content: text, created_at: new Date().toISOString() },
     ]);
     const res = await sendMessage(dealId, text);
-    if (!res.ok) console.error("chat send failed:", res.error);
+    if (!res.ok) {
+      setMessages((prev) => prev.filter((message) => message.id !== optimisticId));
+      setInput(text);
+      setError(res.error);
+    }
   }
 
   return (
@@ -79,13 +81,7 @@ export function ChatThread({
           if (m.msg_type === "event" || m.msg_type === "event_gold") {
             return (
               <div key={m.id ?? i} className="flex justify-center">
-                <div
-                  className={`rounded-[10px] border px-4 py-2 text-[11px] font-semibold ${
-                    m.msg_type === "event_gold"
-                      ? "border-gold/20 bg-gold/[0.06] text-gold"
-                      : "border-zgreen/20 bg-zgreen/[0.06] text-zgreen"
-                  }`}
-                >
+                <div className={`rounded-[10px] border px-4 py-2 text-[11px] font-semibold ${m.msg_type === "event_gold" ? "border-gold/20 bg-gold/[0.06] text-gold" : "border-zgreen/20 bg-zgreen/[0.06] text-zgreen"}`}>
                   {m.content}
                 </div>
               </div>
@@ -94,17 +90,9 @@ export function ChatThread({
           const isMe = m.sender_id === currentUserId;
           return (
             <div key={m.id ?? i} className={`flex ${isMe ? "justify-end" : "justify-start"}`}>
-              <div
-                className={`max-w-[78%] rounded-2xl border px-3.5 py-2.5 ${
-                  isMe
-                    ? "rounded-br-md border-accent/20 bg-accent/[0.12]"
-                    : "rounded-bl-md border-border bg-navy"
-                }`}
-              >
+              <div className={`max-w-[78%] rounded-2xl border px-3.5 py-2.5 ${isMe ? "rounded-br-md border-accent/20 bg-accent/[0.12]" : "rounded-bl-md border-border bg-navy"}`}>
                 <div className="text-[13px] text-light">{m.content}</div>
-                <div className="mt-1 text-[10px] text-muted">
-                  {isMe ? "You" : counterpartLabel} · {fmtDate(m.created_at)}
-                </div>
+                <div className="mt-1 text-[10px] text-muted">{isMe ? "You" : counterpartLabel} - {fmtDate(m.created_at)}</div>
               </div>
             </div>
           );
@@ -112,23 +100,23 @@ export function ChatThread({
         <div ref={bottomRef} />
       </div>
       <div className="flex-shrink-0 border-t border-border pt-3">
-        <div className="flex gap-2">
-          <input
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") handleSend();
-            }}
-            placeholder="Type a message..."
-            className="flex-1 rounded-xl border border-border bg-navy px-3.5 py-2 text-[13px] text-light outline-none"
-          />
-          <button
-            onClick={handleSend}
-            className="brand-button-primary rounded-xl border px-4 py-2 text-[13px] font-bold text-white"
-          >
-            Send
-          </button>
-        </div>
+        {!canSend ? (
+          <div className="rounded-xl border border-gold/25 bg-gold/[0.08] px-4 py-3 text-xs font-semibold text-gold">{blockedMessage}</div>
+        ) : (
+          <>
+            <div className="flex gap-2">
+              <input
+                value={input}
+                onChange={(event) => setInput(event.target.value)}
+                onKeyDown={(event) => { if (event.key === "Enter") void handleSend(); }}
+                placeholder="Type a message..."
+                className="flex-1 rounded-xl border border-border bg-navy px-3.5 py-2 text-[13px] text-light outline-none"
+              />
+              <button onClick={() => void handleSend()} className="brand-button-primary rounded-xl border px-4 py-2 text-[13px] font-bold text-white">Send</button>
+            </div>
+            {error && <div className="mt-2 text-xs font-semibold text-accent">{error}</div>}
+          </>
+        )}
       </div>
     </div>
   );

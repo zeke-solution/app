@@ -1,8 +1,12 @@
 import { z } from "zod";
 
-// Port of creator.js's saveProfile() validation.
 export const updateInfluencerProfileSchema = z.object({
-  igHandle: z.string().trim().min(1, "Instagram handle is required."),
+  igHandle: z
+    .string()
+    .trim()
+    .min(2, "Profile handle must be at least 2 characters.")
+    .max(31, "Profile handle is too long.")
+    .regex(/^@?[a-zA-Z0-9._]+$/, "Use only letters, numbers, dots, or underscores in your handle."),
   igFollowers: z.coerce.number().int().min(1, "Instagram follower count is required."),
   ytEnabled: z.boolean(),
   ytHandle: z.string().trim().optional(),
