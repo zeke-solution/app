@@ -46,7 +46,7 @@ export function ResetForm() {
       )}
       {sent && (
         <div className="rounded-[10px] border border-zgreen/25 bg-zgreen/[0.06] px-3.5 py-2.5 text-[13px] leading-relaxed text-zgreen">
-          &#10003; Reset link sent. Check your inbox (and spam folder).
+          &#10003; If an account exists for this email, a reset link will arrive shortly. Check your inbox and spam folder.
         </div>
       )}
       <Button type="submit" disabled={pending} fullWidth>

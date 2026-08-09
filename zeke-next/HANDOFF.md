@@ -29,6 +29,7 @@ Last updated: 2026-08-09
 
 - Created `mufeed@zekesolution.com` as a confirmed Supabase Auth user with profile role `admin`. A one-time recovery flow was opened directly in the browser so the owner can choose the password. No password was emailed, printed, or stored. Production now has 3 auth users and 1 admin profile.
 - Verified the Auth email model: registration sends a confirmation link and reset sends a recovery link. Zeke never emails passwords. Custom SMTP is Resend (`smtp.resend.com`) from `no-reply@zekesolution.com`; confirmation is required; the project limit is 30 Auth emails/hour; CAPTCHA is currently off.
+- Password-reset success copy now says a link will arrive only if an account exists. This preserves Supabase's account-enumeration protection and avoids falsely promising delivery to nonexistent mailboxes.
 - Applied migration `0011_realtime_and_workflow_notifications.sql` to production. It publishes `deal_messages` and `notifications`, adds the database chat-content guard, and adds atomic brand alerts for final-link submission and payment confirmation.
 - Production migration history matches through 0011 and linked `db lint --level error` is clean. A self-cleaning live two-session retest passed 8/8 checks: both Realtime feeds, both message constraints, both RPC transitions, and both new brand notifications.
 - Fixed stale cancellation controls. The brand overview now hides Accept/Decline once a deal is completed, cancelled, or disputed; the database duplication guard was already correct.
