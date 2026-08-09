@@ -90,6 +90,9 @@ Last updated: 2026-08-10
 
 ## Production data reset
 
+- Latest production reset on 2026-08-10 supersedes the historical snapshots below. Current retained state: 6 Auth users, 6 profiles, 4 creator profiles, 1 brand profile, and 1 admin profile. All identities are confirmed and role rows are complete.
+- All campaign, deal, message, delivery, payment, agreement, dispute, notification, Shield case/request, guardian, and legal-provider records are zero. All non-avatar Storage objects are zero. One creator avatar remains.
+- Preserve creator/brand profile fields and avatar objects when the owner asks for a profile-preserving fresh slate. Shield membership fields live on `influencer_profiles` and were deliberately retained as profile data.
 - On 2026-08-09 the owner requested a production fresh slate. The reset retained exactly two confirmed login accounts and their required role records: one creator and one brand.
 - All other authentication accounts and all rows in campaigns, deals, messages, submissions, final links, payments, agreements, disputes, notifications, Shield requests/cases/updates/documents, guardians, and legal providers were deleted. The single uploaded QA file was removed through the Supabase Storage API.
 - Post-reset audit: 2 auth users, 2 profiles, 1 influencer profile, 1 brand profile, zero rows in every transactional table, and zero storage objects.

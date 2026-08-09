@@ -26,6 +26,14 @@ Last updated: 2026-08-10
 
 ## Current status
 
+### Production profile-preserving reset: 2026-08-10
+
+- The owner requested a fresh production slate while retaining every account and profile. The reset preserved all 6 Auth identities, all 6 `profiles` rows, 4 `influencer_profiles`, 1 `brand_profiles` row, the admin profile, creator handles/details, Shield membership fields, and the single saved avatar object.
+- The retained profile audit has no Auth users without a profile and no profiles without an Auth identity. All 6 retained email identities are confirmed.
+- Campaigns, deals, messages, submissions, final links, payments, agreements, disputes, notifications, Shield requests/cases/updates/documents, guardians, and legal providers are all at zero rows.
+- The `submissions`, `shield-case-files`, `payment-proof`, and `agreements` Storage buckets contain zero objects. The `avatars` bucket still contains the one retained creator DP.
+- The reset used the service-role key only in process memory. No key, password, temporary reset utility, or personal profile list was written to source control.
+
 ### Mobile chat, campaign workspace, and shared creator DP: 2026-08-10
 
 - Brand and creator chat routes now reserve the exact visible workspace with `100dvh`. The message history owns internal scrolling and the composer remains at the bottom above mobile navigation, including when the visual viewport is reduced by an on-screen keyboard.
