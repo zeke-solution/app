@@ -25,6 +25,16 @@ Last updated: 2026-08-09
 - The Next.js app under `zeke-next/` is deployed from `main` to Vercel and serves both custom domains over HTTPS. The dispute and notification feature release is `main` commit `fac490f`; its Vercel production deployment is Ready.
 
 ## Current status
+### Ten problematic deals production QA: 2026-08-09
+
+- Completed live production run `QA-20260809113327` against the retained creator and brand accounts. Ten QA deals remain for inspection; the temporary admin identity was removed.
+- Result: 216 of 218 checks passed. All core state-machine, RLS, atomic transition, payment-race, cancellation, dispute, Shield, consent, legal-provider, evidence, and outcome guards passed.
+- Confirmed gap: `pg_publication_tables` contains no public tables for `supabase_realtime`. Live chat and notification-popup subscriptions therefore time out in production. No publication fix was applied during this diagnostic task.
+- Confirmed gap: whitespace-only direct chat inserts pass the database even though `actions/chat.ts` blocks them. The inserted QA row was immediately deleted.
+- Confirmed gaps: final-link submission does not notify the brand, and payment confirmation does not notify the brand.
+- Final run data: 1 campaign, 10 deals, 45 messages, 5 submissions, 3 final links, 2 payments, 9 agreements, 2 disputes, 44 notifications, 1 activated Shield request, 1 resolved Shield case, 13 case updates, 1 evidence record, 2 labelled QA providers, and 6 Storage objects.
+- Scenario 9 remains disputed and escalated with a pending cancellation to demonstrate the close guard. Scenario 10's Shield case and dispute are resolved, and the deal was restored to active.
+- Detailed evidence and recommended corrections: `docs/QA-PROBLEM-DEALS-2026-08-09.md`.
 ### Production fresh-slate reset: 2026-08-09
 
 - Retained exactly two confirmed production accounts and their required role rows: one creator and one brand. Deleted the unconfirmed QA alias and every other prior account.
