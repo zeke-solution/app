@@ -10,6 +10,7 @@ import {
   UsersIcon,
 } from "@/components/layout/icons";
 import { buttonClassName } from "@/components/ui/Button";
+import { BrandLogo } from "@/components/ui/BrandLogo";
 
 const PROBLEMS = [
   { icon: DealsIcon, title: "Late payments", text: "Work delivered. Payment delayed - or never clearly confirmed." },
@@ -130,9 +131,9 @@ export function LandingSections() {
       </section>
 
       <section className="px-5 pb-16 sm:px-6 sm:pb-20">
-        <div className="relative mx-auto grid max-w-[1120px] overflow-hidden rounded-[28px] border border-purple/35 bg-dark p-7 text-white shadow-[0_24px_70px_rgba(35,20,80,0.22)] sm:p-10 lg:grid-cols-[0.25fr_1fr_0.55fr] lg:items-center lg:gap-8">
+        <div className="brand-story-card relative mx-auto grid max-w-[1120px] overflow-hidden rounded-[28px] border border-purple/35 bg-dark p-7 text-white shadow-[0_24px_70px_rgba(35,20,80,0.22)] sm:p-10 lg:grid-cols-[0.25fr_1fr_0.55fr] lg:items-center lg:gap-8">
           <div className="mx-auto flex h-28 w-24 items-center justify-center rounded-[28px] border-2 border-purple bg-gradient-to-br from-accent/30 via-purple/25 to-pink/20 shadow-[0_0_42px_rgba(168,85,247,0.25)] lg:mx-0">
-            <div className="brand-wordmark text-5xl text-white">Z</div>
+            <BrandLogo markOnly className="w-16" />
           </div>
           <div className="mt-6 text-center lg:mt-0 lg:text-left">
             <div className="text-[11px] font-bold uppercase tracking-[0.17em] text-cyan">Zeke exists to protect the deal</div>
@@ -166,7 +167,7 @@ export function LandingSections() {
         <div className="mx-auto max-w-[1040px]">
           <SectionHeading eyebrow="Shield or Free" title="Choose the support level that fits." body="The marketplace stays free. Shield adds assisted dispute support and creator-controlled access to independent legal providers." />
           <div className="mt-10 grid overflow-hidden rounded-[28px] border border-[#d7d4eb] shadow-[0_22px_60px_rgba(40,25,85,0.1)] lg:grid-cols-2">
-            <article className="relative bg-dark p-7 text-white sm:p-9">
+            <article className="brand-shield-card relative bg-dark p-7 text-white sm:p-9">
               <span className="absolute right-6 top-6 rounded-full bg-gradient-to-r from-purple to-pink px-3 py-1 text-[9px] font-black uppercase tracking-wider">Optional upgrade</span>
               <div className="flex items-center gap-3"><span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-accent to-purple text-white"><ShieldIcon width={24} height={24} /></span><div><h3 className="text-xl font-extrabold">Zeke Shield</h3><p className="text-xs text-muted">Follow-up, coordination and legal access</p></div></div>
               <div className="mt-7 flex items-end gap-2"><span className="text-4xl font-black">₹1,999</span><span className="pb-1 text-sm text-muted">/ month</span></div>
@@ -215,7 +216,7 @@ export function LandingSections() {
       </section>
 
       <section className="px-5 py-14 sm:px-6">
-        <div className="mx-auto grid max-w-[1120px] gap-8 rounded-[28px] border border-purple/30 bg-dark p-7 text-white sm:p-10 lg:grid-cols-[1fr_0.42fr] lg:items-center">
+        <div className="brand-support-card mx-auto grid max-w-[1120px] gap-8 rounded-[28px] border border-purple/30 bg-dark p-7 text-white sm:p-10 lg:grid-cols-[1fr_0.42fr] lg:items-center">
           <div>
             <div className="text-[11px] font-extrabold uppercase tracking-[0.17em] text-cyan">Real help when a deal needs it</div>
             <h2 className="mt-3 text-2xl font-extrabold sm:text-3xl">You stay in control. Zeke helps open the right door.</h2>

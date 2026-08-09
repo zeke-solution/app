@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { buttonClassName } from "@/components/ui/Button";
+import { BrandLogo } from "@/components/ui/BrandLogo";
 
 // Port of index.html's #top-nav + .nav-dropdown (hamburger menu on mobile).
 export function TopNav() {
@@ -11,8 +12,8 @@ export function TopNav() {
   return (
     <nav className="brand-nav sticky top-0 z-50 border-b border-transparent backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-[1220px] items-center justify-between px-5 sm:px-6">
-        <Link href="/" className="brand-wordmark text-[22px] text-white">
-          zeke<span className="brand-wordmark-accent">.</span>
+        <Link href="/" aria-label="Zeke home" className="inline-flex">
+          <BrandLogo className="w-[82px]" preload />
         </Link>
         <div className="flex items-center gap-2.5">
           <div className="hidden items-center gap-0.5 lg:flex">

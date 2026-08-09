@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { AgreementIcon, DealsIcon, ShieldIcon } from "@/components/layout/icons";
+import { AgreementIcon, CampaignIcon, DealsIcon, ShieldIcon } from "@/components/layout/icons";
 import { buttonClassName } from "@/components/ui/Button";
 
 const BENEFITS = [
@@ -8,14 +8,29 @@ const BENEFITS = [
   { icon: ShieldIcon, title: "Zeke Shield", detail: "Backup when needed" },
 ];
 
-const TRUST = [
-  ["1,200+", "Kerala creators"],
-  ["340+", "Verified brands"],
-  ["₹3.2Cr+", "Deals closed"],
-  ["98%", "Disputes resolved"],
+const DEAL_STEPS = [
+  {
+    icon: AgreementIcon,
+    title: "Offer agreed",
+    detail: "Deliverables and usage rights recorded",
+    state: "Complete",
+    stateClass: "border-zgreen/25 bg-zgreen/10 text-zgreen",
+  },
+  {
+    icon: CampaignIcon,
+    title: "Content approved",
+    detail: "Brand approval saved in the deal",
+    state: "Complete",
+    stateClass: "border-zgreen/25 bg-zgreen/10 text-zgreen",
+  },
+  {
+    icon: DealsIcon,
+    title: "Payment tracked",
+    detail: "Final milestone awaiting confirmation",
+    state: "Current",
+    stateClass: "border-cyan/25 bg-cyan/10 text-cyan",
+  },
 ];
-
-const BARS = [38, 52, 46, 68, 59, 82, 76];
 
 export function Hero() {
   return (
@@ -67,74 +82,59 @@ export function Hero() {
           </Link>
         </div>
 
-        <div className="relative mx-auto min-h-[440px] w-full max-w-[520px] sm:min-h-[500px] lg:min-h-[580px]">
+        <div className="relative mx-auto w-full max-w-[520px]">
           <div className="absolute inset-[8%] rounded-full bg-gradient-to-br from-accent/25 via-purple/20 to-pink/20 blur-[58px]" aria-hidden />
-          <div className="brand-panel absolute inset-x-3 top-5 overflow-hidden rounded-[28px] lg:top-16 border border-purple/35 p-5 shadow-[0_28px_90px_rgba(8,4,24,0.55)] sm:inset-x-7 sm:p-6">
-            <div className="flex items-center justify-between gap-4 border-b border-white/10 pb-4">
+          <div className="brand-panel relative overflow-hidden rounded-[28px] border border-purple/35 p-5 shadow-[0_28px_90px_rgba(8,4,24,0.55)] sm:p-6">
+            <div className="flex items-center justify-between gap-4 pb-1">
               <div className="flex items-center gap-3">
-                <div className="brand-avatar flex h-11 w-11 items-center justify-center rounded-2xl border text-xs font-black">AC</div>
+                <div className="brand-avatar flex h-11 w-11 items-center justify-center rounded-2xl border text-white">
+                  <CampaignIcon width={20} height={20} />
+                </div>
                 <div>
-                  <div className="text-sm font-bold text-white">Aura Campaign</div>
-                  <div className="mt-0.5 text-[11px] text-muted">Instagram Reel · Active deal</div>
+                  <div className="text-sm font-bold text-white">Brand Campaign</div>
+                  <div className="mt-0.5 text-[11px] text-muted">Instagram Reel - Active deal</div>
                 </div>
               </div>
               <span className="rounded-full border border-zgreen/30 bg-zgreen/10 px-2.5 py-1 text-[10px] font-bold text-zgreen">ON TRACK</span>
             </div>
 
-            <div className="mt-5 grid grid-cols-[1fr_auto] gap-5">
-              <div>
-                <div className="text-[10px] font-bold uppercase tracking-[0.14em] text-muted">Campaign reach</div>
-                <div className="mt-1 text-3xl font-black text-white">125K</div>
-              </div>
-              <div className="text-right">
-                <div className="text-[10px] font-bold uppercase tracking-[0.14em] text-muted">Engagement</div>
-                <div className="mt-1 text-3xl font-black text-cyan">7.2%</div>
-              </div>
-            </div>
-
-            <div className="mt-6 flex h-32 items-end gap-2 rounded-2xl border border-white/[0.06] bg-dark/55 px-4 pb-4 pt-5">
-              {BARS.map((height, index) => (
-                <span
-                  key={height + index}
-                  className="flex-1 rounded-t-md bg-gradient-to-t from-accent via-purple to-pink shadow-[0_0_16px_rgba(168,85,247,0.24)]"
-                  style={{ height: `${height}%` }}
-                />
-              ))}
-            </div>
-
-            <div className="mt-4 grid grid-cols-3 gap-2">
-              {[["250K", "Impressions"], ["3.2K", "Link clicks"], ["₹45K", "Deal value"]].map(([value, label]) => (
-                <div key={label} className="rounded-xl border border-purple/15 bg-white/[0.035] p-3 text-center">
-                  <div className="text-sm font-black text-white">{value}</div>
-                  <div className="mt-1 text-[9px] text-muted">{label}</div>
+            <div className="mt-5 text-[10px] font-bold uppercase tracking-[0.14em] text-muted">Deal progress</div>
+            <div className="mt-3 space-y-2.5">
+              {DEAL_STEPS.map(({ icon: Icon, title, detail, state, stateClass }) => (
+                <div key={title} className="flex items-center gap-3 rounded-2xl border border-white/[0.08] bg-dark/55 p-3.5">
+                  <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl border border-purple/20 bg-gradient-to-br from-accent/20 via-purple/15 to-pink/15 text-cyan">
+                    <Icon width={18} height={18} />
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block text-xs font-bold text-white">{title}</span>
+                    <span className="mt-0.5 block text-[10px] leading-4 text-muted">{detail}</span>
+                  </span>
+                  <span className={"flex-shrink-0 rounded-full border px-2 py-1 text-[9px] font-bold uppercase tracking-wide " + stateClass}>{state}</span>
                 </div>
               ))}
             </div>
-          </div>
 
-          <div className="absolute right-0 top-0 flex items-center gap-2 rounded-2xl border border-zgreen/25 bg-navy/95 px-3 py-2.5 shadow-xl">
-            <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-zgreen/15 text-zgreen"><DealsIcon width={16} height={16} /></span>
-            <span><strong className="block text-[11px] text-white">Payment tracked</strong><span className="text-[9px] text-muted">Milestone confirmed</span></span>
-          </div>
-          <div className="absolute bottom-6 left-0 flex items-center gap-2 rounded-2xl border border-cyan/25 bg-navy/95 px-3 py-2.5 shadow-xl">
-            <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-cyan/15 text-cyan"><ShieldIcon width={16} height={16} /></span>
-            <span><strong className="block text-[11px] text-white">Deal protected</strong><span className="text-[9px] text-muted">Recorded by Zeke</span></span>
-          </div>
-          <div className="absolute bottom-0 right-0 hidden items-center gap-2 rounded-2xl border border-pink/25 bg-navy/95 px-3 py-2.5 shadow-xl sm:flex">
-            <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-pink/15 text-pink"><AgreementIcon width={16} height={16} /></span>
-            <span><strong className="block text-[11px] text-white">Usage rights clear</strong><span className="text-[9px] text-muted">Terms in one place</span></span>
+            <div className="mt-4 flex items-center justify-between gap-4 rounded-2xl border border-purple/20 bg-white/[0.04] p-4">
+              <div>
+                <div className="text-[9px] font-bold uppercase tracking-[0.14em] text-muted">Agreed value</div>
+                <div className="mt-1 text-xl font-black text-white">₹45,000</div>
+              </div>
+              <span className="rounded-full border border-cyan/25 bg-cyan/10 px-3 py-1.5 text-[10px] font-bold text-cyan">Payment trail active</span>
+            </div>
+
+            <div className="mt-4 flex items-center gap-3 pt-1">
+              <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-purple/15 text-purple">
+                <ShieldIcon width={18} height={18} />
+              </span>
+              <span>
+                <strong className="block text-[11px] text-white">Protection status recorded</strong>
+                <span className="mt-0.5 block text-[9px] text-muted">The creator controls the next step if a problem arises</span>
+              </span>
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="relative z-10 mx-auto mt-10 grid max-w-[1040px] grid-cols-2 overflow-hidden rounded-2xl border border-purple/20 bg-white/[0.035] sm:grid-cols-4">
-        {TRUST.map(([value, label], index) => (
-          <div key={label} className={`px-4 py-4 text-center ${index % 2 ? "border-l border-white/[0.06]" : ""} sm:border-l sm:first:border-l-0`}>
-            <div className="text-lg font-black text-white">{value}</div>
-            <div className="mt-1 text-[10px] uppercase tracking-[0.12em] text-muted">{label}</div>
-          </div>
-        ))}
-      </div>
     </section>
   );
 }

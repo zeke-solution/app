@@ -68,17 +68,6 @@ h3 {
   font-family: var(--font-sora);
 }
 
-.brand-wordmark {
-  font-family: var(--font-sora);
-  font-weight: 800;
-  letter-spacing: -0.055em;
-}
-
-.brand-wordmark-accent {
-  color: var(--color-pink);
-  text-shadow: 0 0 18px rgba(236, 72, 153, 0.75);
-}
-
 .brand-gradient-text {
   color: transparent;
   background-image: var(--brand-gradient);
@@ -121,15 +110,6 @@ h3 {
   background: linear-gradient(90deg, rgba(26, 19, 51, 0.96), rgba(13, 11, 22, 0.96) 52%, rgba(26, 19, 51, 0.96));
 }
 
-.brand-nav::after {
-  content: "";
-  position: absolute;
-  inset: auto 0 -1px;
-  height: 1px;
-  pointer-events: none;
-  background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.7), rgba(168, 85, 247, 0.8), rgba(236, 72, 153, 0.55), transparent);
-}
-
 .brand-hero {
   isolation: isolate;
   background:
@@ -137,20 +117,6 @@ h3 {
     radial-gradient(circle at 14% 34%, rgba(34, 211, 238, 0.08), transparent 24%),
     radial-gradient(circle at 86% 12%, rgba(236, 72, 153, 0.11), transparent 23%),
     linear-gradient(180deg, rgba(26, 19, 51, 0.24), rgba(13, 11, 22, 0));
-}
-
-.brand-hero::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0.14;
-  background-image:
-    linear-gradient(rgba(168, 85, 247, 0.2) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(99, 102, 241, 0.16) 1px, transparent 1px);
-  background-size: 64px 64px;
-  mask-image: linear-gradient(to bottom, black, transparent 76%);
 }
 
 .brand-panel,
@@ -180,15 +146,84 @@ h3 {
   opacity: 0.8;
 }
 
+.brand-story-card,
+.brand-shield-card,
+.brand-support-card {
+  background-color: #0d0b16;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.brand-story-card {
+  background-image:
+    linear-gradient(105deg, rgba(30, 27, 75, 0.7), rgba(9, 7, 20, 0.86) 48%, rgba(61, 23, 92, 0.72)),
+    url("/images/zeke-story-card-ui-bg.webp");
+}
+
+.brand-shield-card {
+  background-image:
+    linear-gradient(135deg, rgba(9, 7, 20, 0.9), rgba(30, 27, 75, 0.78) 54%, rgba(68, 38, 20, 0.52)),
+    url("/images/zeke-shield-card-ui-bg.webp");
+  background-position: center right;
+}
+
+.brand-support-card {
+  background-image:
+    linear-gradient(100deg, rgba(30, 27, 75, 0.78), rgba(9, 7, 20, 0.82) 52%, rgba(7, 35, 55, 0.58)),
+    url("/images/zeke-support-card-ui-bg.webp");
+}
+
+.brand-cta .brand-gradient-text {
+  background-image: linear-gradient(120deg, #eef2ff 0%, #d8b4fe 48%, #f9a8d4 100%);
+  text-shadow: none;
+}
+
 .brand-cta {
   position: relative;
   overflow: hidden;
-  background:
-    radial-gradient(circle at 14% 12%, rgba(34, 211, 238, 0.14), transparent 25%),
-    radial-gradient(circle at 88% 82%, rgba(236, 72, 153, 0.2), transparent 32%),
-    linear-gradient(135deg, rgba(99, 102, 241, 0.25), rgba(168, 85, 247, 0.17) 52%, rgba(26, 19, 51, 0.88));
+  background-color: #0d0b16;
+  background-image:
+    linear-gradient(100deg, rgba(30, 27, 75, 0.72), rgba(61, 23, 92, 0.78) 50%, rgba(7, 35, 55, 0.56)),
+    url("/images/zeke-cta-card-ui-bg.webp");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
   border-color: rgba(168, 85, 247, 0.4);
   box-shadow: 0 22px 70px rgba(99, 102, 241, 0.13), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+@media (max-width: 639px) {
+  .brand-story-card {
+    background-position: 12% center;
+  }
+
+  .brand-support-card,
+  .brand-cta {
+    background-position: 88% center;
+  }
+}
+
+.brand-story-card,
+.brand-shield-card,
+.brand-support-card,
+.brand-cta {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.65);
+}
+
+.brand-story-card .text-muted,
+.brand-story-card .text-light,
+.brand-shield-card .text-muted,
+.brand-shield-card .text-light,
+.brand-support-card .text-muted,
+.brand-support-card .text-light,
+.brand-cta .text-muted,
+.brand-cta .text-light,
+.brand-story-card p,
+.brand-shield-card p,
+.brand-support-card p,
+.brand-cta p {
+  color: #f7f5ff;
 }
 
 .brand-avatar {

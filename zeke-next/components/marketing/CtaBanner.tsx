@@ -7,9 +7,9 @@ export function CtaBanner() {
       <div className="brand-cta mx-auto grid max-w-[1120px] items-center gap-7 rounded-3xl border px-7 py-9 text-center sm:px-10 lg:grid-cols-[1fr_auto] lg:text-left">
         <div>
           <h2 className="text-[28px] font-black leading-tight text-white sm:text-4xl">
-            Create with confidence. <span className="brand-gradient-text">Close with clarity.</span>
+            Create with confidence. <span className="brand-gradient-text whitespace-nowrap">Close with clarity.</span>
           </h2>
-          <p className="mt-3 max-w-[620px] text-sm leading-6 text-white/70 sm:text-base">
+          <p className="mt-3 max-w-[620px] text-sm leading-6 text-white/80 sm:text-base">
             Zeke gives creators and brands a better way to meet, agree, deliver, and get the deal done.
           </p>
         </div>

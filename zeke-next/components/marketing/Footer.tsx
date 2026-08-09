@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BrandLogo } from "@/components/ui/BrandLogo";
 
 export function Footer() {
   return (
@@ -6,9 +7,7 @@ export function Footer() {
       <div className="mx-auto max-w-[1000px]">
         <div className="mb-10 grid gap-10 md:grid-cols-[2fr_1fr_1fr]">
           <div>
-            <div className="brand-wordmark mb-2 text-xl text-white">
-              zeke<span className="brand-wordmark-accent">.</span>
-            </div>
+            <BrandLogo className="mb-3 w-[96px]" />
             <p className="mb-4 text-[13px] leading-relaxed text-muted">
               Kerala&apos;s structured creator-brand deal platform.
             </p>

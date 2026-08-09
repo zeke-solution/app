@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BrandLogo } from "@/components/ui/BrandLogo";
 
 export function AuthShell({ children }: { children: React.ReactNode }) {
   return (
@@ -9,8 +10,8 @@ export function AuthShell({ children }: { children: React.ReactNode }) {
       />
       <div className="relative z-10 w-full max-w-[440px]">
         <div className="mb-7 text-center">
-          <Link href="/" className="brand-wordmark text-[28px] text-white">
-            zeke<span className="brand-wordmark-accent">.</span>
+          <Link href="/" aria-label="Zeke home" className="inline-flex">
+            <BrandLogo className="w-[112px]" preload />
           </Link>
         </div>
         {children}
