@@ -22,7 +22,7 @@ Last updated: 2026-08-09
 - Local preview command: `npm run dev -- -p 3000` from this folder
 - Stack: Next.js 16, React 19, Tailwind 4, Supabase
 - The legacy static HTML site remains at the repository root for history only and is retired as a product target.
-- The Next.js app under `zeke-next/` is deployed from `main` to Vercel and serves both custom domains over HTTPS. The latest deployed source is `origin/main` commit `78d7526`; its Vercel production deployment is Ready.
+- The Next.js app under `zeke-next/` is deployed from `main` to Vercel and serves both custom domains over HTTPS. The dispute and notification feature release is `main` commit `fac490f`; its Vercel production deployment is Ready.
 
 ## Current status
 ### Deal closure guard, notification popups, and dashboard speed: 2026-08-09
@@ -35,7 +35,8 @@ Last updated: 2026-08-09
 - Reduced identified lag sources by reusing a singleton browser Supabase client, avoiding a second notification query on every Realtime event, adding dashboard route loading skeletons, and replacing the brand campaign action's full-page anchor with a Next.js `Link`.
 - The official logo update remains complete in the shared navigation, dashboards, auth shell, footer, homepage story card, and favicon using the approved full wordmark and compact mark assets.
 - Verification passed on the current source: TypeScript, ESLint, `git diff --check`, a full Next.js 16.2.10 production build with 36 routes, linked production migration reconciliation, and linked database lint.
-- Deployment status: migration 0010 is live in Supabase. The application/UI changes in this section are local and not yet pushed to `main`.
+- Deployment status: migration 0010 and application/UI release `fac490f` are live. Vercel completed successfully, and live probes returned 200 for `/`, `/login`, and the official full-logo asset.
+
 ### Official logo, homepage polish, and signup verification: 2026-08-08
 
 - The owner supplied the official transparent Zeke logo artwork and approved all reasonable placement decisions. The source was cropped losslessly into `public/images/zeke-logo-white.png` and `public/images/zeke-logo-mark.png`; the original Downloads file was not changed.
