@@ -1,6 +1,6 @@
 # Zeke Next.js handoff
 
-Last updated: 2026-07-22
+Last updated: 2026-08-08
 
 ## Working agreement
 
@@ -25,6 +25,17 @@ Last updated: 2026-07-22
 - The Next.js app under `zeke-next/` is deployed to Vercel and serves both custom domains over HTTPS. The matching production fixes are pushed at commit `0c6a05c` on `agent/production-cutover`; draft PR #4 is open against `main` and its Vercel checks pass.
 
 ## Current status
+### Official logo, homepage polish, and signup verification: 2026-08-08
+
+- The owner supplied the official transparent Zeke logo artwork and approved all reasonable placement decisions. The source was cropped losslessly into `public/images/zeke-logo-white.png` and `public/images/zeke-logo-mark.png`; the original Downloads file was not changed.
+- Added `components/ui/BrandLogo.tsx` and replaced the typed wordmarks in the marketing navigation, dashboard navigation, auth shell, footer, and homepage story card. The improvised inline SVG favicon was replaced with the official mark.
+- Homepage polish in the same working set: simplified the hero from an analytics graph to a clear deal-progress card, renamed the example to `Brand Campaign`, removed the unwanted divider/overlay line, corrected CTA headline contrast, and applied four no-human product/social-UI background images to the approved cards.
+- `next.config.ts` now sets `devIndicators: false`; this removes the development badge and its viewport guide line from local visual QA while framework errors continue to surface normally.
+- Production `/register` returns 200 on both `zekesolution.com` and `www.zekesolution.com`. A controlled Supabase signup succeeded for `mufeedputhalath+zekeqa-20260809094042@gmail.com`: a new identity was created and email confirmation was required. This proves signup submission and the configured email-send path accept a non-team inbox alias.
+- Manual launch check still required: click the received confirmation link and verify the production callback/login, then run the password-reset email callback. Do not mark those two real-inbox callbacks complete until clicked.
+- Durable product, Shield, brand, auth, and workflow decisions are also recorded in `MEMORY.md`. No secrets are stored there.
+- Added `docs/EXTERNAL-MEETING-PROTOCOL.md` as the owner-requested standard for every Zeke interaction involving outsiders, including investment, collaborations, vendors, users, legal providers, media, and events. It includes authority limits, confidentiality tiers, meeting controls, category addenda, escalation triggers, an approval matrix, and a reusable record template.
+- Publishing direction for this session is direct to `origin/main`, per the owner's explicit request. The unrelated untracked root `HANDOFF.md` remains excluded.
 
 ### Vercel and DNS cutover: 2026-07-22
 
