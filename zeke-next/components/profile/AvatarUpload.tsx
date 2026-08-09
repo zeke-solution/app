@@ -13,6 +13,13 @@ const MIME_EXTENSIONS: Record<string, string> = {
   "image/webp": "webp",
 };
 
+function avatarObjectPath(value: string | null) {
+  if (!value) return null;
+  const marker = "/storage/v1/object/public/avatars/";
+  const path = value.split(marker)[1]?.split("?")[0];
+  return path ? decodeURIComponent(path) : null;
+}
+
 export function AvatarUpload({
   userId,
   avatarUrl,
@@ -29,6 +36,7 @@ export function AvatarUpload({
   const router = useRouter();
 
   async function upload(file: File) {
+    const previousObjectPath = avatarObjectPath(preview);
     setError("");
     const extension = MIME_EXTENSIONS[file.type];
     if (!extension) {
@@ -45,7 +53,11 @@ export function AvatarUpload({
     const objectPath = `${userId}/avatar.${extension}`;
     const { error: uploadError } = await supabase.storage
       .from("avatars")
-      .upload(objectPath, file, { cacheControl: "3600", upsert: true, contentType: file.type });
+      .upload(objectPath, file, {
+        cacheControl: "3600",
+        upsert: true,
+        contentType: file.type,
+      });
 
     if (uploadError) {
       setPending(false);
@@ -54,11 +66,19 @@ export function AvatarUpload({
     }
 
     const result = await updateAvatarPath(objectPath);
-    setPending(false);
     if (!result.ok) {
+      if (previousObjectPath !== objectPath) {
+        await supabase.storage.from("avatars").remove([objectPath]);
+      }
+      setPending(false);
       setError(result.error);
       return;
     }
+
+    if (previousObjectPath && previousObjectPath !== objectPath) {
+      await supabase.storage.from("avatars").remove([previousObjectPath]);
+    }
+    setPending(false);
 
     const { data } = supabase.storage.from("avatars").getPublicUrl(objectPath);
     setPreview(`${data.publicUrl}?v=${Date.now()}`);
@@ -82,9 +102,15 @@ export function AvatarUpload({
             onClick={() => inputRef.current?.click()}
             className="rounded-xl border border-border bg-card px-3 py-2 text-xs font-bold text-light disabled:opacity-50"
           >
-            {pending ? "Uploading..." : preview ? "Change profile picture" : "Upload profile picture"}
+            {pending
+              ? "Uploading..."
+              : preview
+                ? "Change profile picture"
+                : "Upload profile picture"}
           </button>
-          <div className="mt-1 text-[10px] text-muted">JPG, PNG or WebP - up to 5 MB</div>
+          <div className="mt-1 text-[10px] text-muted">
+            JPG, PNG or WebP - up to 5 MB
+          </div>
         </div>
         <input
           ref={inputRef}
@@ -98,7 +124,9 @@ export function AvatarUpload({
           }}
         />
       </div>
-      {error && <div className="mt-2 text-xs font-semibold text-accent">{error}</div>}
+      {error && (
+        <div className="mt-2 text-xs font-semibold text-accent">{error}</div>
+      )}
     </div>
   );
 }

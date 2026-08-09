@@ -2,12 +2,29 @@
 
 import { revalidatePath, revalidateTag } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
-import { updateInfluencerProfileSchema, type UpdateInfluencerProfileInput } from "@/lib/validation/profile.schema";
+import {
+  updateInfluencerProfileSchema,
+  type UpdateInfluencerProfileInput,
+} from "@/lib/validation/profile.schema";
 import type { ActionResult } from "@/actions/auth";
 
-export async function updateInfluencerProfile(input: UpdateInfluencerProfileInput): Promise<ActionResult> {
+const AVATAR_UPDATE_ERRORS: Record<string, string> = {
+  not_authenticated: "Your session expired. Sign in and try again.",
+  invalid_avatar_path: "Invalid profile image path.",
+  avatar_not_uploaded: "The uploaded profile image could not be found.",
+  invalid_avatar_url: "The uploaded profile image URL is invalid.",
+  profile_not_found: "Your profile could not be found.",
+};
+
+export async function updateInfluencerProfile(
+  input: UpdateInfluencerProfileInput,
+): Promise<ActionResult> {
   const parsed = updateInfluencerProfileSchema.safeParse(input);
-  if (!parsed.success) return { ok: false, error: parsed.error.issues[0]?.message ?? "Invalid input." };
+  if (!parsed.success)
+    return {
+      ok: false,
+      error: parsed.error.issues[0]?.message ?? "Invalid input.",
+    };
   const v = parsed.data;
 
   const supabase = await createClient();
@@ -21,43 +38,61 @@ export async function updateInfluencerProfile(input: UpdateInfluencerProfileInpu
       handle,
       ig_followers: v.igFollowers,
       yt_enabled: v.ytEnabled,
-      yt_followers: v.ytEnabled ? v.ytFollowers ?? 0 : null,
-      yt_handle: v.ytEnabled ? v.ytHandle ?? "" : null,
+      yt_followers: v.ytEnabled ? (v.ytFollowers ?? 0) : null,
+      yt_handle: v.ytEnabled ? (v.ytHandle ?? "") : null,
       x_enabled: v.xEnabled,
-      x_followers: v.xEnabled ? v.xFollowers ?? 0 : null,
-      x_handle: v.xEnabled ? v.xHandle ?? "" : null,
+      x_followers: v.xEnabled ? (v.xFollowers ?? 0) : null,
+      x_handle: v.xEnabled ? (v.xHandle ?? "") : null,
     })
     .eq("id", userRes.user.id);
 
   if (error) {
-    if (error.code === "23505") return { ok: false, error: "That profile handle is already in use." };
+    if (error.code === "23505")
+      return { ok: false, error: "That profile handle is already in use." };
     return { ok: false, error: error.message };
   }
 
   revalidatePath("/creator/profile");
   revalidatePath("/creator/overview");
-  revalidatePath(`/c/${handle}`);
+  revalidatePath("/c/" + handle);
   revalidateTag("public-creator-profiles", { expire: 0 });
   return { ok: true };
 }
 
-export async function updateAvatarPath(objectPath: string): Promise<ActionResult> {
+export async function updateAvatarPath(
+  objectPath: string,
+): Promise<ActionResult> {
   const supabase = await createClient();
   const { data: userRes } = await supabase.auth.getUser();
   const user = userRes.user;
   if (!user) return { ok: false, error: "Not authenticated." };
 
-  const allowedPath = new RegExp(`^${user.id.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}/avatar\\.(jpg|png|webp)$`);
-  if (!allowedPath.test(objectPath)) return { ok: false, error: "Invalid profile image path." };
+  const allowedPath = new RegExp("^" + user.id + "/avatar[.](jpg|png|webp)$");
+  if (!allowedPath.test(objectPath))
+    return { ok: false, error: "Invalid profile image path." };
 
   const { data } = supabase.storage.from("avatars").getPublicUrl(objectPath);
-  const { error } = await supabase.from("profiles").update({ avatar_url: data.publicUrl }).eq("id", user.id);
+  const { data: updateCode, error } = await supabase.rpc("set_profile_avatar", {
+    p_object_path: objectPath,
+    p_avatar_url: data.publicUrl,
+  });
   if (error) return { ok: false, error: error.message };
+  if (updateCode) {
+    return {
+      ok: false,
+      error:
+        AVATAR_UPDATE_ERRORS[updateCode] ?? "Could not save the profile image.",
+    };
+  }
 
-  const { data: inf } = await supabase.from("influencer_profiles").select("handle").eq("id", user.id).maybeSingle();
+  const { data: inf } = await supabase
+    .from("influencer_profiles")
+    .select("handle")
+    .eq("id", user.id)
+    .maybeSingle();
   revalidatePath("/creator/profile");
   revalidatePath("/creator/overview");
-  if (inf?.handle) revalidatePath(`/c/${inf.handle}`);
+  if (inf?.handle) revalidatePath("/c/" + inf.handle);
   revalidateTag("public-creator-profiles", { expire: 0 });
   return { ok: true };
 }

@@ -409,6 +409,10 @@ export interface Database {
           completed_deals: number;
         }>;
       };
+      set_profile_avatar: {
+        Args: { p_object_path: string; p_avatar_url: string };
+        Returns: string | null;
+      };
       set_creator_chat_closed: {
         Args: { p_deal_id: string; p_closed: boolean };
         Returns: string | null;

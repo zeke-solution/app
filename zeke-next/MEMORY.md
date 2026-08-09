@@ -44,6 +44,10 @@ Last updated: 2026-08-10
 
 ## Dashboard contrast and media upload release
 
+- Profile avatars are saved through `set_profile_avatar`, not a direct `profiles.avatar_url` update grant. Keep the RPC narrow: authenticate, validate the caller-owned Storage path and official public URL, confirm the object exists, then update only the caller's profile.
+- Migration 0014 fixes the missing avatar save permission without broadening authenticated table privileges. Migration 0015 explicitly revokes anon execute because Supabase function defaults can grant `anon` separately from `PUBLIC`.
+- When an avatar save fails, remove a newly orphaned object if it is not the previously referenced path. After a successful extension change, remove the replaced old object.
+
 - Keep the public marketing `.brand-card` treatment dark, but always override `.dashboard-content .brand-card` to the signed-in white surface. A dark marketing gradient combined with dashboard dark text is the confirmed source of unreadable blue stat cards.
 - On signed-in mobile screens, use 14 px for normal reading, 13 px for secondary labels, 12 px only for compact metadata, and 16 px for form controls. Keep the official agreement preview exempt from global mobile scaling.
 - Signed-in content must stay at the viewport width, wrap long user content, and avoid horizontal page scrolling. Mobile overlays are full-height `100dvh` sheets; desktop overlays remain centered cards.
@@ -55,7 +59,7 @@ Last updated: 2026-08-10
 - Submission content supports JPG, PNG, WebP, HEIC, HEIF, MP4, and MOV. Small file sizes keep three-decimal precision. Uploads use resumable TUS with 6 MB chunks, retry, and progress.
 - App and bucket limits are 100 MB, but Supabase Free still caps the project's global Storage limit at 50 MB. Upgrade and set global Storage to at least 100 MB before describing 50-100 MB uploads as active.
 - Mobile overlays are full-height `100dvh` sheets with safe-area padding and internal scrolling. Desktop overlays stay centered.
-- Migration 0013 is live. The current baseline is Next.js 16.3.0 and feature commit `fb122d3`; Vercel Production is Ready. The final dependency audit is clean.
+- Production migrations are live through 0015. The current application baseline is Next.js 16.3.0 from the HEAD of `main`; Vercel Production is Ready. The final dependency audit is clean.
 ## Deal safety, notifications, and dashboard performance
 
 - Migration 0011 was applied and live-tested on 2026-08-09. `deal_messages` and `notifications` are now in the Realtime publication; database constraints reject blank or over-4,000-character chat; final-link and payment-confirmation RPCs now alert the brand atomically. The targeted production retest passed 8/8.
