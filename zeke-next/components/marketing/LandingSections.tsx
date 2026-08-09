@@ -108,7 +108,7 @@ function CheckList({ items, dark = false }: { items: string[]; dark?: boolean })
 
 export function LandingSections() {
   return (
-    <div className="bg-white text-dark">
+    <div className="landing-content bg-white text-dark">
       <section id="creators" className="scroll-mt-20 px-5 py-16 sm:px-6 sm:py-20">
         <div className="mx-auto max-w-[1180px]">
           <SectionHeading

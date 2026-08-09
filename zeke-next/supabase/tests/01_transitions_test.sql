@@ -24,6 +24,21 @@ exception
 end $$;
 grant execute on function test_cancel_disputed_deal(uuid) to public;
 
+create or replace function test_invalid_chat(
+  target_deal_id uuid,
+  target_sender_id uuid,
+  target_content text
+)
+returns text language plpgsql as $$
+begin
+  insert into public.deal_messages (deal_id, sender_id, msg_type, content)
+  values (target_deal_id, target_sender_id, 'text', target_content);
+  return 'not_blocked';
+exception
+  when sqlstate '23514' then return 'blocked';
+end $$;
+grant execute on function test_invalid_chat(uuid, uuid, text) to public;
+
 -- ---------------------------------------------------------------- fixtures
 insert into auth.users (id, email, raw_user_meta_data) values
   ('11111111-1111-1111-1111-111111111111','creator@t.com',
@@ -157,6 +172,11 @@ begin;
 commit;
 select test_eq((select status from public.deals where id='aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa'),
   'link_submitted', 'deal moved approved -> link_submitted');
+select test_eq((select count(*)::text from public.notifications
+  where user_id='22222222-2222-2222-2222-222222222222'
+    and related_deal_id='aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa'
+    and title='Final link submitted'),
+  '1', 'brand notified when final link is submitted');
 
 \echo '--- negative: duplicate final link ---'
 begin;
@@ -211,6 +231,25 @@ select test_eq((select status from public.deals where id='aaaaaaaa-aaaa-aaaa-aaa
   'completed', 'deal moved payment_sent -> completed');
 select test_eq((select status from public.payments where deal_id='aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa'),
   'confirmed', 'payment marked confirmed');
+select test_eq((select count(*)::text from public.notifications
+  where user_id='22222222-2222-2222-2222-222222222222'
+    and related_deal_id='aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa'
+    and title='Payment confirmed'),
+  '1', 'brand notified when creator confirms payment');
+
+\echo '--- message constraints ---'
+begin;
+  set local role authenticated;
+  set local request.jwt.claims = '{"sub":"22222222-2222-2222-2222-222222222222"}';
+  select test_eq(public.test_invalid_chat(
+    'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb',
+    '22222222-2222-2222-2222-222222222222', '   '),
+    'blocked', 'whitespace-only chat blocked by database');
+  select test_eq(public.test_invalid_chat(
+    'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb',
+    '22222222-2222-2222-2222-222222222222', repeat('x', 4001)),
+    'blocked', 'over-4000-character chat blocked by database');
+commit;
 
 \echo '=============== 6. dispute ==============='
 begin;

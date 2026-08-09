@@ -244,6 +244,16 @@ h3 {
   box-shadow: inset 2px 0 0 var(--color-purple);
 }
 
+/* Keep the long marketing page accessible while skipping initial layout and
+   paint work for sections that are still well below the viewport. */
+@supports (content-visibility: auto) {
+  .landing-content > section,
+  .landing-deferred {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 720px;
+  }
+}
+
 * {
   -webkit-tap-highlight-color: transparent;
 }

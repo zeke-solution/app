@@ -39,10 +39,9 @@ export const STORAGE_BUCKETS = {
   avatars: "avatars",
 } as const;
 
-// js/creator.js's submissions upload UI copy ("MP4, MOV, JPG up to 200MB")
-// and handleFileSelect()'s lack of real validation — now enforced for real
-// in lib/validation/submission.schema.ts (Phase 6).
-export const SUBMISSION_MAX_SIZE_MB = 200;
+// Match the live Supabase Free plan's maximum file size. Raise this alongside
+// the Storage plan/bucket limit when production is upgraded.
+export const SUBMISSION_MAX_SIZE_MB = 50;
 export const SUBMISSION_ALLOWED_MIME_TYPES = [
   "video/mp4",
   "video/quicktime",

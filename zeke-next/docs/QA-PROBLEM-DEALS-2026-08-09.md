@@ -16,6 +16,18 @@
 - Core deal-state, RLS, transaction, cancellation, dispute, payment, Shield, and consent guards passed.
 - The two failed checks expose real production gaps rather than corrupting any scenario state.
 
+## Remediation follow-up
+
+Migration `0011_realtime_and_workflow_notifications.sql` was applied to the linked production project on 2026-08-09. A self-cleaning live verification passed 8/8 targeted checks:
+
+- `deal_messages` Realtime delivery passed.
+- `notifications` Realtime delivery passed.
+- Whitespace-only direct chat was blocked with SQLSTATE `23514`.
+- A 4,001-character direct chat was blocked with SQLSTATE `23514`.
+- Final-link RPC transition passed and created the brand alert.
+- Payment-confirmation RPC transition passed and created the brand alert.
+
+The four confirmed gaps below are therefore resolved. The original findings remain in this report as the audit trail. Production now has 3 auth users because the permanent confirmed admin `mufeed@zekesolution.com` was added after the stress run.
 ## Ten scenarios
 
 | # | Scenario | Final status | Result |

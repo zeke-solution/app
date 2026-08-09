@@ -25,6 +25,17 @@ Last updated: 2026-08-09
 - The Next.js app under `zeke-next/` is deployed from `main` to Vercel and serves both custom domains over HTTPS. The dispute and notification feature release is `main` commit `fac490f`; its Vercel production deployment is Ready.
 
 ## Current status
+### Production remediation, admin, capacity, and performance: 2026-08-09
+
+- Created `mufeed@zekesolution.com` as a confirmed Supabase Auth user with profile role `admin`. A one-time recovery flow was opened directly in the browser so the owner can choose the password. No password was emailed, printed, or stored. Production now has 3 auth users and 1 admin profile.
+- Verified the Auth email model: registration sends a confirmation link and reset sends a recovery link. Zeke never emails passwords. Custom SMTP is Resend (`smtp.resend.com`) from `no-reply@zekesolution.com`; confirmation is required; the project limit is 30 Auth emails/hour; CAPTCHA is currently off.
+- Applied migration `0011_realtime_and_workflow_notifications.sql` to production. It publishes `deal_messages` and `notifications`, adds the database chat-content guard, and adds atomic brand alerts for final-link submission and payment confirmation.
+- Production migration history matches through 0011 and linked `db lint --level error` is clean. A self-cleaning live two-session retest passed 8/8 checks: both Realtime feeds, both message constraints, both RPC transitions, and both new brand notifications.
+- Fixed stale cancellation controls. The brand overview now hides Accept/Decline once a deal is completed, cancelled, or disputed; the database duplication guard was already correct.
+- Verified actual plans: Supabase Free and Vercel Hobby. Current Postgres size is 13 MB. The practical current limits and upgrade advice are recorded in `docs/PRODUCTION-CAPACITY-2026-08-09.md`.
+- Aligned submission validation with the live Supabase Free 50 MB file ceiling. Raise the application constant only when the Storage plan and bucket setting are upgraded together.
+- Pre-change mobile Lighthouse measured 70/100, 2.1s FCP, 3.4s LCP, 770ms TBT, zero CLS, 40ms server response, and 550 KiB transfer. Below-the-fold homepage sections now use `content-visibility: auto`, and Vercel functions are configured for Singapore (`sin1`) near the Tokyo database.
+- Local verification passes: ESLint, TypeScript, full Next.js 16.2.10 production build with 36 routes, and `git diff --check`.
 ### Ten problematic deals production QA: 2026-08-09
 
 - Completed live production run `QA-20260809113327` against the retained creator and brand accounts. Ten QA deals remain for inspection; the temporary admin identity was removed.

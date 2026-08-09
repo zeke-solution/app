@@ -3,7 +3,7 @@ import { buttonClassName } from "@/components/ui/Button";
 
 export function CtaBanner() {
   return (
-    <section className="bg-[#f5f4fc] px-5 pb-16 sm:px-6 sm:pb-20">
+    <section className="landing-deferred bg-[#f5f4fc] px-5 pb-16 sm:px-6 sm:pb-20">
       <div className="brand-cta mx-auto grid max-w-[1120px] items-center gap-7 rounded-3xl border px-7 py-9 text-center sm:px-10 lg:grid-cols-[1fr_auto] lg:text-left">
         <div>
           <h2 className="text-[28px] font-black leading-tight text-white sm:text-4xl">

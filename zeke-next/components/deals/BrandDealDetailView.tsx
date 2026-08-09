@@ -160,7 +160,12 @@ export function BrandDealDetailView({
   }) {
     const [disputeOpen, setDisputeOpen] = useState(false);
     const [editOpen, setEditOpen] = useState(false);
-    const showCancelBanner = !!p.cancelRequestedBy && p.cancelRequestedBy !== p.viewerId;
+    const showCancelBanner =
+      p.status !== "completed" &&
+      p.status !== "cancelled" &&
+      p.status !== "disputed" &&
+      !!p.cancelRequestedBy &&
+      p.cancelRequestedBy !== p.viewerId;
 
     async function handleAcceptCancel() {
       if (!confirm("Cancel this deal?")) return;
