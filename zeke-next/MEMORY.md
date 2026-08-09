@@ -8,6 +8,7 @@ Last updated: 2026-08-09
 - The Git repository root is `C:\Users\SEO EXECUTIVE\Desktop\app` and the remote is `https://github.com/zeke-solution/app`.
 - `zeke-next/HANDOFF.md` is the canonical continuation note. The untracked `HANDOFF.md` at the repository root is stale and must not be staged.
 - Production deploys from `main` to Vercel and uses Supabase project `fslthsbjtgmdbabwcubs`.
+- For a direct Vercel production deploy, run from the repository root and pass local config zeke-next/vercel.json. Deploying from inside zeke-next conflicts with the project Root Directory; deploying from root without the local config can fall back to iad1 instead of required sin1.
 - Never put passwords, API keys, tokens, or full environment values in source control or handoff files.
 
 ## Product model
