@@ -23,6 +23,7 @@ export function AgreementPreview({
   const reference = `ZK-AG-${agreementId.replace(/-/g, "").slice(0, 10).toUpperCase()}`;
 
   return (
+    <div className={'agreement-document'}>
     <article className="overflow-hidden rounded-2xl border border-white/15 bg-white text-[#1c182a] shadow-[0_18px_50px_rgba(0,0,0,0.2)]">
       <header className="flex items-center justify-between bg-[#0e0a1c] px-5 py-4">
         <Image
@@ -78,6 +79,7 @@ export function AgreementPreview({
         <span>{reference}</span>
       </footer>
     </article>
+    </div>
   );
 }
 
