@@ -31,13 +31,13 @@ export function UsersDirectoryTable({
               {b.name.slice(0, 2).toUpperCase()}
             </div>
             <div className="min-w-0 flex-1">
-              <div className="text-sm font-bold text-white">{b.name}</div>
+              <div className="text-sm font-bold text-light">{b.name}</div>
               <div className="text-xs text-muted" suppressHydrationWarning>
                 {b.type.replace(/^./, (c) => c.toUpperCase())} {b.location ? `· ${b.location}` : ""} · Joined {fmtDate(b.joined)}
               </div>
             </div>
             <div className="flex-shrink-0 text-right">
-              <div className="text-[13px] font-bold text-white">{b.dealsTotal} deal{b.dealsTotal === 1 ? "" : "s"}</div>
+              <div className="text-[13px] font-bold text-light">{b.dealsTotal} deal{b.dealsTotal === 1 ? "" : "s"}</div>
               <div className="text-[11px] text-zgreen">₹{fmtNum(b.spent)} spent</div>
             </div>
           </button>
@@ -61,7 +61,7 @@ export function UsersDirectoryTable({
             {c.name.slice(0, 2).toUpperCase()}
           </div>
           <div className="min-w-0 flex-1">
-            <div className="text-sm font-bold text-white">{c.name}</div>
+            <div className="text-sm font-bold text-light">{c.name}</div>
             <div className="text-xs text-muted">
               {c.niche} {c.handle ? `· @${c.handle}` : ""} {c.location ? `· ${c.location}` : ""}
             </div>
@@ -70,7 +70,7 @@ export function UsersDirectoryTable({
             </div>
           </div>
           <div className="flex-shrink-0 text-right">
-            <div className="text-[13px] font-bold text-white">{c.dealsCompleted} deal{c.dealsCompleted === 1 ? "" : "s"}</div>
+            <div className="text-[13px] font-bold text-light">{c.dealsCompleted} deal{c.dealsCompleted === 1 ? "" : "s"}</div>
             <div className="text-[11px] text-zgreen">₹{fmtNum(c.earned)} earned</div>
             <Badge variant={c.shieldActive ? "gold" : "muted"}>{c.shieldActive ? "🛡 Shield" : "Free"}</Badge>
           </div>

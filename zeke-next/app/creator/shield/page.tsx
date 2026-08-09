@@ -63,7 +63,7 @@ export default async function CreatorShieldPage() {
       <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
         <div>
           <div className="text-[11px] font-bold uppercase tracking-[0.16em] text-gold">Zeke Shield</div>
-          <h1 className="mt-1 text-xl font-black text-white">Protection you control</h1>
+          <h1 className="mt-1 text-xl font-black text-light">Protection you control</h1>
           <p className="mt-1 max-w-2xl text-sm leading-6 text-muted">
             Assisted follow-ups, documented table talks, and a clear route to independent legal help if you choose it.
           </p>
@@ -75,7 +75,7 @@ export default async function CreatorShieldPage() {
 
       {!isShield && (
         <div className="mb-5 rounded-2xl border border-gold/25 bg-gradient-to-br from-gold/[0.10] to-transparent p-5">
-          <h2 className="text-base font-extrabold text-white">Activate Shield before you need it</h2>
+          <h2 className="text-base font-extrabold text-light">Activate Shield before you need it</h2>
           <p className="mt-2 max-w-2xl text-sm leading-6 text-muted">
             Shield is a monthly support membership. It covers Zeke&apos;s follow-up and coordination work; it does not pay lawyer or court costs.
           </p>
@@ -92,7 +92,7 @@ export default async function CreatorShieldPage() {
           <section className="mt-6">
             <div className="mb-3 flex items-center justify-between">
               <div>
-                <h2 className="text-base font-extrabold text-white">Your Shield cases</h2>
+                <h2 className="text-base font-extrabold text-light">Your Shield cases</h2>
                 <p className="mt-0.5 text-xs text-muted">Every decision, update and document stays in one case record.</p>
               </div>
               <Link href="/creator/deals" className="text-xs font-semibold text-accent hover:text-purple">
@@ -101,7 +101,7 @@ export default async function CreatorShieldPage() {
             </div>
             {cases.length === 0 ? (
               <div className="rounded-2xl border border-border bg-card p-8 text-center">
-                <div className="text-sm font-bold text-white">No Shield cases</div>
+                <div className="text-sm font-bold text-light">No Shield cases</div>
                 <p className="mx-auto mt-2 max-w-lg text-xs leading-5 text-muted">
                   If a campaign problem is opened as a dispute, an eligible Shield case appears here automatically.
                 </p>
@@ -114,7 +114,7 @@ export default async function CreatorShieldPage() {
                     <Link key={item.id} href={`/creator/shield/cases/${item.id}`} className="rounded-2xl border border-border bg-card p-4 transition-colors hover:border-gold/35">
                       <div className="flex items-start justify-between gap-3">
                         <div>
-                          <div className="text-sm font-bold text-white">{item.dispute?.deal?.title ?? "Shield case"}</div>
+                          <div className="text-sm font-bold text-light">{item.dispute?.deal?.title ?? "Shield case"}</div>
                           <div className="mt-0.5 text-xs text-muted">{item.dispute?.deal?.brand?.display_name ?? "Brand"}</div>
                         </div>
                         <span className="rounded-full px-2.5 py-1 text-[10px] font-bold" style={{ color: meta.color, background: `${meta.color}1A` }}>
@@ -131,7 +131,7 @@ export default async function CreatorShieldPage() {
           </section>
 
           <section className="mt-6">
-            <h2 className="text-base font-extrabold text-white">Independent legal-provider pool</h2>
+            <h2 className="text-base font-extrabold text-light">Independent legal-provider pool</h2>
             <p className="mt-1 text-xs leading-5 text-muted">
               Factual profiles only - no rankings, paid placement or referral commission. You contact and hire a provider directly.
             </p>
@@ -144,7 +144,7 @@ export default async function CreatorShieldPage() {
                 {providers.map((provider) => (
                   <div key={provider.id} className="rounded-2xl border border-border bg-card p-4">
                     <div className="flex items-center gap-2">
-                      <div className="text-sm font-bold text-white">{provider.display_name}</div>
+                      <div className="text-sm font-bold text-light">{provider.display_name}</div>
                       {provider.verified_at && <span className="rounded-full bg-zgreen/10 px-2 py-0.5 text-[9px] font-bold text-zgreen">Verified record</span>}
                     </div>
                     <div className="mt-1 text-xs text-muted">

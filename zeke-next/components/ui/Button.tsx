@@ -16,8 +16,8 @@ const sizeClasses: Record<Size, string> = {
 
 const variantClasses: Record<Variant, string> = {
   primary: "brand-button-primary text-white",
-  outline: "brand-button-outline bg-transparent text-white",
-  ghost: "bg-transparent text-muted border-transparent hover:text-white",
+  outline: "brand-button-outline bg-transparent text-light",
+  ghost: "bg-transparent text-muted border-transparent hover:text-light",
   gold: "bg-gold text-white border-gold hover:opacity-90",
 };
 

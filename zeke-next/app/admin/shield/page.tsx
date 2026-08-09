@@ -25,7 +25,7 @@ export default async function AdminShieldPage() {
 
   return (
     <div>
-      <h2 className="text-xl font-black text-white">Shield Requests</h2>
+      <h2 className="text-xl font-black text-light">Shield Requests</h2>
       <p className="mt-1 text-sm text-muted">Creators who have requested Zeke Shield. Confirm payment offline, then activate.</p>
       <div className="mb-5 mt-4 flex flex-wrap gap-2">
         <Link href="/admin/shield/cases" className="rounded-lg border border-purple/25 bg-purple/[0.06] px-3 py-2 text-xs font-bold text-purple">Open Shield cases</Link>

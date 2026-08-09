@@ -49,20 +49,20 @@ export function CampaignSendModal({ campaign, onClose }: { campaign: CampaignLit
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/65 p-4" onClick={onClose}>
+    <div className="fixed inset-0 z-50 flex h-[100dvh] items-stretch justify-center bg-black/65 p-0 sm:items-center sm:p-4" onClick={onClose}>
       <div
-        className="flex w-full max-w-[520px] flex-col gap-3.5 rounded-2xl border border-border bg-card p-5"
+        className="flex h-full min-h-0 w-full flex-col gap-3.5 overflow-y-auto rounded-none border-0 bg-card p-4 pb-[max(env(safe-area-inset-bottom),1rem)] sm:h-auto sm:max-h-[92vh] sm:max-w-[520px] sm:rounded-2xl sm:border sm:p-5"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center gap-2.5">
+        <div className="flex flex-wrap items-center gap-2.5">
           <div className="min-w-0 flex-1">
-            <div className="text-base font-bold text-white">Send &quot;{campaign.title}&quot;</div>
+            <div className="text-base font-bold text-light">Send &quot;{campaign.title}&quot;</div>
             <div className="text-xs text-muted">Pick creators to send this campaign as an offer.</div>
           </div>
           <button onClick={onClose} className="text-2xl leading-none text-muted">&times;</button>
         </div>
 
-        <div className="grid grid-cols-2 gap-2">
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
           <input
             value={platform}
             onChange={(e) => setPlatform(e.target.value)}
@@ -89,7 +89,7 @@ export function CampaignSendModal({ campaign, onClose }: { campaign: CampaignLit
           </label>
         </div>
 
-        <div className="max-h-[42vh] overflow-y-auto rounded-xl border border-border bg-dark">
+        <div className="min-h-0 flex-1 overflow-y-auto rounded-xl border border-border bg-dark sm:max-h-[42vh]">
           {creators.length === 0 ? (
             <div className="p-5 text-center text-sm text-muted">No creators match.</div>
           ) : (
@@ -107,7 +107,7 @@ export function CampaignSendModal({ campaign, onClose }: { campaign: CampaignLit
                     {name.slice(0, 2).toUpperCase()}
                   </div>
                   <div className="min-w-0 flex-1">
-                    <div className="text-[13px] font-bold text-white">
+                    <div className="text-[13px] font-bold text-light">
                       {name} {c.shield_active ? "🛡" : ""}
                     </div>
                     <div className="text-[11px] text-muted">{[c.niche, c.profiles?.location].filter(Boolean).join(" · ")}</div>
@@ -120,7 +120,7 @@ export function CampaignSendModal({ campaign, onClose }: { campaign: CampaignLit
         </div>
 
         {error && <div className="rounded-[10px] border border-accent/20 bg-accent/10 px-3.5 py-2 text-xs text-accent">{error}</div>}
-        <div className="flex items-center gap-2.5">
+        <div className="flex flex-wrap items-center gap-2.5">
           <div className="flex-1 text-xs text-muted">
             {selectedCount} selected · ₹{fmtNum(campaign.budget)} each · ₹{fmtNum((campaign.budget ?? 0) * selectedCount)} total
           </div>

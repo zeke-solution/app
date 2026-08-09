@@ -6,7 +6,7 @@ export function StatCard({
   iconColor,
   value,
   label,
-  valueColor = "#fff",
+  valueColor = "var(--color-light)",
 }: {
   icon: ReactNode;
   iconColor: string;

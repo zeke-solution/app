@@ -112,7 +112,7 @@ export function LegalProviderManager({ providers }: { providers: LegalProviderRo
       <form onSubmit={submit} className="rounded-2xl border border-border bg-card p-4 sm:p-5">
         <div className="flex items-center justify-between gap-2">
           <div>
-            <h2 className="text-sm font-extrabold text-white">{editing ? "Edit provider record" : "Add legal provider"}</h2>
+            <h2 className="text-sm font-extrabold text-light">{editing ? "Edit provider record" : "Add legal provider"}</h2>
             <p className="mt-1 text-[10px] leading-4 text-muted">Use factual information only. Do not add rankings, outcome claims, paid placement or promotional language.</p>
           </div>
           {editing && <button type="button" onClick={cancel} className="text-xs text-muted">Cancel</button>}
@@ -142,13 +142,13 @@ export function LegalProviderManager({ providers }: { providers: LegalProviderRo
       </form>
 
       <section>
-        <h2 className="text-sm font-extrabold text-white">Provider records ({providers.length})</h2>
+        <h2 className="text-sm font-extrabold text-light">Provider records ({providers.length})</h2>
         <div className="mt-3 grid gap-3 sm:grid-cols-2">
           {providers.map((provider) => (
-            <div key={provider.id} className={`rounded-2xl border bg-card p-4 ${provider.active ? "border-border" : "border-border opacity-60"}`}>
+            <div key={provider.id} className={`rounded-2xl border bg-card p-4 ${provider.active ? "border-border" : "border-border"}`}>
               <div className="flex items-start justify-between gap-2">
                 <div>
-                  <div className="text-sm font-bold text-white">{provider.display_name}</div>
+                  <div className="text-sm font-bold text-light">{provider.display_name}</div>
                   <div className="mt-0.5 text-[10px] text-muted">{LEGAL_PROVIDER_SCALE[provider.firm_scale]} · {[provider.city, provider.state].filter(Boolean).join(", ") || "No location"}</div>
                 </div>
                 <span className={`rounded-full px-2 py-0.5 text-[9px] font-bold ${provider.verified_at ? "bg-zgreen/10 text-zgreen" : "bg-gold/10 text-gold"}`}>{provider.verified_at ? "Checked" : "Unverified"}</span>

@@ -46,10 +46,10 @@ export function DealsTable({ deals }: { deals: AdminDealRow[] }) {
             className="mb-2 flex w-full items-center gap-3 rounded-2xl border border-border bg-card px-4 py-3.5 text-left transition-colors hover:border-accent/30"
           >
             <div className="min-w-0 flex-1">
-              <div className="text-sm text-white">{d.creatorName} × {d.brandName}</div>
+              <div className="text-sm text-light">{d.creatorName} × {d.brandName}</div>
               <div className="text-xs text-muted">{d.title} {d.platform ? `· ${d.platform}` : ""}</div>
             </div>
-            <div className="flex-shrink-0 text-sm font-black text-white">₹{fmtNum(d.amount)}</div>
+            <div className="flex-shrink-0 text-sm font-black text-light">₹{fmtNum(d.amount)}</div>
             <Badge variant={s.variant}>{s.label}</Badge>
           </button>
         );

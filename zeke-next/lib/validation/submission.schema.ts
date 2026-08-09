@@ -10,12 +10,12 @@ export const submissionFileMetaSchema = z.object({
   dealId: z.string().uuid(),
   fileName: z.string().trim().min(1).max(255),
   fileType: z.enum(SUBMISSION_ALLOWED_MIME_TYPES, {
-    error: "Unsupported file type. Allowed: MP4, MOV, JPG, PNG, WEBP.",
+    error: "Unsupported file type. Use MP4, MOV, JPG, PNG, WebP, HEIC, or HEIF.",
   }),
   fileSizeMb: z
     .number()
     .positive()
-    .max(SUBMISSION_MAX_SIZE_MB, `File must be under ${SUBMISSION_MAX_SIZE_MB}MB.`),
+    .max(SUBMISSION_MAX_SIZE_MB, `File must be ${SUBMISSION_MAX_SIZE_MB} MB or smaller.`),
 });
 export type SubmissionFileMetaInput = z.infer<typeof submissionFileMetaSchema>;
 

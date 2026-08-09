@@ -92,7 +92,7 @@ export function BrandDealDetailView({
           <BackIcon />
         </Link>
         <div className="min-w-0 flex-1">
-          <div className="text-base font-extrabold text-white">{creatorName}</div>
+          <div className="text-base font-extrabold text-light">{creatorName}</div>
           <div className="text-xs text-muted">
             {title} · ₹{fmtNum(amount)}
           </div>
@@ -219,13 +219,13 @@ export function BrandDealDetailView({
         )}
 
         <div className="mb-3.5 rounded-2xl border border-border bg-card p-4">
-          <div className="mb-3.5 text-xs font-bold text-white">Deal Timeline</div>
+          <div className="mb-3.5 text-xs font-bold text-light">Deal Timeline</div>
           {p.events.length === 0 ? (
             <div className="text-xs text-muted">No events yet.</div>
           ) : (
             p.events.map((ev, i) => (
               <div key={i} className="flex items-start gap-2.5 py-1.5">
-                <div className="mt-0.5 h-2.5 w-2.5 flex-shrink-0 rounded-full" style={{ background: ev.msg_type === "event_gold" ? "#D97706" : "#059669" }} />
+                <div className="mt-0.5 h-2.5 w-2.5 flex-shrink-0 rounded-full" style={{ background: ev.msg_type === "event_gold" ? "#92400E" : "#047857" }} />
                 <div className="flex-1 text-xs leading-snug text-light">{ev.content}</div>
                 <div className="flex-shrink-0 text-[11px] text-muted">{fmtDate(ev.created_at)}</div>
               </div>
@@ -234,7 +234,7 @@ export function BrandDealDetailView({
         </div>
 
         <div className="mb-3.5 rounded-2xl border border-border bg-card p-4">
-          <div className="mb-2 text-xs font-bold text-white">Deliverables</div>
+          <div className="mb-2 text-xs font-bold text-light">Deliverables</div>
           <div className="text-xs leading-relaxed text-muted">{p.deliverables || "No deliverables specified."}</div>
         </div>
 
@@ -313,9 +313,9 @@ export function BrandDealDetailView({
     }
 
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/65 p-5" onClick={onClose}>
-        <div className="w-full max-w-[440px] rounded-2xl border border-border bg-card p-6" onClick={(e) => e.stopPropagation()}>
-          <div className="mb-4 text-base font-bold text-white">Update Offer</div>
+      <div className="fixed inset-0 z-50 flex h-[100dvh] items-stretch justify-center bg-black/65 p-0 sm:items-center sm:p-5" onClick={onClose}>
+        <div className="h-full w-full overflow-y-auto rounded-none border-0 bg-card p-4 pb-[max(env(safe-area-inset-bottom),1rem)] sm:h-auto sm:max-h-[92vh] sm:max-w-[440px] sm:rounded-2xl sm:border sm:p-6" onClick={(e) => e.stopPropagation()}>
+          <div className="mb-4 text-base font-bold text-light">Update Offer</div>
           <div className="flex flex-col gap-2.5">
             <input value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} placeholder="Title" className="rounded-xl border border-border bg-dark px-3.5 py-2.5 text-[13px] text-light outline-none" />
             <input value={form.platform} onChange={(e) => setForm({ ...form, platform: e.target.value })} placeholder="Platform" className="rounded-xl border border-border bg-dark px-3.5 py-2.5 text-[13px] text-light outline-none" />
@@ -361,7 +361,7 @@ export function BrandDealDetailView({
 
     return (
       <div className="rounded-2xl border border-zgreen/25 bg-card p-4">
-        <div className="mb-2 text-xs font-bold text-white">Submitted live link</div>
+        <div className="mb-2 text-xs font-bold text-light">Submitted live link</div>
         <a
           href={finalLink.url}
           target="_blank"
@@ -411,7 +411,7 @@ export function BrandDealDetailView({
     return (
       <div className="mb-2.5 rounded-2xl border border-border bg-card p-4">
         <div className="mb-2.5 flex items-center justify-between">
-          <div className="text-[13px] font-bold text-white">Round {submission.round}</div>
+          <div className="text-[13px] font-bold text-light">Round {submission.round}</div>
           <Badge variant={isPending ? "gold" : submission.status === "approved" ? "green" : "accent"}>
             {isPending ? "Awaiting Review" : (submission.status ?? "").replace(/^./, (c) => c.toUpperCase())}
           </Badge>
@@ -473,9 +473,9 @@ export function BrandDealDetailView({
           </div>
         ) : !payment ? (
           <div className="rounded-2xl border border-gold/25 bg-card p-4">
-            <div className="mb-3 text-[13px] font-bold text-white">Mark Payment as Sent</div>
+            <div className="mb-3 text-[13px] font-bold text-light">Mark Payment as Sent</div>
             <div className="mb-4 text-[13px] text-muted">
-              Agreed amount: <span className="font-bold text-white">₹{fmtNum(amount)}</span>
+              Agreed amount: <span className="font-bold text-light">₹{fmtNum(amount)}</span>
             </div>
             <Button fullWidth disabled={pending} onClick={handleMarkSent}>
               {pending ? "Marking..." : "I have sent the payment"}
@@ -483,9 +483,9 @@ export function BrandDealDetailView({
           </div>
         ) : (
           <div className="rounded-2xl border border-zgreen/25 bg-card p-4">
-            <div className="mb-3 text-[13px] font-bold text-white">Payment Status</div>
+            <div className="mb-3 text-[13px] font-bold text-light">Payment Status</div>
             <div className="flex items-center gap-2.5 rounded-xl border border-zgreen/30 bg-dark px-3 py-2.5">
-              <div className="flex-1 text-[13px] font-semibold text-white">₹{fmtNum(payment.amount)} sent</div>
+              <div className="flex-1 text-[13px] font-semibold text-light">₹{fmtNum(payment.amount)} sent</div>
               <Badge variant={payment.status === "confirmed" ? "green" : "gold"}>
                 {payment.status === "confirmed" ? "Confirmed by Creator" : "Awaiting Confirmation"}
               </Badge>
@@ -515,8 +515,8 @@ export function BrandDealDetailView({
   }) {
     if (!agreement) {
       return (
-        <div className="rounded-2xl border border-border bg-card p-4 opacity-60">
-          <div className="text-[13px] font-bold text-white">No Agreement Yet</div>
+        <div className="rounded-2xl border border-border bg-card p-4">
+          <div className="text-[13px] font-bold text-light">No Agreement Yet</div>
           <div className="mt-1.5 text-xs text-muted">Generated automatically once the creator accepts the offer.</div>
         </div>
       );
@@ -595,7 +595,7 @@ function BrandCancelTab({
   return (
     <div>
       <div className="mb-3.5 rounded-2xl border border-accent/20 bg-accent/[0.04] p-4">
-        <div className="mb-1.5 text-[13px] font-bold text-white">Cancel Agreement</div>
+        <div className="mb-1.5 text-[13px] font-bold text-light">Cancel Agreement</div>
         {unavailable ? (
           <div className="rounded-lg bg-white/5 p-3 text-center text-xs text-muted">
             {status === "disputed"

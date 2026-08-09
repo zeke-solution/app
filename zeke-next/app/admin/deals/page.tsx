@@ -22,7 +22,7 @@ export default async function AdminDealsPage() {
   return (
     <div>
       <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-xl font-black text-white">All Deals</h2>
+        <h2 className="text-xl font-black text-light">All Deals</h2>
         <div className="text-xs text-muted">{deals.length} total</div>
       </div>
       <DealsTable deals={deals} />

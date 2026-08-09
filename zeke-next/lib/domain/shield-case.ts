@@ -12,7 +12,7 @@ export const SHIELD_CASE_STATUS: Record<
   intake: {
     label: "Choice needed",
     description: "Review the case and choose assisted follow-up or independent legal help.",
-    color: "#D97706",
+    color: "#92400E",
   },
   assisted_follow_up: {
     label: "Assisted follow-up",
@@ -27,17 +27,17 @@ export const SHIELD_CASE_STATUS: Record<
   lawyer_selection: {
     label: "Choose legal help",
     description: "Select and contact an independent legal provider directly.",
-    color: "#D97706",
+    color: "#92400E",
   },
   legal_coordination: {
     label: "Legal coordination",
     description: "You hired the provider directly; Zeke is coordinating authorised records and communication.",
-    color: "#F43F5E",
+    color: "#BE123C",
   },
   resolved: {
     label: "Resolved",
     description: "The case reached a recorded resolution.",
-    color: "#059669",
+    color: "#047857",
   },
   closed: {
     label: "Closed",

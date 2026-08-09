@@ -33,9 +33,9 @@ export function OfferModal({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/65 p-5" onClick={onClose}>
-      <div className="w-full max-w-[420px] rounded-2xl border border-border bg-card p-6" onClick={(e) => e.stopPropagation()}>
-        <div className="mb-1 text-base font-bold text-white">Send Offer</div>
+    <div className="fixed inset-0 z-50 flex h-[100dvh] items-stretch justify-center bg-black/65 p-0 sm:items-center sm:p-5" onClick={onClose}>
+      <div className="h-full w-full overflow-y-auto rounded-none border-0 bg-card p-4 pb-[max(env(safe-area-inset-bottom),1rem)] sm:h-auto sm:max-h-[92vh] sm:max-w-[420px] sm:rounded-2xl sm:border sm:p-6" onClick={(e) => e.stopPropagation()}>
+        <div className="mb-1 text-base font-bold text-light">Send Offer</div>
         <div className="mb-4 text-xs text-muted">To: {creatorName}</div>
         <div className="flex flex-col gap-2.5">
           <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Deal title (e.g. Eid Collection Reel)" className="rounded-xl border border-border bg-dark px-3.5 py-2.5 text-[13px] text-light outline-none" />

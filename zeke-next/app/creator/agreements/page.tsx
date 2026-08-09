@@ -20,7 +20,7 @@ export default async function CreatorAgreementsPage() {
 
   return (
     <div>
-      <h2 className="text-xl font-black text-white">Agreements</h2>
+      <h2 className="text-xl font-black text-light">Agreements</h2>
       <p className="mb-5 mt-1 text-xs text-muted">Official campaign records generated after acceptance</p>
 
       {agreements.length === 0 ? (

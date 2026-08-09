@@ -20,7 +20,7 @@ export default async function CreatorOffersPage() {
 
   return (
     <div>
-      <h2 className="mb-4 text-xl font-black text-white">Offers Inbox</h2>
+      <h2 className="mb-4 text-xl font-black text-light">Offers Inbox</h2>
       {offers.length === 0 ? (
         <div className="flex flex-col items-center gap-3 rounded-2xl border border-border bg-card p-12 text-center text-muted">
           <OffersIcon width={32} height={32} className="opacity-40" />
@@ -37,7 +37,7 @@ export default async function CreatorOffersPage() {
                     {brandName.slice(0, 2).toUpperCase()}
                   </div>
                   <div>
-                    <div className="text-sm font-bold text-white">{brandName}</div>
+                    <div className="text-sm font-bold text-light">{brandName}</div>
                     <div className="text-xs text-muted">
                       {d.title} {d.platform ? `· ${d.platform}` : ""}
                     </div>

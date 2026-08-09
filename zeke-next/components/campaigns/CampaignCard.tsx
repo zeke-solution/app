@@ -17,7 +17,7 @@ export function CampaignCard({ campaign, children }: { campaign: CampaignRow; ch
     <div className="mb-3 rounded-2xl border border-border bg-card p-5">
       <div className="flex items-start justify-between gap-3">
         <div>
-          <div className="text-sm font-bold text-white">{campaign.title}</div>
+          <div className="text-sm font-bold text-light">{campaign.title}</div>
           <div className="text-xs text-muted">
             {campaign.niche} {campaign.deadline ? `· Deadline ${fmtDateShort(campaign.deadline)}` : ""}
           </div>

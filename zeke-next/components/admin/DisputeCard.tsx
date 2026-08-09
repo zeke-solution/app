@@ -39,7 +39,7 @@ export function DisputeCard({ dispute }: { dispute: DisputeRow }) {
     <div className="mb-3 rounded-2xl border border-border bg-card p-4">
       <button onClick={() => setShowDeal(true)} className="mb-2.5 flex w-full items-center justify-between gap-3 text-left">
         <div>
-          <div className="text-sm font-bold text-white">{dispute.creatorName} x {dispute.brandName}</div>
+          <div className="text-sm font-bold text-light">{dispute.creatorName} x {dispute.brandName}</div>
           <div className="text-xs text-muted">Raised by {dispute.raiserName} - {fmtDate(dispute.createdAt)}</div>
         </div>
         <Badge variant="accent">Open</Badge>

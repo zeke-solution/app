@@ -20,7 +20,7 @@ export default async function BrandChatsPage() {
 
   return (
     <div>
-      <h2 className="text-xl font-black text-white">Chats</h2>
+      <h2 className="text-xl font-black text-light">Chats</h2>
       <p className="mb-5 mt-1 text-xs text-muted">Your deal conversations with creators</p>
       {chats.length === 0 ? (
         <div className="rounded-2xl border border-border bg-card p-12 text-center text-sm text-muted">No active chats yet.</div>
@@ -37,7 +37,7 @@ export default async function BrandChatsPage() {
                 {creatorName.slice(0, 2).toUpperCase()}
               </div>
               <div className="min-w-0 flex-1">
-                <div className="text-sm font-bold text-white">{creatorName}</div>
+                <div className="text-sm font-bold text-light">{creatorName}</div>
                 <div className="truncate text-xs text-muted">{d.title}</div>
               </div>
               <DealStatusBadge status={d.status as DealStatus} viewer="brand" />

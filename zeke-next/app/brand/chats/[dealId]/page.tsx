@@ -36,7 +36,7 @@ export default async function BrandChatPage({ params }: { params: Promise<{ deal
           {creatorName.slice(0, 2).toUpperCase()}
         </div>
         <div className="min-w-0 flex-1">
-          <div className="text-sm font-bold text-white">{creatorName}</div>
+          <div className="text-sm font-bold text-light">{creatorName}</div>
           <div className="text-[11px] text-muted">{deal.title} - &#8377;{fmtNum(deal.amount)}</div>
         </div>
         {deal.status === "negotiating" ? (

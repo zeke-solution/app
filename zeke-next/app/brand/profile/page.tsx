@@ -30,7 +30,7 @@ export default async function BrandProfilePage() {
 
   return (
     <div>
-      <h2 className="text-xl font-black text-white">Brand Profile</h2>
+      <h2 className="text-xl font-black text-light">Brand Profile</h2>
       <p className="mb-5 mt-1 text-sm text-muted">This is how creators see your brand on Zeke</p>
 
       <Card>
@@ -39,7 +39,7 @@ export default async function BrandProfilePage() {
             {initials}
           </div>
           <div>
-            <div className="text-lg font-black text-white">{name}</div>
+            <div className="text-lg font-black text-light">{name}</div>
             <div className="text-[13px] text-muted">{session.profile.location}</div>
             <span className="mt-1.5 inline-block rounded-full border border-border bg-white/[0.03] px-2.5 py-0.5 text-[11px] font-bold text-muted">
               {typeLabel}
@@ -51,7 +51,7 @@ export default async function BrandProfilePage() {
           <ProfileStat value={campaignsRes.count ?? 0} label="Campaigns" />
           <ProfileStat value={completed.length} label="Deals Done" />
           <ProfileStat value={`₹${fmtNum(totalSpent)}`} label="Total Spent" />
-          <ProfileStat value="--" label="Avg Rating" color="#D97706" />
+          <ProfileStat value="--" label="Avg Rating" color="#92400E" />
         </div>
 
         <div className="rounded-xl border border-border bg-dark p-3">
@@ -65,7 +65,7 @@ export default async function BrandProfilePage() {
               return (
                 <div key={d.id} className="flex items-center justify-between border-b border-border py-2 last:border-0">
                   <div>
-                    <div className="text-xs font-semibold text-white">{creatorName}</div>
+                    <div className="text-xs font-semibold text-light">{creatorName}</div>
                     <div className="text-[11px] text-muted">{d.title}</div>
                   </div>
                   <div className="text-right">
@@ -85,7 +85,7 @@ export default async function BrandProfilePage() {
 function ProfileStat({ value, label, color }: { value: React.ReactNode; label: string; color?: string }) {
   return (
     <div className="rounded-xl border border-border bg-dark p-3 text-center">
-      <div className="text-base font-black" style={{ color: color ?? "#fff" }}>
+      <div className="text-base font-black" style={{ color: color ?? "var(--color-light)" }}>
         {value}
       </div>
       <div className="mt-0.5 text-[11px] text-muted">{label}</div>

@@ -34,7 +34,7 @@ export default async function AdminShieldCasesPage() {
       <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
         <div>
           <div className="text-[11px] font-bold uppercase tracking-[0.16em] text-purple">Shield operations</div>
-          <h1 className="mt-1 text-xl font-black text-white">Shield cases</h1>
+          <h1 className="mt-1 text-xl font-black text-light">Shield cases</h1>
           <p className="mt-1 text-sm text-muted">Creator decisions, follow-ups, table talks and legal coordination in one audit trail.</p>
         </div>
         <Link href="/admin/legal-pool" className="rounded-lg border border-gold/25 bg-gold/[0.06] px-3 py-2 text-xs font-bold text-gold">Manage provider pool</Link>
@@ -47,7 +47,7 @@ export default async function AdminShieldCasesPage() {
             <Link key={item.id} href={`/admin/shield/cases/${item.id}`} className="block rounded-2xl border border-border bg-card p-4 transition-colors hover:border-purple/35">
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
-                  <div className="text-sm font-bold text-white">{item.creator?.display_name ?? "Creator"} × {item.dispute?.deal?.brand?.display_name ?? "Brand"}</div>
+                  <div className="text-sm font-bold text-light">{item.creator?.display_name ?? "Creator"} × {item.dispute?.deal?.brand?.display_name ?? "Brand"}</div>
                   <div className="mt-0.5 text-xs text-muted">{item.dispute?.deal?.title ?? "Shield case"} · Path: {item.creator_path.replaceAll("_", " ")}</div>
                 </div>
                 <span className="rounded-full px-2.5 py-1 text-[10px] font-bold" style={{ color: meta.color, background: `${meta.color}1A` }}>{meta.label}</span>

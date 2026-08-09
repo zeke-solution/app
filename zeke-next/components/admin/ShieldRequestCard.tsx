@@ -49,7 +49,7 @@ export function ShieldRequestCard({ request }: { request: ShieldRequestRow }) {
             {request.creatorName.slice(0, 2).toUpperCase()}
           </div>
           <div>
-            <div className="text-sm font-bold text-white">{request.creatorName}</div>
+            <div className="text-sm font-bold text-light">{request.creatorName}</div>
             <div className="text-xs text-muted">{request.location} · Requested {fmtDate(request.requested_at)}</div>
           </div>
         </div>

@@ -12,7 +12,7 @@ export default async function AdminUsersPage({
 
   return (
     <div>
-      <h2 className="text-xl font-black text-white">Users</h2>
+      <h2 className="text-xl font-black text-light">Users</h2>
       <p className="mb-4 mt-1 text-sm text-muted">All registered brands and creators on Zeke</p>
       <div className="mb-4 flex gap-2">
         <Link

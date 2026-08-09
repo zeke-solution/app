@@ -8,6 +8,7 @@ import { updateAvatarPath } from "@/actions/profile";
 const MAX_AVATAR_BYTES = 5 * 1024 * 1024;
 const MIME_EXTENSIONS: Record<string, string> = {
   "image/jpeg": "jpg",
+  "image/jpg": "jpg",
   "image/png": "png",
   "image/webp": "webp",
 };
@@ -88,7 +89,7 @@ export function AvatarUpload({
         <input
           ref={inputRef}
           type="file"
-          accept="image/jpeg,image/png,image/webp"
+          accept="image/jpeg,image/jpg,image/png,image/webp"
           className="hidden"
           onChange={(event) => {
             const file = event.target.files?.[0];

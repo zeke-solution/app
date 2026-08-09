@@ -80,7 +80,7 @@ export function CreatorDealDetailView({
           <BackIcon />
         </Link>
         <div className="min-w-0 flex-1">
-          <div className="text-base font-extrabold text-white">{brandName}</div>
+          <div className="text-base font-extrabold text-light">{brandName}</div>
           <div className="text-xs text-muted">
             {title} · ₹{fmtNum(amount)}
           </div>
@@ -106,7 +106,7 @@ export function CreatorDealDetailView({
             onClick={() => setTab(t.key)}
             className={`whitespace-nowrap px-3.5 py-2.5 text-[13px] font-semibold transition-colors ${
               tab === t.key ? "border-b-2 border-accent text-accent" : "text-muted"
-            } ${t.key === "cancel" ? "!text-accent/50" : ""}`}
+            } ${t.key === "cancel" ? "!text-accent" : ""}`}
           >
             {t.label}
           </button>
@@ -161,7 +161,7 @@ function OverviewTab({
       )}
 
       <div className="mb-3.5 rounded-2xl border border-border bg-card p-4">
-        <div className="mb-3.5 text-xs font-bold text-white">Deal Timeline</div>
+        <div className="mb-3.5 text-xs font-bold text-light">Deal Timeline</div>
         {events.length === 0 ? (
           <div className="text-xs text-muted">No events yet.</div>
         ) : (
@@ -169,7 +169,7 @@ function OverviewTab({
             <div key={i} className="flex items-start gap-2.5 py-1.5">
               <div
                 className="mt-0.5 h-2.5 w-2.5 flex-shrink-0 rounded-full"
-                style={{ background: ev.msg_type === "event_gold" ? "#D97706" : "#059669" }}
+                style={{ background: ev.msg_type === "event_gold" ? "#92400E" : "#047857" }}
               />
               <div className="flex-1 text-xs leading-snug text-light">{ev.content}</div>
               <div className="flex-shrink-0 text-[11px] text-muted">{fmtDate(ev.created_at)}</div>
@@ -179,7 +179,7 @@ function OverviewTab({
       </div>
 
       <div className="mb-3.5 rounded-2xl border border-border bg-card p-4">
-        <div className="mb-2 text-xs font-bold text-white">Deliverables</div>
+        <div className="mb-2 text-xs font-bold text-light">Deliverables</div>
         <div className="text-xs leading-relaxed text-muted">{deliverables || "No deliverables specified."}</div>
       </div>
 
@@ -245,11 +245,11 @@ function SubmissionsTab({ dealId, submissions }: { dealId: string; submissions: 
         Upload your content file for brand review. Do not post until approved.
       </p>
       {submissions.map((s) => {
-        const color = s.status === "approved" ? "#059669" : s.status === "rejected" ? "#F43F5E" : "#D97706";
+        const color = s.status === "approved" ? "#047857" : s.status === "rejected" ? "#BE123C" : "#92400E";
         return (
           <div key={s.id} className="mb-2.5 rounded-2xl border border-border bg-card p-4">
             <div className="mb-2.5 flex items-center justify-between">
-              <div className="text-[13px] font-bold text-white">Round {s.round}</div>
+              <div className="text-[13px] font-bold text-light">Round {s.round}</div>
               <span className="text-[11px] font-bold" style={{ color }}>
                 {(s.status ?? "pending").charAt(0).toUpperCase() + (s.status ?? "pending").slice(1)}
               </span>
@@ -267,7 +267,7 @@ function SubmissionsTab({ dealId, submissions }: { dealId: string; submissions: 
       })}
       {canUpload && (
         <div className={submissions.length ? "mt-4" : ""}>
-          <SubmissionUploader dealId={dealId} />
+          <SubmissionUploader dealId={dealId} round={Math.max(0, ...submissions.map((submission) => submission.round ?? 0)) + 1} />
         </div>
       )}
     </div>
@@ -300,13 +300,13 @@ function FinalLinkTab({
       <p className="mb-4 text-xs text-muted">Submit the live link after brand approves your content.</p>
       {finalLink ? (
         <div className="rounded-2xl border border-zgreen/25 bg-card p-4">
-          <div className="mb-2 text-xs font-bold text-white">Submitted Link</div>
+          <div className="mb-2 text-xs font-bold text-light">Submitted Link</div>
           <div className="break-all rounded-xl bg-dark px-3.5 py-2.5 text-[13px] text-zgreen">{finalLink.url}</div>
           <div className="mt-2 text-[11px] text-muted">Submitted {fmtDate(finalLink.submitted_at)}</div>
         </div>
       ) : status === "approved" ? (
         <div className="rounded-2xl border border-zgreen/20 bg-card p-4">
-          <div className="mb-2.5 text-[13px] font-bold text-white">Submit Live Link</div>
+          <div className="mb-2.5 text-[13px] font-bold text-light">Submit Live Link</div>
           <input
             type="url"
             value={url}
@@ -319,8 +319,8 @@ function FinalLinkTab({
           </Button>
         </div>
       ) : (
-        <div className="rounded-2xl border border-border bg-card p-4 opacity-50">
-          <div className="text-[13px] font-bold text-white">Final Link</div>
+        <div className="rounded-2xl border border-border bg-card p-4">
+          <div className="text-[13px] font-bold text-light">Final Link</div>
           <div className="mt-1.5 text-xs text-muted">Available after brand approves your content.</div>
         </div>
       )}
@@ -351,7 +351,7 @@ function PaymentTab({
     <div>
       <p className="mb-4 text-xs text-muted">Confirm once you receive payment from the brand.</p>
       {!payment ? (
-        <div className="rounded-2xl border border-gold/25 bg-gold/[0.06] p-4 opacity-50">
+        <div className="rounded-2xl border border-gold/25 bg-gold/[0.06] p-4">
           <div className="text-[13px] font-bold text-gold">Confirm Payment</div>
           <div className="mt-1.5 text-xs text-muted">Available after brand marks payment as sent.</div>
         </div>
@@ -363,7 +363,7 @@ function PaymentTab({
         </div>
       ) : (
         <div className="rounded-2xl border border-gold/25 bg-card p-4">
-          <div className="mb-3 text-[13px] font-bold text-white">Confirm Payment Received</div>
+          <div className="mb-3 text-[13px] font-bold text-light">Confirm Payment Received</div>
           <div className="mb-4 text-sm font-bold text-gold">₹{fmtNum(payment.amount)} sent by brand</div>
           <Button fullWidth disabled={pending} onClick={handleConfirm}>
             {pending ? "Confirming..." : "I have received the payment"}
@@ -423,7 +423,7 @@ function CancelTab({
   return (
     <div>
       <div className="mb-3.5 rounded-2xl border border-accent/20 bg-accent/[0.04] p-4">
-        <div className="mb-1.5 text-[13px] font-bold text-white">Cancel Agreement</div>
+        <div className="mb-1.5 text-[13px] font-bold text-light">Cancel Agreement</div>
         {unavailable ? (
           <div className="rounded-lg bg-white/5 p-3 text-center text-xs text-muted">
             {status === "disputed"

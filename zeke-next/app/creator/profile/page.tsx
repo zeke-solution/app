@@ -39,14 +39,14 @@ export default async function CreatorProfilePage() {
 
   return (
     <div>
-      <h2 className="text-xl font-black text-white">My Profile</h2>
+      <h2 className="text-xl font-black text-light">My Profile</h2>
       <p className="mb-5 mt-1 text-sm text-muted">How brands see you on Zeke</p>
 
       <Card className="mb-4">
         <AvatarUpload userId={session.id} avatarUrl={session.profile.avatar_url} initials={initials} />
         <div className="mb-5 flex items-center gap-4">
           <div>
-            <div className="text-lg font-black text-white">{session.profile.display_name}</div>
+            <div className="text-lg font-black text-light">{session.profile.display_name}</div>
             <div className="text-[13px] text-muted">
               {[inf?.handle ? `@${inf.handle}` : null, session.profile.location].filter(Boolean).join(" · ")}
             </div>
@@ -82,7 +82,7 @@ export default async function CreatorProfilePage() {
               return (
                 <div key={d.id} className="flex items-center justify-between border-b border-border py-2 last:border-0">
                   <div>
-                    <div className="text-xs font-semibold text-white">{brandName}</div>
+                    <div className="text-xs font-semibold text-light">{brandName}</div>
                     <div className="text-[11px] text-muted">{d.title}</div>
                   </div>
                   <div className="text-right">
@@ -108,7 +108,7 @@ export default async function CreatorProfilePage() {
 function PlatformStat({ label, value }: { label: string; value: number | null | undefined }) {
   return (
     <div className="rounded-xl border border-border bg-dark p-3 text-center">
-      <div className="text-base font-black text-white">{value ? fmtNum(value) : "--"}</div>
+      <div className="text-base font-black text-light">{value ? fmtNum(value) : "--"}</div>
       <div className="mt-0.5 text-[11px] text-muted">{label}</div>
     </div>
   );

@@ -36,7 +36,7 @@ export default async function AdminDisputesPage() {
 
   return (
     <div>
-      <h2 className="text-xl font-black text-white">Disputes</h2>
+      <h2 className="text-xl font-black text-light">Disputes</h2>
       <p className="mb-5 mt-1 text-sm text-muted">Standard disputes stay in general resolution. Shield-protected disputes also receive a dedicated coordination case.</p>
       {disputes.length === 0 ? (
         <div className="rounded-2xl border border-border bg-card p-12 text-center text-sm text-muted">No open disputes.</div>

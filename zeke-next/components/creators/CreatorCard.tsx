@@ -27,13 +27,13 @@ export function CreatorCard({ creator, actions }: { creator: CreatorRow; actions
         </div>
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-1.5">
-            <div className="truncate text-sm font-bold text-white">{name}</div>
+            <div className="truncate text-sm font-bold text-light">{name}</div>
             {creator.shield_active && <span className="text-xs text-gold">&#128737;</span>}
           </div>
           <div className="truncate text-xs text-muted">{creator.handle ? `@${creator.handle}` : creator.niche || ""}</div>
         </div>
         <div className="flex-shrink-0 text-right">
-          <div className="text-sm font-bold text-white">{fmtNum(creator.ig_followers)}</div>
+          <div className="text-sm font-bold text-light">{fmtNum(creator.ig_followers)}</div>
           <div className="text-xs text-gold">&#9733; {creator.rating || "--"}</div>
         </div>
       </div>

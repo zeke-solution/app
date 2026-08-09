@@ -110,7 +110,7 @@ export default async function CreatorShieldCasePage({
   return (
     <div>
       <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
-        <Link href="/creator/shield" className="text-xs font-semibold text-muted hover:text-white">
+        <Link href="/creator/shield" className="text-xs font-semibold text-muted hover:text-light">
           ← Back to Shield
         </Link>
         {view.dealAmount !== null && <span className="text-xs font-bold text-gold">Deal value ₹{fmtNum(view.dealAmount)}</span>}

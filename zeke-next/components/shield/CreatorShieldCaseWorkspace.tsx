@@ -144,7 +144,7 @@ export function CreatorShieldCaseWorkspace({
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
             <div className="text-xs text-muted">{shieldCase.brandName}</div>
-            <h1 className="mt-1 text-lg font-black text-white">{shieldCase.dealTitle}</h1>
+            <h1 className="mt-1 text-lg font-black text-light">{shieldCase.dealTitle}</h1>
             <div className="mt-1 text-[11px] text-muted">Case opened {fmtDate(shieldCase.openedAt)}</div>
           </div>
           <span className="rounded-full px-3 py-1 text-xs font-bold" style={{ color: meta.color, background: `${meta.color}1A` }}>
@@ -157,7 +157,7 @@ export function CreatorShieldCaseWorkspace({
 
       {!isClosed && shieldCase.creatorPath === "undecided" && (
         <section className="rounded-2xl border border-gold/30 bg-gold/[0.05] p-4 sm:p-5">
-          <h2 className="text-sm font-extrabold text-white">Choose what happens next</h2>
+          <h2 className="text-sm font-extrabold text-light">Choose what happens next</h2>
           <p className="mt-1 text-xs leading-5 text-muted">You can begin with table talks and move to legal help later. Zeke will not start legal action for you.</p>
           <label className="mt-4 flex items-start gap-2.5 text-xs leading-5 text-light">
             <input type="checkbox" checked={contactConsent} onChange={(event) => setContactConsent(event.target.checked)} className="mt-1 accent-purple" />
@@ -165,11 +165,11 @@ export function CreatorShieldCaseWorkspace({
           </label>
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
             <button onClick={chooseFollowUp} disabled={pending || !contactConsent} className="rounded-xl border border-purple/30 bg-purple/10 p-4 text-left disabled:opacity-50">
-              <div className="text-sm font-bold text-white">Continue with table talks</div>
+              <div className="text-sm font-bold text-light">Continue with table talks</div>
               <div className="mt-1 text-xs leading-5 text-muted">Zeke handles structured follow-ups. You decide how long to continue.</div>
             </button>
             <div className="rounded-xl border border-border bg-dark p-4">
-              <div className="text-sm font-bold text-white">Explore independent legal help</div>
+              <div className="text-sm font-bold text-light">Explore independent legal help</div>
               <div className="mt-1 text-xs leading-5 text-muted">View the pool, contact a provider, and agree fees directly.</div>
               <Acknowledgements cost={costAck} independent={independentAck} onCost={setCostAck} onIndependent={setIndependentAck} />
               <Button size="sm" className="mt-3" disabled={pending || !costAck || !independentAck} onClick={chooseLegal}>View legal providers</Button>
@@ -180,7 +180,7 @@ export function CreatorShieldCaseWorkspace({
 
       {!isClosed && shieldCase.creatorPath === "follow_up" && (
         <section className="rounded-2xl border border-purple/25 bg-purple/[0.05] p-4 sm:p-5">
-          <h2 className="text-sm font-extrabold text-white">Assisted follow-up is active</h2>
+          <h2 className="text-sm font-extrabold text-light">Assisted follow-up is active</h2>
           <p className="mt-1 text-xs leading-5 text-muted">Zeke can continue follow-ups and settlement discussions as long as you wish. You can decide to explore legal help at any time.</p>
           <details className="mt-3 rounded-xl border border-border bg-dark p-3">
             <summary className="cursor-pointer text-xs font-bold text-gold">I want to explore legal options</summary>
@@ -192,7 +192,7 @@ export function CreatorShieldCaseWorkspace({
 
       {!isClosed && shieldCase.creatorPath === "legal" && (
         <section className="rounded-2xl border border-gold/25 bg-gold/[0.04] p-4 sm:p-5">
-          <h2 className="text-sm font-extrabold text-white">Choose and contact a legal provider</h2>
+          <h2 className="text-sm font-extrabold text-light">Choose and contact a legal provider</h2>
           <p className="mt-1 text-xs leading-5 text-muted">These are factual profiles, not rankings or recommendations. Check fit, conflicts and fees directly with the provider.</p>
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
             {providers.map((item) => (
@@ -200,7 +200,7 @@ export function CreatorShieldCaseWorkspace({
                 <div className="flex items-start gap-2">
                   <input type="radio" name="provider" value={item.id} checked={selectedProvider === item.id} onChange={() => setSelectedProvider(item.id)} className="mt-1 accent-amber-500" />
                   <div>
-                    <div className="text-xs font-bold text-white">{item.display_name}</div>
+                    <div className="text-xs font-bold text-light">{item.display_name}</div>
                     <div className="mt-0.5 text-[10px] text-muted">{LEGAL_PROVIDER_SCALE[item.firm_scale]} · {[item.city, item.state].filter(Boolean).join(", ") || "Location on request"}</div>
                     {item.profile_summary && <p className="mt-2 text-[10px] leading-4 text-muted">{item.profile_summary}</p>}
                     {item.matter_types.length > 0 && <p className="mt-2 text-[9px] text-light">Matter types: {item.matter_types.join(", ")}</p>}
@@ -219,7 +219,7 @@ export function CreatorShieldCaseWorkspace({
 
           {provider && shieldCase.selectedProviderId === provider.id && (
             <div className="mt-4 rounded-xl border border-zgreen/25 bg-zgreen/[0.05] p-4">
-              <div className="text-xs font-bold text-white">Contact {provider.display_name} directly</div>
+              <div className="text-xs font-bold text-light">Contact {provider.display_name} directly</div>
               <div className="mt-2 flex flex-wrap gap-2 text-xs">
                 {provider.contact_email && <a className="rounded-lg border border-border px-3 py-1.5 text-accent" href={`mailto:${provider.contact_email}`}>Email</a>}
                 {provider.contact_phone && <a className="rounded-lg border border-border px-3 py-1.5 text-accent" href={`tel:${provider.contact_phone}`}>Call</a>}
@@ -241,7 +241,7 @@ export function CreatorShieldCaseWorkspace({
 
       <section className="grid gap-4 lg:grid-cols-2">
         <div className="rounded-2xl border border-border bg-card p-4">
-          <h2 className="text-sm font-extrabold text-white">Case timeline</h2>
+          <h2 className="text-sm font-extrabold text-light">Case timeline</h2>
           <div className="mt-3 space-y-3">
             {updates.map((update) => (
               <div key={update.id} className="border-l-2 border-purple/30 pl-3">
@@ -262,14 +262,14 @@ export function CreatorShieldCaseWorkspace({
         </div>
 
         <div className="rounded-2xl border border-border bg-card p-4">
-          <h2 className="text-sm font-extrabold text-white">Evidence and records</h2>
+          <h2 className="text-sm font-extrabold text-light">Evidence and records</h2>
           <p className="mt-1 text-[10px] leading-4 text-muted">Private to you and Zeke unless you explicitly mark a file for your selected provider.</p>
           <div className="mt-3 space-y-2">
             {documents.map((document) => (
               <div key={document.id} className="rounded-xl border border-border bg-dark p-3">
                 <div className="flex items-start justify-between gap-2">
                   <div className="min-w-0">
-                    <div className="truncate text-xs font-semibold text-white">{document.fileName}</div>
+                    <div className="truncate text-xs font-semibold text-light">{document.fileName}</div>
                     <div className="mt-0.5 text-[9px] text-muted">{document.category.replaceAll("_", " ")} · {(document.sizeBytes / 1024).toFixed(0)} KB</div>
                   </div>
                   {document.downloadUrl && <a href={document.downloadUrl} className="text-[10px] font-semibold text-accent">Open</a>}

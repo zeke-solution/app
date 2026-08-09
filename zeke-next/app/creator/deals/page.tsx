@@ -19,7 +19,7 @@ export default async function CreatorDealsPage() {
 
   return (
     <div>
-      <h2 className="mb-1 text-xl font-black text-white">Deals</h2>
+      <h2 className="mb-1 text-xl font-black text-light">Deals</h2>
       <p className="mb-4 text-xs text-muted">Accepted campaigns and their delivery progress</p>
       {deals.length === 0 ? (
         <div className="rounded-2xl border border-border bg-card p-12 text-center text-sm text-muted">

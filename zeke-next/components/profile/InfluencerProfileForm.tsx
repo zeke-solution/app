@@ -40,12 +40,12 @@ export function InfluencerProfileForm({ inf }: { inf: InfluencerProfile | null }
 
   return (
     <form onSubmit={handleSubmit} className="rounded-2xl border border-border bg-card p-5">
-      <div className="mb-4 text-sm font-bold text-white">Update Platform Stats</div>
+      <div className="mb-4 text-sm font-bold text-light">Update Platform Stats</div>
       <div className="flex flex-col gap-3.5">
         <div>
           <div className="mb-2 flex items-center gap-2">
             <span className="rounded-md bg-accent/10 px-2 py-0.5 text-[11px] font-extrabold text-accent">IG</span>
-            <span className="text-[13px] font-bold text-white">Instagram</span>
+            <span className="text-[13px] font-bold text-light">Instagram</span>
             <span className="ml-auto text-[10px] font-semibold text-accent">Required</span>
           </div>
           <div className="grid grid-cols-2 gap-2">
@@ -69,7 +69,7 @@ export function InfluencerProfileForm({ inf }: { inf: InfluencerProfile | null }
         <PlatformEditRow
           label="YouTube"
           chip="YT"
-          chipClass="bg-[#f87171]/10 text-[#f87171]"
+          chipClass="bg-[#b91c1c]/10 text-[#b91c1c]"
           enabled={ytEnabled}
           onToggle={setYtEnabled}
           handle={ytHandle}
@@ -82,7 +82,7 @@ export function InfluencerProfileForm({ inf }: { inf: InfluencerProfile | null }
         <PlatformEditRow
           label="Twitter / X"
           chip="X"
-          chipClass="bg-[#38bdf8]/10 text-[#38bdf8]"
+          chipClass="bg-[#0369a1]/10 text-[#0369a1]"
           enabled={xEnabled}
           onToggle={setXEnabled}
           handle={xHandle}
@@ -140,7 +140,7 @@ function PlatformEditRow({
     <div>
       <div className="mb-2 flex items-center gap-2">
         <span className={`rounded-md px-2 py-0.5 text-[11px] font-extrabold ${chipClass}`}>{chip}</span>
-        <span className="text-[13px] font-bold text-white">{label}</span>
+        <span className="text-[13px] font-bold text-light">{label}</span>
         <label className="ml-auto flex cursor-pointer items-center gap-1.5">
           <span className="text-[11px] text-muted">Enable</span>
           <input

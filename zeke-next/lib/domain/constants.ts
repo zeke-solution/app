@@ -39,13 +39,16 @@ export const STORAGE_BUCKETS = {
   avatars: "avatars",
 } as const;
 
-// Match the live Supabase Free plan's maximum file size. Raise this alongside
-// the Storage plan/bucket limit when production is upgraded.
-export const SUBMISSION_MAX_SIZE_MB = 50;
+// Zeke's application and submissions-bucket limit. The Supabase project's global
+// Storage limit must also be at least this value.
+export const SUBMISSION_MAX_SIZE_MB = 100;
 export const SUBMISSION_ALLOWED_MIME_TYPES = [
   "video/mp4",
   "video/quicktime",
   "image/jpeg",
+  "image/jpg",
   "image/png",
   "image/webp",
+  "image/heic",
+  "image/heif",
 ] as const;

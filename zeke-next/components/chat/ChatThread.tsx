@@ -112,7 +112,7 @@ export function ChatThread({
                 placeholder="Type a message..."
                 className="flex-1 rounded-xl border border-border bg-navy px-3.5 py-2 text-[13px] text-light outline-none"
               />
-              <button onClick={() => void handleSend()} className="brand-button-primary rounded-xl border px-4 py-2 text-[13px] font-bold text-white">Send</button>
+              <button onClick={() => void handleSend()} className="brand-button-primary rounded-xl border px-4 py-2 text-[13px] font-bold text-light">Send</button>
             </div>
             {error && <div className="mt-2 text-xs font-semibold text-accent">{error}</div>}
           </>

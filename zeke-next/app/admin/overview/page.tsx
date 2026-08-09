@@ -33,44 +33,44 @@ export default async function AdminOverviewPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-black text-white">Admin Overview</h1>
+      <h1 className="text-2xl font-black text-light">Admin Overview</h1>
       <p className="mb-5 mt-1 text-sm text-muted">Platform health at a glance</p>
 
       <StatGrid>
-        <StatCard icon={<UsersIcon width={16} height={16} />} iconColor="#6366F1" value={usersRes.count ?? 0} label="Total Users" />
+        <StatCard icon={<UsersIcon width={16} height={16} />} iconColor="#4338CA" value={usersRes.count ?? 0} label="Total Users" />
         <StatCard
           icon={<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="20 6 9 17 4 12"/></svg>}
-          iconColor="#059669"
+          iconColor="#047857"
           value={dealsRes.count ?? 0}
           label="Active Deals"
         />
-        <StatCard icon={<ShieldIcon width={16} height={16} />} iconColor="#D97706" value={shieldRes.count ?? 0} label="Shield Members" />
-        <StatCard icon={<DisputeIcon width={16} height={16} />} iconColor="#F43F5E" value={disputesRes.count ?? 0} label="Open Disputes" />
+        <StatCard icon={<ShieldIcon width={16} height={16} />} iconColor="#92400E" value={shieldRes.count ?? 0} label="Shield Members" />
+        <StatCard icon={<DisputeIcon width={16} height={16} />} iconColor="#BE123C" value={disputesRes.count ?? 0} label="Open Disputes" />
       </StatGrid>
 
       <div className="mb-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
         <Link href="/admin/shield" className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3.5">
           <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-[10px] border border-gold/20 bg-gold/10">
-            <ShieldIcon width={18} height={18} stroke="#D97706" />
+            <ShieldIcon width={18} height={18} stroke="#92400E" />
           </div>
           <div>
-            <div className="text-[13px] font-bold text-white">{shieldPendingRes.count ?? 0} Pending</div>
+            <div className="text-[13px] font-bold text-light">{shieldPendingRes.count ?? 0} Pending</div>
             <div className="text-[11px] text-muted">Shield Requests</div>
           </div>
         </Link>
         <Link href="/admin/disputes" className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3.5">
           <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-[10px] border border-zgreen/20 bg-zgreen/10">
-            <DisputeIcon width={18} height={18} stroke="#059669" />
+            <DisputeIcon width={18} height={18} stroke="#047857" />
           </div>
           <div>
-            <div className="text-[13px] font-bold text-white">{disputesRes.count ?? 0} Open</div>
+            <div className="text-[13px] font-bold text-light">{disputesRes.count ?? 0} Open</div>
             <div className="text-[11px] text-muted">Disputes</div>
           </div>
         </Link>
       </div>
 
       <div className="mb-3 flex items-center justify-between">
-        <div className="text-sm font-bold text-white">Recent Deals</div>
+        <div className="text-sm font-bold text-light">Recent Deals</div>
         <Link href="/admin/deals" className="text-xs text-accent">View all</Link>
       </div>
       <DealsTable deals={recentDeals} />

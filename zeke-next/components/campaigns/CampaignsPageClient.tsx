@@ -25,7 +25,7 @@ export function CampaignsPageClient({ campaigns }: { campaigns: CampaignRow[] })
   return (
     <div>
       <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-xl font-black text-white">Campaigns</h2>
+        <h2 className="text-xl font-black text-light">Campaigns</h2>
         <Button size="sm" onClick={() => setShowForm((s) => !s)}>
           + Create Campaign
         </Button>
@@ -97,7 +97,7 @@ function CreateCampaignForm({ onDone }: { onDone: () => void }) {
 
   return (
     <div className="mb-5 rounded-2xl border border-accent/20 bg-card p-5">
-      <div className="mb-4 text-sm font-bold text-white">New Campaign</div>
+      <div className="mb-4 text-sm font-bold text-light">New Campaign</div>
       <div className="flex flex-col gap-3">
         <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="e.g. Eid Collection 2026" className="rounded-xl border border-border bg-dark px-3.5 py-2.5 text-[13px] text-light outline-none" />
         <select value={niche} onChange={(e) => setNiche(e.target.value)} className="rounded-xl border border-border bg-dark px-3.5 py-2.5 text-[13px] text-light outline-none">

@@ -29,7 +29,7 @@ export function DiscoverClient({ initialCreators }: { initialCreators: CreatorRo
 
   return (
     <div>
-      <h2 className="mb-3 text-xl font-black text-white">Discover Creators</h2>
+      <h2 className="mb-3 text-xl font-black text-light">Discover Creators</h2>
       <div className="mb-4 flex flex-wrap gap-2">
         <input
           value={query}

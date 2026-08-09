@@ -88,7 +88,7 @@ export default async function AdminShieldCasePage({ params }: { params: Promise<
 
   return (
     <div>
-      <Link href="/admin/shield/cases" className="mb-4 inline-block text-xs font-semibold text-muted hover:text-white">← Back to Shield cases</Link>
+      <Link href="/admin/shield/cases" className="mb-4 inline-block text-xs font-semibold text-muted hover:text-light">← Back to Shield cases</Link>
       <AdminShieldCaseWorkspace shieldCase={view} updates={updates} documents={documents} />
     </div>
   );

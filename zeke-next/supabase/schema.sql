@@ -111,7 +111,7 @@ create table if not exists public.submissions (
   round         int default 1,
   file_url      text,
   file_name     text,
-  file_size_mb  numeric(6,1),
+  file_size_mb  numeric(8,3),
   status        text default 'pending'
                 check (status in ('pending','approved','rejected')),
   review_note   text,

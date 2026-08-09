@@ -39,7 +39,7 @@ export function DealCard({
             {initials}
           </div>
           <div>
-            <div className="text-sm font-bold text-white">{counterpartName}</div>
+            <div className="text-sm font-bold text-light">{counterpartName}</div>
             <div className="text-xs text-muted">
               {title} {platform ? `· ${platform}` : ""}
             </div>
