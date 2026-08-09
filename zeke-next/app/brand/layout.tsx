@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { requireRole } from "@/lib/auth/roles";
 import { DashboardTopNav } from "@/components/layout/DashboardTopNav";
 import { Sidebar } from "@/components/layout/Sidebar";
@@ -44,9 +45,9 @@ export default async function BrandLayout({
         userId={session.id}
         dealHrefPrefix="/brand/deals"
         rightExtra={
-          <a href="/brand/campaigns" className="brand-button-primary hidden rounded-xl border px-4 py-2 text-xs font-bold text-white sm:inline">
+          <Link href="/brand/campaigns" className="brand-button-primary hidden rounded-xl border px-4 py-2 text-xs font-bold text-white sm:inline">
             + New Campaign
-          </a>
+          </Link>
         }
       />
       <div className="flex min-h-[calc(100vh-64px)]">

@@ -87,7 +87,14 @@ export async function acceptCancel(dealId: string): Promise<ActionResult> {
   if (deal.cancel_requested_by === uid) {
     return { ok: false, error: "The other party must respond to your request." };
   }
-  if (CLOSED_STATUSES.has(deal.status)) return { ok: false, error: "This deal is already closed." };
+  if (CLOSED_STATUSES.has(deal.status) || deal.status === "disputed") {
+    return {
+      ok: false,
+      error: deal.status === "disputed"
+        ? "Resolve the active dispute before cancelling this deal."
+        : "This deal is already closed.",
+    };
+  }
 
   const { data: updated, error } = await supabase
     .from("deals")
@@ -138,6 +145,14 @@ export async function declineCancel(dealId: string): Promise<ActionResult> {
   if (!deal.cancel_requested_by) return { ok: false, error: "No cancellation request is pending." };
   if (deal.cancel_requested_by === uid) {
     return { ok: false, error: "The other party must respond to your request." };
+  }
+  if (CLOSED_STATUSES.has(deal.status) || deal.status === "disputed") {
+    return {
+      ok: false,
+      error: deal.status === "disputed"
+        ? "Resolve the active dispute before changing cancellation."
+        : "This deal is already closed.",
+    };
   }
 
   const { data: updated, error } = await supabase

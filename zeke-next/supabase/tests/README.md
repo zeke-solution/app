@@ -1,7 +1,7 @@
 # Migration tests
 
-Runs migrations 0001-0003 against a throwaway local Postgres and drives the six
-core transitions as simulated authenticated users. No Docker, no Supabase CLI,
+Runs migrations 0001-0003 plus the active-dispute close guard in 0010 against a
+throwaway local Postgres and drives the six core transitions as simulated authenticated users. No Docker, no Supabase CLI,
 and it never touches a real project.
 
 Last run 2026-07-17 against Postgres 17.5: 44/44 assertions pass, plus the
@@ -50,6 +50,7 @@ $c = @("-h","127.0.0.1","-p","55432","-U","postgres","-v","ON_ERROR_STOP=1","-q"
 & $PSQL @c -f supabase\migrations\0001_notifications_related_deal.sql
 & $PSQL @c -f supabase\migrations\0002_security_hardening.sql
 & $PSQL @c -f supabase\migrations\0003_atomic_transitions.sql
+& $PSQL @c -f supabase\migrations\0010_active_dispute_close_guard.sql
 & $PSQL @c -f supabase\tests\01_transitions_test.sql
 ```
 

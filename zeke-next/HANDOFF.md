@@ -1,6 +1,6 @@
 # Zeke Next.js handoff
 
-Last updated: 2026-08-08
+Last updated: 2026-08-09
 
 ## Working agreement
 
@@ -22,9 +22,20 @@ Last updated: 2026-08-08
 - Local preview command: `npm run dev -- -p 3000` from this folder
 - Stack: Next.js 16, React 19, Tailwind 4, Supabase
 - The legacy static HTML site remains at the repository root for history only and is retired as a product target.
-- The Next.js app under `zeke-next/` is deployed from `main` to Vercel and serves both custom domains over HTTPS. The 2026-08-08 product release is commit `924d6b0`; its Vercel production deployment is Ready.
+- The Next.js app under `zeke-next/` is deployed from `main` to Vercel and serves both custom domains over HTTPS. The latest deployed source is `origin/main` commit `78d7526`; its Vercel production deployment is Ready.
 
 ## Current status
+### Deal closure guard, notification popups, and dashboard speed: 2026-08-09
+
+- Fixed the close-during-dispute edge case at all three layers. The creator and brand screens disable cancellation changes during a dispute, `actions/deals.ts` rejects cancellation acceptance or decline, and migration `0010_active_dispute_close_guard.sql` prevents any deal with an open or escalated dispute from becoming completed or cancelled.
+- Applied migration 0010 to linked production Supabase project `fslthsbjtgmdbabwcubs`. The local and remote migration ledgers match through 0010, and `supabase db lint --linked --level error` reports no schema errors.
+- Added a SQL regression covering the previously missed order: request cancellation, open a dispute, then attempt to accept cancellation. The test asserts that the database blocks the close and leaves the deal disputed. The local throwaway Postgres harness was unavailable in this environment, so this new assertion has not yet been executed locally.
+- Upgraded `components/layout/NotificationsPanel.tsx` from a bell-only live feed to real in-app popups. Realtime inserts are prepended directly, up to three popup cards display, cards auto-dismiss after seven seconds, opening one marks it read, and related-deal notifications route to the correct creator or brand detail page.
+- Browser push while the app is closed remains deliberately separate. It needs notification permission, a service worker, stored push subscriptions, and a server or webhook delivery path.
+- Reduced identified lag sources by reusing a singleton browser Supabase client, avoiding a second notification query on every Realtime event, adding dashboard route loading skeletons, and replacing the brand campaign action's full-page anchor with a Next.js `Link`.
+- The official logo update remains complete in the shared navigation, dashboards, auth shell, footer, homepage story card, and favicon using the approved full wordmark and compact mark assets.
+- Verification passed on the current source: TypeScript, ESLint, `git diff --check`, a full Next.js 16.2.10 production build with 36 routes, linked production migration reconciliation, and linked database lint.
+- Deployment status: migration 0010 is live in Supabase. The application/UI changes in this section are local and not yet pushed to `main`.
 ### Official logo, homepage polish, and signup verification: 2026-08-08
 
 - The owner supplied the official transparent Zeke logo artwork and approved all reasonable placement decisions. The source was cropped losslessly into `public/images/zeke-logo-white.png` and `public/images/zeke-logo-mark.png`; the original Downloads file was not changed.

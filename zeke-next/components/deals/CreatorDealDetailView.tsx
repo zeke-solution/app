@@ -418,7 +418,7 @@ function CancelTab({
   }
 
   const alreadyRequestedByMe = cancelRequestedBy === viewerId;
-  const unavailable = status === "completed" || status === "cancelled";
+  const unavailable = status === "completed" || status === "cancelled" || status === "disputed";
 
   return (
     <div>
@@ -426,7 +426,9 @@ function CancelTab({
         <div className="mb-1.5 text-[13px] font-bold text-white">Cancel Agreement</div>
         {unavailable ? (
           <div className="rounded-lg bg-white/5 p-3 text-center text-xs text-muted">
-            Cancellation not available for this deal.
+            {status === "disputed"
+              ? "Resolve the active dispute before changing or closing this deal."
+              : "Cancellation not available for this deal."}
           </div>
         ) : cancelRequestedBy && !alreadyRequestedByMe ? (
           <div>

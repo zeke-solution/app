@@ -14,6 +14,16 @@ begin
 end $$;
 grant execute on function test_eq(text,text,text) to public;
 
+create or replace function test_cancel_disputed_deal(target_deal_id uuid)
+returns text language plpgsql as $$
+begin
+  update public.deals set status = 'cancelled' where id = target_deal_id;
+  return 'not_blocked';
+exception
+  when sqlstate '42501' then return 'blocked';
+end $$;
+grant execute on function test_cancel_disputed_deal(uuid) to public;
+
 -- ---------------------------------------------------------------- fixtures
 insert into auth.users (id, email, raw_user_meta_data) values
   ('11111111-1111-1111-1111-111111111111','creator@t.com',
@@ -205,6 +215,15 @@ select test_eq((select status from public.payments where deal_id='aaaaaaaa-aaaa-
 \echo '=============== 6. dispute ==============='
 begin;
   set local role authenticated;
+  set local request.jwt.claims = '{"sub":"22222222-2222-2222-2222-222222222222"}';
+  update public.deals
+  set cancel_requested_by = '22222222-2222-2222-2222-222222222222',
+      cancel_reason = 'Close before dispute'
+  where id = 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb';
+commit;
+
+begin;
+  set local role authenticated;
   set local request.jwt.claims = '{"sub":"11111111-1111-1111-1111-111111111111"}';
   select test_eq(public.raise_dispute_transaction(
     'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb','Brand ghosted me'), null, 'raise dispute returns null (success)');
@@ -213,6 +232,16 @@ select test_eq((select status from public.deals where id='bbbbbbbb-bbbb-bbbb-bbb
   'disputed', 'deal moved active -> disputed');
 select test_eq((select previous_deal_status from public.disputes where deal_id='bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb'),
   'active', 'pre-dispute status captured for restore');
+
+begin;
+  set local role authenticated;
+  set local request.jwt.claims = '{"sub":"11111111-1111-1111-1111-111111111111"}';
+  select test_eq(public.test_cancel_disputed_deal(
+    'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb'), 'blocked',
+    'pending cancellation cannot close a disputed deal');
+commit;
+select test_eq((select status from public.deals where id='bbbbbbbb-bbbb-bbbb-bbbbbbbbbbbb'),
+  'disputed', 'blocked cancellation leaves deal disputed');
 
 \echo '--- negative: stranger cannot dispute ---'
 begin;
