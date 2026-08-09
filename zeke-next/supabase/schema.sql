@@ -62,6 +62,13 @@ create table if not exists public.campaigns (
   currency    text default 'INR',
   deadline    date,
   description text,
+  platform    text,
+  objective   text,
+  deliverables text,
+  creator_requirements text,
+  usage_rights text,
+  exclusivity boolean not null default false,
+  payment_terms text,
   status      text default 'active' check (status in ('active','paused','closed')),
   created_at  timestamptz default now()
 );

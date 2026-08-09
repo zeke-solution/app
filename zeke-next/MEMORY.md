@@ -59,7 +59,18 @@ Last updated: 2026-08-10
 - Submission content supports JPG, PNG, WebP, HEIC, HEIF, MP4, and MOV. Small file sizes keep three-decimal precision. Uploads use resumable TUS with 6 MB chunks, retry, and progress.
 - App and bucket limits are 100 MB, but Supabase Free still caps the project's global Storage limit at 50 MB. Upgrade and set global Storage to at least 100 MB before describing 50-100 MB uploads as active.
 - Mobile overlays are full-height `100dvh` sheets with safe-area padding and internal scrolling. Desktop overlays stay centered.
-- Production migrations are live through 0015. The current application baseline is Next.js 16.3.0 from the HEAD of `main`; Vercel Production is Ready. The final dependency audit is clean.
+- Production migrations are live through 0017. The current application baseline is Next.js 16.3.0 from the HEAD of `main`; Vercel Production is Ready. The final dependency audit is clean.
+
+## Campaign workspace, mobile chat, and shared avatar rules
+
+- Brand Campaigns is the management source for both published reusable briefs and one-to-one campaigns sent directly from Discover Creators. Do not send a successful direct offer to Deals while it is negotiating.
+- Keep navigation status-aware: a negotiating campaign opens Chat; an accepted workflow record opens Deals. The Deals list itself remains accepted-only.
+- Campaign briefs persist platform, objective, deliverables, creator requirements, usage rights, exclusivity, payment terms, fee, and deadline. Bulk offers must inherit the applicable saved terms rather than reconstructing them from one free-text description.
+- Signed-in chat pages reserve the visible workspace with `100dvh`. The page header and completed-chat control are fixed-height siblings; the message pane is the internal scroller; the composer is the final flex item above mobile navigation. Preserve this structure so keyboard viewport changes do not hide the composer.
+- Exact mobile QA on 2026-08-10 passed at 390 x 844 and keyboard-reduced 390 x 500. Document width matched viewport width, form controls stayed inside the screen, and the composer cleared the mobile nav by 8 px in both measurements.
+- Creator cards and brand-facing campaign, chat, and deal surfaces must request and render `profiles.avatar_url` through `ProfileAvatar`, with initials only as fallback.
+- Replacement avatars reuse the owner-only Storage object path but save a versioned public URL through `set_profile_avatar`. Keep migration 0017's URL validation and anonymous execute denial so cache busting does not broaden mutation access.
+
 ## Deal safety, notifications, and dashboard performance
 
 - Migration 0011 was applied and live-tested on 2026-08-09. `deal_messages` and `notifications` are now in the Realtime publication; database constraints reject blank or over-4,000-character chat; final-link and payment-confirmation RPCs now alert the brand atomically. The targeted production retest passed 8/8.

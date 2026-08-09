@@ -22,9 +22,16 @@ export async function createCampaign(input: CreateCampaignInput): Promise<Action
     brand_id: session.id,
     title: v.title,
     niche: v.niche,
+    platform: v.platform,
+    objective: v.objective,
+    deliverables: v.deliverables,
+    creator_requirements: v.creatorRequirements || null,
     budget: v.budget,
-    deadline: v.deadline || null,
+    deadline: v.deadline,
     description: v.description || null,
+    usage_rights: v.usageRights,
+    exclusivity: v.exclusivity,
+    payment_terms: v.paymentTerms,
     status: "active",
   });
   if (error) return { ok: false, error: "Could not create campaign." };

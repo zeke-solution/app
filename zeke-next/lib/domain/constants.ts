@@ -29,6 +29,33 @@ export const GUARDIAN_RELATIONS = [
 
 export const BRAND_TYPES = ["business", "ngo", "agency"] as const;
 
+export const CAMPAIGN_PLATFORM_OPTIONS = [
+  'Instagram Reel',
+  'Instagram Post',
+  'Instagram Stories',
+  'YouTube Video',
+  'YouTube Short',
+  'X Post / Thread',
+  'Multi-platform',
+] as const;
+
+export const USAGE_RIGHTS_OPTIONS = [
+  'Creator channels only',
+  'Organic brand use - 30 days',
+  'Organic brand use - 90 days',
+  'Paid media use - 30 days',
+  'Paid media use - 90 days',
+  'Perpetual brand use',
+] as const;
+
+export const PAYMENT_TERMS_OPTIONS = [
+  '100% after final approval',
+  '50% upfront - 50% after final approval',
+  'Within 7 days of final approval',
+  'Within 15 days of final approval',
+  'Within 30 days of final approval',
+] as const;
+
 export const SHIELD_MONTHLY_PRICE_INR = 1999;
 
 // supabase/schema.sql storage bucket comment block.

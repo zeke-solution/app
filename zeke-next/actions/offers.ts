@@ -83,6 +83,7 @@ export async function acceptOffer(dealId: string): Promise<ActionResult> {
   revalidatePath("/creator/deals");
   revalidatePath("/brand/deals");
   revalidatePath("/brand/chats");
+  revalidatePath("/brand/campaigns");
   revalidatePath(`/creator/deals/${dealId}`);
   return { ok: true };
 }
@@ -140,6 +141,7 @@ export async function declineOffer(dealId: string): Promise<ActionResult> {
   revalidatePath("/creator/offers");
   revalidatePath("/creator/chats");
   revalidatePath("/brand/chats");
+  revalidatePath("/brand/campaigns");
   return { ok: true };
 }
 
@@ -187,6 +189,7 @@ export async function sendOffer(input: SendOfferInput): Promise<ActionResult> {
 
   revalidatePath("/brand/deals");
   revalidatePath("/brand/chats");
+  revalidatePath("/brand/campaigns");
   return { ok: true };
 }
 
@@ -202,7 +205,7 @@ export async function sendCampaignOffers(input: SendCampaignOffersInput): Promis
 
   const { data: campaign } = await supabase
     .from("campaigns")
-    .select("title,budget,description,deadline,brand_id,status")
+    .select("title,budget,description,deadline,brand_id,status,platform,deliverables,usage_rights,exclusivity,payment_terms")
     .eq("id", v.campaignId)
     .single();
   if (!campaign || campaign.brand_id !== session.id || campaign.status !== "active") {
@@ -212,6 +215,9 @@ export async function sendCampaignOffers(input: SendCampaignOffersInput): Promis
   const { data: profile } = await supabase.from("profiles").select("display_name").eq("id", session.id).single();
   const brandName = profile?.display_name ?? "Brand";
 
+  v.platform = v.platform || campaign.platform || undefined;
+  if (!v.platform) return { ok: false, error: 'Add a platform to this campaign before sending it.' };
+
   const rows = v.influencerIds.map((influencerId) => ({
     campaign_id: v.campaignId,
     brand_id: session.id,
@@ -219,7 +225,10 @@ export async function sendCampaignOffers(input: SendCampaignOffersInput): Promis
     title: campaign.title,
     platform: v.platform,
     amount: campaign.budget ?? 0,
-    deliverables: campaign.description ?? null,
+    deliverables: campaign.deliverables ?? campaign.description ?? null,
+    usage_rights: campaign.usage_rights ?? null,
+    exclusivity: campaign.exclusivity ?? false,
+    payment_terms: campaign.payment_terms ?? null,
     deadline: campaign.deadline ?? null,
     status: "negotiating" as const,
   }));
@@ -247,6 +256,7 @@ export async function sendCampaignOffers(input: SendCampaignOffersInput): Promis
 
   revalidatePath("/brand/deals");
   revalidatePath("/brand/chats");
+  revalidatePath("/brand/campaigns");
   return { ok: true };
 }
 
@@ -303,5 +313,6 @@ export async function editOffer(input: EditOfferInput): Promise<ActionResult> {
   }
 
   revalidatePath(`/brand/deals/${v.dealId}`);
+  revalidatePath("/brand/campaigns");
   return { ok: true };
 }

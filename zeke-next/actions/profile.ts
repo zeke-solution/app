@@ -74,7 +74,7 @@ export async function updateAvatarPath(
   const { data } = supabase.storage.from("avatars").getPublicUrl(objectPath);
   const { data: updateCode, error } = await supabase.rpc("set_profile_avatar", {
     p_object_path: objectPath,
-    p_avatar_url: data.publicUrl,
+    p_avatar_url: data.publicUrl + '?v=' + Date.now(),
   });
   if (error) return { ok: false, error: error.message };
   if (updateCode) {

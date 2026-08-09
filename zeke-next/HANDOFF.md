@@ -26,13 +26,24 @@ Last updated: 2026-08-10
 
 ## Current status
 
+### Mobile chat, campaign workspace, and shared creator DP: 2026-08-10
+
+- Brand and creator chat routes now reserve the exact visible workspace with `100dvh`. The message history owns internal scrolling and the composer remains at the bottom above mobile navigation, including when the visual viewport is reduced by an on-screen keyboard.
+- The Brand Campaigns page is now the complete campaign workspace. It shows reusable published briefs, every one-to-one campaign sent from Discover Creators, recipient counts, negotiation/acceptance/decline progress, creator identity, and the correct Chat or Deal destination.
+- A successful direct creator send now returns to Campaigns instead of the accepted-only Deals list. The established navigation rule remains intact: negotiating records open Chat; only accepted workflow records open Deals.
+- Campaign creation is a structured three-part brief with labelled fields, helper copy, inline validation, mobile-safe controls, and a readiness summary. Migration 0016 stores platform, objective, deliverables, creator requirements, usage rights, exclusivity, and payment terms; bulk offers inherit the applicable platform and commercial terms.
+- Creator DPs now appear to brands in discovery cards, campaign recipient selection, direct campaign records, chat lists and headers, and accepted-deal cards. Migration 0017 persists a versioned public avatar URL after each replacement upload, preventing another user from seeing a stale one-hour cached image while keeping the owner-only avatar path and narrow authenticated RPC.
+- Production migrations reconcile through 0017 and linked database lint is clean. The new campaign columns return HTTP 200 through PostgREST, while an anonymous avatar RPC call remains denied with HTTP 401 and PostgreSQL code 42501.
+- Exact browser QA passed at 390 x 844 and a keyboard-reduced 390 x 500 viewport. Both reported document width 390, zero overflowing controls, independent message scrolling, and an 8 px gap between composer and mobile navigation.
+- Final verification passes: TypeScript, full ESLint, `git diff --check`, optimized 36-route production build, zero-vulnerability dependency audit, migration ledger, database lint, and targeted production API security checks.
+
 ### Creator DP permission repair: 2026-08-10
 
 - Root cause confirmed: migration 0012 added `profiles.avatar_url` after migration 0002 had restricted authenticated profile updates to `display_name` and `location`. Storage accepted the DP object, then the direct profile update failed with a table permission error.
 - Migration 0014 adds `set_profile_avatar`, a narrow security-definer RPC that requires a signed-in user, validates the caller-owned avatar path and MIME extension, confirms the Storage object exists, validates the public Supabase URL, and updates only that caller's profile.
 - No broad `avatar_url` column update grant was added. Migration 0015 explicitly revokes the Supabase default anon execute grant; anonymous calls now return HTTP 401 with PostgreSQL code 42501.
 - The avatar Server Action now calls the controlled RPC. The uploader removes a newly orphaned object after a failed save and removes a replaced old avatar only after the new profile reference succeeds.
-- Production migrations reconcile through 0015 and linked database lint is clean. TypeScript, ESLint, `git diff --check`, the optimized 36-route build, and the production dependency audit pass.
+- Production migrations reconcile through 0017 and linked database lint is clean. TypeScript, ESLint, `git diff --check`, the optimized 36-route build, and the production dependency audit pass.
 - Final user-level confirmation is a retry from an existing signed-in creator browser after the matching app deployment; no account password or session token was handled during this repair.
 
 ### Mobile dashboard readability and viewport QA: 2026-08-10

@@ -134,6 +134,13 @@ export interface Database {
           currency: string | null;
           deadline: string | null;
           description: string | null;
+          platform: string | null;
+          objective: string | null;
+          deliverables: string | null;
+          creator_requirements: string | null;
+          usage_rights: string | null;
+          exclusivity: boolean;
+          payment_terms: string | null;
           status: CampaignStatus | null;
           created_at: string | null;
         };
