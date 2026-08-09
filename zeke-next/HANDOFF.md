@@ -22,9 +22,22 @@ Last updated: 2026-08-09
 - Local preview command: `npm run dev -- -p 3000` from this folder
 - Stack: Next.js 16, React 19, Tailwind 4, Supabase
 - The legacy static HTML site remains at the repository root for history only and is retired as a product target.
-- The Next.js app under `zeke-next/` is deployed from `main` to Vercel and serves both custom domains over HTTPS. The dispute and notification feature release is `main` commit `fac490f`; its Vercel production deployment is Ready.
+- The Next.js app under `zeke-next/` is deployed from `main` to Vercel and serves both custom domains over HTTPS. The current application release is `main` feature commit `54abe5e`; Vercel deployment `dpl_CcUbAptAKY2fvZbJc1zQoFTozsre` is Ready.
 
 ## Current status
+
+### Dashboard contrast, media uploads, mobile overlays, and security QA: 2026-08-09
+
+- Replaced the blanket signed-in `text-white` override with semantic light-workspace foreground tokens. Headings, labels, fields, placeholders, status colors, buttons, and informational cards stay readable on white while dark navigation and the official agreement letterhead retain white text.
+- All normal dashboard palette colors were checked programmatically against white and meet WCAG AA 4.5:1 or better. The lowest result is muted slate at 4.76:1.
+- Fixed small-image submissions being rounded to `0.0 MB` and rejected. File sizes retain three decimals, failed record creation removes its uploaded object, and content uploads accept JPG, PNG, WebP, HEIC, and HEIF.
+- Submissions use Supabase TUS resumable uploads in required 6 MB chunks with retry and visible progress. The app and bucket are set to 100 MB by live migration `0013_submission_uploads_100mb.sql`.
+- Supabase is still on Free, so its hosted global Storage ceiling remains 50 MB. To activate 50-100 MB uploads, upgrade Supabase and set the global Storage limit to at least 100 MB. The bucket migration cannot override the plan ceiling.
+- Offer, campaign-send, admin-detail, and brand offer-edit overlays are full-screen `100dvh` sheets on mobile with safe-area padding and internal scrolling. Desktop keeps centered cards.
+- Next.js and its ESLint config are on stable 16.3.0. The production dependency audit reports zero known vulnerabilities.
+- Logic QA reconfirmed accepted-only Deals, negotiation in Chats and Offers, cancellation state and database guards, creator completed-chat control, outside-click notifications, and standard versus Shield dispute separation.
+- Verification passed: TypeScript, ESLint, `git diff --check`, the optimized 36-route build, migration reconciliation through 0013, database lint, production routes, aliases, and Singapore runtime inspection. The SQL regression suite was not rerun locally because Docker and local Postgres are unavailable.
+- Feature commit `54abe5e` is on `main`. Production deployment `dpl_CcUbAptAKY2fvZbJc1zQoFTozsre` is Ready on both domains with dynamic functions in Singapore (`sin1`).
 ### Dashboard identity, creator controls, public profiles, auth email, and cache: 2026-08-09
 
 - Dashboard Zeke logos now route to the signed-in role home (`/creator/overview`, `/brand/overview`, or `/admin/overview`) instead of leaving the app for the marketing site.
