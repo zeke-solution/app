@@ -18,11 +18,11 @@ Last updated: 2026-08-08
 - App: `C:\Users\SEO EXECUTIVE\Desktop\app\zeke-next`
 - Git repository root: `C:\Users\SEO EXECUTIVE\Desktop\app`
 - GitHub repository/remote: `https://github.com/zeke-solution/app`
-- Production base: `main`; current publish branch: `agent/production-cutover`
-- Current local preview: `http://localhost:3001`
+- Production branch: `main`
+- Local preview command: `npm run dev -- -p 3000` from this folder
 - Stack: Next.js 16, React 19, Tailwind 4, Supabase
 - The legacy static HTML site remains at the repository root for history only and is retired as a product target.
-- The Next.js app under `zeke-next/` is deployed to Vercel and serves both custom domains over HTTPS. The matching production fixes are pushed at commit `0c6a05c` on `agent/production-cutover`; draft PR #4 is open against `main` and its Vercel checks pass.
+- The Next.js app under `zeke-next/` is deployed from `main` to Vercel and serves both custom domains over HTTPS. The 2026-08-08 product release is commit `924d6b0`; its Vercel production deployment is Ready.
 
 ## Current status
 ### Official logo, homepage polish, and signup verification: 2026-08-08
@@ -35,7 +35,9 @@ Last updated: 2026-08-08
 - Manual launch check still required: click the received confirmation link and verify the production callback/login, then run the password-reset email callback. Do not mark those two real-inbox callbacks complete until clicked.
 - Durable product, Shield, brand, auth, and workflow decisions are also recorded in `MEMORY.md`. No secrets are stored there.
 - Added `docs/EXTERNAL-MEETING-PROTOCOL.md` as the owner-requested standard for every Zeke interaction involving outsiders, including investment, collaborations, vendors, users, legal providers, media, and events. It includes authority limits, confidentiality tiers, meeting controls, category addenda, escalation triggers, an approval matrix, and a reusable record template.
-- Publishing direction for this session is direct to `origin/main`, per the owner's explicit request. The unrelated untracked root `HANDOFF.md` remains excluded.
+- Published the complete production line directly to `origin/main` as a fast-forward. Product release commit `924d6b0` and all five earlier production-cutover commits are now on `main`; the unrelated untracked root `HANDOFF.md` remained excluded.
+- Vercel production deployment `app-db4ku5ewx-mufeed-4343s-projects.vercel.app` completed Ready in 39 seconds. Live probes returned 200 for `/`, `/register`, both official logo assets, and the optimized WebP background; the live HTML contains `Brand Campaign` and the official logo reference.
+- Final verification passed: TypeScript, ESLint, two clean Next.js 16.2.10 production builds with all 36 routes, desktop browser visual QA, Git diff checks, GitHub commit status, Vercel deployment status, live-domain asset checks, and the controlled Supabase signup.
 
 ### Vercel and DNS cutover: 2026-07-22
 
