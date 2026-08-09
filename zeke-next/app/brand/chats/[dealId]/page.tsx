@@ -18,7 +18,7 @@ export default async function BrandChatPage({
 
   const { data: deal } = await supabase
     .from("deals")
-    .select("title,amount,brand_id,creator:profiles!deals_influencer_id_fkey(display_name)")
+    .select("title,amount,status,brand_id,creator:profiles!deals_influencer_id_fkey(display_name)")
     .eq("id", dealId)
     .single();
   if (!deal || deal.brand_id !== session.id) notFound();
@@ -42,11 +42,17 @@ export default async function BrandChatPage({
         </div>
         <div className="min-w-0 flex-1">
           <div className="text-sm font-bold text-white">{creatorName}</div>
-          <div className="text-[11px] text-muted">{deal.title} · ₹{fmtNum(deal.amount)}</div>
+          <div className="text-[11px] text-muted">{deal.title} - &#8377;{fmtNum(deal.amount)}</div>
         </div>
-        <Link href={`/brand/deals/${dealId}`} className="flex-shrink-0 text-[11px] font-semibold text-muted">
-          View Deal
-        </Link>
+        {deal.status === "negotiating" ? (
+          <span className="flex-shrink-0 rounded-full border border-gold/25 bg-gold/10 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.08em] text-gold">
+            Negotiation only
+          </span>
+        ) : (
+          <Link href={`/brand/deals/${dealId}`} className="flex-shrink-0 text-[11px] font-semibold text-muted">
+            View accepted deal
+          </Link>
+        )}
       </div>
       <ChatThread dealId={dealId} currentUserId={session.id} counterpartLabel={creatorName} initialMessages={messages ?? []} />
     </div>

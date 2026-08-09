@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { getSessionProfile } from "@/lib/auth/roles";
 import { createClient } from "@/lib/supabase/server";
 import type { DealStatus } from "@/lib/domain/deal-status";
@@ -21,6 +21,7 @@ export default async function CreatorDealDetailPage({
     .single();
 
   if (!deal || deal.influencer_id !== session.id) notFound();
+  if (deal.status === "negotiating") redirect(`/creator/chats/${dealId}`);
 
   const [eventsRes, submissionsRes, finalLinkRes, paymentRes] = await Promise.all([
     supabase

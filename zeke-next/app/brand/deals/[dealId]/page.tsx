@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { getSessionProfile } from "@/lib/auth/roles";
 import { createClient } from "@/lib/supabase/server";
 import type { DealStatus } from "@/lib/domain/deal-status";
@@ -21,6 +21,7 @@ export default async function BrandDealDetailPage({
     .eq("id", dealId)
     .single();
   if (!deal || deal.brand_id !== session.id) notFound();
+  if (deal.status === "negotiating") redirect(`/brand/chats/${dealId}`);
 
   const [eventsRes, submissionsRes, finalLinkRes, paymentRes, agreementRes] = await Promise.all([
     supabase
@@ -52,6 +53,7 @@ export default async function BrandDealDetailPage({
   return (
     <BrandDealDetailView
       dealId={dealId}
+      brandName={session.profile.display_name}
       creatorName={(deal.creator as { display_name?: string } | null)?.display_name ?? "Creator"}
       title={deal.title}
       platform={deal.platform}

@@ -12,17 +12,18 @@ export default async function BrandDealsPage() {
     .from("deals")
     .select("id,title,platform,amount,status,creator:profiles!deals_influencer_id_fkey(display_name)")
     .eq("brand_id", session.id)
-    .not("status", "eq", "cancelled")
+    .not("status", "in", '("negotiating","cancelled")')
     .order("updated_at", { ascending: false });
 
   const deals = data ?? [];
 
   return (
     <div>
-      <h2 className="mb-4 text-xl font-black text-white">Deals</h2>
+      <h2 className="mb-1 text-xl font-black text-white">Deals</h2>
+      <p className="mb-4 text-xs text-muted">Accepted campaigns and their delivery progress</p>
       {deals.length === 0 ? (
         <div className="rounded-2xl border border-border bg-card p-12 text-center text-sm text-muted">
-          No deals yet.
+          No accepted deals yet. Offer negotiations remain in Chats.
         </div>
       ) : (
         deals.map((d) => (

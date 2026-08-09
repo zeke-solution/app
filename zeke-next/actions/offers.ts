@@ -81,6 +81,8 @@ export async function acceptOffer(dealId: string): Promise<ActionResult> {
 
   revalidatePath("/creator/offers");
   revalidatePath("/creator/deals");
+  revalidatePath("/brand/deals");
+  revalidatePath("/brand/chats");
   revalidatePath(`/creator/deals/${dealId}`);
   return { ok: true };
 }
@@ -136,6 +138,8 @@ export async function declineOffer(dealId: string): Promise<ActionResult> {
   }
 
   revalidatePath("/creator/offers");
+  revalidatePath("/creator/chats");
+  revalidatePath("/brand/chats");
   return { ok: true };
 }
 
@@ -182,6 +186,7 @@ export async function sendOffer(input: SendOfferInput): Promise<ActionResult> {
   });
 
   revalidatePath("/brand/deals");
+  revalidatePath("/brand/chats");
   return { ok: true };
 }
 
@@ -241,6 +246,7 @@ export async function sendCampaignOffers(input: SendCampaignOffersInput): Promis
   }
 
   revalidatePath("/brand/deals");
+  revalidatePath("/brand/chats");
   return { ok: true };
 }
 

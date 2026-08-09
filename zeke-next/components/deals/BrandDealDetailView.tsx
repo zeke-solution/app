@@ -13,6 +13,7 @@ import { createSubmissionDownloadUrl, reviewSubmission } from "@/actions/submiss
 import { acceptCancel, declineCancel, requestCancel } from "@/actions/deals";
 import { raiseDispute } from "@/actions/disputes";
 import { editOffer } from "@/actions/offers";
+import { AgreementPreview } from "@/components/agreements/AgreementPreview";
 
 type TabKey = "overview" | "review" | "finallink" | "payment" | "agreement" | "cancel";
 
@@ -38,6 +39,7 @@ interface AgreementInfo {
 
 export function BrandDealDetailView({
   dealId,
+  brandName,
   creatorName,
   title,
   platform,
@@ -54,6 +56,7 @@ export function BrandDealDetailView({
   agreement,
 }: {
   dealId: string;
+  brandName: string;
   creatorName: string;
   title: string;
   platform: string | null;
@@ -139,7 +142,17 @@ export function BrandDealDetailView({
       {tab === "review" && <ReviewTab dealId={dealId} submissions={submissions} />}
       {tab === "finallink" && <FinalLinkTab finalLink={finalLink} />}
       {tab === "payment" && <PaymentTab dealId={dealId} amount={amount} status={status} payment={payment} />}
-      {tab === "agreement" && <AgreementTab agreement={agreement} title={title} platform={platform} amount={amount} deliverables={deliverables} />}
+      {tab === "agreement" && (
+        <AgreementTab
+          agreement={agreement}
+          brandName={brandName}
+          creatorName={creatorName}
+          title={title}
+          platform={platform}
+          amount={amount}
+          deliverables={deliverables}
+        />
+      )}
       {tab === "cancel" && (
         <BrandCancelTab dealId={dealId} status={status} cancelRequestedBy={cancelRequestedBy} viewerId={viewerId} />
       )}
@@ -485,12 +498,16 @@ export function BrandDealDetailView({
 
   function AgreementTab({
     agreement,
+    brandName,
+    creatorName,
     title,
     platform,
     amount,
     deliverables,
   }: {
     agreement: AgreementInfo | null;
+    brandName: string;
+    creatorName: string;
     title: string;
     platform: string | null;
     amount: number;
@@ -504,19 +521,22 @@ export function BrandDealDetailView({
         </div>
       );
     }
+
     return (
-      <div className="rounded-2xl border border-zgreen/25 bg-card p-4">
-        <div className="mb-2.5 text-[13px] font-bold text-white">Agreement</div>
-        <div className="mb-3 rounded-xl bg-dark px-3.5 py-2.5 text-xs leading-relaxed text-muted">
-          <div><span className="font-semibold text-light">Title:</span> {title}</div>
-          <div><span className="font-semibold text-light">Platform:</span> {platform || "-"}</div>
-          <div><span className="font-semibold text-light">Value:</span> ₹{fmtNum(amount)}</div>
-          {deliverables && <div><span className="font-semibold text-light">Deliverables:</span> {deliverables}</div>}
-          <div><span className="font-semibold text-light">Generated:</span> {fmtDate(agreement.generatedAt)}</div>
-        </div>
+      <div className="space-y-3">
+        <AgreementPreview
+          agreementId={agreement.id}
+          brandName={brandName}
+          creatorName={creatorName}
+          title={title}
+          platform={platform}
+          amount={amount}
+          deliverables={deliverables}
+          generatedAt={agreement.generatedAt}
+        />
         {agreement.creatorIsShield ? (
-          <a href={`/api/agreements/${agreement.id}/pdf`} className="block w-full rounded-lg border border-border py-2 text-center text-xs font-bold text-light">
-            &#11015; Download PDF
+          <a href={`/api/agreements/${agreement.id}/pdf`} className="block w-full rounded-lg border border-border py-2.5 text-center text-xs font-bold text-light">
+            &#11015; Download official PDF
           </a>
         ) : (
           <div className="text-center text-[11px] text-muted">PDF available when the creator is a Shield member.</div>

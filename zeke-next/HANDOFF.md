@@ -39,6 +39,8 @@ Last updated: 2026-08-09
 - Local verification passes: ESLint, TypeScript, full Next.js 16.2.10 production build with 36 routes, and `git diff --check`.
 - Release commit `161053a` is on `main`. Vercel deployment `dpl_HEBM5z5SCA74yijWucmth9ET6YKy` is Ready and aliased to both production domains. Dynamic login/register responses confirm Singapore (`sin1`) execution. Live `/`, `/login`, and `/register` return 200; anonymous `/admin` returns 307 to `/login`.
 - Post-release Lighthouse stayed at 70 overall while main-thread work improved from 5.3s to 3.6s, JavaScript execution from 1.4s to 1.1s, TBT from 770ms to 640ms, and transfer from 550 KiB to 417 KiB.
+- Deal navigation now separates negotiation from delivery. Brand and creator Deals lists show only accepted workflow records and exclude negotiating and cancelled statuses. A direct negotiating deal URL redirects its party to the matching Chat; creators still accept or decline from Offers. Offer send, accept, and decline actions revalidate the affected Chat and Deals screens.
+- Agreements now use the official Zeke document system in both the app and PDF: official white logo on navy letterhead, purple-magenta rule, unique ZK-AG reference, party acceptance cards, locked campaign terms, record notice, and footer. A representative long-form sample was rendered and visually checked as one A4 page.
 ### Ten problematic deals production QA: 2026-08-09
 
 - Completed live production run `QA-20260809113327` against the retained creator and brand accounts. Ten QA deals remain for inspection; the temporary admin identity was removed.
