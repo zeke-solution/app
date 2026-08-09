@@ -89,9 +89,23 @@ Pre-change live mobile Lighthouse result:
 
 The server and transfer size are already healthy. The main problem is browser rendering work on the long homepage. This release adds `content-visibility: auto` to below-the-fold marketing sections and moves dynamic Vercel execution from Washington, D.C. to Singapore near the Tokyo database.
 
+Post-deployment mobile Lighthouse result:
+
+- Performance score: 70.
+- First Contentful Paint: 2.1 seconds.
+- Largest Contentful Paint: 3.7 seconds.
+- Total Blocking Time: 640 milliseconds.
+- Cumulative Layout Shift: 0.
+- Root server response: about 60 milliseconds.
+- Total page transfer: about 417 KiB.
+- Main-thread work: 3.6 seconds.
+- JavaScript execution: 1.1 seconds.
+
+The repeat run kept the same score and showed normal LCP/server variance, but improved the targeted costs: main-thread work fell about 32%, JavaScript execution about 21%, TBT about 17%, and transfer about 24%.
+
 Next performance work, in order:
 
-1. Re-run mobile Lighthouse after the new Vercel deployment and compare TBT/LCP.
+1. Continue reducing homepage hydration and repeat authenticated creator, brand, and admin route traces.
 2. Remove the small homepage navigation client boundary by using a no-JavaScript mobile disclosure if the audit still shows unnecessary hydration.
 3. Resize and recompress the four CSS background images if the remaining 28 KiB image saving is confirmed.
 4. Measure creator, brand, and admin routes with authenticated traces. Parallelize independent Supabase queries on any slow route.

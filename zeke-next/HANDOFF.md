@@ -36,6 +36,8 @@ Last updated: 2026-08-09
 - Aligned submission validation with the live Supabase Free 50 MB file ceiling. Raise the application constant only when the Storage plan and bucket setting are upgraded together.
 - Pre-change mobile Lighthouse measured 70/100, 2.1s FCP, 3.4s LCP, 770ms TBT, zero CLS, 40ms server response, and 550 KiB transfer. Below-the-fold homepage sections now use `content-visibility: auto`, and Vercel functions are configured for Singapore (`sin1`) near the Tokyo database.
 - Local verification passes: ESLint, TypeScript, full Next.js 16.2.10 production build with 36 routes, and `git diff --check`.
+- Release commit `161053a` is on `main`. Vercel deployment `dpl_HEBM5z5SCA74yijWucmth9ET6YKy` is Ready and aliased to both production domains. Dynamic login/register responses confirm Singapore (`sin1`) execution. Live `/`, `/login`, and `/register` return 200; anonymous `/admin` returns 307 to `/login`.
+- Post-release Lighthouse stayed at 70 overall while main-thread work improved from 5.3s to 3.6s, JavaScript execution from 1.4s to 1.1s, TBT from 770ms to 640ms, and transfer from 550 KiB to 417 KiB.
 ### Ten problematic deals production QA: 2026-08-09
 
 - Completed live production run `QA-20260809113327` against the retained creator and brand accounts. Ten QA deals remain for inspection; the temporary admin identity was removed.
