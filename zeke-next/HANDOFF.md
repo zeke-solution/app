@@ -25,6 +25,13 @@ Last updated: 2026-08-09
 - The Next.js app under `zeke-next/` is deployed from `main` to Vercel and serves both custom domains over HTTPS. The dispute and notification feature release is `main` commit `fac490f`; its Vercel production deployment is Ready.
 
 ## Current status
+### Production fresh-slate reset: 2026-08-09
+
+- Retained exactly two confirmed production accounts and their required role rows: one creator and one brand. Deleted the unconfirmed QA alias and every other prior account.
+- Removed all campaigns, deals, deal messages, submissions, final links, payments, agreements, disputes, notifications, Shield requests, Shield cases, case updates, case documents, guardians, and legal providers.
+- Removed the sole uploaded QA image through the linked Supabase Storage API. The final database audit reports zero storage objects and zero rows in every transactional table.
+- Final account audit reports 2 auth users, 2 profiles, 1 influencer profile, and 1 brand profile.
+- There are zero admin profiles after the requested reset. Admin dashboard access requires an explicit future decision to promote one retained account or create a separate admin account.
 ### Deal closure guard, notification popups, and dashboard speed: 2026-08-09
 
 - Fixed the close-during-dispute edge case at all three layers. The creator and brand screens disable cancellation changes during a dispute, `actions/deals.ts` rejects cancellation acceptance or decline, and migration `0010_active_dispute_close_guard.sql` prevents any deal with an open or escalated dispute from becoming completed or cancelled.
