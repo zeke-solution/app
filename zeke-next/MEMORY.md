@@ -1,6 +1,6 @@
 # Zeke project memory
 
-Last updated: 2026-08-09
+Last updated: 2026-08-10
 
 ## Source of truth
 
@@ -44,12 +44,18 @@ Last updated: 2026-08-09
 
 ## Dashboard contrast and media upload release
 
+- Keep the public marketing `.brand-card` treatment dark, but always override `.dashboard-content .brand-card` to the signed-in white surface. A dark marketing gradient combined with dashboard dark text is the confirmed source of unreadable blue stat cards.
+- On signed-in mobile screens, use 14 px for normal reading, 13 px for secondary labels, 12 px only for compact metadata, and 16 px for form controls. Keep the official agreement preview exempt from global mobile scaling.
+- Signed-in content must stay at the viewport width, wrap long user content, and avoid horizontal page scrolling. Mobile overlays are full-height `100dvh` sheets; desktop overlays remain centered cards.
+- The 2026-08-10 exact 390 x 844 browser QA measured document width equal to viewport width, visually passed representative dashboard cards and controls, and reconfirmed every semantic dashboard color at WCAG AA or better.
+- Current mobile-readability release: main commit `fb122d3`, Ready Vercel deployment `dpl_Gb5joNJSk92NGbtYHBXXrZct7b8k`, both production aliases active, functions in `sin1`.
+
 - In signed-in pages, use semantic `text-light`, `text-muted`, and dashboard-local tokens for normal content. Reserve `text-white` for genuinely dark or filled surfaces. Never restore a blanket `.dashboard-content .text-white` override.
 - Normal dashboard text colors must keep at least 4.5:1 contrast on white.
 - Submission content supports JPG, PNG, WebP, HEIC, HEIF, MP4, and MOV. Small file sizes keep three-decimal precision. Uploads use resumable TUS with 6 MB chunks, retry, and progress.
 - App and bucket limits are 100 MB, but Supabase Free still caps the project's global Storage limit at 50 MB. Upgrade and set global Storage to at least 100 MB before describing 50-100 MB uploads as active.
 - Mobile overlays are full-height `100dvh` sheets with safe-area padding and internal scrolling. Desktop overlays stay centered.
-- Migration 0013 is live. The current baseline is Next.js 16.3.0, feature commit `54abe5e`, and production deployment `dpl_CcUbAptAKY2fvZbJc1zQoFTozsre`. The final dependency audit is clean.
+- Migration 0013 is live. The current baseline is Next.js 16.3.0, main commit `fb122d3`, and production deployment `dpl_Gb5joNJSk92NGbtYHBXXrZct7b8k`. The final dependency audit is clean.
 ## Deal safety, notifications, and dashboard performance
 
 - Migration 0011 was applied and live-tested on 2026-08-09. `deal_messages` and `notifications` are now in the Realtime publication; database constraints reject blank or over-4,000-character chat; final-link and payment-confirmation RPCs now alert the brand atomically. The targeted production retest passed 8/8.

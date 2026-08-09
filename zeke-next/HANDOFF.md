@@ -1,6 +1,6 @@
 # Zeke Next.js handoff
 
-Last updated: 2026-08-09
+Last updated: 2026-08-10
 
 ## Working agreement
 
@@ -22,9 +22,19 @@ Last updated: 2026-08-09
 - Local preview command: `npm run dev -- -p 3000` from this folder
 - Stack: Next.js 16, React 19, Tailwind 4, Supabase
 - The legacy static HTML site remains at the repository root for history only and is retired as a product target.
-- The Next.js app under `zeke-next/` is deployed from `main` to Vercel and serves both custom domains over HTTPS. The current application release is `main` feature commit `54abe5e`; Vercel deployment `dpl_CcUbAptAKY2fvZbJc1zQoFTozsre` is Ready.
+- The Next.js app under `zeke-next/` is deployed from `main` to Vercel and serves both custom domains over HTTPS. The current application release is `main` commit `fb122d3`; Vercel deployment `dpl_Gb5joNJSk92NGbtYHBXXrZct7b8k` is Ready.
 
 ## Current status
+
+### Mobile dashboard readability and viewport QA: 2026-08-10
+
+- Fixed the remaining unreadable blue dashboard cards at the shared source. The reusable `.brand-card` retained a hard-coded dark marketing gradient while signed-in text correctly used dark light-workspace tokens; dashboard cards now use a white surface, visible border, and restrained shadow without changing marketing cards.
+- Mobile signed-in typography now uses a compact readable hierarchy: 14 px body and normal labels, 13 px secondary labels, 12 px micro metadata, and 16 px form fields to prevent iOS input zoom. The formal agreement preview is explicitly exempt so its letterhead layout stays stable.
+- The dashboard content area is constrained to the viewport, clips accidental horizontal paint overflow, and wraps long user-generated text. The four mobile overlays remain full-height `100dvh` sheets with internal scrolling instead of floating desktop dialogs.
+- Exact Chrome device emulation at 390 x 844 reported `innerWidth=390` and `scrollWidth=390`. Visual review confirmed two-column stat cards, long campaign references, status chips, inputs, and primary actions remain fully inside the screen.
+- All dashboard semantic foreground colors pass WCAG AA on white. The lowest measured contrast is muted text at 5.24:1; the other semantic colors range from 5.36:1 to 14.87:1.
+- Verification passed: exact mobile render, compiled CSS assertions, TypeScript, ESLint, `git diff --check`, zero-vulnerability production dependency audit, optimized 36-route production build, mobile-overlay assertions, live CSS checks, and public/protected route smoke tests.
+- Release commit `fb122d3` is on `main`. Vercel deployment `dpl_Gb5joNJSk92NGbtYHBXXrZct7b8k` is Ready and aliased to both production domains; dynamic functions remain in Singapore (`sin1`).
 
 ### Dashboard contrast, media uploads, mobile overlays, and security QA: 2026-08-09
 
