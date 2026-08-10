@@ -127,3 +127,4 @@ Last updated: 2026-08-10
 - Shield payment lives at `/creator/shield/payment`. `ZEKE_SHIELD_PAYMENT_URL` is the optional server-side HTTPS provider link. Until configured, collect no card details and offer only verified payment instructions plus payment-reviewed activation.
 - Cloudflare is still not configured. Before broad launch, add the domain carefully around Vercel, SSL/TLS Full (strict), managed WAF rules, bot review, and rate limits for auth and write-heavy routes, then retest Auth callback URLs.
 - Android APK packaging is possible. Prefer Capacitor after mobile-web acceptance so push notifications, deep links, uploads, and camera access can be integrated cleanly. Use a Trusted Web Activity only if the fastest thin web wrapper is more important than native control.
+- Current responsive and campaign-first release: feature commit `8ec398e` on `main`, Vercel deployment `dpl_91nyAu2jmBcNCmfVPajf1ba7wPpz` Ready on both production domains, functions in `sin1`.

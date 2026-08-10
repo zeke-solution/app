@@ -37,6 +37,7 @@ Last updated: 2026-08-10
 - `/creator/shield/payment` now provides the honest one-month ₹1,999 plan summary, no-automatic-renewal language, scope exclusions, payment-verification state, and no raw card collection. If `ZEKE_SHIELD_PAYMENT_URL` is configured with an HTTPS provider link, secure checkout appears; otherwise users request verified payment instructions and admin activation remains payment-gated.
 - Production currently contains one active campaign (`Curios`) and two negotiating deals (`Test` and `Curios`) created on 2026-08-10 Dubai time. This release did not create or delete them.
 - Browser QA passed on exact 390 x 844 mobile and 1440 x 1000 desktop viewports. TypeScript, full ESLint, `git diff --check`, the optimized production build, and linked Supabase database lint all pass.
+- Release commit `8ec398e` is on `main`. Vercel production deployment `dpl_91nyAu2jmBcNCmfVPajf1ba7wPpz` is Ready on the apex and `www` aliases with dynamic functions in `sin1`. Live smoke checks return 200 for the homepage and 307 to `/login` for anonymous Shield payment, Discover, and admin Account requests.
 
 ### Required infrastructure follow-up
 
