@@ -32,9 +32,6 @@ export function Sidebar({
   navItems: SidebarNavItem[];
 }) {
   const pathname = usePathname();
-  const activeIndex = navItems.findIndex(
-    (item) => pathname === item.href || pathname?.startsWith(item.href + "/"),
-  );
 
   return (
     <aside className="brand-sidebar hidden w-56 flex-shrink-0 flex-col gap-1 border-r p-4 md:flex">
@@ -51,14 +48,12 @@ export function Sidebar({
         </div>
       </div>
 
-      {navItems.map((item, index) => {
+      {navItems.map((item) => {
         const active = pathname === item.href || pathname?.startsWith(item.href + "/");
-        const transitionType = index < activeIndex ? "dashboard-back" : "dashboard-forward";
         return (
           <Link
             key={item.href}
             href={item.href}
-            transitionTypes={active ? undefined : [transitionType]}
             className={`flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors ${
               active ? "brand-nav-active" : "text-muted hover:bg-white/5 hover:text-light"
             }`}

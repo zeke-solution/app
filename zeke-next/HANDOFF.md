@@ -29,13 +29,13 @@ Last updated: 2026-08-10
 ### Performance and dashboard-polish release: 2026-08-10
 
 - Feature commit `f88f1f6` is on `main`. Vercel Production deployment `5833234962` succeeded at `https://app-pbiv7l9an-mufeed-4343s-projects.vercel.app`; both custom domains return HTTP 200, protected role routes return HTTP 307 to `/login`, and the new 31-day image cache header is live.
+- Follow-up: the dashboard page-transition animation has been removed after production feedback that it did not feel right. Standard Next.js navigation remains; loading improvements and responsive labelled fields are unchanged.
 - Public loading work now uses hashed local font preloads, correctly sized static logo imports, 31-day image caching, later-only `content-visibility`, gradient-only mobile card artwork, a server-rendered marketing nav shell, and an idle-loaded notification panel.
 - Protected requests use Supabase `getClaims()` with the project's asymmetric ES256 signing key, avoiding a repeated Auth-server request while retaining signed-token validation and RLS/profile authorization.
-- Creator, brand, and admin page templates now have short swipe-like directional transitions from ordered sidebar/mobile-nav links. Unsupported browsers fall back normally and `prefers-reduced-motion` removes the animation.
 - Deal, creator, admin-deal, user-directory, and entity-detail rows now show labelled responsive field grids instead of compressed unexplained mobile columns.
 - Five candidate mobile Lighthouse runs have a median score of 96, FCP 913 ms, LCP 2.818 s, Speed Index 913 ms, TBT 45 ms, and 304.7 KiB transfer. Transfer is 65.4 KiB or 17.7% below the controlled local before trace. Final desktop Performance is 100 with 635 ms LCP.
-- The final separate audit is 100 Accessibility, 100 Best Practices, and 100 SEO. TypeScript, ESLint, the 38-route production build, `git diff --check`, zero-vulnerability dependency audit, route redirects, cache headers, true 390 x 844 responsive browser assertions, menu interaction, fonts, and transition support all pass.
-- No account credentials or signed-in browser session were handled. The remaining acceptance check is one creator/brand/admin signed-in visual click-through to confirm real data density and directional feel.
+- The final separate audit is 100 Accessibility, 100 Best Practices, and 100 SEO. TypeScript, ESLint, the 38-route production build, `git diff --check`, zero-vulnerability dependency audit, route redirects, cache headers, true 390 x 844 responsive browser assertions, menu interaction, and fonts all pass.
+- No account credentials or signed-in browser session were handled. The remaining acceptance check is one creator/brand/admin signed-in visual click-through to confirm real data density.
 - Full evidence and remaining guardrails are in `docs/PERFORMANCE-DASHBOARD-QA-2026-08-10.md`.
 
 ### Campaign-first Discover, compact mobile UX, and Shield checkout: 2026-08-10

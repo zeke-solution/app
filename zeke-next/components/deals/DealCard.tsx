@@ -32,7 +32,6 @@ export function DealCard({
   return (
     <Link
       href={href}
-      transitionTypes={['dashboard-forward']}
       className='mb-3 block rounded-2xl border p-4 transition-colors hover:border-accent/30 sm:p-5'
       style={{ borderColor: meta.border, background: meta.bg }}
     >

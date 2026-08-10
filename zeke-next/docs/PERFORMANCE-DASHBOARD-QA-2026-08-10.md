@@ -7,14 +7,18 @@
 - Both production custom domains return HTTP 200. Anonymous creator, brand, and admin overviews return HTTP 307 to `/login`.
 - No production data, authentication account, migration, or external service was changed.
 
+## Post-release revision
+
+- The dashboard page-transition animation was removed after production feedback that it did not feel right.
+- Standard Next.js navigation remains. Loading improvements and responsive labelled fields are unchanged.
+- The removal preserves the measured loading improvements and restores ordinary dashboard navigation.
+
 ## Scope
 
 - Reduce public-page transfer and render delay without removing desktop artwork.
 - Reduce unnecessary hydration and defer dashboard Realtime notification code until idle.
 - Avoid an Auth-server round trip on protected navigations while preserving signed-token verification and profile/RLS authorization.
-- Add short swipe-like directional transitions between dashboard destinations.
 - Make mobile deal, creator, and admin data rows read as labelled fields instead of compressed unexplained columns.
-- Preserve normal fallback behavior in browsers without View Transitions and disable motion when the user requests reduced motion.
 
 ## Measurements
 
@@ -51,8 +55,6 @@ The candidate transfers about 65.4 KiB less than the controlled local before tra
 - The marketing navigation is a Server Component; only the small mobile-menu state boundary hydrates.
 - Dashboard notifications dynamically load after idle. The existing catch-up query still runs when the panel loads, so early notifications are not lost.
 - Protected server checks use Supabase `getClaims()`. The project uses an asymmetric ES256 signing key, so signature and expiry validation can use cached JWKS. Profile and role queries remain RLS-protected authorization.
-- Creator, brand, and admin templates wrap page content in React `ViewTransition`. Sidebar and mobile-nav links send forward/back transition types based on navigation order.
-- Transition CSS uses 20 px movement over 230 ms, leaves persistent dashboard chrome in place, disables pointer input during capture, and removes animation for `prefers-reduced-motion: reduce`.
 - Deal cards, creator cards, admin deal rows, user-directory rows, and entity tiles use labelled responsive field grids.
 - Small purple and green marketing labels use accessible light-surface shades.
 
@@ -68,13 +70,11 @@ The candidate transfers about 65.4 KiB less than the controlled local before tra
 - Public image header: `max-age=2678400, stale-while-revalidate=31536000`.
 - Homepage markup contains both font preloads.
 - True Chrome device emulation at 390 x 844: viewport width 390, document width 390, no horizontal page overflow, mobile menu opens with `aria-expanded`, and its panel width is 366 px.
-- Browser checks: Inter and Sora loaded, `document.startViewTransition` available, and the reduced-motion view-transition rule is present.
+- Browser checks: Inter and Sora loaded.
 - Mobile and desktop marketing screenshots were visually reviewed.
 
 ## Remaining checks and guardrails
 
-- No password or existing authenticated browser session was handled. The protected dashboard build, component markup, route guards, transition mapping, and browser API were verified, but a final signed-in visual click-through should be done with creator, brand, and admin accounts after deployment.
-- The directional effect is a swipe-like page transition triggered by navigation. It does not add touch-drag gesture recognition.
-- Browsers without View Transitions retain ordinary Next.js navigation.
+- No password or existing authenticated browser session was handled. The protected dashboard build, component markup, and route guards were verified, but a final signed-in visual click-through should be done with creator, brand, and admin accounts after deployment.
 - Lighthouse still identifies part of the shared Next.js framework runtime as unused on the homepage. Replacing framework runtime behavior for a small synthetic saving is not justified.
 - Lighthouse occasionally reports a Windows temporary-directory `EPERM` during cleanup after successfully writing a valid report. It did not invalidate the saved results.

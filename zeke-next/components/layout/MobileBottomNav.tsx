@@ -15,21 +15,16 @@ export interface MobileNavItem {
 // Agreements from the mobile nav) - pass only the subset you want.
 export function MobileBottomNav({ items }: { items: MobileNavItem[] }) {
   const pathname = usePathname();
-  const activeIndex = items.findIndex(
-    (item) => pathname === item.href || pathname?.startsWith(item.href + "/"),
-  );
 
   return (
     <div className="fixed inset-x-0 bottom-0 z-30 flex h-[calc(64px+env(safe-area-inset-bottom))] border-t border-accent/10 bg-navy pb-[env(safe-area-inset-bottom)] pt-1.5 md:hidden">
       <div className="flex w-full items-center justify-evenly">
-        {items.map((item, index) => {
+        {items.map((item) => {
           const active = pathname === item.href || pathname?.startsWith(item.href + "/");
-          const transitionType = index < activeIndex ? "dashboard-back" : "dashboard-forward";
           return (
             <Link
               key={item.href}
               href={item.href}
-              transitionTypes={active ? undefined : [transitionType]}
               className={`flex min-w-0 max-w-20 flex-1 flex-col items-center justify-center gap-0.5 px-0.5 py-1 text-[10px] font-medium leading-tight ${
                 active ? "text-accent" : "text-muted"
               }`}
