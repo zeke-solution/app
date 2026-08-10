@@ -26,6 +26,17 @@ Last updated: 2026-08-10
 
 ## Current status
 
+### Google sign-in foundation and guarded onboarding: 2026-08-10
+
+- Google is implemented as an optional Supabase Auth provider; email/password and Resend sender `no-reply@zekesolution.com` remain unchanged.
+- Migration `0019_google_oauth_onboarding.sql` is applied to production. OAuth users without explicit Zeke role metadata are created as restricted `pending` profiles with no creator/brand row. They cannot enter any dashboard.
+- The authenticated `complete_google_onboarding` RPC requires a real Google identity, accepts only Creator or Brand, validates the full role profile again in PostgreSQL, creates the role row atomically, and permanently closes onboarding. It cannot create an admin.
+- Existing Zeke users who add/sign in with a matching verified Google email retain their existing profile and role. New users complete the same required Creator or Brand details at `/onboarding`.
+- Login and Registration contain the Google controls behind `NEXT_PUBLIC_GOOGLE_AUTH_ENABLED`. Production Supabase currently reports Google disabled and the public flag is not set, so the production UI does not expose an incomplete provider.
+- Local enabled-state QA passed at a true 390 x 844 viewport: Login and role-aware Registration each show one Google control, both report `innerWidth=clientWidth=scrollWidth=390`, and anonymous `/onboarding` redirects to `/login`.
+- TypeScript, ESLint, the optimized 39-route build, migration dry-run/push, remote migration reconciliation through 0019, and linked database lint pass.
+- Remaining activation: create the Google Web OAuth client, add the Supabase callback URI, save the client ID/secret directly in Supabase, verify a new and existing-account flow, then set `NEXT_PUBLIC_GOOGLE_AUTH_ENABLED=true` and redeploy. Exact steps are in `docs/GOOGLE-AUTH-SETUP.md`; never send the client secret in chat or commit it.
+
 ### Dashboard app-interface normalization: 2026-08-10
 
 - Creator, brand, and admin workspaces now use a conventional application shell: a 240 px desktop sidebar, a flat dark app bar, and a responsive content canvas up to 1280 px instead of the former narrow 900 px column.

@@ -9,6 +9,10 @@ export default async function LoginPage({
   const initialError =
     params.error === "auth_callback_failed"
       ? "This sign-in or recovery link is invalid or has expired. Please request a new one."
+      : params.error === "account_not_setup"
+        ? "Your account profile could not be loaded. Please contact support."
+        : params.error === "google_identity_required"
+          ? "Please sign in with Google again to finish account setup."
       : "";
 
   return (

@@ -2,21 +2,37 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { registerUser } from "@/actions/auth";
+import { completeGoogleOnboarding, registerUser } from "@/actions/auth";
 import { Button } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/TextField";
 import { NICHE_OPTIONS, GUARDIAN_RELATIONS } from "@/lib/domain/constants";
+import {
+  AuthDivider,
+  GoogleAuthButton,
+  GOOGLE_AUTH_ENABLED,
+} from "@/components/auth/GoogleAuthButton";
 
 type Role = "influencer" | "brand";
 
 const OTHER_NICHE = "__other__";
 
-export function RegisterForm({ initialRole = "influencer" }: { initialRole?: Role }) {
+export function RegisterForm({
+  initialRole = "influencer",
+  mode = "register",
+  initialName = "",
+  initialEmail = "",
+}: {
+  initialRole?: Role;
+  mode?: "register" | "google-onboarding";
+  initialName?: string;
+  initialEmail?: string;
+}) {
+  const isGoogleOnboarding = mode === "google-onboarding";
   const [step, setStep] = useState<1 | 2>(1);
   const [role, setRole] = useState<Role>(initialRole);
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [name, setName] = useState(initialName);
+  const [email, setEmail] = useState(initialEmail);
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
@@ -45,9 +61,11 @@ export function RegisterForm({ initialRole = "influencer" }: { initialRole?: Rol
 
   function goStep2() {
     if (!name.trim()) return setStep1Error("Enter your name.");
-    if (!email.trim() || !email.includes("@")) return setStep1Error("Enter a valid email.");
-    if (!password || password.length < 8)
-      return setStep1Error("Password must be at least 8 characters.");
+    if (!isGoogleOnboarding) {
+      if (!email.trim() || !email.includes("@")) return setStep1Error("Enter a valid email.");
+      if (!password || password.length < 8)
+        return setStep1Error("Password must be at least 8 characters.");
+    }
     setStep1Error("");
     setStep(2);
   }
@@ -59,36 +77,64 @@ export function RegisterForm({ initialRole = "influencer" }: { initialRole?: Rol
 
     const res =
       role === "brand"
-        ? await registerUser({
-            role: "brand",
-            name,
-            email,
-            password,
-            brandType,
-            location: brandLocation,
-          })
-        : await registerUser({
-            role: "influencer",
-            name,
-            email,
-            password,
-            niche: niche === OTHER_NICHE ? nicheOther : niche,
-            location: infLocation,
-            igHandle,
-            igFollowers: Number(igFollowers),
-            ytEnabled,
-            ytHandle: ytEnabled ? ytHandle : undefined,
-            ytFollowers: ytEnabled ? Number(ytFollowers || 0) : undefined,
-            xEnabled,
-            xHandle: xEnabled ? xHandle : undefined,
-            xFollowers: xEnabled ? Number(xFollowers || 0) : undefined,
-            isAdult: isAdult !== false,
-            guardianName: isAdult === false ? guardianName : undefined,
-            guardianEmail: isAdult === false ? guardianEmail : undefined,
-            guardianRelation: isAdult === false
-              ? (guardianRelation as (typeof GUARDIAN_RELATIONS)[number])
-              : undefined,
-          });
+        ? isGoogleOnboarding
+          ? await completeGoogleOnboarding({
+              role: "brand",
+              name,
+              brandType,
+              location: brandLocation,
+            })
+          : await registerUser({
+              role: "brand",
+              name,
+              email,
+              password,
+              brandType,
+              location: brandLocation,
+            })
+        : isGoogleOnboarding
+          ? await completeGoogleOnboarding({
+              role: "influencer",
+              name,
+              niche: niche === OTHER_NICHE ? nicheOther : niche,
+              location: infLocation,
+              igHandle,
+              igFollowers: Number(igFollowers),
+              ytEnabled,
+              ytHandle: ytEnabled ? ytHandle : undefined,
+              ytFollowers: ytEnabled ? Number(ytFollowers || 0) : undefined,
+              xEnabled,
+              xHandle: xEnabled ? xHandle : undefined,
+              xFollowers: xEnabled ? Number(xFollowers || 0) : undefined,
+              isAdult: isAdult !== false,
+              guardianName: isAdult === false ? guardianName : undefined,
+              guardianEmail: isAdult === false ? guardianEmail : undefined,
+              guardianRelation: isAdult === false
+                ? (guardianRelation as (typeof GUARDIAN_RELATIONS)[number])
+                : undefined,
+            })
+          : await registerUser({
+              role: "influencer",
+              name,
+              email,
+              password,
+              niche: niche === OTHER_NICHE ? nicheOther : niche,
+              location: infLocation,
+              igHandle,
+              igFollowers: Number(igFollowers),
+              ytEnabled,
+              ytHandle: ytEnabled ? ytHandle : undefined,
+              ytFollowers: ytEnabled ? Number(ytFollowers || 0) : undefined,
+              xEnabled,
+              xHandle: xEnabled ? xHandle : undefined,
+              xFollowers: xEnabled ? Number(xFollowers || 0) : undefined,
+              isAdult: isAdult !== false,
+              guardianName: isAdult === false ? guardianName : undefined,
+              guardianEmail: isAdult === false ? guardianEmail : undefined,
+              guardianRelation: isAdult === false
+                ? (guardianRelation as (typeof GUARDIAN_RELATIONS)[number])
+                : undefined,
+            });
 
     setPending(false);
     if (!res.ok) setStep2Error(res.error);
@@ -123,6 +169,13 @@ export function RegisterForm({ initialRole = "influencer" }: { initialRole?: Rol
         </button>
       </div>
 
+      {step === 1 && !isGoogleOnboarding && GOOGLE_AUTH_ENABLED && (
+        <div className="mb-5 flex flex-col gap-4">
+          <GoogleAuthButton intendedRole={role} />
+          <AuthDivider />
+        </div>
+      )}
+
       {step === 1 && (
         <div className="flex flex-col gap-4">
           <TextField
@@ -131,31 +184,42 @@ export function RegisterForm({ initialRole = "influencer" }: { initialRole?: Rol
             onChange={(e) => setName(e.target.value)}
             placeholder={role === "influencer" ? "Your full name" : "Your brand name"}
           />
-          <TextField
-            label="Email"
-            type="email"
-            autoComplete="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="you@example.com"
-          />
-          <div className="relative">
-            <TextField
-              label="Password"
-              type={showPassword ? "text" : "password"}
-              autoComplete="new-password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Minimum 8 characters"
-            />
-            <button
-              type="button"
-              onClick={() => setShowPassword((s) => !s)}
-              className="absolute bottom-2.5 right-3 text-xs font-medium text-muted"
-            >
-              {showPassword ? "Hide" : "Show"}
-            </button>
-          </div>
+          {isGoogleOnboarding ? (
+            <div className="rounded-xl border border-border bg-dark px-4 py-3">
+              <div className="text-[11px] font-bold uppercase tracking-wider text-muted">
+                Google account
+              </div>
+              <div className="mt-1 truncate text-sm font-semibold text-light">{email}</div>
+            </div>
+          ) : (
+            <>
+              <TextField
+                label="Email"
+                type="email"
+                autoComplete="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="you@example.com"
+              />
+              <div className="relative">
+                <TextField
+                  label="Password"
+                  type={showPassword ? "text" : "password"}
+                  autoComplete="new-password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Minimum 8 characters"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((s) => !s)}
+                  className="absolute bottom-2.5 right-3 text-xs font-medium text-muted"
+                >
+                  {showPassword ? "Hide" : "Show"}
+                </button>
+              </div>
+            </>
+          )}
           {step1Error && (
             <div className="rounded-[10px] border border-accent/20 bg-accent/10 px-3.5 py-2 text-xs text-accent">
               {step1Error}
@@ -397,7 +461,11 @@ export function RegisterForm({ initialRole = "influencer" }: { initialRole?: Rol
             </div>
           )}
           <Button type="submit" disabled={pending} fullWidth>
-            {pending ? "Please wait..." : "Create Account"}
+            {pending
+              ? "Please wait..."
+              : isGoogleOnboarding
+                ? "Finish Account Setup"
+                : "Create Account"}
           </Button>
           <p className="text-center text-xs text-muted">
             By signing up you agree to our{" "}
@@ -412,12 +480,14 @@ export function RegisterForm({ initialRole = "influencer" }: { initialRole?: Rol
         </form>
       )}
 
-      <div className="mt-5 border-t border-border pt-5 text-center text-xs leading-5 text-muted sm:text-sm">
-        Already have an account?{" "}
-        <Link href="/login" className="font-semibold text-accent">
-          Sign in
-        </Link>
-      </div>
+      {!isGoogleOnboarding && (
+        <div className="mt-5 border-t border-border pt-5 text-center text-xs leading-5 text-muted sm:text-sm">
+          Already have an account?{" "}
+          <Link href="/login" className="font-semibold text-accent">
+            Sign in
+          </Link>
+        </div>
+      )}
     </div>
   );
 }

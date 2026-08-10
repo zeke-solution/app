@@ -85,3 +85,6 @@ export const registerSchema = z.discriminatedUnion("role", [
   influencerRegisterSchema,
 ]);
 export type RegisterInput = z.infer<typeof registerSchema>;
+export type GoogleOnboardingInput =
+  | Omit<z.infer<typeof brandRegisterSchema>, "email" | "password">
+  | Omit<z.infer<typeof influencerRegisterSchema>, "email" | "password">;

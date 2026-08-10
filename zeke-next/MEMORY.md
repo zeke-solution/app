@@ -11,6 +11,17 @@ Last updated: 2026-08-10
 - For a direct Vercel production deploy, run from the repository root and pass local config zeke-next/vercel.json. Deploying from inside zeke-next conflicts with the project Root Directory; deploying from root without the local config can fall back to iad1 instead of required sin1.
 - Never put passwords, API keys, tokens, or full environment values in source control or handoff files.
 
+## Google authentication
+
+- Google sign-in is additive to Supabase Auth. Keep email/password enabled and keep Resend sending branded Auth email from `no-reply@zekesolution.com`; do not replace transactional SMTP with Gmail.
+- Never expose the Google client secret to Next.js or a `NEXT_PUBLIC_` variable. Save it only in the Google/Supabase provider configuration.
+- Activation order is mandatory: apply migration 0019, configure Google and Supabase callback settings, test the provider, then set `NEXT_PUBLIC_GOOGLE_AUTH_ENABLED=true` and redeploy.
+- A new OAuth user without Zeke role metadata must remain `profiles.role='pending'` with `onboarding_completed=false` and no role-specific row. Dashboard guards must reject pending profiles.
+- `/onboarding` reuses the complete role form. Only the authenticated `complete_google_onboarding` RPC may move a Google identity from pending to Creator or Brand, and it must create the subtype atomically. OAuth can never select admin.
+- Existing matching-email users retain their current Zeke role/profile through Supabase identity linking; onboarding must never overwrite a completed profile.
+- Production migration 0019 is live and linked database lint is clean. Google remains disabled in production and the feature flag is unset until the client ID/secret are configured and real-account acceptance passes.
+- Setup and acceptance procedure: `docs/GOOGLE-AUTH-SETUP.md`.
+
 ## Dashboard app-interface system
 
 - Treat creator, brand, and admin areas as workspaces, not marketing pages. Keep the dark 240 px desktop sidebar and app bar, the light signed-in canvas, and a content width up to 1280 px with 16 px mobile, 24 px tablet, and 32 px large-desktop padding.

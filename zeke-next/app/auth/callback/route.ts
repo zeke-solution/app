@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
+import { roleHome } from "@/lib/auth/navigation";
 
 // PKCE code-exchange endpoint. Replaces the old hash-fragment handling in
 // auth.js (ZEKE_RECOVERY_FLOW / onAuthStateChange('PASSWORD_RECOVERY')) -
@@ -12,13 +13,37 @@ export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
   const code = searchParams.get("code");
   const requestedNext = searchParams.get("next") ?? "/login";
-  const next = requestedNext === "/update-password" ? requestedNext : "/login";
+  const preferredRole = searchParams.get("role") === "brand" ? "brand" : "influencer";
 
   if (code) {
     const supabase = await createClient();
     const { error } = await supabase.auth.exchangeCodeForSession(code);
     if (!error) {
-      return NextResponse.redirect(`${origin}${next}`);
+      if (requestedNext === "/update-password") {
+        return NextResponse.redirect(`${origin}/update-password`);
+      }
+
+      const { data: userResult } = await supabase.auth.getUser();
+      const user = userResult.user;
+      if (!user) {
+        return NextResponse.redirect(`${origin}/login?error=auth_callback_failed`);
+      }
+
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("role,onboarding_completed")
+        .eq("id", user.id)
+        .single();
+
+      if (!profile) {
+        return NextResponse.redirect(`${origin}/login?error=account_not_setup`);
+      }
+
+      if (!profile.onboarding_completed || profile.role === "pending") {
+        return NextResponse.redirect(`${origin}/onboarding?role=${preferredRole}`);
+      }
+
+      return NextResponse.redirect(`${origin}${roleHome(profile.role)}`);
     }
   }
 

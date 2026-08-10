@@ -2,7 +2,7 @@
 // this environment). Once `supabase` CLI access exists, replace with
 // `supabase gen types typescript` output - keep the shape compatible.
 
-type Role = "influencer" | "brand" | "admin";
+type Role = "pending" | "influencer" | "brand" | "admin";
 type BrandType = "business" | "ngo" | "agency";
 type DealStatus =
   | "negotiating"
@@ -64,6 +64,7 @@ export interface Database {
           display_name: string;
           location: string | null;
           avatar_url: string | null;
+          onboarding_completed: boolean;
           created_at: string | null;
         };
         Insert: {
@@ -72,6 +73,7 @@ export interface Database {
           display_name: string;
           location?: string | null;
           avatar_url?: string | null;
+          onboarding_completed?: boolean;
         };
         Update: Partial<Database["public"]["Tables"]["profiles"]["Insert"]>;
       };
@@ -418,6 +420,28 @@ export interface Database {
       };
       set_profile_avatar: {
         Args: { p_object_path: string; p_avatar_url: string };
+        Returns: string | null;
+      };
+      complete_google_onboarding: {
+        Args: {
+          p_role: "influencer" | "brand";
+          p_display_name: string;
+          p_location: string;
+          p_brand_type: BrandType | null;
+          p_niche: string | null;
+          p_handle: string | null;
+          p_ig_followers: number | null;
+          p_yt_enabled: boolean | null;
+          p_yt_handle: string | null;
+          p_yt_followers: number | null;
+          p_x_enabled: boolean | null;
+          p_x_handle: string | null;
+          p_x_followers: number | null;
+          p_is_adult: boolean | null;
+          p_guardian_name: string | null;
+          p_guardian_email: string | null;
+          p_guardian_relation: string | null;
+        };
         Returns: string | null;
       };
       set_creator_chat_closed: {

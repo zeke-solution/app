@@ -5,6 +5,11 @@ import Link from "next/link";
 import { signInUser } from "@/actions/auth";
 import { Button } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/TextField";
+import {
+  AuthDivider,
+  GoogleAuthButton,
+  GOOGLE_AUTH_ENABLED,
+} from "@/components/auth/GoogleAuthButton";
 
 export function LoginForm({ initialError = "" }: { initialError?: string }) {
   const [email, setEmail] = useState("");
@@ -27,6 +32,12 @@ export function LoginForm({ initialError = "" }: { initialError?: string }) {
       onSubmit={handleSubmit}
       className="flex flex-col gap-5 rounded-2xl border border-border bg-card p-5 shadow-[0_0_0_1px_rgba(99,102,241,0.15),0_4px_24px_rgba(99,102,241,0.08)] sm:p-7"
     >
+      {GOOGLE_AUTH_ENABLED && (
+        <>
+          <GoogleAuthButton label="Sign in with Google" />
+          <AuthDivider />
+        </>
+      )}
       <TextField
         id="login-email"
         label="Email"

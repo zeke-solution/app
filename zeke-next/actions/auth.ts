@@ -9,19 +9,15 @@ import {
   updatePasswordSchema,
   type LoginInput,
   type RegisterInput,
+  type GoogleOnboardingInput,
   type ResetInput,
   type UpdatePasswordInput,
 } from "@/lib/validation/auth.schema";
+import { roleHome } from "@/lib/auth/navigation";
 
 export type ActionResult = { ok: true } | { ok: false; error: string };
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
-
-function roleHome(role: string) {
-  if (role === "admin") return "/admin";
-  if (role === "brand") return "/brand";
-  return "/creator";
-}
 
 // Port of auth.js's doLogin().
 export async function signInUser(input: LoginInput): Promise<ActionResult> {
@@ -114,6 +110,92 @@ export async function registerUser(input: RegisterInput): Promise<ActionResult> 
   }
 
   redirect(`/verify?email=${encodeURIComponent(v.email)}`);
+}
+
+export async function completeGoogleOnboarding(
+  input: GoogleOnboardingInput,
+): Promise<ActionResult> {
+  // Reuse the complete registration validation while supplying server-only
+  // placeholders for the two password-registration fields OAuth does not use.
+  const parsed = registerSchema.safeParse({
+    ...input,
+    email: "oauth-onboarding@zekesolution.com",
+    password: "oauth-onboarding",
+  });
+  if (!parsed.success) {
+    return {
+      ok: false,
+      error: parsed.error.issues[0]?.message ?? "Check your profile details.",
+    };
+  }
+
+  const supabase = await createClient();
+  const { data: userResult, error: userError } = await supabase.auth.getUser();
+  const user = userResult.user;
+  if (userError || !user) {
+    return { ok: false, error: "Your Google session expired. Please sign in again." };
+  }
+
+  if (!user.identities?.some((identity) => identity.provider === "google")) {
+    return { ok: false, error: "A verified Google sign-in is required." };
+  }
+
+  const v = parsed.data;
+  const isBrand = v.role === "brand";
+  const { data: code, error } = await supabase.rpc("complete_google_onboarding", {
+    p_role: v.role,
+    p_display_name: v.name,
+    p_location: v.location,
+    p_brand_type: isBrand ? v.brandType : null,
+    p_niche: isBrand ? null : v.niche,
+    p_handle: isBrand ? null : v.igHandle.replace(/^@/, "").toLowerCase(),
+    p_ig_followers: isBrand ? null : v.igFollowers,
+    p_yt_enabled: isBrand ? null : v.ytEnabled,
+    p_yt_handle: isBrand || !v.ytEnabled ? null : (v.ytHandle ?? null),
+    p_yt_followers: isBrand || !v.ytEnabled ? null : (v.ytFollowers ?? 0),
+    p_x_enabled: isBrand ? null : v.xEnabled,
+    p_x_handle: isBrand || !v.xEnabled ? null : (v.xHandle ?? null),
+    p_x_followers: isBrand || !v.xEnabled ? null : (v.xFollowers ?? 0),
+    p_is_adult: isBrand ? null : v.isAdult,
+    p_guardian_name: isBrand || v.isAdult ? null : (v.guardianName ?? null),
+    p_guardian_email: isBrand || v.isAdult ? null : (v.guardianEmail ?? null),
+    p_guardian_relation: isBrand || v.isAdult ? null : (v.guardianRelation ?? null),
+  });
+
+  if (error) {
+    console.error("[auth] Google onboarding failed", {
+      code: error.code,
+      message: error.message,
+    });
+    return { ok: false, error: "Could not finish account setup. Please try again." };
+  }
+
+  if (code === "already_completed") {
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("role,onboarding_completed")
+      .eq("id", user.id)
+      .single();
+    if (profile?.onboarding_completed) redirect(roleHome(profile.role));
+  }
+
+  const messages: Record<string, string> = {
+    unauthenticated: "Your Google session expired. Please sign in again.",
+    google_identity_required: "A verified Google sign-in is required.",
+    profile_missing: "Your Zeke account could not be loaded. Contact support.",
+    profile_state_invalid: "Your account needs support before setup can continue.",
+    invalid_profile: "Check your name and location.",
+    invalid_brand: "Select a valid brand type.",
+    invalid_creator: "Complete the required creator and Instagram details.",
+    guardian_required: "Complete all guardian details for an under-18 creator.",
+    handle_taken: "That Instagram handle is already used by another creator.",
+  };
+
+  if (code) {
+    return { ok: false, error: messages[code] ?? "Could not finish account setup." };
+  }
+
+  redirect(roleHome(v.role));
 }
 
 // Port of auth.js's requestReset().
