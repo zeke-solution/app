@@ -2,9 +2,9 @@
 
 ## Release state
 
-- Production baseline: commit `412af6a` on `origin/main`.
-- This performance and dashboard-polish candidate is local and uncommitted.
-- It has not been pushed or deployed.
+- Feature commit `f88f1f6` is on `main`.
+- Vercel Production deployment `5833234962` succeeded at `https://app-pbiv7l9an-mufeed-4343s-projects.vercel.app`.
+- Both production custom domains return HTTP 200. Anonymous creator, brand, and admin overviews return HTTP 307 to `/login`.
 - No production data, authentication account, migration, or external service was changed.
 
 ## Scope

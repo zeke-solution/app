@@ -11,9 +11,9 @@ Last updated: 2026-08-10
 - For a direct Vercel production deploy, run from the repository root and pass local config zeke-next/vercel.json. Deploying from inside zeke-next conflicts with the project Root Directory; deploying from root without the local config can fall back to iad1 instead of required sin1.
 - Never put passwords, API keys, tokens, or full environment values in source control or handoff files.
 
-## Local performance and dashboard navigation candidate
+## Performance and dashboard navigation release
 
-- Production remains at `412af6a` on `origin/main`. The 2026-08-10 performance and dashboard-polish work is local and uncommitted; it is not deployed.
+- Feature commit `f88f1f6` is on `main`. Vercel Production deployment `5833234962` succeeded, both custom domains return HTTP 200, anonymous role overviews redirect to `/login`, and the 31-day public image cache header is live.
 - Use `next/font/local` for the installed Latin Inter and Sora variable WOFF2 files. Keep static logo imports and truthful `sizes`; the old 2,853 px intrinsic full-logo declaration caused a much larger image request than the 82-112 px display slots needed.
 - Stable public image caching is 31 days. Mobile marketing cards intentionally use lightweight gradient equivalents; desktop keeps the image artwork.
 - Keep the marketing top navigation server-rendered. Hydrate only `MobileMenu`. Keep dashboard Realtime notifications deferred until idle, including the panel's existing catch-up query once loaded.
