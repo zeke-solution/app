@@ -30,12 +30,12 @@ export async function updateSession(request: NextRequest) {
     }
   );
 
-  // Revalidates the JWT against Supabase Auth (cheap, no Postgres hit) and
-  // refreshes the session cookie if needed. Do not remove - required for
-  // server-side session refresh per @supabase/ssr's documented pattern.
-  const { data } = await supabase.auth.getUser();
+  // Verifies the JWT signature and expiry. Zeke uses an asymmetric ES256
+  // signing key, so the SDK can validate against cached JWKS instead of
+  // making an Auth-server request on every protected navigation.
+  const { data } = await supabase.auth.getClaims();
 
-  if (!data.user) {
+  if (!data?.claims?.sub) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
     return NextResponse.redirect(url);

@@ -66,7 +66,7 @@ function BrandPanel({ brand, onClose }: { brand: BrandDetail; onClose: () => voi
         </div>
         <button onClick={onClose} className="text-2xl leading-none text-muted">&times;</button>
       </div>
-      <div className="mb-4 grid grid-cols-3 gap-2">
+      <div className="mb-4 grid grid-cols-2 gap-2 sm:grid-cols-3">
         <Tile label="Campaigns" value={brand.campaigns.length} />
         <Tile label="Deals" value={brand.deals.length} />
         <Tile label="Spent" value={`₹${fmtNum(brand.spent)}`} color="#047857" />
@@ -127,12 +127,12 @@ function CreatorPanel({ creator, onClose }: { creator: CreatorDetail; onClose: (
         </div>
         <button onClick={onClose} className="text-2xl leading-none text-muted">&times;</button>
       </div>
-      <div className="mb-3 grid grid-cols-3 gap-2">
+      <div className="mb-3 grid grid-cols-2 gap-2 sm:grid-cols-3">
         <Tile label="Instagram" value={fmtNum(creator.igFollowers)} color="#4338CA" />
         <Tile label="YouTube" value={creator.ytEnabled ? fmtNum(creator.ytFollowers) : "-"} color="#b91c1c" />
         <Tile label="Twitter/X" value={creator.xEnabled ? fmtNum(creator.xFollowers) : "-"} color="#0369a1" />
       </div>
-      <div className="mb-4 grid grid-cols-3 gap-2">
+      <div className="mb-4 grid grid-cols-2 gap-2 sm:grid-cols-3">
         <Tile label="Deals" value={creator.deals.length} />
         <Tile label="Earned" value={`₹${fmtNum(creator.earned)}`} color="#047857" />
         <Tile label="Rating" value={`★ ${creator.rating ?? "-"}`} color="#92400E" />
@@ -168,7 +168,7 @@ function DealPanel({ deal, onClose }: { deal: AdminDealDetail; onClose: () => vo
         </div>
         <button onClick={onClose} className="text-2xl leading-none text-muted">&times;</button>
       </div>
-      <div className="mb-3.5 grid grid-cols-3 gap-2">
+      <div className="mb-3.5 grid grid-cols-2 gap-2 sm:grid-cols-3">
         <Tile label="Value" value={`₹${fmtNum(deal.amount)}`} color="#92400E" />
         <Tile label="Status" value={deal.status} />
         <Tile label="Deadline" value={deal.deadline ?? "-"} />

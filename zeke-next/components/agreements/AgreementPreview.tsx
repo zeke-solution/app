@@ -1,4 +1,5 @@
 import Image from "next/image";
+import logoWhite from "@/public/images/zeke-logo-white.png";
 import { fmtDate, fmtNum } from "@/lib/domain/format";
 
 export function AgreementPreview({
@@ -27,10 +28,9 @@ export function AgreementPreview({
     <article className="overflow-hidden rounded-2xl border border-white/15 bg-white text-[#1c182a] shadow-[0_18px_50px_rgba(0,0,0,0.2)]">
       <header className="flex items-center justify-between bg-[#0e0a1c] px-5 py-4">
         <Image
-          src="/images/zeke-logo-white.png"
+          src={logoWhite}
           alt="Zeke"
-          width={142}
-          height={34}
+          sizes="94px"
           className="h-auto w-[94px]"
         />
         <div className="text-right">

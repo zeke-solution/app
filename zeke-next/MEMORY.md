@@ -11,6 +11,19 @@ Last updated: 2026-08-10
 - For a direct Vercel production deploy, run from the repository root and pass local config zeke-next/vercel.json. Deploying from inside zeke-next conflicts with the project Root Directory; deploying from root without the local config can fall back to iad1 instead of required sin1.
 - Never put passwords, API keys, tokens, or full environment values in source control or handoff files.
 
+## Local performance and dashboard navigation candidate
+
+- Production remains at `412af6a` on `origin/main`. The 2026-08-10 performance and dashboard-polish work is local and uncommitted; it is not deployed.
+- Use `next/font/local` for the installed Latin Inter and Sora variable WOFF2 files. Keep static logo imports and truthful `sizes`; the old 2,853 px intrinsic full-logo declaration caused a much larger image request than the 82-112 px display slots needed.
+- Stable public image caching is 31 days. Mobile marketing cards intentionally use lightweight gradient equivalents; desktop keeps the image artwork.
+- Keep the marketing top navigation server-rendered. Hydrate only `MobileMenu`. Keep dashboard Realtime notifications deferred until idle, including the panel's existing catch-up query once loaded.
+- Protected server checks use Supabase `getClaims()`. The project has an asymmetric ES256 signing key, allowing cached-JWKS verification. Do not remove the subsequent RLS-protected profile and role query: claims establish identity, while the database remains the authorization source.
+- Dashboard page transitions belong in each role's `template.tsx`, not the persistent layout. Ordered nav links use `dashboard-forward` and `dashboard-back`; all other navigations fade. Keep motion short and disable it under `prefers-reduced-motion: reduce`. Browsers without View Transitions fall back normally.
+- The requested swipe is a swipe-like directional transition, not touch-drag gesture recognition. Do not add gesture navigation without separate product approval because it can conflict with browser history and horizontal controls.
+- On narrow dashboards, present compact values as labelled field grids. Current labelled rows cover deals, creators, admin deal listings, user directories, and entity-detail tiles.
+- Candidate five-run mobile median: Performance 96, FCP 913 ms, LCP 2.818 s, Speed Index 913 ms, TBT 45 ms, and transfer 304.7 KiB. Controlled transfer fell 65.4 KiB or 17.7%. Final desktop Performance is 100; Accessibility, Best Practices, and SEO are all 100.
+- Full method, run table, verification, and known limits: `docs/PERFORMANCE-DASHBOARD-QA-2026-08-10.md`.
+
 ## Product model
 
 - Zeke is a structured creator-brand deal platform. It keeps discovery, offers, terms, content review, final links, payment status, disputes, and the deal record together.

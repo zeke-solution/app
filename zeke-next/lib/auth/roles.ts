@@ -26,14 +26,15 @@ export type SessionProfile = {
 // whether to redirect.
 export const getSessionProfile = cache(async (): Promise<SessionProfile | null> => {
   const supabase = await createClient();
-  const { data: userRes } = await supabase.auth.getUser();
-  const user = userRes.user;
-  if (!user) return null;
+  const { data: claimsRes, error: claimsError } = await supabase.auth.getClaims();
+  const claims = claimsRes?.claims;
+  const userId = typeof claims?.sub === "string" ? claims.sub : null;
+  if (claimsError || !userId) return null;
 
   const { data: profile, error } = await supabase
     .from("profiles")
     .select("*")
-    .eq("id", user.id)
+    .eq("id", userId)
     .single();
 
   if (error || !profile) return null;
@@ -45,19 +46,20 @@ export const getSessionProfile = cache(async (): Promise<SessionProfile | null> 
     const { data } = await supabase
       .from("influencer_profiles")
       .select("*")
-      .eq("id", user.id)
+      .eq("id", userId)
       .single();
     inf = data ?? null;
   } else if (profile.role === "brand") {
     const { data } = await supabase
       .from("brand_profiles")
       .select("*")
-      .eq("id", user.id)
+      .eq("id", userId)
       .single();
     brand = data ?? null;
   }
 
-  return { id: user.id, email: user.email ?? "", profile, inf, brand };
+  const email = typeof claims?.email === "string" ? claims.email : "";
+  return { id: userId, email, profile, inf, brand };
 });
 
 // Call from each app/{creator,brand,admin}/layout.tsx. Redirects to /login

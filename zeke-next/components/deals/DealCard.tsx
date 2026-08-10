@@ -32,10 +32,11 @@ export function DealCard({
   return (
     <Link
       href={href}
+      transitionTypes={['dashboard-forward']}
       className='mb-3 block rounded-2xl border p-4 transition-colors hover:border-accent/30 sm:p-5'
       style={{ borderColor: meta.border, background: meta.bg }}
     >
-      <div className='flex items-start justify-between gap-3'>
+      <div className='flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between'>
         <div className='flex min-w-0 items-center gap-2.5'>
           <ProfileAvatar
             name={counterpartName}
@@ -51,12 +52,18 @@ export function DealCard({
             </div>
           </div>
         </div>
-        <div className='flex-shrink-0 text-right'>
-          <div className='text-sm font-black' style={{ color: meta.color }}>
-            &#8377;{fmtNum(amount)}
+        <div className='grid w-full grid-cols-2 gap-2 border-t border-border/60 pt-3 sm:w-auto sm:min-w-[150px] sm:border-0 sm:pt-0 sm:text-right'>
+          <div>
+            <div className='text-[10px] font-bold uppercase tracking-wide text-muted'>Fee</div>
+            <div className='mt-0.5 text-sm font-black' style={{ color: meta.color }}>
+              &#8377;{fmtNum(amount)}
+            </div>
           </div>
-          <div className='mt-1'>
-            <DealStatusBadge status={status} viewer={viewer} />
+          <div>
+            <div className='text-[10px] font-bold uppercase tracking-wide text-muted'>Status</div>
+            <div className='mt-1'>
+              <DealStatusBadge status={status} viewer={viewer} />
+            </div>
           </div>
         </div>
       </div>

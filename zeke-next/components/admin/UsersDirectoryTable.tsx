@@ -25,7 +25,7 @@ export function UsersDirectoryTable({
           <button
             key={b.id}
             onClick={() => setTarget({ type: "brand", id: b.id })}
-            className="mb-2 flex w-full items-center gap-3 rounded-2xl border border-border bg-card px-4 py-3.5 text-left transition-colors hover:border-accent/30"
+            className="mb-2 flex w-full flex-wrap items-center gap-3 rounded-2xl border border-border bg-card px-4 py-3.5 text-left transition-colors hover:border-accent/30"
           >
             <div className="flex h-9.5 w-9.5 flex-shrink-0 items-center justify-center rounded-xl bg-purple/15 text-[11px] font-black text-purple">
               {b.name.slice(0, 2).toUpperCase()}
@@ -36,9 +36,15 @@ export function UsersDirectoryTable({
                 {b.type.replace(/^./, (c) => c.toUpperCase())} {b.location ? `· ${b.location}` : ""} · Joined {fmtDate(b.joined)}
               </div>
             </div>
-            <div className="flex-shrink-0 text-right">
-              <div className="text-[13px] font-bold text-light">{b.dealsTotal} deal{b.dealsTotal === 1 ? "" : "s"}</div>
-              <div className="text-[11px] text-zgreen">₹{fmtNum(b.spent)} spent</div>
+            <div className="grid w-full grid-cols-2 gap-2 border-t border-border/60 pt-3 sm:ml-auto sm:w-auto sm:min-w-[160px] sm:border-0 sm:pt-0 sm:text-right">
+              <div>
+                <div className="text-[10px] font-bold uppercase tracking-wide text-muted">Deals</div>
+                <div className="text-[13px] font-bold text-light">{b.dealsTotal}</div>
+              </div>
+              <div>
+                <div className="text-[10px] font-bold uppercase tracking-wide text-muted">Spent</div>
+                <div className="text-[12px] font-bold text-zgreen">₹{fmtNum(b.spent)}</div>
+              </div>
             </div>
           </button>
         ))}
@@ -55,7 +61,7 @@ export function UsersDirectoryTable({
         <button
           key={c.id}
           onClick={() => setTarget({ type: "creator", id: c.id })}
-          className="mb-2 flex w-full items-center gap-3 rounded-2xl border border-border bg-card px-4 py-3.5 text-left transition-colors hover:border-accent/30"
+          className="mb-2 flex w-full flex-wrap items-center gap-3 rounded-2xl border border-border bg-card px-4 py-3.5 text-left transition-colors hover:border-accent/30"
         >
           <div className="flex h-9.5 w-9.5 flex-shrink-0 items-center justify-center rounded-xl bg-accent/10 text-[11px] font-black text-accent">
             {c.name.slice(0, 2).toUpperCase()}
@@ -69,10 +75,19 @@ export function UsersDirectoryTable({
               IG {fmtNum(c.igFollowers)} · Joined {fmtDate(c.joined)}
             </div>
           </div>
-          <div className="flex-shrink-0 text-right">
-            <div className="text-[13px] font-bold text-light">{c.dealsCompleted} deal{c.dealsCompleted === 1 ? "" : "s"}</div>
-            <div className="text-[11px] text-zgreen">₹{fmtNum(c.earned)} earned</div>
-            <Badge variant={c.shieldActive ? "gold" : "muted"}>{c.shieldActive ? "🛡 Shield" : "Free"}</Badge>
+          <div className="grid w-full grid-cols-3 gap-2 border-t border-border/60 pt-3 sm:ml-auto sm:w-auto sm:min-w-[230px] sm:border-0 sm:pt-0 sm:text-right">
+            <div>
+              <div className="text-[10px] font-bold uppercase tracking-wide text-muted">Deals</div>
+              <div className="text-[13px] font-bold text-light">{c.dealsCompleted}</div>
+            </div>
+            <div>
+              <div className="text-[10px] font-bold uppercase tracking-wide text-muted">Earned</div>
+              <div className="text-[12px] font-bold text-zgreen">₹{fmtNum(c.earned)}</div>
+            </div>
+            <div>
+              <div className="text-[10px] font-bold uppercase tracking-wide text-muted">Plan</div>
+              <Badge variant={c.shieldActive ? "gold" : "muted"}>{c.shieldActive ? "🛡 Shield" : "Free"}</Badge>
+            </div>
           </div>
         </button>
       ))}

@@ -86,7 +86,7 @@ const SHIELD_FEATURES = [
 function SectionHeading({ eyebrow, title, body }: { eyebrow: string; title: string; body: string }) {
   return (
     <div className="mx-auto max-w-[760px] text-center">
-      <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-purple">{eyebrow}</div>
+      <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#7e22ce]">{eyebrow}</div>
       <h2 className="mt-3 text-[28px] font-extrabold leading-tight tracking-[-0.035em] text-dark sm:text-[40px]">{title}</h2>
       <p className="mx-auto mt-3 max-w-[680px] text-sm leading-6 text-[#5b5874] sm:text-base">{body}</p>
     </div>
@@ -176,7 +176,7 @@ export function LandingSections() {
               <Link href="/shield" className="mt-3 block text-center text-xs font-semibold text-gold underline underline-offset-4">See exactly how Shield works</Link>
             </article>
             <article className="bg-white p-7 sm:p-9">
-              <span className="rounded-full border border-zgreen/25 bg-zgreen/[0.07] px-3 py-1 text-[9px] font-black uppercase tracking-wider text-zgreen">Free forever</span>
+              <span className="rounded-full border border-zgreen/25 bg-zgreen/[0.07] px-3 py-1 text-[9px] font-black uppercase tracking-wider text-[#047857]">Free forever</span>
               <div className="mt-5 flex items-center gap-3"><span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#eeecff] text-accent"><UsersIcon width={24} height={24} /></span><div><h3 className="text-xl font-extrabold text-dark">Zeke Free</h3><p className="text-xs text-[#6a6682]">The complete core marketplace</p></div></div>
               <div className="mt-7 text-4xl font-black text-dark">₹0</div>
               <div className="mt-6"><CheckList items={FREE_FEATURES} /></div>
@@ -236,7 +236,7 @@ export function LandingSections() {
       <section id="faq" className="scroll-mt-20 bg-[#f5f4fc] px-5 py-16 sm:px-6 sm:py-20">
         <div className="mx-auto grid max-w-[1120px] gap-8 lg:grid-cols-[0.82fr_1.18fr]">
           <div>
-            <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-purple">FAQ</div>
+            <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#7e22ce]">FAQ</div>
             <h2 className="mt-3 text-[30px] font-extrabold tracking-[-0.035em] text-dark">Questions before your first deal?</h2>
             <div className="mt-6 space-y-2.5">
               {FAQS.map(([question, answer]) => (
@@ -249,11 +249,11 @@ export function LandingSections() {
           </div>
 
           <div>
-            <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-purple">Simple pricing</div>
+            <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-[#7e22ce]">Simple pricing</div>
             <h2 className="mt-3 text-[30px] font-extrabold tracking-[-0.035em] text-dark">Start free. Add Shield when you want backup.</h2>
             <div className="mt-6 grid gap-4 sm:grid-cols-2">
               <article className="rounded-[24px] border border-[#d8d5eb] bg-white p-6">
-                <span className="rounded-full bg-zgreen/10 px-3 py-1 text-[9px] font-black uppercase tracking-wider text-zgreen">Marketplace</span>
+                <span className="rounded-full bg-zgreen/10 px-3 py-1 text-[9px] font-black uppercase tracking-wider text-[#047857]">Marketplace</span>
                 <h3 className="mt-5 text-lg font-extrabold text-dark">Free</h3>
                 <div className="mt-2 text-4xl font-black text-dark">₹0</div>
                 <p className="mt-3 text-xs leading-5 text-[#68647f]">For creators and brands ready to discover, structure, and complete campaigns.</p>

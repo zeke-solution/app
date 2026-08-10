@@ -2,6 +2,9 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   devIndicators: false,
+  images: {
+    minimumCacheTTL: 2678400,
+  },
   async headers() {
     return [
       {
@@ -9,7 +12,7 @@ const nextConfig: NextConfig = {
         headers: [
           {
             key: "Cache-Control",
-            value: "public, max-age=86400, stale-while-revalidate=604800",
+            value: "public, max-age=2678400, stale-while-revalidate=31536000",
           },
         ],
       },

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { NotificationsPanel } from "@/components/layout/NotificationsPanel";
+import { DeferredNotificationsPanel } from "@/components/layout/DeferredNotificationsPanel";
 import { BrandLogo } from "@/components/ui/BrandLogo";
 
 // Port of #top-nav as it appears on creator.html/brand.html/admin.html
@@ -27,7 +27,7 @@ export function DashboardTopNav({
         <div className="flex items-center gap-3">
           {badge}
           {rightExtra}
-          <NotificationsPanel userId={userId} dealHrefPrefix={dealHrefPrefix} />
+          <DeferredNotificationsPanel userId={userId} dealHrefPrefix={dealHrefPrefix} />
         </div>
       </div>
     </nav>

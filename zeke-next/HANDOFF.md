@@ -26,6 +26,18 @@ Last updated: 2026-08-10
 
 ## Current status
 
+### Local performance and dashboard-polish candidate: 2026-08-10 - not deployed
+
+- Production remains commit `412af6a` on `origin/main`. The changes below are local and uncommitted; do not describe them as live until they are intentionally committed, pushed to `main`, deployed, and smoke-tested.
+- Public loading work now uses hashed local font preloads, correctly sized static logo imports, 31-day image caching, later-only `content-visibility`, gradient-only mobile card artwork, a server-rendered marketing nav shell, and an idle-loaded notification panel.
+- Protected requests use Supabase `getClaims()` with the project's asymmetric ES256 signing key, avoiding a repeated Auth-server request while retaining signed-token validation and RLS/profile authorization.
+- Creator, brand, and admin page templates now have short swipe-like directional transitions from ordered sidebar/mobile-nav links. Unsupported browsers fall back normally and `prefers-reduced-motion` removes the animation.
+- Deal, creator, admin-deal, user-directory, and entity-detail rows now show labelled responsive field grids instead of compressed unexplained mobile columns.
+- Five candidate mobile Lighthouse runs have a median score of 96, FCP 913 ms, LCP 2.818 s, Speed Index 913 ms, TBT 45 ms, and 304.7 KiB transfer. Transfer is 65.4 KiB or 17.7% below the controlled local before trace. Final desktop Performance is 100 with 635 ms LCP.
+- The final separate audit is 100 Accessibility, 100 Best Practices, and 100 SEO. TypeScript, ESLint, the 38-route production build, `git diff --check`, zero-vulnerability dependency audit, route redirects, cache headers, true 390 x 844 responsive browser assertions, menu interaction, fonts, and transition support all pass.
+- No account credentials or signed-in browser session were handled. After deployment, do one creator/brand/admin signed-in visual click-through to confirm real data density and directional feel.
+- Full evidence and remaining guardrails are in `docs/PERFORMANCE-DASHBOARD-QA-2026-08-10.md`.
+
 ### Campaign-first Discover, compact mobile UX, and Shield checkout: 2026-08-10
 
 - Login and Sign-up now use a dedicated mobile auth fit policy: 100dvh, compact card padding, safe word wrapping, 16 px form controls, and one-column platform fields below 360 px. Exact Chrome QA at 390 x 844 and 320 x 700 found zero horizontal overflow and zero vertical-text cases; Login and Sign-up step 1 fit the initial viewport, while the longer creator details step scrolls normally.

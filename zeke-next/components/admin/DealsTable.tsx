@@ -43,14 +43,22 @@ export function DealsTable({ deals }: { deals: AdminDealRow[] }) {
           <button
             key={d.id}
             onClick={() => setOpenDealId(d.id)}
-            className="mb-2 flex w-full items-center gap-3 rounded-2xl border border-border bg-card px-4 py-3.5 text-left transition-colors hover:border-accent/30"
+            className="mb-2 flex w-full flex-col gap-3 rounded-2xl border border-border bg-card px-4 py-3.5 text-left transition-colors hover:border-accent/30 sm:flex-row sm:items-center"
           >
             <div className="min-w-0 flex-1">
               <div className="text-sm text-light">{d.creatorName} × {d.brandName}</div>
               <div className="text-xs text-muted">{d.title} {d.platform ? `· ${d.platform}` : ""}</div>
             </div>
-            <div className="flex-shrink-0 text-sm font-black text-light">₹{fmtNum(d.amount)}</div>
-            <Badge variant={s.variant}>{s.label}</Badge>
+            <div className="grid w-full grid-cols-2 gap-2 border-t border-border/60 pt-3 sm:flex sm:w-auto sm:items-center sm:border-0 sm:pt-0">
+              <div className="sm:min-w-20 sm:text-right">
+                <div className="text-[10px] font-bold uppercase tracking-wide text-muted sm:sr-only">Fee</div>
+                <div className="text-sm font-black text-light">₹{fmtNum(d.amount)}</div>
+              </div>
+              <div>
+                <div className="text-[10px] font-bold uppercase tracking-wide text-muted sm:sr-only">Status</div>
+                <Badge variant={s.variant}>{s.label}</Badge>
+              </div>
+            </div>
           </button>
         );
       })}

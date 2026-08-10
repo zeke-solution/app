@@ -46,12 +46,18 @@ export function CreatorCard({
             {creator.handle ? '@' + creator.handle : creator.niche || ''}
           </div>
         </div>
-        <div className='flex-shrink-0 text-right'>
-          <div className='text-sm font-bold text-light'>
+        <div className='grid flex-shrink-0 grid-cols-2 gap-3 text-right'>
+          <div>
+            <div className='text-[9px] font-bold uppercase tracking-wide text-muted'>Followers</div>
+            <div className='text-sm font-bold text-light'>
             {fmtNum(creator.ig_followers)}
+            </div>
           </div>
-          <div className='text-xs text-gold'>
-            &#9733; {creator.rating || '--'}
+          <div>
+            <div className='text-[9px] font-bold uppercase tracking-wide text-muted'>Rating</div>
+            <div className='text-xs font-bold text-gold'>
+              &#9733; {creator.rating || '--'}
+            </div>
           </div>
         </div>
       </div>
