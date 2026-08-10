@@ -30,6 +30,7 @@ Last updated: 2026-08-10
 
 - Feature commit `f88f1f6` is on `main`. Vercel Production deployment `5833234962` succeeded at `https://app-pbiv7l9an-mufeed-4343s-projects.vercel.app`; both custom domains return HTTP 200, protected role routes return HTTP 307 to `/login`, and the new 31-day image cache header is live.
 - Follow-up: the dashboard page-transition animation has been removed after production feedback that it did not feel right. Standard Next.js navigation remains; loading improvements and responsive labelled fields are unchanged.
+- Follow-up: the code-built campaign-progress graphic has been removed from the marketing hero at every viewport width. The hero now uses one balanced content column on desktop and keeps the existing compact mobile actions.
 - Public loading work now uses hashed local font preloads, correctly sized static logo imports, 31-day image caching, later-only `content-visibility`, gradient-only mobile card artwork, a server-rendered marketing nav shell, and an idle-loaded notification panel.
 - Protected requests use Supabase `getClaims()` with the project's asymmetric ES256 signing key, avoiding a repeated Auth-server request while retaining signed-token validation and RLS/profile authorization.
 - Deal, creator, admin-deal, user-directory, and entity-detail rows now show labelled responsive field grids instead of compressed unexplained mobile columns.

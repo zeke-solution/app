@@ -135,7 +135,7 @@ Last updated: 2026-08-10
 ## Mobile product and infrastructure follow-up
 
 - Mobile words must wrap only at normal word boundaries. Never restore `overflow-wrap: anywhere` on dashboard labels, cards, links, or buttons.
-- Marketing mobile must keep the desktop campaign illustration hidden and keep Create account and Log in in the first loaded viewport. The burger menu is a fixed overlay and must not push the page down.
+- The marketing hero must not render the campaign-progress illustration at any viewport width. Keep the hero as one content column, keep Create account and Log in in the first mobile viewport, and keep the burger menu as a fixed overlay that does not push the page down.
 - Sign out belongs at the desktop sidebar bottom and inside the mobile Profile or Account destination, not as a permanent top-right icon.
 - Shield payment lives at `/creator/shield/payment`. `ZEKE_SHIELD_PAYMENT_URL` is the optional server-side HTTPS provider link. Until configured, collect no card details and offer only verified payment instructions plus payment-reviewed activation.
 - Cloudflare is still not configured. Before broad launch, add the domain carefully around Vercel, SSL/TLS Full (strict), managed WAF rules, bot review, and rate limits for auth and write-heavy routes, then retest Auth callback URLs.
