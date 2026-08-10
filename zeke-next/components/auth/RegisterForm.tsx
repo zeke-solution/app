@@ -95,7 +95,7 @@ export function RegisterForm({ initialRole = "influencer" }: { initialRole?: Rol
   }
 
   return (
-    <div className="rounded-2xl border border-border bg-card p-7">
+    <div className="rounded-2xl border border-border bg-card p-5 sm:p-7">
       <div className="mb-5 flex overflow-hidden rounded-xl border border-border">
         <button
           type="button"
@@ -180,7 +180,7 @@ export function RegisterForm({ initialRole = "influencer" }: { initialRole?: Rol
           {role === "brand" ? (
             <>
               <div className="flex flex-col gap-2">
-                <label className="text-[11px] font-bold uppercase tracking-wider text-light">
+                <label className="text-xs font-bold uppercase tracking-wider text-light">
                   Brand Type
                 </label>
                 {(
@@ -207,7 +207,7 @@ export function RegisterForm({ initialRole = "influencer" }: { initialRole?: Rol
                     />
                     <div>
                       <div className="text-sm font-bold text-white">{title}</div>
-                      <div className="text-xs text-muted">{desc}</div>
+                      <div className="text-xs leading-5 text-muted">{desc}</div>
                     </div>
                   </label>
                 ))}
@@ -222,7 +222,7 @@ export function RegisterForm({ initialRole = "influencer" }: { initialRole?: Rol
           ) : (
             <>
               <div className="flex flex-col gap-1.5">
-                <label className="text-[11px] font-bold uppercase tracking-wider text-light">
+                <label className="text-xs font-bold uppercase tracking-wider text-light">
                   Primary Niche
                 </label>
                 <select
@@ -265,12 +265,12 @@ export function RegisterForm({ initialRole = "influencer" }: { initialRole?: Rol
                     <span className="text-[13px] font-bold text-white">Instagram</span>
                     <span className="ml-auto text-[10px] font-semibold text-accent">Required</span>
                   </div>
-                  <div className="grid grid-cols-2 gap-2">
+                  <div className="grid grid-cols-1 gap-2 min-[360px]:grid-cols-2">
                     <input
                       value={igHandle}
                       onChange={(e) => setIgHandle(e.target.value)}
                       placeholder="@yourhandle"
-                      className="rounded-xl border border-border bg-card px-3 py-2 text-[13px] text-light outline-none"
+                      className="min-w-0 rounded-xl border border-border bg-card px-3 py-2 text-base text-light outline-none"
                     />
                     <input
                       type="number"
@@ -278,7 +278,7 @@ export function RegisterForm({ initialRole = "influencer" }: { initialRole?: Rol
                       value={igFollowers}
                       onChange={(e) => setIgFollowers(e.target.value)}
                       placeholder="Followers"
-                      className="rounded-xl border border-border bg-card px-3 py-2 text-[13px] text-light outline-none"
+                      className="min-w-0 rounded-xl border border-border bg-card px-3 py-2 text-base text-light outline-none"
                     />
                   </div>
                 </div>
@@ -342,8 +342,8 @@ export function RegisterForm({ initialRole = "influencer" }: { initialRole?: Rol
 
               {isAdult === false && (
                 <div className="rounded-xl border border-gold/20 bg-gold/[0.04] p-3.5">
-                  <div className="mb-1 text-xs font-bold text-gold">&#128737; Guardian required</div>
-                  <div className="mb-3.5 text-[11px] text-muted">
+                  <div className="mb-1 text-sm font-bold text-gold">&#128737; Guardian required</div>
+                  <div className="mb-3.5 text-xs leading-5 text-muted">
                     A parent or legal guardian must manage this account since you are under 18.
                   </div>
                   <div className="flex flex-col gap-2.5">
@@ -361,7 +361,7 @@ export function RegisterForm({ initialRole = "influencer" }: { initialRole?: Rol
                       placeholder="Guardian email address"
                     />
                     <div className="flex flex-col gap-1.5">
-                      <label className="text-[11px] font-bold uppercase tracking-wider text-light">
+                      <label className="text-xs font-bold uppercase tracking-wider text-light">
                         Relationship
                       </label>
                       <select
@@ -382,8 +382,8 @@ export function RegisterForm({ initialRole = "influencer" }: { initialRole?: Rol
               <div className="flex items-start gap-2.5 rounded-xl border border-gold/30 bg-gold/5 p-3">
                 <span className="text-base text-gold">&#128737;</span>
                 <div>
-                  <div className="text-xs font-bold text-gold">Upgrade to Zeke Shield later</div>
-                  <div className="mt-0.5 text-xs text-muted">
+                  <div className="text-sm font-bold text-gold">Upgrade to Zeke Shield later</div>
+                  <div className="mt-0.5 text-xs leading-5 text-muted">
                     &#8377;1,999/month - assisted dispute support, verified badge &amp; priority discovery
                   </div>
                 </div>
@@ -412,7 +412,7 @@ export function RegisterForm({ initialRole = "influencer" }: { initialRole?: Rol
         </form>
       )}
 
-      <div className="mt-5 border-t border-border pt-5 text-center text-sm text-muted">
+      <div className="mt-5 border-t border-border pt-5 text-center text-xs leading-5 text-muted sm:text-sm">
         Already have an account?{" "}
         <Link href="/login" className="font-semibold text-accent">
           Sign in
@@ -467,12 +467,12 @@ function PlatformToggle({
         </label>
       </div>
       {enabled && (
-        <div className="grid grid-cols-2 gap-2">
+        <div className="grid grid-cols-1 gap-2 min-[360px]:grid-cols-2">
           <input
             value={handle}
             onChange={(e) => onHandle(e.target.value)}
             placeholder={handlePlaceholder}
-            className="rounded-xl border border-border bg-card px-3 py-2 text-[13px] text-light outline-none"
+            className="min-w-0 rounded-xl border border-border bg-card px-3 py-2 text-base text-light outline-none"
           />
           <input
             type="number"
@@ -480,7 +480,7 @@ function PlatformToggle({
             value={followers}
             onChange={(e) => onFollowers(e.target.value)}
             placeholder={followersPlaceholder}
-            className="rounded-xl border border-border bg-card px-3 py-2 text-[13px] text-light outline-none"
+            className="min-w-0 rounded-xl border border-border bg-card px-3 py-2 text-base text-light outline-none"
           />
         </div>
       )}

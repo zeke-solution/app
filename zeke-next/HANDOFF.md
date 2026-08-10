@@ -28,6 +28,9 @@ Last updated: 2026-08-10
 
 ### Campaign-first Discover, compact mobile UX, and Shield checkout: 2026-08-10
 
+- Login and Sign-up now use a dedicated mobile auth fit policy: 100dvh, compact card padding, safe word wrapping, 16 px form controls, and one-column platform fields below 360 px. Exact Chrome QA at 390 x 844 and 320 x 700 found zero horizontal overflow and zero vertical-text cases; Login and Sign-up step 1 fit the initial viewport, while the longer creator details step scrolls normally.
+- Auth typography has a deliberate hierarchy: form content is 16 px on mobile, page subtitles are 14 px, section titles and field labels remain visually distinct, and secondary descriptions use smaller muted text with readable line height.
+
 - Discover Creators now sends an existing active campaign brief instead of opening a second custom-campaign form. The picker shows saved platform, niche, deadline, and fee, and links brands to create a complete brief when none exists. The server still checks campaign ownership and active status, skips already-sent recipients, and the database unique index remains the final duplicate-send guard.
 - The shared mobile wording rule no longer breaks words at arbitrary characters. Dashboard type is compact again, shared buttons preserve complete words, and representative two-column cards and actions pass at 390 x 844 with zero vertical-text cases and zero horizontal overflow.
 - Mobile marketing now hides the desktop campaign-record illustration, keeps Create account and Log in above the first viewport, and uses an overlay burger menu that does not move page content. Exact QA measured a 390 px document width, both actions ending at y=472, the hero visual hidden, and the fixed menu beginning at y=72.

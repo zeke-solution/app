@@ -312,6 +312,26 @@ h3 {
 /* Mobile reading scale follows a compact social-app hierarchy while keeping
    complete words intact in narrow cards and controls. */
 @media (max-width: 767px) {
+  .auth-content {
+    max-width: 100%;
+    overflow-x: clip;
+  }
+
+  .auth-content :where(input, select, textarea) {
+    min-width: 0;
+    font-size: 16px;
+  }
+
+  .auth-content :where(p, span, a, button, label) {
+    overflow-wrap: break-word;
+    word-break: normal;
+    hyphens: none;
+  }
+
+  .auth-content :where(a, button) {
+    overflow-wrap: normal;
+  }
+
   .dashboard-content :where(.text-xs, [class~=text-[12px]], [class~=text-[13px]]):not(.agreement-document *) {
     font-size: 13px;
     line-height: 1.15rem;

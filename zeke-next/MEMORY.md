@@ -50,6 +50,7 @@ Last updated: 2026-08-10
 
 - Keep the public marketing `.brand-card` treatment dark, but always override `.dashboard-content .brand-card` to the signed-in white surface. A dark marketing gradient combined with dashboard dark text is the confirmed source of unreadable blue stat cards.
 - On signed-in mobile screens, use 13 px for normal compact labels, 12 px for secondary labels, 11 px only for micro metadata, and 16 px for form controls. Keep the official agreement preview exempt from global mobile scaling.
+- Auth mobile follows its own shared fit rule: use 100dvh, compact card padding, 16 px inputs, 14 px page subtitles, smaller muted helper copy, normal word boundaries, and no horizontal page movement. Below 360 px, paired creator-platform fields stack to one column. Exact 390 px and 320 px QA passed for Login and both Sign-up steps on 2026-08-10.
 - Signed-in content must stay at the viewport width, wrap long user content, and avoid horizontal page scrolling. Mobile overlays are full-height `100dvh` sheets; desktop overlays remain centered cards.
 - The 2026-08-10 exact 390 x 844 browser QA measured document width equal to viewport width, visually passed representative dashboard cards and controls, and reconfirmed every semantic dashboard color at WCAG AA or better.
 - Current mobile-readability release: feature commit `fb122d3`, Vercel Production Ready, both production aliases active, functions in `sin1`.
