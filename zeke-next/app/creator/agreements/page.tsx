@@ -2,6 +2,7 @@ import { getSessionProfile } from "@/lib/auth/roles";
 import { createClient } from "@/lib/supabase/server";
 import { AgreementPreview } from "@/components/agreements/AgreementPreview";
 import { isShieldMembershipActive } from "@/lib/domain/shield-membership";
+import { PageHeader } from "@/components/layout/PageHeader";
 
 export default async function CreatorAgreementsPage() {
   const session = await getSessionProfile();
@@ -20,8 +21,11 @@ export default async function CreatorAgreementsPage() {
 
   return (
     <div>
-      <h2 className="text-xl font-black text-light">Agreements</h2>
-      <p className="mb-5 mt-1 text-xs text-muted">Official campaign records generated after acceptance</p>
+      <PageHeader
+        title="Agreements"
+        description="Official campaign records generated when an offer is accepted."
+        actions={<span className="rounded-md border border-border bg-card px-3 py-1.5 text-sm font-semibold text-muted">{agreements.length} records</span>}
+      />
 
       {agreements.length === 0 ? (
         <div className="rounded-2xl border border-border bg-card p-12 text-center text-sm text-muted">

@@ -11,6 +11,16 @@ Last updated: 2026-08-10
 - For a direct Vercel production deploy, run from the repository root and pass local config zeke-next/vercel.json. Deploying from inside zeke-next conflicts with the project Root Directory; deploying from root without the local config can fall back to iad1 instead of required sin1.
 - Never put passwords, API keys, tokens, or full environment values in source control or handoff files.
 
+## Dashboard app-interface system
+
+- Treat creator, brand, and admin areas as workspaces, not marketing pages. Keep the dark 240 px desktop sidebar and app bar, the light signed-in canvas, and a content width up to 1280 px with 16 px mobile, 24 px tablet, and 32 px large-desktop padding.
+- Use `components/layout/PageHeader.tsx` for top-level signed-in page title, purpose copy, counts, and primary actions. Use `SectionHeader` for major content groups so actions and hierarchy stay predictable.
+- Keep signed-in surfaces quiet and functional: white cards, 12 px radii, hairline borders, minimal shadow, restrained semantic badges, 14 px base copy, 13 px compact labels, and 12 px metadata. The formal agreement document is exempt.
+- KPI cards use label, icon, then value. Desktop data collections use visible aligned column headers and rows; narrow screens use labelled field cards. Do not reintroduce unexplained compact value columns on mobile.
+- Overview pages should use the available desktop width for balanced work groups rather than stacking every card in one narrow vertical feed. Filters belong in a bordered toolbar and counts/actions belong in the page header.
+- Preserve the standard mobile bottom navigation and standard Next.js navigation. The directional/swipe page-transition experiment was removed after owner feedback and must not return without a new explicit request.
+- The interface normalization changes presentation only. Do not couple visual cleanup to Supabase queries, RLS, role routing, deal state, or transaction workflow changes.
+
 ## Performance and dashboard navigation release
 
 - Feature commit `f88f1f6` is on `main`. Vercel Production deployment `5833234962` succeeded, both custom domains return HTTP 200, anonymous role overviews redirect to `/login`, and the 31-day public image cache header is live.
@@ -61,7 +71,7 @@ Last updated: 2026-08-10
 - When an avatar save fails, remove a newly orphaned object if it is not the previously referenced path. After a successful extension change, remove the replaced old object.
 
 - Keep the public marketing `.brand-card` treatment dark, but always override `.dashboard-content .brand-card` to the signed-in white surface. A dark marketing gradient combined with dashboard dark text is the confirmed source of unreadable blue stat cards.
-- On signed-in mobile screens, use 13 px for normal compact labels, 12 px for secondary labels, 11 px only for micro metadata, and 16 px for form controls. Keep the official agreement preview exempt from global mobile scaling.
+- On signed-in screens, use 14 px base copy, 13 px compact labels, a 12 px minimum for metadata, and 16 px mobile form controls. Keep the official agreement preview exempt from global scaling.
 - Auth mobile follows its own shared fit rule: use 100dvh, compact card padding, 16 px inputs, 14 px page subtitles, smaller muted helper copy, normal word boundaries, and no horizontal page movement. Below 360 px, paired creator-platform fields stack to one column. Exact 390 px and 320 px QA passed for Login and both Sign-up steps on 2026-08-10.
 - Signed-in content must stay at the viewport width, wrap long user content, and avoid horizontal page scrolling. Mobile overlays are full-height `100dvh` sheets; desktop overlays remain centered cards.
 - The 2026-08-10 exact 390 x 844 browser QA measured document width equal to viewport width, visually passed representative dashboard cards and controls, and reconfirmed every semantic dashboard color at WCAG AA or better.

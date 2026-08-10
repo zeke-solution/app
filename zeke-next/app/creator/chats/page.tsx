@@ -3,6 +3,7 @@ import { getSessionProfile } from "@/lib/auth/roles";
 import { createClient } from "@/lib/supabase/server";
 import type { DealStatus } from "@/lib/domain/deal-status";
 import { DealStatusBadge } from "@/components/deals/DealStatusBadge";
+import { PageHeader } from "@/components/layout/PageHeader";
 
 export default async function CreatorChatsPage() {
   const session = await getSessionProfile();
@@ -20,8 +21,11 @@ export default async function CreatorChatsPage() {
 
   return (
     <div>
-      <h2 className="text-xl font-black text-light">Chats</h2>
-      <p className="mb-5 mt-1 text-xs text-muted">Your deal conversations</p>
+      <PageHeader
+        title="Chats"
+        description="Campaign conversations and negotiation records."
+        actions={<span className="rounded-md border border-border bg-card px-3 py-1.5 text-sm font-semibold text-muted">{chats.length} conversations</span>}
+      />
       {chats.length === 0 ? (
         <div className="rounded-2xl border border-border bg-card p-12 text-center text-sm text-muted">
           No chats yet.

@@ -6,6 +6,7 @@ import { StatCard, StatGrid } from "@/components/ui/StatCard";
 import { Card } from "@/components/ui/Card";
 import { DealCard } from "@/components/deals/DealCard";
 import { OffersIcon, AgreementIcon } from "@/components/layout/icons";
+import { PageHeader, SectionHeader } from "@/components/layout/PageHeader";
 
 export default async function CreatorOverviewPage() {
   const session = await getSessionProfile();
@@ -34,10 +35,11 @@ export default async function CreatorOverviewPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-black text-light">Hey, {session.profile.display_name}</h1>
-      <p className="mb-5 mt-1 text-sm text-muted">
-        {[inf?.niche, session.profile.location].filter(Boolean).join(" · ")}
-      </p>
+      <PageHeader
+        eyebrow="Creator workspace"
+        title={`Welcome back, ${session.profile.display_name}`}
+        description={[inf?.niche, session.profile.location].filter(Boolean).join(" · ") || "Manage offers, active work, and payments."}
+      />
 
       <StatGrid>
         <StatCard
@@ -62,39 +64,43 @@ export default async function CreatorOverviewPage() {
         />
       </StatGrid>
 
-      <Card className="mb-5">
-        <h3 className="mb-4 text-sm font-bold text-light">Connected Platforms</h3>
-        <div className="flex flex-col gap-3">
-          <PlatformRow label="Instagram" chip="IG" chipClass="bg-accent/10 text-accent" value={inf?.ig_followers} />
-          {inf?.yt_enabled && (
-            <PlatformRow label="YouTube" chip="YT" chipClass="bg-[#b91c1c]/10 text-[#b91c1c]" value={inf?.yt_followers} />
-          )}
-          {inf?.x_enabled && (
-            <PlatformRow label="Twitter / X" chip="X" chipClass="bg-[#0369a1]/10 text-[#0369a1]" value={inf?.x_followers} />
-          )}
-        </div>
-      </Card>
+      <div className="grid gap-6 lg:grid-cols-[minmax(0,0.75fr)_minmax(0,1.25fr)]">
+        <section>
+          <SectionHeader title="Connected platforms" description="Your active audience channels" />
+          <Card>
+            <div className="flex flex-col gap-3">
+              <PlatformRow label="Instagram" chip="IG" chipClass="bg-accent/10 text-accent" value={inf?.ig_followers} />
+              {inf?.yt_enabled && (
+                <PlatformRow label="YouTube" chip="YT" chipClass="bg-[#b91c1c]/10 text-[#b91c1c]" value={inf?.yt_followers} />
+              )}
+              {inf?.x_enabled && (
+                <PlatformRow label="Twitter / X" chip="X" chipClass="bg-[#0369a1]/10 text-[#0369a1]" value={inf?.x_followers} />
+              )}
+            </div>
+          </Card>
+        </section>
 
-      <div className="mb-3 flex items-center justify-between">
-        <div className="text-sm font-bold text-light">Recent Activity</div>
+        <section>
+          <SectionHeader title="Recent activity" description="Your latest campaign update" />
+          {recentDeal ? (
+            <DealCard
+              href={`/creator/deals/${recentDeal.id}`}
+              counterpartName={
+                (recentDeal.brand as { display_name?: string } | null)?.display_name ?? "Brand"
+              }
+              title={recentDeal.title}
+              platform={recentDeal.platform}
+              amount={recentDeal.amount}
+              status={recentDeal.status as DealStatus}
+            />
+          ) : (
+            <div className="rounded-2xl border border-border bg-card p-8 text-center text-sm text-muted">
+              <AgreementIcon width={32} height={32} className="mx-auto mb-3 opacity-40" />
+              No deals yet.
+            </div>
+          )}
+        </section>
       </div>
-      {recentDeal ? (
-        <DealCard
-          href={`/creator/deals/${recentDeal.id}`}
-          counterpartName={
-            (recentDeal.brand as { display_name?: string } | null)?.display_name ?? "Brand"
-          }
-          title={recentDeal.title}
-          platform={recentDeal.platform}
-          amount={recentDeal.amount}
-          status={recentDeal.status as DealStatus}
-        />
-      ) : (
-        <div className="rounded-2xl border border-border bg-card p-8 text-center text-sm text-muted">
-          <AgreementIcon width={32} height={32} className="mx-auto mb-3 opacity-40" />
-          No deals yet.
-        </div>
-      )}
     </div>
   );
 }

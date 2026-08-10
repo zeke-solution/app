@@ -7,6 +7,7 @@ import { SHIELD_CASE_STATUS, LEGAL_PROVIDER_SCALE } from "@/lib/domain/shield-ca
 import { fmtDate } from "@/lib/domain/format";
 import { ShieldCoverage } from "@/components/shield/ShieldCoverage";
 import { buttonClassName } from "@/components/ui/Button";
+import { PageHeader } from "@/components/layout/PageHeader";
 
 interface CaseSummary {
   id: string;
@@ -60,18 +61,16 @@ export default async function CreatorShieldPage() {
 
   return (
     <div>
-      <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
-        <div>
-          <div className="text-[11px] font-bold uppercase tracking-[0.16em] text-gold">Zeke Shield</div>
-          <h1 className="mt-1 text-xl font-black text-light">Protection you control</h1>
-          <p className="mt-1 max-w-2xl text-sm leading-6 text-muted">
-            Assisted follow-ups, documented table talks, and a clear route to independent legal help if you choose it.
-          </p>
-        </div>
-        <span className={`rounded-full border px-3 py-1 text-xs font-bold ${isShield ? "border-gold/35 bg-gold/10 text-gold" : "border-border text-muted"}`}>
-          {isShield ? "Shield active" : `Optional · ₹${SHIELD_MONTHLY_PRICE_INR}/month`}
-        </span>
-      </div>
+      <PageHeader
+        eyebrow="Zeke Shield"
+        title="Protection you control"
+        description="Assisted follow-ups, documented table talks, and a clear route to independent legal help if you choose it."
+        actions={
+          <span className={`rounded-md border px-3 py-1.5 text-sm font-semibold ${isShield ? "border-gold/35 bg-gold/10 text-gold" : "border-border bg-card text-muted"}`}>
+            {isShield ? "Shield active" : `Optional · ₹${SHIELD_MONTHLY_PRICE_INR}/month`}
+          </span>
+        }
+      />
 
       {!isShield && (
         <div className="mb-5 rounded-2xl border border-gold/25 bg-gradient-to-br from-gold/[0.10] to-transparent p-5">

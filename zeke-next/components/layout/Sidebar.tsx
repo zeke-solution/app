@@ -34,7 +34,7 @@ export function Sidebar({
   const pathname = usePathname();
 
   return (
-    <aside className="brand-sidebar hidden w-56 flex-shrink-0 flex-col gap-1 border-r p-4 md:flex">
+    <aside className="brand-sidebar hidden w-60 flex-shrink-0 flex-col gap-1 border-r p-4 md:flex">
       <div className="mb-3 flex items-center gap-2.5 border-b border-border px-2 pb-5">
         <div
           className={`flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-cover bg-center text-xs font-black ${avatarClassName}`}

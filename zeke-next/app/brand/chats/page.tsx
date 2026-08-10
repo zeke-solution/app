@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server';
 import type { DealStatus } from '@/lib/domain/deal-status';
 import { DealStatusBadge } from '@/components/deals/DealStatusBadge';
 import { ProfileAvatar } from '@/components/ui/ProfileAvatar';
+import { PageHeader } from '@/components/layout/PageHeader';
 
 export default async function BrandChatsPage() {
   const session = await getSessionProfile();
@@ -21,10 +22,11 @@ export default async function BrandChatsPage() {
 
   return (
     <div>
-      <h1 className='text-xl font-black text-light'>Chats</h1>
-      <p className='mb-5 mt-1 text-xs text-muted'>
-        Campaign conversations with creators
-      </p>
+      <PageHeader
+        title='Chats'
+        description='Campaign conversations and creator negotiations.'
+        actions={<span className='rounded-md border border-border bg-card px-3 py-1.5 text-sm font-semibold text-muted'>{(data ?? []).length} conversations</span>}
+      />
       {(data ?? []).length === 0 ? (
         <div className='rounded-2xl border border-border bg-card p-12 text-center text-sm text-muted'>
           No active chats yet.

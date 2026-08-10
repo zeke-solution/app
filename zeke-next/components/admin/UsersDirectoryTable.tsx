@@ -21,29 +21,41 @@ export function UsersDirectoryTable({
     if (!rows.length) return <div className="rounded-2xl border border-border bg-card p-8 text-center text-sm text-muted">No brands yet.</div>;
     return (
       <div>
+        <div className="mb-2 hidden grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)_5rem_7rem] gap-4 px-4 text-xs font-semibold uppercase tracking-[0.08em] text-muted sm:grid">
+          <div>Brand</div>
+          <div>Profile</div>
+          <div>Deals</div>
+          <div>Spent</div>
+        </div>
         {rows.map((b) => (
           <button
             key={b.id}
             onClick={() => setTarget({ type: "brand", id: b.id })}
-            className="mb-2 flex w-full flex-wrap items-center gap-3 rounded-2xl border border-border bg-card px-4 py-3.5 text-left transition-colors hover:border-accent/30"
+            className="mb-2 flex w-full flex-wrap items-center gap-3 rounded-xl border border-border bg-card px-4 py-3.5 text-left transition-colors hover:border-accent/35 hover:bg-navy sm:grid sm:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)_5rem_7rem] sm:gap-4"
           >
-            <div className="flex h-9.5 w-9.5 flex-shrink-0 items-center justify-center rounded-xl bg-purple/15 text-[11px] font-black text-purple">
-              {b.name.slice(0, 2).toUpperCase()}
-            </div>
-            <div className="min-w-0 flex-1">
-              <div className="text-sm font-bold text-light">{b.name}</div>
-              <div className="text-xs text-muted" suppressHydrationWarning>
-                {b.type.replace(/^./, (c) => c.toUpperCase())} {b.location ? `· ${b.location}` : ""} · Joined {fmtDate(b.joined)}
+            <div className="flex min-w-0 items-center gap-3">
+              <div className="flex h-9.5 w-9.5 flex-shrink-0 items-center justify-center rounded-lg bg-purple/15 text-xs font-bold text-purple">
+                {b.name.slice(0, 2).toUpperCase()}
+              </div>
+              <div className="min-w-0">
+                <div className="truncate text-sm font-semibold text-light">{b.name}</div>
+                <div className="truncate text-sm text-muted sm:hidden" suppressHydrationWarning>
+                  {b.type.replace(/^./, (c) => c.toUpperCase())} {b.location ? `· ${b.location}` : ""}
+                </div>
               </div>
             </div>
-            <div className="grid w-full grid-cols-2 gap-2 border-t border-border/60 pt-3 sm:ml-auto sm:w-auto sm:min-w-[160px] sm:border-0 sm:pt-0 sm:text-right">
+            <div className="hidden min-w-0 text-sm text-muted sm:block" suppressHydrationWarning>
+              <div>{b.type.replace(/^./, (c) => c.toUpperCase())} {b.location ? `· ${b.location}` : ""}</div>
+              <div>Joined {fmtDate(b.joined)}</div>
+            </div>
+            <div className="grid w-full grid-cols-2 gap-2 border-t border-border/60 pt-3 sm:contents">
               <div>
-                <div className="text-[10px] font-bold uppercase tracking-wide text-muted">Deals</div>
-                <div className="text-[13px] font-bold text-light">{b.dealsTotal}</div>
+                <div className="text-xs font-semibold uppercase tracking-wide text-muted sm:sr-only">Deals</div>
+                <div className="text-sm font-semibold text-light">{b.dealsTotal}</div>
               </div>
               <div>
-                <div className="text-[10px] font-bold uppercase tracking-wide text-muted">Spent</div>
-                <div className="text-[12px] font-bold text-zgreen">₹{fmtNum(b.spent)}</div>
+                <div className="text-xs font-semibold uppercase tracking-wide text-muted sm:sr-only">Spent</div>
+                <div className="text-sm font-semibold text-zgreen">₹{fmtNum(b.spent)}</div>
               </div>
             </div>
           </button>
@@ -57,35 +69,45 @@ export function UsersDirectoryTable({
   if (!rows.length) return <div className="rounded-2xl border border-border bg-card p-8 text-center text-sm text-muted">No creators yet.</div>;
   return (
     <div>
+      <div className="mb-2 hidden grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)_5rem_7rem_7rem] gap-4 px-4 text-xs font-semibold uppercase tracking-[0.08em] text-muted sm:grid">
+        <div>Creator</div>
+        <div>Profile</div>
+        <div>Deals</div>
+        <div>Earned</div>
+        <div>Plan</div>
+      </div>
       {rows.map((c) => (
         <button
           key={c.id}
           onClick={() => setTarget({ type: "creator", id: c.id })}
-          className="mb-2 flex w-full flex-wrap items-center gap-3 rounded-2xl border border-border bg-card px-4 py-3.5 text-left transition-colors hover:border-accent/30"
+          className="mb-2 flex w-full flex-wrap items-center gap-3 rounded-xl border border-border bg-card px-4 py-3.5 text-left transition-colors hover:border-accent/35 hover:bg-navy sm:grid sm:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)_5rem_7rem_7rem] sm:gap-4"
         >
-          <div className="flex h-9.5 w-9.5 flex-shrink-0 items-center justify-center rounded-xl bg-accent/10 text-[11px] font-black text-accent">
-            {c.name.slice(0, 2).toUpperCase()}
+          <div className="flex min-w-0 items-center gap-3">
+            <div className="flex h-9.5 w-9.5 flex-shrink-0 items-center justify-center rounded-lg bg-accent/10 text-xs font-bold text-accent">
+              {c.name.slice(0, 2).toUpperCase()}
+            </div>
+            <div className="min-w-0">
+              <div className="truncate text-sm font-semibold text-light">{c.name}</div>
+              <div className="truncate text-sm text-muted sm:hidden">
+                {c.niche} {c.handle ? `· @${c.handle}` : ""}
+              </div>
+            </div>
           </div>
-          <div className="min-w-0 flex-1">
-            <div className="text-sm font-bold text-light">{c.name}</div>
-            <div className="text-xs text-muted">
-              {c.niche} {c.handle ? `· @${c.handle}` : ""} {c.location ? `· ${c.location}` : ""}
-            </div>
-            <div className="text-[11px] text-muted" suppressHydrationWarning>
-              IG {fmtNum(c.igFollowers)} · Joined {fmtDate(c.joined)}
-            </div>
+          <div className="hidden min-w-0 text-sm text-muted sm:block" suppressHydrationWarning>
+            <div className="truncate">{c.niche} {c.handle ? `· @${c.handle}` : ""}</div>
+            <div>IG {fmtNum(c.igFollowers)} · Joined {fmtDate(c.joined)}</div>
           </div>
-          <div className="grid w-full grid-cols-3 gap-2 border-t border-border/60 pt-3 sm:ml-auto sm:w-auto sm:min-w-[230px] sm:border-0 sm:pt-0 sm:text-right">
+          <div className="grid w-full grid-cols-3 gap-2 border-t border-border/60 pt-3 sm:contents">
             <div>
-              <div className="text-[10px] font-bold uppercase tracking-wide text-muted">Deals</div>
-              <div className="text-[13px] font-bold text-light">{c.dealsCompleted}</div>
+              <div className="text-xs font-semibold uppercase tracking-wide text-muted sm:sr-only">Deals</div>
+              <div className="text-sm font-semibold text-light">{c.dealsCompleted}</div>
             </div>
             <div>
-              <div className="text-[10px] font-bold uppercase tracking-wide text-muted">Earned</div>
-              <div className="text-[12px] font-bold text-zgreen">₹{fmtNum(c.earned)}</div>
+              <div className="text-xs font-semibold uppercase tracking-wide text-muted sm:sr-only">Earned</div>
+              <div className="text-sm font-semibold text-zgreen">₹{fmtNum(c.earned)}</div>
             </div>
             <div>
-              <div className="text-[10px] font-bold uppercase tracking-wide text-muted">Plan</div>
+              <div className="text-xs font-semibold uppercase tracking-wide text-muted sm:sr-only">Plan</div>
               <Badge variant={c.shieldActive ? "gold" : "muted"}>{c.shieldActive ? "🛡 Shield" : "Free"}</Badge>
             </div>
           </div>

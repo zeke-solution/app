@@ -4,6 +4,7 @@ import { fmtNum } from "@/lib/domain/format";
 import { DEAL_STATUS_META, dealStatusLabel, type DealStatus } from "@/lib/domain/deal-status";
 import { Card } from "@/components/ui/Card";
 import { SignOutButton } from "@/components/auth/SignOutButton";
+import { PageHeader } from "@/components/layout/PageHeader";
 
 export default async function BrandProfilePage() {
   const session = await getSessionProfile();
@@ -31,8 +32,10 @@ export default async function BrandProfilePage() {
 
   return (
     <div>
-      <h2 className="text-xl font-black text-light">Brand Profile</h2>
-      <p className="mb-5 mt-1 text-sm text-muted">This is how creators see your brand on Zeke</p>
+      <PageHeader
+        title="Brand profile"
+        description="Manage the identity and account details creators see on Zeke."
+      />
 
       <Card>
         <div className="mb-5 flex items-center gap-4">

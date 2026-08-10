@@ -1,7 +1,8 @@
 import { getSessionProfile } from "@/lib/auth/roles";
 import { createClient } from "@/lib/supabase/server";
 import type { DealStatus } from "@/lib/domain/deal-status";
-import { DealCard } from "@/components/deals/DealCard";
+import { DealCard, DealListHeader } from "@/components/deals/DealCard";
+import { PageHeader } from "@/components/layout/PageHeader";
 
 export default async function CreatorDealsPage() {
   const session = await getSessionProfile();
@@ -19,24 +20,30 @@ export default async function CreatorDealsPage() {
 
   return (
     <div>
-      <h2 className="mb-1 text-xl font-black text-light">Deals</h2>
-      <p className="mb-4 text-xs text-muted">Accepted campaigns and their delivery progress</p>
+      <PageHeader
+        title="Deals"
+        description="Accepted campaigns, deliverables, approvals, and payment progress."
+        actions={<span className="rounded-md border border-border bg-card px-3 py-1.5 text-sm font-semibold text-muted">{deals.length} total</span>}
+      />
       {deals.length === 0 ? (
         <div className="rounded-2xl border border-border bg-card p-12 text-center text-sm text-muted">
           No accepted deals yet. Offer negotiations remain in Chats.
         </div>
       ) : (
-        deals.map((d) => (
-          <DealCard
-            key={d.id}
-            href={`/creator/deals/${d.id}`}
-            counterpartName={(d.brand as { display_name?: string } | null)?.display_name ?? "Brand"}
-            title={d.title}
-            platform={d.platform}
-            amount={d.amount}
-            status={d.status as DealStatus}
-          />
-        ))
+        <>
+          <DealListHeader />
+          {deals.map((d) => (
+            <DealCard
+              key={d.id}
+              href={`/creator/deals/${d.id}`}
+              counterpartName={(d.brand as { display_name?: string } | null)?.display_name ?? "Brand"}
+              title={d.title}
+              platform={d.platform}
+              amount={d.amount}
+              status={d.status as DealStatus}
+            />
+          ))}
+        </>
       )}
     </div>
   );

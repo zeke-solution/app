@@ -10,7 +10,7 @@ export function Card({
 }: HTMLAttributes<HTMLDivElement> & { padding?: "md" | "lg" }) {
   return (
     <div
-      className={`brand-card rounded-2xl border ${paddingClasses[padding]} ${className}`}
+      className={`brand-card rounded-xl border ${paddingClasses[padding]} ${className}`}
       {...props}
     />
   );

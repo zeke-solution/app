@@ -26,6 +26,16 @@ Last updated: 2026-08-10
 
 ## Current status
 
+### Dashboard app-interface normalization: 2026-08-10
+
+- Creator, brand, and admin workspaces now use a conventional application shell: a 240 px desktop sidebar, a flat dark app bar, and a responsive content canvas up to 1280 px instead of the former narrow 900 px column.
+- `components/layout/PageHeader.tsx` provides the shared top-level page hierarchy and section headings. Overview, list, profile, campaign, discovery, Shield, and admin operations pages now state their purpose consistently and place counts or actions in a predictable header slot.
+- Signed-in surfaces are deliberately quieter: white cards, 12 px corner radius, hairline borders, minimal shadow, restrained badges, 14 px base copy, and a 12 px floor for compact metadata. Marketing styling and the formal agreement document remain separately scoped.
+- KPI cards use a familiar label/value pattern. Deal, admin-deal, and user-directory lists use aligned labelled columns on desktop while retaining the previously verified labelled field cards on mobile.
+- Role overviews use balanced desktop sections for platforms/activity, campaigns/creators, and admin attention queues/recent deals. Discovery filters are grouped into a standard toolbar rather than floating controls.
+- No workflow, Supabase query, authorization rule, mobile bottom navigation, or deal-state behavior changed. The removed page-transition animation remains removed.
+- Verification passes: TypeScript, ESLint, `git diff --check`, the optimized 38-route build, a 1440 px desktop visual review, and true 390 x 844 device emulation with `innerWidth=390`, `clientWidth=390`, and `scrollWidth=390`. No authenticated credentials were handled, so one owner click-through with real creator, brand, and admin data remains the final acceptance check.
+
 ### Performance and dashboard-polish release: 2026-08-10
 
 - Feature commit `f88f1f6` is on `main`. Vercel Production deployment `5833234962` succeeded at `https://app-pbiv7l9an-mufeed-4343s-projects.vercel.app`; both custom domains return HTTP 200, protected role routes return HTTP 307 to `/login`, and the new 31-day image cache header is live.

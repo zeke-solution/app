@@ -12,6 +12,7 @@ import { CampaignSendModal } from '@/components/offers/CampaignSendModal';
 import { Badge } from '@/components/ui/Badge';
 import { Button, buttonClassName } from '@/components/ui/Button';
 import { ProfileAvatar } from '@/components/ui/ProfileAvatar';
+import { PageHeader } from '@/components/layout/PageHeader';
 import {
   CAMPAIGN_PLATFORM_OPTIONS,
   NICHE_OPTIONS,
@@ -79,17 +80,15 @@ export function CampaignsPageClient({
 
   return (
     <div>
-      <div className='mb-5 flex flex-wrap items-start justify-between gap-3'>
-        <div>
-          <h1 className='text-xl font-black text-light'>Campaigns</h1>
-          <p className='mt-1 text-xs text-muted'>
-            Build complete briefs, send them to creators, and track every offer.
-          </p>
-        </div>
-        <Button size='sm' onClick={() => setShowForm((open) => !open)}>
-          {showForm ? 'Close form' : '+ Create campaign'}
-        </Button>
-      </div>
+      <PageHeader
+        title='Campaigns'
+        description='Build complete briefs, send them to creators, and track every offer.'
+        actions={
+          <Button size='sm' onClick={() => setShowForm((open) => !open)}>
+            {showForm ? 'Close form' : '+ Create campaign'}
+          </Button>
+        }
+      />
 
       {showForm && <CreateCampaignForm onDone={() => setShowForm(false)} />}
 

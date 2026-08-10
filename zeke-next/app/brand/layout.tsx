@@ -60,7 +60,7 @@ export default async function BrandLayout({
           navItems={navItems}
         />
         <main className="dashboard-content min-w-0 flex-1 pb-20 md:pb-0">
-          <div className="mx-auto max-w-[900px] p-4 md:p-6">{children}</div>
+          <div className="mx-auto max-w-[1280px] p-4 md:p-6 lg:p-8">{children}</div>
         </main>
       </div>
       <MobileBottomNav items={mobileItems} />

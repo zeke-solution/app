@@ -2,6 +2,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { fmtDate } from "@/lib/domain/format";
 import { SHIELD_CASE_STATUS, type ShieldCaseStatus } from "@/lib/domain/shield-case";
+import { PageHeader } from "@/components/layout/PageHeader";
 
 interface RawCase {
   id: string;
@@ -31,14 +32,12 @@ export default async function AdminShieldCasesPage() {
 
   return (
     <div>
-      <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
-        <div>
-          <div className="text-[11px] font-bold uppercase tracking-[0.16em] text-purple">Shield operations</div>
-          <h1 className="mt-1 text-xl font-black text-light">Shield cases</h1>
-          <p className="mt-1 text-sm text-muted">Creator decisions, follow-ups, table talks and legal coordination in one audit trail.</p>
-        </div>
-        <Link href="/admin/legal-pool" className="rounded-lg border border-gold/25 bg-gold/[0.06] px-3 py-2 text-xs font-bold text-gold">Manage provider pool</Link>
-      </div>
+      <PageHeader
+        eyebrow="Shield operations"
+        title="Shield cases"
+        description="Creator decisions, follow-ups, table talks, and legal coordination in one audit trail."
+        actions={<Link href="/admin/legal-pool" className="rounded-lg border border-gold/25 bg-gold/[0.06] px-3 py-2 text-sm font-semibold text-gold">Manage provider pool</Link>}
+      />
 
       <div className="space-y-3">
         {cases.map((item) => {

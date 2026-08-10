@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { ShieldRequestCard, type ShieldRequestRow } from "@/components/admin/ShieldRequestCard";
+import { PageHeader } from "@/components/layout/PageHeader";
 
 export default async function AdminShieldPage() {
   const supabase = await createClient();
@@ -25,12 +26,17 @@ export default async function AdminShieldPage() {
 
   return (
     <div>
-      <h2 className="text-xl font-black text-light">Shield Requests</h2>
-      <p className="mt-1 text-sm text-muted">Creators who have requested Zeke Shield. Confirm payment offline, then activate.</p>
-      <div className="mb-5 mt-4 flex flex-wrap gap-2">
-        <Link href="/admin/shield/cases" className="rounded-lg border border-purple/25 bg-purple/[0.06] px-3 py-2 text-xs font-bold text-purple">Open Shield cases</Link>
-        <Link href="/admin/legal-pool" className="rounded-lg border border-gold/25 bg-gold/[0.06] px-3 py-2 text-xs font-bold text-gold">Manage legal pool</Link>
-      </div>
+      <PageHeader
+        eyebrow="Membership queue"
+        title="Shield requests"
+        description="Confirm an offline payment before activating a creator's Shield membership."
+        actions={
+          <>
+            <Link href="/admin/shield/cases" className="rounded-lg border border-purple/25 bg-purple/[0.06] px-3 py-2 text-sm font-semibold text-purple">Shield cases</Link>
+            <Link href="/admin/legal-pool" className="rounded-lg border border-gold/25 bg-gold/[0.06] px-3 py-2 text-sm font-semibold text-gold">Legal pool</Link>
+          </>
+        }
+      />
       {requests.length === 0 ? (
         <div className="flex flex-col items-center gap-3 rounded-2xl border border-border bg-card p-12 text-center text-muted">
           No pending Shield requests.

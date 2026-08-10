@@ -32,10 +32,9 @@ export function DealCard({
   return (
     <Link
       href={href}
-      className='mb-3 block rounded-2xl border p-4 transition-colors hover:border-accent/30 sm:p-5'
-      style={{ borderColor: meta.border, background: meta.bg }}
+      className='mb-2 block rounded-xl border border-border bg-card px-4 py-3 transition-colors hover:border-accent/35 hover:bg-navy'
     >
-      <div className='flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between'>
+      <div className='flex flex-col gap-3 sm:grid sm:grid-cols-[minmax(0,1fr)_7rem_9rem_1.5rem] sm:items-center sm:gap-4'>
         <div className='flex min-w-0 items-center gap-2.5'>
           <ProfileAvatar
             name={counterpartName}
@@ -46,29 +45,38 @@ export function DealCard({
             <div className='truncate text-sm font-bold text-light'>
               {counterpartName}
             </div>
-            <div className='text-xs text-muted'>
+            <div className='truncate text-sm text-muted'>
               {title} {platform ? '- ' + platform : ''}
             </div>
           </div>
         </div>
-        <div className='grid w-full grid-cols-2 gap-2 border-t border-border/60 pt-3 sm:w-auto sm:min-w-[150px] sm:border-0 sm:pt-0 sm:text-right'>
-          <div>
-            <div className='text-[10px] font-bold uppercase tracking-wide text-muted'>Fee</div>
-            <div className='mt-0.5 text-sm font-black' style={{ color: meta.color }}>
-              &#8377;{fmtNum(amount)}
-            </div>
-          </div>
-          <div>
-            <div className='text-[10px] font-bold uppercase tracking-wide text-muted'>Status</div>
-            <div className='mt-1'>
-              <DealStatusBadge status={status} viewer={viewer} />
-            </div>
+        <div>
+          <div className='text-xs font-semibold uppercase tracking-wide text-muted sm:sr-only'>Fee</div>
+          <div className='mt-0.5 text-sm font-bold text-light sm:mt-0' style={{ color: meta.color }}>
+            &#8377;{fmtNum(amount)}
           </div>
         </div>
-      </div>
-      <div className='mt-2 text-right text-xs font-semibold text-accent'>
-        View deal &#8594;
+        <div>
+          <div className='text-xs font-semibold uppercase tracking-wide text-muted sm:sr-only'>Status</div>
+          <div className='mt-1 sm:mt-0'>
+            <DealStatusBadge status={status} viewer={viewer} />
+          </div>
+        </div>
+        <div className='hidden text-right text-lg text-muted sm:block' aria-hidden>
+          &#8250;
+        </div>
       </div>
     </Link>
+  );
+}
+
+export function DealListHeader() {
+  return (
+    <div className='mb-2 hidden grid-cols-[minmax(0,1fr)_7rem_9rem_1.5rem] gap-4 px-4 text-xs font-semibold uppercase tracking-[0.08em] text-muted sm:grid'>
+      <div>Campaign</div>
+      <div>Fee</div>
+      <div>Status</div>
+      <div />
+    </div>
   );
 }

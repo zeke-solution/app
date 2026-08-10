@@ -9,6 +9,7 @@ import { ShareProfileLink } from "@/components/profile/ShareProfileLink";
 import { ShieldUpsellCard } from "@/components/profile/ShieldUpsellCard";
 import { isShieldMembershipActive } from "@/lib/domain/shield-membership";
 import { SignOutButton } from "@/components/auth/SignOutButton";
+import { PageHeader } from "@/components/layout/PageHeader";
 
 export default async function CreatorProfilePage() {
   const session = await getSessionProfile();
@@ -40,8 +41,10 @@ export default async function CreatorProfilePage() {
 
   return (
     <div>
-      <h2 className="text-xl font-black text-light">My Profile</h2>
-      <p className="mb-5 mt-1 text-sm text-muted">How brands see you on Zeke</p>
+      <PageHeader
+        title="My profile"
+        description="Manage the public identity and account details brands see on Zeke."
+      />
 
       <Card className="mb-4">
         <AvatarUpload userId={session.id} avatarUrl={session.profile.avatar_url} initials={initials} />

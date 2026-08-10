@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { fmtNum } from "@/lib/domain/format";
 import { OfferActions } from "@/components/offers/OfferActions";
 import { OffersIcon } from "@/components/layout/icons";
+import { PageHeader } from "@/components/layout/PageHeader";
 
 export default async function CreatorOffersPage() {
   const session = await getSessionProfile();
@@ -20,7 +21,11 @@ export default async function CreatorOffersPage() {
 
   return (
     <div>
-      <h2 className="mb-4 text-xl font-black text-light">Offers Inbox</h2>
+      <PageHeader
+        title="Offers"
+        description="Review new campaign invitations and decide what moves into negotiation."
+        actions={<span className="rounded-md border border-border bg-card px-3 py-1.5 text-sm font-semibold text-muted">{offers.length} open</span>}
+      />
       {offers.length === 0 ? (
         <div className="flex flex-col items-center gap-3 rounded-2xl border border-border bg-card p-12 text-center text-muted">
           <OffersIcon width={32} height={32} className="opacity-40" />

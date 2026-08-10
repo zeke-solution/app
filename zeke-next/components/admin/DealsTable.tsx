@@ -37,25 +37,35 @@ export function DealsTable({ deals }: { deals: AdminDealRow[] }) {
 
   return (
     <div>
+      <div className="mb-2 hidden grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)_7rem_8rem] gap-4 px-4 text-xs font-semibold uppercase tracking-[0.08em] text-muted sm:grid">
+        <div>Parties</div>
+        <div>Campaign</div>
+        <div>Fee</div>
+        <div>Status</div>
+      </div>
       {deals.map((d) => {
         const s = STATUS_DISPLAY[d.status] ?? { label: d.status, variant: "muted" as BadgeVariant };
         return (
           <button
             key={d.id}
             onClick={() => setOpenDealId(d.id)}
-            className="mb-2 flex w-full flex-col gap-3 rounded-2xl border border-border bg-card px-4 py-3.5 text-left transition-colors hover:border-accent/30 sm:flex-row sm:items-center"
+            className="mb-2 flex w-full flex-col gap-3 rounded-xl border border-border bg-card px-4 py-3.5 text-left transition-colors hover:border-accent/35 hover:bg-navy sm:grid sm:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)_7rem_8rem] sm:items-center sm:gap-4"
           >
-            <div className="min-w-0 flex-1">
-              <div className="text-sm text-light">{d.creatorName} × {d.brandName}</div>
-              <div className="text-xs text-muted">{d.title} {d.platform ? `· ${d.platform}` : ""}</div>
+            <div className="min-w-0">
+              <div className="truncate text-sm font-semibold text-light">{d.creatorName} × {d.brandName}</div>
+              <div className="truncate text-sm text-muted sm:hidden">{d.title} {d.platform ? `· ${d.platform}` : ""}</div>
             </div>
-            <div className="grid w-full grid-cols-2 gap-2 border-t border-border/60 pt-3 sm:flex sm:w-auto sm:items-center sm:border-0 sm:pt-0">
-              <div className="sm:min-w-20 sm:text-right">
-                <div className="text-[10px] font-bold uppercase tracking-wide text-muted sm:sr-only">Fee</div>
-                <div className="text-sm font-black text-light">₹{fmtNum(d.amount)}</div>
+            <div className="hidden min-w-0 sm:block">
+              <div className="truncate text-sm font-medium text-light">{d.title || "Untitled campaign"}</div>
+              <div className="text-sm text-muted">{d.platform || "No platform"}</div>
+            </div>
+            <div className="grid w-full grid-cols-2 gap-2 border-t border-border/60 pt-3 sm:contents">
+              <div>
+                <div className="text-xs font-semibold uppercase tracking-wide text-muted sm:sr-only">Fee</div>
+                <div className="text-sm font-semibold text-light">₹{fmtNum(d.amount)}</div>
               </div>
               <div>
-                <div className="text-[10px] font-bold uppercase tracking-wide text-muted sm:sr-only">Status</div>
+                <div className="text-xs font-semibold uppercase tracking-wide text-muted sm:sr-only">Status</div>
                 <Badge variant={s.variant}>{s.label}</Badge>
               </div>
             </div>

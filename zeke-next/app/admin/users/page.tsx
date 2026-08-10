@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getBrandsDirectory, getCreatorsDirectory } from "@/actions/admin";
 import { UsersDirectoryTable } from "@/components/admin/UsersDirectoryTable";
+import { PageHeader } from "@/components/layout/PageHeader";
 
 export default async function AdminUsersPage({
   searchParams,
@@ -12,18 +13,21 @@ export default async function AdminUsersPage({
 
   return (
     <div>
-      <h2 className="text-xl font-black text-light">Users</h2>
-      <p className="mb-4 mt-1 text-sm text-muted">All registered brands and creators on Zeke</p>
-      <div className="mb-4 flex gap-2">
+      <PageHeader
+        eyebrow="Directory"
+        title="Users"
+        description="Browse registered brands and creators and open their operational records."
+      />
+      <div className="mb-5 flex gap-1 rounded-lg border border-border bg-card p-1">
         <Link
           href="/admin/users?type=brands"
-          className={`rounded-lg px-4 py-1.5 text-xs font-bold ${tab === "brands" ? "bg-accent text-white" : "border border-border text-muted"}`}
+          className={`rounded-md px-4 py-2 text-sm font-semibold ${tab === "brands" ? "bg-accent text-white" : "text-muted hover:bg-dark"}`}
         >
           Brands
         </Link>
         <Link
           href="/admin/users?type=creators"
-          className={`rounded-lg px-4 py-1.5 text-xs font-bold ${tab === "creators" ? "bg-accent text-white" : "border border-border text-muted"}`}
+          className={`rounded-md px-4 py-2 text-sm font-semibold ${tab === "creators" ? "bg-accent text-white" : "text-muted hover:bg-dark"}`}
         >
           Creators
         </Link>

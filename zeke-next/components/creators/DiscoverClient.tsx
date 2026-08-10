@@ -10,6 +10,7 @@ import {
 import { Button } from "@/components/ui/Button";
 import { NICHE_OPTIONS } from "@/lib/domain/constants";
 import type { CreatorRow } from "@/components/creators/CreatorCard";
+import { PageHeader } from "@/components/layout/PageHeader";
 
 // Port of brand.js's loadAllCreators()/filterCreators() - moved server-side
 // filtering (searchCreators Server Action) instead of fetch-everything-then-
@@ -38,8 +39,12 @@ export function DiscoverClient({
 
   return (
     <div>
-      <h2 className="mb-3 text-xl font-black text-light">Discover Creators</h2>
-      <div className="mb-4 flex flex-wrap gap-2">
+      <PageHeader
+        title="Discover creators"
+        description="Search the creator directory, compare fit, and send an existing campaign brief."
+        actions={<span className="rounded-md border border-border bg-card px-3 py-1.5 text-sm font-semibold text-muted">{creators.length} results</span>}
+      />
+      <div className="mb-5 grid gap-2 rounded-xl border border-border bg-card p-3 sm:grid-cols-[minmax(14rem,1fr)_auto_auto]">
         <input
           value={query}
           onChange={(e) => {
@@ -47,7 +52,7 @@ export function DiscoverClient({
             refetch({ query: e.target.value });
           }}
           placeholder="Search by name or niche..."
-          className="min-w-48 flex-1 rounded-xl border border-border bg-navy px-4 py-2.5 text-sm text-light outline-none"
+          className="min-w-0 rounded-lg border border-border bg-dark px-3.5 py-2.5 text-sm text-light outline-none focus:border-accent"
         />
         <select
           value={niche}
@@ -55,7 +60,7 @@ export function DiscoverClient({
             setNiche(e.target.value);
             refetch({ niche: e.target.value });
           }}
-          className="rounded-xl border border-border bg-navy px-3.5 py-2.5 text-[13px] text-light outline-none"
+          className="rounded-lg border border-border bg-dark px-3.5 py-2.5 text-sm text-light outline-none focus:border-accent"
         >
           <option value="">All Niches</option>
           {NICHE_OPTIONS.map((n) => (
@@ -69,7 +74,7 @@ export function DiscoverClient({
             setShieldOnly(v);
             refetch({ shieldOnly: v });
           }}
-          className="rounded-xl border border-border bg-navy px-3.5 py-2.5 text-[13px] text-light outline-none"
+          className="rounded-lg border border-border bg-dark px-3.5 py-2.5 text-sm text-light outline-none focus:border-accent"
         >
           <option value="">All Creators</option>
           <option value="shield">Shield Only</option>

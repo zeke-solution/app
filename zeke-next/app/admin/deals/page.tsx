@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { DealsTable, type AdminDealRow } from "@/components/admin/DealsTable";
+import { PageHeader } from "@/components/layout/PageHeader";
 
 export default async function AdminDealsPage() {
   const supabase = await createClient();
@@ -21,10 +22,12 @@ export default async function AdminDealsPage() {
 
   return (
     <div>
-      <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-xl font-black text-light">All Deals</h2>
-        <div className="text-xs text-muted">{deals.length} total</div>
-      </div>
+      <PageHeader
+        eyebrow="Operations"
+        title="All deals"
+        description="Review every creator-brand workflow and open the complete deal record."
+        actions={<span className="rounded-md border border-border bg-card px-3 py-1.5 text-sm font-semibold text-muted">{deals.length} total</span>}
+      />
       <DealsTable deals={deals} />
     </div>
   );

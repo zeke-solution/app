@@ -10,6 +10,7 @@ import {
 import { CreatorGrid } from '@/components/creators/CreatorGrid';
 import type { CreatorRow } from '@/components/creators/CreatorCard';
 import { CampaignIcon } from '@/components/layout/icons';
+import { PageHeader, SectionHeader } from '@/components/layout/PageHeader';
 
 export default async function BrandOverviewPage() {
   const session = await getSessionProfile();
@@ -64,14 +65,15 @@ export default async function BrandOverviewPage() {
 
   return (
     <div>
-      <h1 className='text-2xl font-black text-light'>
-        Welcome, {session.profile.display_name}
-      </h1>
-      <p className='mb-5 mt-1 text-sm text-muted'>
-        {[session.brand?.brand_type, session.profile.location]
-          .filter(Boolean)
-          .join(' - ')}
-      </p>
+      <PageHeader
+        eyebrow='Brand workspace'
+        title={'Welcome back, ' + session.profile.display_name}
+        description={
+          [session.brand?.brand_type, session.profile.location]
+            .filter(Boolean)
+            .join(' - ') || 'Manage campaigns, creators, and payments.'
+        }
+      />
 
       <StatGrid>
         <StatCard
@@ -136,40 +138,42 @@ export default async function BrandOverviewPage() {
         />
       </StatGrid>
 
-      <div className='mb-3 flex items-center justify-between'>
-        <div className='text-sm font-bold text-light'>Active Campaigns</div>
-        <Link href='/brand/campaigns' className='text-xs text-accent'>
-          View all &#8594;
-        </Link>
-      </div>
-      <div className='mb-5'>
-        {(campaignsPreviewResult.data ?? []).length === 0 ? (
-          <div className='rounded-2xl border border-border bg-card p-6 text-center text-sm text-muted'>
-            No campaigns yet.
+      <div className='grid gap-6 xl:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]'>
+        <section>
+          <SectionHeader
+            title='Active campaigns'
+            description='Published briefs currently accepting creator outreach'
+            action={<Link href='/brand/campaigns' className='font-semibold text-accent'>View all &#8594;</Link>}
+          />
+          <div>
+            {(campaignsPreviewResult.data ?? []).length === 0 ? (
+              <div className='rounded-2xl border border-border bg-card p-6 text-center text-sm text-muted'>
+                No campaigns yet.
+              </div>
+            ) : (
+              (campaignsPreviewResult.data ?? []).map((campaign) => (
+                <CampaignCard
+                  key={campaign.id}
+                  campaign={campaign as CampaignRow}
+                />
+              ))
+            )}
           </div>
-        ) : (
-          (campaignsPreviewResult.data ?? []).map((campaign) => (
-            <CampaignCard
-              key={campaign.id}
-              campaign={campaign as CampaignRow}
-            />
-          ))
-        )}
-      </div>
+        </section>
 
-      <div className='mb-3 flex items-center justify-between'>
-        <div className='text-sm font-bold text-light'>
-          Recommended Creators
-        </div>
-        <Link href='/brand/discover' className='text-xs text-accent'>
-          Browse all &#8594;
-        </Link>
+        <section>
+          <SectionHeader
+            title='Recommended creators'
+            description='Shield-active creators matched for discovery'
+            action={<Link href='/brand/discover' className='font-semibold text-accent'>Browse all &#8594;</Link>}
+          />
+          <CreatorGrid
+            creators={
+              (creatorsResult.data ?? []) as unknown as CreatorRow[]
+            }
+          />
+        </section>
       </div>
-      <CreatorGrid
-        creators={
-          (creatorsResult.data ?? []) as unknown as CreatorRow[]
-        }
-      />
     </div>
   );
 }

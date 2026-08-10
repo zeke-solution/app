@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { StatCard, StatGrid } from "@/components/ui/StatCard";
 import { DealsTable, type AdminDealRow } from "@/components/admin/DealsTable";
 import { UsersIcon, ShieldIcon, DisputeIcon } from "@/components/layout/icons";
+import { PageHeader, SectionHeader } from "@/components/layout/PageHeader";
 
 export default async function AdminOverviewPage() {
   const supabase = await createClient();
@@ -33,8 +34,11 @@ export default async function AdminOverviewPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-black text-light">Admin Overview</h1>
-      <p className="mb-5 mt-1 text-sm text-muted">Platform health at a glance</p>
+      <PageHeader
+        eyebrow="Operations"
+        title="Admin overview"
+        description="Platform health, work queues, and recent deal activity."
+      />
 
       <StatGrid>
         <StatCard icon={<UsersIcon width={16} height={16} />} iconColor="#4338CA" value={usersRes.count ?? 0} label="Total Users" />
@@ -48,32 +52,40 @@ export default async function AdminOverviewPage() {
         <StatCard icon={<DisputeIcon width={16} height={16} />} iconColor="#BE123C" value={disputesRes.count ?? 0} label="Open Disputes" />
       </StatGrid>
 
-      <div className="mb-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
-        <Link href="/admin/shield" className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3.5">
-          <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-[10px] border border-gold/20 bg-gold/10">
-            <ShieldIcon width={18} height={18} stroke="#92400E" />
+      <div className="grid gap-6 xl:grid-cols-[minmax(18rem,0.65fr)_minmax(0,1.35fr)]">
+        <section>
+          <SectionHeader title="Needs attention" description="Queues requiring an admin review" />
+          <div className="grid gap-3">
+            <Link href="/admin/shield" className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3.5">
+              <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-[10px] border border-gold/20 bg-gold/10">
+                <ShieldIcon width={18} height={18} stroke="#92400E" />
+              </div>
+              <div>
+                <div className="text-[13px] font-bold text-light">{shieldPendingRes.count ?? 0} Pending</div>
+                <div className="text-[11px] text-muted">Shield Requests</div>
+              </div>
+            </Link>
+            <Link href="/admin/disputes" className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3.5">
+              <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-[10px] border border-zgreen/20 bg-zgreen/10">
+                <DisputeIcon width={18} height={18} stroke="#047857" />
+              </div>
+              <div>
+                <div className="text-[13px] font-bold text-light">{disputesRes.count ?? 0} Open</div>
+                <div className="text-[11px] text-muted">Disputes</div>
+              </div>
+            </Link>
           </div>
-          <div>
-            <div className="text-[13px] font-bold text-light">{shieldPendingRes.count ?? 0} Pending</div>
-            <div className="text-[11px] text-muted">Shield Requests</div>
-          </div>
-        </Link>
-        <Link href="/admin/disputes" className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3.5">
-          <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-[10px] border border-zgreen/20 bg-zgreen/10">
-            <DisputeIcon width={18} height={18} stroke="#047857" />
-          </div>
-          <div>
-            <div className="text-[13px] font-bold text-light">{disputesRes.count ?? 0} Open</div>
-            <div className="text-[11px] text-muted">Disputes</div>
-          </div>
-        </Link>
-      </div>
+        </section>
 
-      <div className="mb-3 flex items-center justify-between">
-        <div className="text-sm font-bold text-light">Recent Deals</div>
-        <Link href="/admin/deals" className="text-xs text-accent">View all</Link>
+        <section>
+          <SectionHeader
+            title="Recent deals"
+            description="Latest activity across creator-brand work"
+            action={<Link href="/admin/deals" className="font-semibold text-accent">View all</Link>}
+          />
+          <DealsTable deals={recentDeals} />
+        </section>
       </div>
-      <DealsTable deals={recentDeals} />
     </div>
   );
 }

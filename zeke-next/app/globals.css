@@ -246,14 +246,14 @@ h3 {
 }
 
 .brand-sidebar {
-  background: linear-gradient(180deg, rgba(26, 19, 51, 0.97), rgba(13, 11, 22, 0.98));
-  border-color: rgba(168, 85, 247, 0.2);
+  background: #171329;
+  border-color: rgba(196, 181, 253, 0.14);
 }
 
 .brand-nav-active {
-  color: #c4b5fd;
-  background: linear-gradient(90deg, rgba(99, 102, 241, 0.16), rgba(168, 85, 247, 0.08));
-  box-shadow: inset 2px 0 0 var(--color-purple);
+  color: #ffffff;
+  background: rgba(99, 102, 241, 0.18);
+  box-shadow: inset 3px 0 0 #818cf8;
 }
 
 /* Keep the long marketing page accessible while skipping initial layout and
@@ -283,10 +283,10 @@ h3 {
 
 /* Signed-in work areas use a light canvas while the global nav stays dark. */
 .dashboard-content {
-  --color-dark: #f7f7fb;
-  --color-navy: #f1eff6;
+  --color-dark: #f3f4f7;
+  --color-navy: #eef0f4;
   --color-card: #ffffff;
-  --color-border: #d8d2e2;
+  --color-border: #dedbe5;
   --color-light: #2b2438;
   --color-muted: #70697d;
   --color-accent: #4338ca;
@@ -296,8 +296,9 @@ h3 {
   --color-gold: #92400e;
   --color-zgreen: #047857;
   --color-danger: #be123c;
-  background: #f7f7fb;
+  background: #f3f4f7;
   color: #2b2438;
+  font-size: 14px;
   max-width: 100%;
   overflow-x: clip;
 }
@@ -306,8 +307,27 @@ h3 {
    light surface so their semantic dark text always keeps readable contrast. */
 .dashboard-content .brand-card {
   background: #ffffff;
-  border-color: #d8d2e2;
-  box-shadow: 0 8px 24px rgba(43, 36, 56, 0.07);
+  border-color: #dedbe5;
+  box-shadow: 0 1px 2px rgba(43, 36, 56, 0.05);
+}
+
+.dashboard-nav {
+  background: rgba(19, 15, 35, 0.97);
+  border-color: rgba(196, 181, 253, 0.12);
+}
+
+.dashboard-content .rounded-2xl {
+  border-radius: 0.75rem;
+}
+
+.dashboard-content :where(.text-xs, [class~="text-[12px]"], [class~="text-[13px]"]):not(.agreement-document *) {
+  font-size: 13px;
+  line-height: 1.15rem;
+}
+
+.dashboard-content :where([class~="text-[9px]"], [class~="text-[10px]"], [class~="text-[11px]"]):not(.agreement-document *) {
+  font-size: 12px;
+  line-height: 1rem;
 }
 
 .dashboard-content .brand-button-primary,
@@ -342,21 +362,6 @@ h3 {
 
   .auth-content :where(a, button) {
     overflow-wrap: normal;
-  }
-
-  .dashboard-content :where(.text-xs, [class~=text-[12px]], [class~=text-[13px]]):not(.agreement-document *) {
-    font-size: 13px;
-    line-height: 1.15rem;
-  }
-
-  .dashboard-content :where([class~=text-[11px]]):not(.agreement-document *) {
-    font-size: 12px;
-    line-height: 1rem;
-  }
-
-  .dashboard-content :where([class~=text-[9px]], [class~=text-[10px]]):not(.agreement-document *) {
-    font-size: 11px;
-    line-height: 0.95rem;
   }
 
   .dashboard-content :where(input, select, textarea) {

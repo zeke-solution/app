@@ -19,7 +19,7 @@ export function DashboardTopNav({
   rightExtra?: ReactNode;
 }) {
   return (
-    <nav className="brand-nav sticky top-0 z-40 border-b border-transparent backdrop-blur-md">
+    <nav className="dashboard-nav brand-nav sticky top-0 z-40 border-b backdrop-blur-md">
       <div className="mx-auto flex h-16 items-center justify-between px-4 sm:px-6">
         <Link href={homeHref} aria-label="Zeke dashboard home" className="inline-flex">
           <BrandLogo className="w-[82px]" preload />
