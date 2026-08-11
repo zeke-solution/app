@@ -307,8 +307,71 @@ h3 {
    light surface so their semantic dark text always keeps readable contrast. */
 .dashboard-content .brand-card {
   background: #ffffff;
-  border-color: #dedbe5;
-  box-shadow: 0 1px 2px rgba(43, 36, 56, 0.05);
+  border-color: transparent;
+  box-shadow: 0 1px 2px rgba(43, 36, 56, 0.06), 0 6px 18px rgba(43, 36, 56, 0.035);
+}
+
+/* Dashboard hierarchy comes from surface contrast, spacing, and restrained
+   elevation rather than outlines. Keep form controls, action buttons, status
+   warnings, and destructive states bordered; remove only neutral card, row,
+   inset-panel, and separator lines inside signed-in workspaces. */
+.dashboard-content :where(div, section, article, form, li, a)[class~="bg-card"][class~="border-border"]:is(
+    [class~="rounded-2xl"],
+    [class~="rounded-xl"],
+    [class~="rounded-[10px]"]
+  ),
+.dashboard-content button[class~="w-full"][class~="bg-card"][class~="border-border"]:is(
+    [class~="rounded-2xl"],
+    [class~="rounded-xl"],
+    [class~="rounded-[10px]"]
+  ),
+.dashboard-content :where(div, section, article, form, li, details, label, p)[class~="bg-dark"][class~="border-border"]:is(
+    [class~="rounded-2xl"],
+    [class~="rounded-xl"],
+    [class~="rounded-[10px]"]
+  ),
+.dashboard-content :where(span)[class~="bg-card"][class~="border-border"] {
+  border-color: transparent;
+}
+
+.dashboard-content :where(div, section, article, form, li, a)[class~="bg-card"][class~="border-border"]:is(
+    [class~="rounded-2xl"],
+    [class~="rounded-xl"],
+    [class~="rounded-[10px]"]
+  ),
+.dashboard-content button[class~="w-full"][class~="bg-card"][class~="border-border"]:is(
+    [class~="rounded-2xl"],
+    [class~="rounded-xl"],
+    [class~="rounded-[10px]"]
+  ) {
+  box-shadow: 0 1px 2px rgba(43, 36, 56, 0.06), 0 6px 18px rgba(43, 36, 56, 0.035);
+}
+
+.dashboard-content a[class~="bg-card"][class~="border-border"]:is(
+    [class~="rounded-2xl"],
+    [class~="rounded-xl"],
+    [class~="rounded-[10px]"]
+  ):hover,
+.dashboard-content button[class~="w-full"][class~="bg-card"][class~="border-border"]:is(
+    [class~="rounded-2xl"],
+    [class~="rounded-xl"],
+    [class~="rounded-[10px]"]
+  ):hover {
+  border-color: transparent;
+  box-shadow: 0 2px 4px rgba(43, 36, 56, 0.07), 0 9px 22px rgba(43, 36, 56, 0.055);
+}
+
+.dashboard-content :where(div, section, form)[class~="border-t"]:is(
+    [class~="border-border"],
+    [class~="border-border/50"],
+    [class~="border-border/60"]
+  ),
+.dashboard-content :where(div, section, form)[class~="border-b"]:is(
+    [class~="border-border"],
+    [class~="border-border/50"],
+    [class~="border-border/60"]
+  ) {
+  border-color: transparent;
 }
 
 .dashboard-nav {

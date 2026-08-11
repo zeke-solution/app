@@ -26,6 +26,14 @@ Last updated: 2026-08-11
 
 ## Current status
 
+### Borderless dashboard surfaces: 2026-08-11
+
+- Creator, brand, and admin workspaces now remove neutral outline lines from cards, inset boxes, list/table rows, and their internal neutral separators. Marketing and auth surfaces are unchanged.
+- Visual hierarchy comes from the existing light canvas, white or tinted surface contrast, spacing, and a restrained two-layer shadow. Clickable cards receive only a slightly stronger hover shadow; no page movement or transition was added.
+- Form fields, ordinary action buttons, tabs, colored status warnings, error states, and destructive confirmations retain visible boundaries. Only full-width button rows are treated as data rows, so neutral secondary buttons do not lose their affordance.
+- Authenticated browser QA passed at 1440 x 1000 and 390 x 844: desktop found 6 representative neutral surfaces with zero opaque borders and all 6 elevated; mobile found 3 data rows and 3 internal separators, all transparent; all 13 text/select/textarea controls remained bounded; both document widths exactly matched their viewports. The temporary QA admin was deleted and no destructive action ran.
+- TypeScript, ESLint, the optimized 41-route production build, and `git diff --check` pass.
+
 ### Cross-device password recovery and admin master controls: 2026-08-11
 
 - Password recovery no longer depends on the PKCE verifier stored in the browser that requested the email. New recovery mail sends Supabase's one-time token hash to `/auth/confirm`, where an explicit POST verifies it and creates the recovery session before `/update-password`.
