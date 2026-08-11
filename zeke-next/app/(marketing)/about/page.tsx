@@ -61,9 +61,9 @@ export default function AboutPage() {
         <div className="mb-3.5 text-[11px] font-bold uppercase tracking-wider text-accent">
           About Zeke
         </div>
-        <h2 className="mb-4 text-[26px] font-black leading-tight tracking-tight text-white sm:text-4xl">
+        <h1 className="mb-4 text-[26px] font-black leading-tight tracking-tight text-white sm:text-4xl">
           Built in Kerala, for <span className="brand-gradient-text">every creator</span>
-        </h2>
+        </h1>
         <p className="mb-12 max-w-[600px] text-base leading-relaxed text-muted">
           Zeke started with a simple frustration. Creators were doing great work and getting
           burned on deals, because nothing was structured, nothing was protected, and nobody

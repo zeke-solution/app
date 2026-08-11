@@ -43,6 +43,9 @@ export function AdminRemoveButton({
       setError(result.error);
       return;
     }
+    if (result.status === "needs_review") {
+      window.alert(result.message);
+    }
     setOpen(false);
     setConfirmation("");
     onRemoved?.();

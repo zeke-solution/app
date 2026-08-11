@@ -43,7 +43,27 @@ export const legalProviderSchema = z
     feeNote: z.string().trim().max(500).optional(),
     contactEmail: z.string().trim().email().max(254).optional().or(z.literal("")),
     contactPhone: z.string().trim().max(30).optional(),
-    website: z.string().trim().url().max(500).optional().or(z.literal("")),
+    website: z
+      .string()
+      .trim()
+      .max(500)
+      .refine(
+        (value) => {
+          if (!value) return true;
+          try {
+            const url = new URL(value);
+            return (
+              (url.protocol === "https:" || url.protocol === "http:") &&
+              !url.username &&
+              !url.password
+            );
+          } catch {
+            return false;
+          }
+        },
+        { message: "Use a valid HTTP or HTTPS website URL." },
+      )
+      .optional(),
     enrollmentReference: z.string().trim().max(160).optional(),
     verified: z.boolean(),
     active: z.boolean(),

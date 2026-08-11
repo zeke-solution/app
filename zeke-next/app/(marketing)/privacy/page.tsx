@@ -29,9 +29,9 @@ export default function PrivacyPage() {
         <div className="mb-3.5 text-[11px] font-bold uppercase tracking-wider text-accent">
           Legal
         </div>
-        <h2 className="mb-4 text-[26px] font-black leading-tight tracking-tight text-white sm:text-4xl">
+        <h1 className="mb-4 text-[26px] font-black leading-tight tracking-tight text-white sm:text-4xl">
           Privacy Policy
-        </h2>
+        </h1>
         <p className="mb-7 text-[13px] text-muted">Last updated: August 2026</p>
         <div className="mb-7 rounded-xl border border-accent/15 bg-accent/[0.06] px-5 py-4 text-sm leading-relaxed text-light">
           Zeke is committed to protecting your privacy. We do not sell your data - ever.

@@ -54,13 +54,14 @@ export function LoginForm({ initialError = "" }: { initialError?: string }) {
           type={showPassword ? "text" : "password"}
           autoComplete="current-password"
           placeholder="••••••••"
+          className="pr-16"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
         <button
           type="button"
           onClick={() => setShowPassword((s) => !s)}
-          className="absolute bottom-2.5 right-3 text-xs font-medium text-muted"
+          className="absolute bottom-1 right-1 flex min-h-9 min-w-12 items-center justify-center rounded-lg px-2 text-xs font-medium text-muted hover:bg-light/5 hover:text-light"
         >
           {showPassword ? "Hide" : "Show"}
         </button>

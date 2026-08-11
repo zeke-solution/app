@@ -10,9 +10,9 @@ export default async function RegisterPage({
 
   return (
     <div>
-      <p className="mb-5 text-center text-sm leading-6 text-muted sm:mb-7">
+      <h1 className="mb-5 text-center text-sm font-medium leading-6 text-muted sm:mb-7">
         Create your free account
-      </p>
+      </h1>
       <RegisterForm initialRole={initialRole} />
       <div className="mt-4 flex items-center justify-center gap-1.5 text-center text-xs leading-5 text-muted sm:mt-5">
         &#128737; Kerala&apos;s structured creator-brand deal platform

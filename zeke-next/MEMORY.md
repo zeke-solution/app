@@ -11,6 +11,16 @@ Last updated: 2026-08-11
 - For a direct Vercel production deploy, run from the repository root and pass local config zeke-next/vercel.json. Deploying from inside zeke-next conflicts with the project Root Directory; deploying from root without the local config can fall back to iad1 instead of required sin1.
 - Never put passwords, API keys, tokens, or full environment values in source control or handoff files.
 
+## Technical QA follow-up
+
+- Release 1 is implemented and migration 0021 is live. Admin removals use a database-transactional operation ledger, with external Auth/Storage cleanup explicitly retryable from Admin > Removal log. Do not bypass this path with direct table-by-table deletion.
+- Keep the central response headers and powered-by opt-out in next.config.ts. The intentionally limited CSP protects object/base/form/frame behavior without forcing every static page into nonce-based dynamic rendering.
+- Keep AuthShell as the authentication main landmark, preserve one h1 per repaired auth/public page, let TextField generate stable label IDs, and keep password reveal controls at least 24 x 24 px.
+- Performance needs a controlled live trace rather than asset guessing. Three current live mobile Lighthouse samples have median Performance 84 and median TBT about 466 ms despite unchanged ~303 KiB transfer; local mobile is 93 with 60 ms TBT.
+- Consolidate apex/www through a redirect or canonical metadata, add route-specific metadata, and publish robots/sitemap endpoints.
+- Legal-provider URLs are HTTP(S)-only. Payment-proof is limited to 20 MB PDF/images and agreements to 10 MB PDF at the bucket boundary.
+- Add automated app tests and expand database coverage through migration 0021 before relying on the old 0001-0003/0010-0011 shim as full coverage.
+
 ## Google authentication
 
 - Google sign-in is additive to Supabase Auth. Keep email/password enabled and keep Resend sending branded Auth email from `no-reply@zekesolution.com`; do not replace transactional SMTP with Gmail.
@@ -113,7 +123,7 @@ Last updated: 2026-08-11
 - Submission content supports JPG, PNG, WebP, HEIC, HEIF, MP4, and MOV. Small file sizes keep three-decimal precision. Uploads use resumable TUS with 6 MB chunks, retry, and progress.
 - App and bucket limits are 100 MB, but Supabase Free still caps the project's global Storage limit at 50 MB. Upgrade and set global Storage to at least 100 MB before describing 50-100 MB uploads as active.
 - Mobile overlays are full-height `100dvh` sheets with safe-area padding and internal scrolling. Desktop overlays stay centered.
-- Production migrations are live through 0018. The current application baseline is Next.js 16.3.0 from the HEAD of `main`; Vercel Production is Ready. The final dependency audit is clean.
+- Production migrations are live through 0021. The current application baseline is Next.js 16.3.0. The final dependency audit is clean.
 
 ## Campaign workspace, mobile chat, and shared avatar rules
 

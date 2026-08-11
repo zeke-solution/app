@@ -3,7 +3,7 @@ import { BrandLogo } from "@/components/ui/BrandLogo";
 
 export function AuthShell({ children }: { children: React.ReactNode }) {
   return (
-    <div className="auth-content relative flex min-h-[100dvh] items-center justify-center overflow-x-clip px-3.5 py-6 sm:px-4 sm:py-10">
+    <main className="auth-content relative flex min-h-[100dvh] items-center justify-center overflow-x-clip px-3.5 py-6 sm:px-4 sm:py-10">
       <div
         className="pointer-events-none absolute left-1/2 top-[20%] h-[400px] w-[500px] -translate-x-1/2 rounded-full bg-gradient-to-br from-accent/15 via-purple/10 to-pink/15 blur-[50px]"
         aria-hidden
@@ -16,6 +16,6 @@ export function AuthShell({ children }: { children: React.ReactNode }) {
         </div>
         {children}
       </div>
-    </div>
+    </main>
   );
 }

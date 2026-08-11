@@ -1,4 +1,4 @@
-import { type InputHTMLAttributes, forwardRef } from "react";
+import { type InputHTMLAttributes, forwardRef, useId } from "react";
 
 // Tailwind port of .input-wrap/.input-label/.input-field from css/zeke.css.
 interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -8,17 +8,19 @@ interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
 
 export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
   ({ label, error, id, className = "", ...props }, ref) => {
+    const generatedId = useId();
+    const fieldId = id ?? generatedId;
     return (
       <div className="flex flex-col gap-1.5">
         <label
-          htmlFor={id}
+          htmlFor={fieldId}
           className="text-[11px] font-bold uppercase tracking-wider text-light"
         >
           {label}
         </label>
         <input
           ref={ref}
-          id={id}
+          id={fieldId}
           className={`w-full rounded-xl border border-border bg-dark px-4 py-2.5 text-sm text-light outline-none transition-colors focus:border-accent/60 ${className}`}
           {...props}
         />

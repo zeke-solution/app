@@ -397,9 +397,60 @@ export interface Database {
         > & { id?: string };
         Update: Partial<Database["public"]["Tables"]["shield_case_documents"]["Insert"]>;
       };
+      admin_removal_jobs: {
+        Row: {
+          id: string;
+          actor_id: string | null;
+          entity_type:
+            | "user"
+            | "campaign"
+            | "deal"
+            | "dispute"
+            | "shield_request"
+            | "shield_case"
+            | "legal_provider";
+          entity_id: string;
+          entity_label: string;
+          status: "pending" | "database_complete" | "needs_review" | "complete";
+          details: Record<string, unknown>;
+          storage_refs: Array<{ bucket: string; value: string }>;
+          last_error: string | null;
+          attempt_count: number;
+          database_completed_at: string | null;
+          completed_at: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: Omit<
+          Database["public"]["Tables"]["admin_removal_jobs"]["Row"],
+          | "id"
+          | "status"
+          | "details"
+          | "storage_refs"
+          | "last_error"
+          | "attempt_count"
+          | "database_completed_at"
+          | "completed_at"
+          | "created_at"
+          | "updated_at"
+        > & {
+          id?: string;
+          status?: Database["public"]["Tables"]["admin_removal_jobs"]["Row"]["status"];
+          details?: Record<string, unknown>;
+          storage_refs?: Array<{ bucket: string; value: string }>;
+          last_error?: string | null;
+          attempt_count?: number;
+          database_completed_at?: string | null;
+          completed_at?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["admin_removal_jobs"]["Row"]>;
+      };
       admin_removal_audit: {
         Row: {
           id: string;
+          job_id: string | null;
           actor_id: string | null;
           entity_type:
             | "user"
@@ -416,12 +467,24 @@ export interface Database {
         };
         Insert: Omit<
           Database["public"]["Tables"]["admin_removal_audit"]["Row"],
-          "id" | "created_at"
-        > & { id?: string };
+          "id" | "job_id" | "created_at"
+        > & { id?: string; job_id?: string | null };
         Update: never;
       };
     };
     Functions: {
+      admin_prepare_removal: {
+        Args: { p_job_id: string; p_actor_id: string };
+        Returns: Record<string, unknown>;
+      };
+      admin_complete_removal: {
+        Args: {
+          p_job_id: string;
+          p_actor_id: string;
+          p_storage_warnings?: unknown[];
+        };
+        Returns: undefined;
+      };
       get_public_creator_profile: {
         Args: { p_handle: string };
         Returns: Array<{

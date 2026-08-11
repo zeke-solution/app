@@ -201,7 +201,7 @@ export function LandingSections() {
 
           <div className="mt-12 grid gap-5 lg:grid-cols-2">
             <article className="rounded-[24px] border border-[#dedcf1] bg-white p-6 sm:p-8">
-              <div className="text-[11px] font-extrabold uppercase tracking-[0.16em] text-pink">Real problems we solve</div>
+              <div className="text-[11px] font-extrabold uppercase tracking-[0.16em] text-[#be185d]">Real problems we solve</div>
               <h3 className="mt-3 text-2xl font-extrabold text-dark">We have seen the pattern. Zeke keeps the record.</h3>
               <div className="mt-6"><CheckList items={REAL_PROBLEMS} /></div>
             </article>

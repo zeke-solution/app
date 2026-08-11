@@ -150,7 +150,7 @@ export function RegisterForm({
             setStep(1);
           }}
           className={`flex-1 py-2.5 text-sm font-bold transition-colors ${
-            role === "influencer" ? "bg-accent text-white" : "bg-transparent text-muted"
+            role === "influencer" ? "bg-[#4f46e5] text-white" : "bg-transparent text-muted"
           }`}
         >
           &#127909; Creator
@@ -162,7 +162,7 @@ export function RegisterForm({
             setStep(1);
           }}
           className={`flex-1 py-2.5 text-sm font-bold transition-colors ${
-            role === "brand" ? "bg-accent text-white" : "bg-transparent text-muted"
+            role === "brand" ? "bg-[#4f46e5] text-white" : "bg-transparent text-muted"
           }`}
         >
           &#127970; Brand
@@ -209,11 +209,12 @@ export function RegisterForm({
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Minimum 8 characters"
+                  className="pr-16"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword((s) => !s)}
-                  className="absolute bottom-2.5 right-3 text-xs font-medium text-muted"
+                  className="absolute bottom-1 right-1 flex min-h-9 min-w-12 items-center justify-center rounded-lg px-2 text-xs font-medium text-muted hover:bg-light/5 hover:text-light"
                 >
                   {showPassword ? "Hide" : "Show"}
                 </button>
@@ -483,7 +484,7 @@ export function RegisterForm({
       {!isGoogleOnboarding && (
         <div className="mt-5 border-t border-border pt-5 text-center text-xs leading-5 text-muted sm:text-sm">
           Already have an account?{" "}
-          <Link href="/login" className="font-semibold text-accent">
+          <Link href="/login" className="font-semibold text-[#a5b4fc]">
             Sign in
           </Link>
         </div>
