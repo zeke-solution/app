@@ -2,19 +2,10 @@ import Link from "next/link";
 
 const FOUNDERS = [
   {
-    initial: "S",
-    name: "Sadhim",
-    role: "Marketing & Brand Strategy",
-    desc: "Leads brand positioning, creator outreach strategy, and quality control across everything Zeke puts out.",
-    bg: "bg-accent/20",
-    border: "border-accent/30",
-    color: "text-accent",
-  },
-  {
     initial: "F",
     name: "Fidha",
-    role: "Creator Relations & Growth",
-    desc: "Owns the creator side - onboarding, relationships, and scaling the platform's creator community in India.",
+    role: "Creator Growth & Brand Strategy",
+    desc: "Owns the creator side of Zeke: onboarding, relationships, and community growth across India, plus brand positioning and creator outreach.",
     bg: "bg-zgreen/20",
     border: "border-zgreen/30",
     color: "text-zgreen",
@@ -43,7 +34,7 @@ const VALUES = [
   {
     icon: "\u{1F6E1}",
     title: "Creators first",
-    desc: "Every product decision starts with what is best for the creator.",
+    desc: "Every decision we make starts with what is best for you.",
   },
   {
     icon: "✉",
@@ -53,7 +44,7 @@ const VALUES = [
   {
     icon: "\u{1F4C5}",
     title: "Structure over chaos",
-    desc: "DM negotiations are broken. We replace chaos with structure.",
+    desc: "DM negotiations are broken. We give you structure instead.",
   },
 ];
 
@@ -74,9 +65,9 @@ export default function AboutPage() {
           Built in Kerala, for <span className="brand-gradient-text">every creator</span>
         </h2>
         <p className="mb-12 max-w-[600px] text-base leading-relaxed text-muted">
-          Zeke started with a simple frustration - creators doing great work and getting burned
-          on deals because nothing was structured, nothing was protected, and no one had their
-          back.
+          Zeke started with a simple frustration. Creators were doing great work and getting
+          burned on deals, because nothing was structured, nothing was protected, and nobody
+          had their back.
         </p>
 
         <section className="mb-9">
@@ -85,8 +76,8 @@ export default function AboutPage() {
           </h3>
           <p className="text-sm leading-loose text-muted">
             Brand deals in the Kerala creator economy happen over WhatsApp, Instagram DMs, and
-            email simultaneously. There is no paper trail. No structure. Payment disputes are
-            common. Deadlines get missed. Brands ghost creators after content is delivered.
+            email all at once. There is no paper trail and no structure. Payments get disputed,
+            deadlines slip, and creators get ghosted after the content is already live.
           </p>
         </section>
 
@@ -96,8 +87,8 @@ export default function AboutPage() {
           <h3 className="mb-3 border-b border-border pb-2.5 text-base font-bold text-white">
             The team
           </h3>
-          <p className="text-sm leading-loose text-muted">Zeke is built by four equal co-founders.</p>
-          <div className="mt-5 grid gap-3.5 sm:grid-cols-2">
+          <p className="text-sm leading-loose text-muted">Zeke is built by three equal co-founders.</p>
+          <div className="mt-5 grid gap-3.5 sm:grid-cols-3">
             {FOUNDERS.map((f) => (
               <div key={f.name} className="rounded-2xl border border-border bg-card p-5">
                 <div className="mb-2.5 flex items-center gap-3">
@@ -142,7 +133,15 @@ export default function AboutPage() {
           <h3 className="mb-3 border-b border-border pb-2.5 text-base font-bold text-white">
             Contact
           </h3>
-          <p className="text-sm leading-loose text-muted">hello@zeke.global</p>
+          <p className="text-sm leading-loose text-muted">
+            Questions, partnerships, or press:{" "}
+            <a
+              href="mailto:hello@zeke.global"
+              className="font-semibold text-accent transition-colors hover:text-purple"
+            >
+              hello@zeke.global
+            </a>
+          </p>
         </section>
       </div>
     </div>

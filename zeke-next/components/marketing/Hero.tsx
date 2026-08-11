@@ -3,9 +3,9 @@ import { AgreementIcon, DealsIcon, ShieldIcon } from "@/components/layout/icons"
 import { buttonClassName } from "@/components/ui/Button";
 
 const BENEFITS = [
-  { icon: DealsIcon, title: "Payment clarity", detail: "Every milestone tracked" },
+  { icon: DealsIcon, title: "Payment clarity", detail: "Always know what is due" },
   { icon: AgreementIcon, title: "Structured terms", detail: "One deal, one record" },
-  { icon: ShieldIcon, title: "Zeke Shield", detail: "Backup when needed" },
+  { icon: ShieldIcon, title: "Zeke Shield", detail: "Support when it matters" },
 ];
 
 export function Hero() {
@@ -21,8 +21,8 @@ export function Hero() {
             <span className="brand-gradient-text mt-1 block">With protection built in.</span>
           </h1>
           <p className="mt-4 max-w-[620px] text-[14px] leading-6 text-muted sm:mt-6 sm:text-[17px] sm:leading-7">
-            Zeke gives creators and brands one trusted place to discover, agree, deliver, and
-            close campaigns - with every decision recorded from first offer to final payment.
+            Find the right partner, agree the terms, do the work, and get paid. Zeke keeps
+            every decision on record, from the first offer to the final payment.
           </p>
 
           <div className="mt-7 hidden max-w-[650px] gap-3 sm:grid sm:grid-cols-3">
@@ -68,7 +68,7 @@ export function Hero() {
             </Link>
           </div>
           <Link href="#how-it-works" className="mt-4 inline-flex text-xs font-semibold text-light transition-colors hover:text-cyan">
-            See how every deal moves
+            See how a deal works
           </Link>
         </div>
 

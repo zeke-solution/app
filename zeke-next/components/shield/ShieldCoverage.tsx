@@ -24,7 +24,7 @@ export function ShieldCoverage({ compact = false }: { compact?: boolean }) {
         <CoverageList title="What Shield does not pay for" items={NOT_INCLUDED} tone="neutral" />
       </div>
       <div className="rounded-xl border border-gold/25 bg-gold/[0.06] p-4 text-xs leading-5 text-light">
-        <strong className="text-gold">The creator stays in control.</strong> Legal providers are independent.
+        <strong className="text-gold">You stay in control.</strong> Legal providers are independent.
         You choose and engage them directly, agree their fees directly, and can withdraw document-sharing consent
         for future coordination by contacting Zeke. Zeke does not rank providers or promise an outcome. Read the{" "}
         <Link href="/terms#shield" className="font-semibold text-gold underline underline-offset-2">

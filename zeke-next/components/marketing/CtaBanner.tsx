@@ -10,7 +10,7 @@ export function CtaBanner() {
             Create with confidence. <span className="brand-gradient-text whitespace-nowrap">Close with clarity.</span>
           </h2>
           <p className="mt-3 max-w-[620px] text-sm leading-6 text-white/80 sm:text-base">
-            Zeke gives creators and brands a better way to meet, agree, deliver, and get the deal done.
+            A better way to meet, agree the terms, deliver the work, and close the deal properly.
           </p>
         </div>
         <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">

@@ -13,55 +13,55 @@ import { buttonClassName } from "@/components/ui/Button";
 import { BrandLogo } from "@/components/ui/BrandLogo";
 
 const PROBLEMS = [
-  { icon: DealsIcon, title: "Late payments", text: "Work delivered. Payment delayed - or never clearly confirmed." },
-  { icon: CampaignIcon, title: "Content reused", text: "A post becomes an ad without an agreed usage window." },
-  { icon: AgreementIcon, title: "Contract gaps", text: "Important terms stay scattered across chats and voice notes." },
-  { icon: ChatIcon, title: "Terms change", text: "Deliverables move after the creator has already started." },
-  { icon: ShieldIcon, title: "No clear recourse", text: "Neither side knows what happens when a deal goes wrong." },
-  { icon: UsersIcon, title: "Trust breaks", text: "Good creators and good brands both lose time and confidence." },
+  { icon: DealsIcon, title: "Late payments", text: "You deliver the work, then wait. Nobody confirms when payment is coming." },
+  { icon: CampaignIcon, title: "Content reused", text: "Your post becomes an ad, and nobody agreed how long it could run." },
+  { icon: AgreementIcon, title: "Contract gaps", text: "The terms that matter sit scattered across chats and voice notes." },
+  { icon: ChatIcon, title: "Terms change", text: "The brief moves after you have already started working." },
+  { icon: ShieldIcon, title: "No clear recourse", text: "Something goes wrong and nobody knows what happens next." },
+  { icon: UsersIcon, title: "Trust breaks", text: "Good creators and good brands both end up losing time and trust." },
 ];
 
 const STEPS = [
-  { icon: ProfileIcon, title: "Join & verify", text: "Create your profile and tell Zeke who you are." },
-  { icon: DiscoverIcon, title: "Discover", text: "Brands find creators or creators receive structured offers." },
-  { icon: ShieldIcon, title: "Verify the fit", text: "Profiles, requirements, budgets, and timelines stay visible." },
-  { icon: ChatIcon, title: "Agree together", text: "Chat, negotiate, and lock the campaign terms in one place." },
-  { icon: CampaignIcon, title: "Create & review", text: "Submit work, receive feedback, and publish the final link." },
-  { icon: DealsIcon, title: "Close the deal", text: "Track payment, confirm completion, and preserve the record." },
+  { icon: ProfileIcon, title: "Join & verify", text: "Set up your profile and tell us who you are." },
+  { icon: DiscoverIcon, title: "Discover", text: "Brands find you, or you receive a structured offer." },
+  { icon: ShieldIcon, title: "Verify the fit", text: "See the profile, budget, and timeline before you commit." },
+  { icon: ChatIcon, title: "Agree together", text: "Chat, negotiate, and lock the terms in one place." },
+  { icon: CampaignIcon, title: "Create & review", text: "Submit your work, get feedback, and publish the final link." },
+  { icon: DealsIcon, title: "Close the deal", text: "Track the payment, confirm it landed, and keep the record." },
 ];
 
 const DIFFERENTIATORS = [
-  { icon: DealsIcon, title: "No deal commission", text: "Zeke does not take a percentage from creator earnings." },
-  { icon: DiscoverIcon, title: "Two-way discovery", text: "Brands find creators - and creators choose which offers fit." },
-  { icon: ShieldIcon, title: "Verified network", text: "Better context before either side commits to a campaign." },
-  { icon: AgreementIcon, title: "Full transparency", text: "Every offer, approval, link, and payment lives together." },
-  { icon: CampaignIcon, title: "Monitored workflow", text: "A clear status trail keeps the next step visible to both sides." },
-  { icon: UsersIcon, title: "Human support", text: "Shield gives creators a team in their corner when needed." },
+  { icon: DealsIcon, title: "No deal commission", text: "You keep what you earn. Zeke takes no percentage of your deals." },
+  { icon: DiscoverIcon, title: "Two-way discovery", text: "Brands can find you, and you choose which offers are worth it." },
+  { icon: ShieldIcon, title: "Verified network", text: "You get real context before you commit to anything." },
+  { icon: AgreementIcon, title: "Full transparency", text: "Every offer, approval, link, and payment stays in one place." },
+  { icon: CampaignIcon, title: "Monitored workflow", text: "You always know the next step, and so does the other side." },
+  { icon: UsersIcon, title: "Human support", text: "With Shield, you get people in your corner when it matters." },
 ];
 
 const REAL_PROBLEMS = [
-  "A post is reused in ads without an agreed permission window.",
-  "Payment promised in 30 days drifts without a visible update.",
-  "Deliverables change after the creator has already started.",
-  "A deal is cancelled after meaningful work has been completed.",
-  "Exclusivity language blocks future work without clear boundaries.",
+  "Your post is reused in ads without an agreed permission window.",
+  "Payment promised in 30 days quietly drifts with no update.",
+  "The deliverables change after you have already started.",
+  "A deal is cancelled after you have done real work.",
+  "Exclusivity wording blocks your future work with no clear limit.",
 ];
 
 const BRAND_PROMISE = [
-  "Business identity and profile verification",
-  "Clear campaign brief, budget, and delivery history",
-  "Structured offers before creators begin work",
+  "Verified business identity and profile",
+  "A clear campaign brief, budget, and delivery history",
+  "Structured offers before any work begins",
   "One transparent review and approval record",
   "Problem accounts can be investigated and removed",
 ];
 
 const FAQS = [
-  ["Do creators and brands have to pay?", "No. Both sides can join and use the core marketplace free. Zeke Shield is an optional creator upgrade."],
-  ["What does Zeke Shield include?", "Shield adds a PDF agreement, verified status, priority discovery, assisted follow-ups and table talks. If a creator chooses legal action, they directly hire and pay an independent provider while Zeke coordinates authorised records."],
-  ["How does the deal workflow help?", "Offers, terms, content reviews, final links, payments, and disputes are kept in one structured campaign record."],
-  ["Can creators reject or negotiate an offer?", "Yes. A creator can decline or negotiate before accepting. The deal terms are not locked until both sides agree."],
-  ["How are brands verified?", "Zeke records business profile information and keeps campaign activity visible so creators can assess the opportunity before accepting."],
-  ["Is Zeke only for Kerala?", "Kerala is the launch market. The product is being built deeply here before expanding across India and the GCC."],
+  ["Do creators and brands have to pay?", "No. You can join and use the core marketplace free, whether you are a creator or a brand. Zeke Shield is an optional creator upgrade."],
+  ["What does Zeke Shield include?", "Shield adds a PDF agreement, verified status, priority discovery, assisted follow-ups and table talks. If you choose legal action, you hire and pay an independent provider directly, and Zeke coordinates the authorised records."],
+  ["How does the deal workflow help?", "Offers, terms, content reviews, final links, payments, and disputes all stay in one structured campaign record, so nothing depends on memory."],
+  ["Can creators reject or negotiate an offer?", "Yes. You can decline or negotiate before you accept. The terms are not locked until both sides agree."],
+  ["How are brands verified?", "Zeke records business profile information and keeps campaign activity visible, so you can judge the opportunity before you accept."],
+  ["Is Zeke only for Kerala?", "Kerala is the launch market. We are building the product properly here first, then expanding across India and the GCC."],
 ];
 
 const FREE_FEATURES = [
@@ -69,7 +69,7 @@ const FREE_FEATURES = [
   "Discover creators and campaigns",
   "Send and receive structured offers",
   "Chat, negotiate, submit, and review",
-  "Track deal and payment progress",
+  "Track your deal and payment progress",
 ];
 
 const SHIELD_FEATURES = [
@@ -114,7 +114,7 @@ export function LandingSections() {
           <SectionHeading
             eyebrow="Why structure matters"
             title="Great work should not depend on a lucky DM thread."
-            body="Creators and brands both lose when terms, approvals, usage rights, and payments live in different places. Zeke brings the whole deal into one trusted workflow."
+            body="When terms, approvals, usage rights, and payments live in different places, both sides lose. Zeke brings the whole deal into one place you can trust."
           />
           <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-6">
             {PROBLEMS.map(({ icon: Icon, title, text }) => (
@@ -137,8 +137,8 @@ export function LandingSections() {
           </div>
           <div className="mt-6 text-center lg:mt-0 lg:text-left">
             <div className="text-[11px] font-bold uppercase tracking-[0.17em] text-cyan">Zeke exists to protect the deal</div>
-            <h2 className="mt-3 text-2xl font-extrabold leading-tight sm:text-3xl">Every creator deserves structure - and a clear path when a deal goes wrong.</h2>
-            <p className="mt-3 text-sm leading-6 text-muted">Zeke keeps the record, handles assisted follow-ups, and lets the creator decide whether and when to seek independent legal help.</p>
+            <h2 className="mt-3 text-2xl font-extrabold leading-tight sm:text-3xl">You deserve structure, and a clear path when a deal goes wrong.</h2>
+            <p className="mt-3 text-sm leading-6 text-muted">Zeke keeps the record and handles assisted follow-ups. You decide whether and when to seek independent legal help.</p>
           </div>
           <div className="mt-7 rounded-2xl border border-white/10 bg-white/[0.05] p-5 lg:mt-0">
             <CheckList dark items={["Your work", "Your payment trail", "Your usage terms", "Your deal history"]} />
@@ -148,7 +148,7 @@ export function LandingSections() {
 
       <section id="how-it-works" className="scroll-mt-20 bg-[#f5f4fc] px-5 py-16 sm:px-6 sm:py-20">
         <div className="mx-auto max-w-[1180px]">
-          <SectionHeading eyebrow="How Zeke works" title="Protection at every step." body="A six-step deal flow keeps both sides aligned - from discovery to payment confirmation." />
+          <SectionHeading eyebrow="How Zeke works" title="Protection at every step." body="Six steps take you from first contact to confirmed payment, and you can see exactly where you are at every one." />
           <div className="relative mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-6">
             <div className="absolute left-[8%] right-[8%] top-9 hidden h-px bg-gradient-to-r from-accent via-purple to-pink lg:block" aria-hidden />
             {STEPS.map(({ icon: Icon, title, text }, index) => (
@@ -165,7 +165,7 @@ export function LandingSections() {
 
       <section id="shield" className="scroll-mt-20 px-5 py-16 sm:px-6 sm:py-20">
         <div className="mx-auto max-w-[1040px]">
-          <SectionHeading eyebrow="Shield or Free" title="Choose the support level that fits." body="The marketplace stays free. Shield adds assisted dispute support and creator-controlled access to independent legal providers." />
+          <SectionHeading eyebrow="Shield or Free" title="Choose the support level that fits." body="The marketplace stays free. Shield adds assisted dispute support and gives you control over access to independent legal providers." />
           <div className="mt-10 grid overflow-hidden rounded-[28px] border border-[#d7d4eb] shadow-[0_22px_60px_rgba(40,25,85,0.1)] lg:grid-cols-2">
             <article className="brand-shield-card relative bg-dark p-7 text-white sm:p-9">
               <span className="absolute right-6 top-6 rounded-full bg-gradient-to-r from-purple to-pink px-3 py-1 text-[9px] font-black uppercase tracking-wider">Optional upgrade</span>
@@ -188,7 +188,7 @@ export function LandingSections() {
 
       <section className="bg-[#f5f4fc] px-5 py-16 sm:px-6 sm:py-20">
         <div className="mx-auto max-w-[1180px]">
-          <SectionHeading eyebrow="Built differently" title="What makes Zeke work for both sides." body="The platform is designed around clarity, choice, and a complete record - not another inbox." />
+          <SectionHeading eyebrow="Built differently" title="What makes Zeke work for both sides." body="Zeke is built around clarity, choice, and a complete record. It is not another inbox to keep checking." />
           <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-6">
             {DIFFERENTIATORS.map(({ icon: Icon, title, text }) => (
               <article key={title} className="rounded-2xl border border-[#dedcf1] bg-white p-4 text-center">
@@ -228,7 +228,7 @@ export function LandingSections() {
           </div>
           <div className="rounded-2xl border border-white/10 bg-white/[0.05] p-5">
             <ShieldIcon width={30} height={30} className="text-purple" />
-            <p className="mt-3 text-sm leading-6 text-muted">Shield creators can continue table talks as long as they wish. If they choose legal action, they directly engage a provider and Zeke coordinates authorised case records.</p>
+            <p className="mt-3 text-sm leading-6 text-muted">With Shield you can continue table talks for as long as you want. If you choose legal action, you engage a provider directly and Zeke coordinates the authorised case records.</p>
           </div>
         </div>
       </section>
@@ -256,14 +256,14 @@ export function LandingSections() {
                 <span className="rounded-full bg-zgreen/10 px-3 py-1 text-[9px] font-black uppercase tracking-wider text-[#047857]">Marketplace</span>
                 <h3 className="mt-5 text-lg font-extrabold text-dark">Free</h3>
                 <div className="mt-2 text-4xl font-black text-dark">₹0</div>
-                <p className="mt-3 text-xs leading-5 text-[#68647f]">For creators and brands ready to discover, structure, and complete campaigns.</p>
+                <p className="mt-3 text-xs leading-5 text-[#68647f]">For creators and brands ready to find each other, agree the terms, and finish the job.</p>
                 <Link href="/register" className={buttonClassName({ variant: "outline", fullWidth: true, className: "mt-6 !text-dark" })}>Sign up free</Link>
               </article>
               <article className="relative rounded-[24px] border border-purple/50 bg-white p-6 shadow-[0_18px_55px_rgba(99,102,241,0.13)]">
                 <span className="absolute right-5 top-5 rounded-full bg-gradient-to-r from-purple to-pink px-3 py-1 text-[9px] font-black uppercase tracking-wider text-white">Creator upgrade</span>
                 <h3 className="mt-8 text-lg font-extrabold text-dark">Shield</h3>
                 <div className="mt-2 text-4xl font-black text-dark">₹1,999<span className="text-sm font-semibold text-[#68647f]"> / month</span></div>
-                <p className="mt-3 text-xs leading-5 text-[#68647f]">For creators who want agreements, assisted follow-ups, table talks and creator-controlled legal access. Legal costs are separate.</p>
+                <p className="mt-3 text-xs leading-5 text-[#68647f]">For creators who want agreements, assisted follow-ups, table talks, and legal access you control. Legal costs are separate.</p>
                 <Link href="/register?role=influencer" className={buttonClassName({ fullWidth: true, className: "mt-6" })}>Choose Shield</Link>
               </article>
             </div>

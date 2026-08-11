@@ -5,10 +5,10 @@ import { buttonClassName } from "@/components/ui/Button";
 import { SHIELD_MONTHLY_PRICE_INR } from "@/lib/domain/constants";
 
 const STEPS = [
-  ["1", "Open a dispute", "The deal, messages, agreement, deliverables and payment history remain connected to one case."],
+  ["1", "Open a dispute", "Your deal, messages, agreement, deliverables and payment history all stay connected to one case."],
   ["2", "Choose table talks", "Authorise Zeke to follow up with the brand. You decide how long this continues."],
   ["3", "Track every conversation", "Follow-ups, replies, settlement proposals and your instructions are recorded on the Shield timeline."],
-  ["4", "Decide whether to escalate", "Legal action never starts automatically. You may continue discussions or explore independent legal help."],
+  ["4", "Decide whether to escalate", "Legal action never starts automatically. You can keep talking, or explore independent legal help."],
   ["5", "Choose and hire directly", "Review factual provider profiles, contact your choice and agree scope and fees with them directly."],
   ["6", "Let Zeke coordinate", "After engagement and consent, Zeke organises authorised records and communication with your provider."],
 ];
