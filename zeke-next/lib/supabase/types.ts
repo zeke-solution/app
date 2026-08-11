@@ -397,6 +397,29 @@ export interface Database {
         > & { id?: string };
         Update: Partial<Database["public"]["Tables"]["shield_case_documents"]["Insert"]>;
       };
+      admin_removal_audit: {
+        Row: {
+          id: string;
+          actor_id: string | null;
+          entity_type:
+            | "user"
+            | "campaign"
+            | "deal"
+            | "dispute"
+            | "shield_request"
+            | "shield_case"
+            | "legal_provider";
+          entity_id: string;
+          entity_label: string;
+          details: Record<string, unknown>;
+          created_at: string;
+        };
+        Insert: Omit<
+          Database["public"]["Tables"]["admin_removal_audit"]["Row"],
+          "id" | "created_at"
+        > & { id?: string };
+        Update: never;
+      };
     };
     Functions: {
       get_public_creator_profile: {

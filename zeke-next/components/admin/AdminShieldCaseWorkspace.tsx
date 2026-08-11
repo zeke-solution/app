@@ -6,6 +6,7 @@ import { addShieldCaseUpdate, adminUpdateShieldCase } from "@/actions/shield-cas
 import { fmtDate } from "@/lib/domain/format";
 import { SHIELD_CASE_STATUS, type ShieldCaseStatus } from "@/lib/domain/shield-case";
 import { Button } from "@/components/ui/Button";
+import { AdminRemoveButton } from "@/components/admin/AdminRemoveButton";
 import type { CaseDocumentView, CaseUpdateView } from "@/components/shield/CreatorShieldCaseWorkspace";
 
 export interface AdminCaseView {
@@ -87,6 +88,20 @@ export function AdminShieldCaseWorkspace({
           <span className="rounded-full px-3 py-1 text-xs font-bold" style={{ color: meta.color, background: `${meta.color}1A` }}>{meta.label}</span>
         </div>
         <p className="mt-4 rounded-xl border border-border bg-dark p-3 text-xs leading-5 text-light">{shieldCase.reason}</p>
+        <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-danger/20 pt-4">
+          <div>
+            <div className="text-xs font-black text-danger">Master case control</div>
+            <div className="mt-0.5 text-[10px] text-muted">Removes the case timeline and evidence; the underlying dispute remains.</div>
+          </div>
+          <AdminRemoveButton
+            kind="shield_case"
+            entityId={shieldCase.id}
+            entityLabel={`${shieldCase.creatorName} Shield case`}
+            triggerLabel="Remove case"
+            description="This permanently removes the Shield case, its timeline, evidence records, and stored evidence files."
+            onRemoved={() => router.push("/admin/shield/cases")}
+          />
+        </div>
       </section>
 
       <section className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">

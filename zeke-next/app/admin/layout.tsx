@@ -19,6 +19,7 @@ export default async function AdminLayout({
     { href: "/admin/legal-pool", label: "Legal Pool", icon: <AgreementIcon /> },
     { href: "/admin/disputes", label: "All Disputes", icon: <DisputeIcon /> },
     { href: "/admin/deals", label: "All Deals", icon: <ListIcon /> },
+    { href: "/admin/removals", label: "Removal Log", icon: <ListIcon /> },
     { href: "/admin/account", label: "Account", icon: <ProfileIcon /> },
   ];
 

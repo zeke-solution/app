@@ -17,7 +17,7 @@ import { roleHome } from "@/lib/auth/navigation";
 
 export type ActionResult = { ok: true } | { ok: false; error: string };
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000").replace(/\/+$/, "");
 
 // Port of auth.js's doLogin().
 export async function signInUser(input: LoginInput): Promise<ActionResult> {
@@ -207,7 +207,12 @@ export async function requestPasswordReset(input: ResetInput): Promise<ActionRes
 
   const supabase = await createClient();
   const { error } = await supabase.auth.resetPasswordForEmail(parsed.data.email, {
-    redirectTo: `${SITE_URL}/auth/callback?next=/update-password`,
+    // The recovery template sends the token hash to a first-party confirmation
+    // page. Unlike PKCE, token-hash verification is not tied to the browser
+    // that requested the email, so a desktop request can be completed safely
+    // on a phone. The intermediate form also prevents link-preview scanners
+    // from consuming the one-time token with a GET request.
+    redirectTo: `${SITE_URL}/auth/confirm`,
   });
 
   if (error) {
@@ -216,9 +221,36 @@ export async function requestPasswordReset(input: ResetInput): Promise<ActionRes
   return { ok: true };
 }
 
-// Port of auth.js's submitNewPassword(). Only reachable once
-// auth/callback/route.ts has already exchanged the recovery code for a
-// session, so the user is authenticated by the time this runs.
+export async function confirmPasswordRecovery(formData: FormData): Promise<never> {
+  const tokenHash = String(formData.get("token_hash") ?? "").trim();
+  const type = String(formData.get("type") ?? "");
+
+  if (type !== "recovery" || tokenHash.length < 20 || tokenHash.length > 1024) {
+    redirect("/login?error=recovery_link_invalid");
+  }
+
+  const supabase = await createClient();
+  const { error } = await supabase.auth.verifyOtp({
+    token_hash: tokenHash,
+    type: "recovery",
+  });
+
+  if (error) {
+    console.error("[auth] recovery token verification failed", {
+      name: error.name,
+      code: error.code ?? null,
+      status: error.status ?? null,
+      message: error.message,
+    });
+    redirect("/login?error=recovery_link_invalid");
+  }
+
+  redirect("/update-password");
+}
+
+// Port of auth.js's submitNewPassword(). Only reachable once either the
+// legacy PKCE callback or the cross-device token-hash confirmation action has
+// created a recovery session, so the user is authenticated when this runs.
 export async function updatePassword(input: UpdatePasswordInput): Promise<ActionResult> {
   const parsed = updatePasswordSchema.safeParse(input);
   if (!parsed.success) {

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { saveLegalProvider, setLegalProviderActive } from "@/actions/shield-cases";
 import { LEGAL_PROVIDER_SCALE, type LegalProviderRow } from "@/lib/domain/shield-case";
 import { Button } from "@/components/ui/Button";
+import { AdminRemoveButton } from "@/components/admin/AdminRemoveButton";
 
 type FormState = {
   id?: string;
@@ -157,6 +158,12 @@ export function LegalProviderManager({ providers }: { providers: LegalProviderRo
               <div className="mt-3 flex gap-2 border-t border-border pt-3">
                 <button onClick={() => edit(provider)} className="rounded-lg border border-border px-3 py-1.5 text-[10px] font-bold text-light">Edit</button>
                 <button disabled={pending} onClick={() => toggle(provider)} className={`rounded-lg border px-3 py-1.5 text-[10px] font-bold ${provider.active ? "border-accent/25 text-accent" : "border-zgreen/25 text-zgreen"}`}>{provider.active ? "Hide" : "Activate"}</button>
+                <AdminRemoveButton
+                  kind="legal_provider"
+                  entityId={provider.id}
+                  entityLabel={provider.display_name}
+                  description="This permanently removes the provider record and unlinks it from any Shield cases. Case history remains."
+                />
               </div>
             </div>
           ))}

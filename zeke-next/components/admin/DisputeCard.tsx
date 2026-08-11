@@ -7,6 +7,7 @@ import { resolveDispute } from "@/actions/disputes";
 import { fmtDate } from "@/lib/domain/format";
 import { Badge } from "@/components/ui/Badge";
 import { EntityDetailModal } from "@/components/admin/EntityDetailModal";
+import { AdminRemoveButton } from "@/components/admin/AdminRemoveButton";
 
 export interface DisputeRow {
   id: string;
@@ -56,6 +57,12 @@ export function DisputeCard({ dispute }: { dispute: DisputeRow }) {
           <Link href={`/admin/shield/cases/${dispute.shieldCaseId}`} className="flex-1 rounded-lg border border-purple/30 bg-purple/[0.06] py-2 text-center text-xs font-bold text-purple">Open Shield case</Link>
         )}
         <button onClick={handleResolve} disabled={pending} className="flex-1 rounded-lg border border-zgreen/30 bg-zgreen/[0.05] py-2 text-xs font-bold text-zgreen disabled:opacity-50">&#10003; Resolve</button>
+        <AdminRemoveButton
+          kind="dispute"
+          entityId={dispute.id}
+          entityLabel={`${dispute.creatorName} × ${dispute.brandName} dispute`}
+          description="This permanently removes the dispute and any linked Shield case, then restores the deal to its status from before the dispute."
+        />
       </div>
       {showDeal && <EntityDetailModal target={{ type: "deal", id: dispute.dealId }} onClose={() => setShowDeal(false)} />}
     </div>

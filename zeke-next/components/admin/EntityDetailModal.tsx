@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { getBrandDetail, getCreatorDetail, getDealDetail, type BrandDetail, type CreatorDetail, type AdminDealDetail } from "@/actions/admin";
 import { fmtDate, fmtNum } from "@/lib/domain/format";
 import { Badge } from "@/components/ui/Badge";
+import { AdminRemoveButton } from "@/components/admin/AdminRemoveButton";
 
 type Target = { type: "brand"; id: string } | { type: "creator"; id: string } | { type: "deal"; id: string };
 
@@ -33,9 +34,9 @@ export function EntityDetailModal({ target, onClose }: { target: Target; onClose
         onClick={(e) => e.stopPropagation()}
       >
         {loading && <div className="p-8 text-center text-sm text-muted">Loading...</div>}
-        {!loading && target.type === "brand" && brand && <BrandPanel brand={brand} onClose={onClose} />}
-        {!loading && target.type === "creator" && creator && <CreatorPanel creator={creator} onClose={onClose} />}
-        {!loading && target.type === "deal" && deal && <DealPanel deal={deal} onClose={onClose} />}
+        {!loading && target.type === "brand" && brand && <BrandPanel brandId={target.id} brand={brand} onClose={onClose} />}
+        {!loading && target.type === "creator" && creator && <CreatorPanel creatorId={target.id} creator={creator} onClose={onClose} />}
+        {!loading && target.type === "deal" && deal && <DealPanel dealId={target.id} deal={deal} onClose={onClose} />}
         {!loading && !brand && !creator && !deal && <div className="p-8 text-center text-sm text-muted">Not found.</div>}
       </div>
     </div>
@@ -51,7 +52,7 @@ function Tile({ label, value, color }: { label: string; value: React.ReactNode; 
   );
 }
 
-function BrandPanel({ brand, onClose }: { brand: BrandDetail; onClose: () => void }) {
+function BrandPanel({ brandId, brand, onClose }: { brandId: string; brand: BrandDetail; onClose: () => void }) {
   return (
     <div>
       <div className="mb-4 flex items-center gap-3">
@@ -84,6 +85,14 @@ function BrandPanel({ brand, onClose }: { brand: BrandDetail; onClose: () => voi
             <div className="text-right">
               <div className="text-xs font-bold text-gold">₹{fmtNum(c.budget)}</div>
               <Badge variant={c.status === "active" ? "green" : "muted"}>{c.status}</Badge>
+              <AdminRemoveButton
+                kind="campaign"
+                entityId={c.id}
+                entityLabel={c.title}
+                description="This removes the campaign and every deal, message, submission, payment, dispute, and Shield case linked to it."
+                onRemoved={onClose}
+                className="mt-1 w-full"
+              />
             </div>
           </div>
         ))
@@ -101,15 +110,37 @@ function BrandPanel({ brand, onClose }: { brand: BrandDetail; onClose: () => voi
             <div className="text-right">
               <div className="text-xs font-bold text-light">₹{fmtNum(d.amount)}</div>
               <Badge variant="muted">{d.status}</Badge>
+              <AdminRemoveButton
+                kind="deal"
+                entityId={d.id}
+                entityLabel={d.title || "deal"}
+                description="This removes the complete workflow, including chat, submissions, payment records, agreements, disputes, and linked Shield cases."
+                onRemoved={onClose}
+                className="mt-1 w-full"
+              />
             </div>
           </div>
         ))
       )}
+      <div className="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-danger/20 pt-4">
+        <div>
+          <div className="text-xs font-black text-danger">Master account control</div>
+          <div className="mt-0.5 text-[10px] text-muted">Deletes this account and all of its Zeke records.</div>
+        </div>
+        <AdminRemoveButton
+          kind="user"
+          entityId={brandId}
+          entityLabel={brand.name}
+          triggerLabel="Remove account"
+          description="This permanently removes the brand account, campaigns, deals, files, and authentication access."
+          onRemoved={onClose}
+        />
+      </div>
     </div>
   );
 }
 
-function CreatorPanel({ creator, onClose }: { creator: CreatorDetail; onClose: () => void }) {
+function CreatorPanel({ creatorId, creator, onClose }: { creatorId: string; creator: CreatorDetail; onClose: () => void }) {
   return (
     <div>
       <div className="mb-4 flex items-center gap-3">
@@ -150,15 +181,37 @@ function CreatorPanel({ creator, onClose }: { creator: CreatorDetail; onClose: (
             <div className="text-right">
               <div className="text-xs font-bold text-light">₹{fmtNum(d.amount)}</div>
               <Badge variant="muted">{d.status}</Badge>
+              <AdminRemoveButton
+                kind="deal"
+                entityId={d.id}
+                entityLabel={d.title || "deal"}
+                description="This removes the complete workflow, including chat, submissions, payment records, agreements, disputes, and linked Shield cases."
+                onRemoved={onClose}
+                className="mt-1 w-full"
+              />
             </div>
           </div>
         ))
       )}
+      <div className="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-danger/20 pt-4">
+        <div>
+          <div className="text-xs font-black text-danger">Master account control</div>
+          <div className="mt-0.5 text-[10px] text-muted">Deletes this account and all of its Zeke records.</div>
+        </div>
+        <AdminRemoveButton
+          kind="user"
+          entityId={creatorId}
+          entityLabel={creator.name}
+          triggerLabel="Remove account"
+          description="This permanently removes the creator account, deals, Shield records, files, and authentication access."
+          onRemoved={onClose}
+        />
+      </div>
     </div>
   );
 }
 
-function DealPanel({ deal, onClose }: { deal: AdminDealDetail; onClose: () => void }) {
+function DealPanel({ dealId, deal, onClose }: { dealId: string; deal: AdminDealDetail; onClose: () => void }) {
   return (
     <div>
       <div className="mb-3.5 flex items-start gap-3">
@@ -191,6 +244,20 @@ function DealPanel({ deal, onClose }: { deal: AdminDealDetail; onClose: () => vo
           </div>
         ))
       )}
+      <div className="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-danger/20 pt-4">
+        <div>
+          <div className="text-xs font-black text-danger">Master deal control</div>
+          <div className="mt-0.5 text-[10px] text-muted">Permanently removes this complete workflow.</div>
+        </div>
+        <AdminRemoveButton
+          kind="deal"
+          entityId={dealId}
+          entityLabel={deal.title || "deal"}
+          triggerLabel="Remove deal"
+          description="This removes chat, submissions, payment records, agreements, disputes, and linked Shield cases."
+          onRemoved={onClose}
+        />
+      </div>
     </div>
   );
 }

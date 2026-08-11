@@ -1,6 +1,6 @@
 # Zeke Next.js handoff
 
-Last updated: 2026-08-10
+Last updated: 2026-08-11
 
 ## Working agreement
 
@@ -25,6 +25,19 @@ Last updated: 2026-08-10
 - The Next.js app under `zeke-next/` is deployed from the HEAD of `main` to Vercel and serves both custom domains over HTTPS. Vercel Production is Ready on both custom-domain aliases.
 
 ## Current status
+
+### Cross-device password recovery and admin master controls: 2026-08-11
+
+- Password recovery no longer depends on the PKCE verifier stored in the browser that requested the email. New recovery mail sends Supabase's one-time token hash to `/auth/confirm`, where an explicit POST verifies it and creates the recovery session before `/update-password`.
+- The intermediate Continue screen is intentional: GET requests do not consume the token, which protects links from automatic email security scanners and previews. A reset requested on desktop can therefore be completed from the newest email on mobile.
+- Production Auth redirect URLs include the apex, `www`, and localhost `/auth/confirm` routes. The branded Resend sender remains `no-reply@zekesolution.com`; the sender was not the cause of the invalid-link behavior.
+- Old recovery emails can remain invalid because they use the former PKCE callback. Always request one fresh email after this release and use only the newest link.
+- Admin now has typed-confirmation master removal controls for non-admin users, campaigns, deals, disputes, Shield requests, Shield cases, and legal providers. Entering `REMOVE` is required and the destructive button stays disabled until it matches exactly.
+- User, campaign, and deal removal also cleans their dependent workflow records and known Storage objects. Administrator accounts are deliberately protected from dashboard deletion.
+- Migration `0020_admin_removal_audit.sql` is applied to production. It adds an append-only, admin-readable Removal Log; application users cannot insert, update, or delete audit entries.
+- Destructive authenticated QA used a temporary admin but never submitted a removal. Exact 390 x 844 browser QA passed the account control, disabled confirmation state, modal fit, and Removal Log fit. The temporary account was deleted afterward and the final QA-account count was zero.
+- Vercel and local server configuration now use Supabase's publishable and server-only secret API keys. The server secret must never be exposed through a `NEXT_PUBLIC_` variable or client component.
+- Release verification passed TypeScript, ESLint, `git diff --check`, the optimized 41-route build, linked database lint, migration dry-run/push, recovery browser QA, and authenticated admin browser QA.
 
 ### Google sign-in foundation and guarded onboarding: 2026-08-10
 

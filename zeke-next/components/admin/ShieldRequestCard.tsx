@@ -6,6 +6,7 @@ import { activateShield, rejectShield } from "@/actions/shield";
 import { fmtDate } from "@/lib/domain/format";
 import { Badge } from "@/components/ui/Badge";
 import { EntityDetailModal } from "@/components/admin/EntityDetailModal";
+import { AdminRemoveButton } from "@/components/admin/AdminRemoveButton";
 
 export interface ShieldRequestRow {
   id: string;
@@ -65,6 +66,12 @@ export function ShieldRequestCard({ request }: { request: ShieldRequestRow }) {
         <button onClick={handleReject} disabled={pending} className="rounded-lg border border-accent/30 bg-accent/[0.05] px-4 py-2 text-xs font-bold text-accent disabled:opacity-50">
           &#10006; Reject
         </button>
+        <AdminRemoveButton
+          kind="shield_request"
+          entityId={request.id}
+          entityLabel={`${request.creatorName}'s Shield request`}
+          description="This permanently removes the pending membership request without activating or rejecting it."
+        />
       </div>
       {showProfile && (
         <EntityDetailModal target={{ type: "creator", id: request.influencer_id }} onClose={() => setShowProfile(false)} />

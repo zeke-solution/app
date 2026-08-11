@@ -1,6 +1,6 @@
 # Zeke project memory
 
-Last updated: 2026-08-10
+Last updated: 2026-08-11
 
 ## Source of truth
 
@@ -70,10 +70,21 @@ Last updated: 2026-08-10
 - Auth emails contain confirmation or recovery links, never passwords. A syntactically valid nonexistent mailbox can be accepted initially and later bounce; use CAPTCHA, provider bounce webhooks, and cleanup of stale unconfirmed identities rather than exposing mailbox/account existence.
 - Password-reset success copy must remain account-neutral: say that a link will arrive only if an account exists. Never reveal whether an email is registered.
 - Supabase email-password signup creates the auth identity, creates the role profile through the database trigger, and sends a confirmation link through the configured custom email path.
-- Signup uses `https://zekesolution.com/auth/callback?next=/login`; password reset uses the same callback with `next=/update-password`.
+- Signup and Google OAuth continue through `/auth/callback`. New password recovery uses the token-hash flow at `/auth/confirm`, then redirects to `/update-password` only after a successful server-side `verifyOtp` call.
+- Do not restore PKCE-code recovery as the primary reset path. Its verifier is stored on the requesting browser, so a desktop request can fail when the email is opened on mobile. The token-hash recovery route is device-independent.
+- Keep the explicit Continue POST between the recovery email and token verification. GET must not consume the one-time token because email scanners and link previews may follow links automatically.
+- Old reset emails may use the retired callback and remain invalid. Acceptance testing must request exactly one fresh email after the current template is live and use only its newest link.
 - A controlled signup on 2026-08-08 succeeded for the Gmail alias `mufeedputhalath+zekeqa-20260809094042@gmail.com`; Supabase created a new identity and required email confirmation.
-- The remaining manual auth check is clicking the real inbox confirmation link and completing a password-reset email callback. Do not describe those callbacks as verified until they have been clicked successfully.
-- Required production variables are `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, and `NEXT_PUBLIC_SITE_URL`. `SUPABASE_SERVICE_ROLE_KEY` is intentionally absent while no active application code needs it.
+- The recovery UI and invalid-token path passed browser QA, including a true 390 x 844 viewport. The remaining acceptance check is requesting one fresh real-inbox password email and completing it on a different device.
+- Required production variables are `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `NEXT_PUBLIC_SITE_URL`, and server-only `SUPABASE_SERVICE_ROLE_KEY`. The public variable uses a Supabase publishable key; the secret key is needed only by guarded admin removal actions and must never enter client code.
+
+## Admin master removal controls
+
+- Admin can permanently remove non-admin users, campaigns, deals, disputes, Shield requests, Shield cases, and legal providers from their relevant admin surfaces. Keep administrator accounts protected from this UI.
+- Every removal requires exact typed confirmation `REMOVE`. Preserve the warning copy, disabled-until-matched destructive button, and server-side admin-role check.
+- `actions/admin-removal.ts` is the single orchestration point. It uses the server-only Supabase secret to clean dependent rows and known Storage objects, then writes `admin_removal_audit` and revalidates affected workspaces.
+- `admin_removal_audit` from migration 0020 is append-only to authenticated application users: admins can read it at `/admin/removals`, while only the service role can insert. Do not add edit or delete controls to the log.
+- No real deletion was executed during release QA. The browser test typed `REMOVE` only to check enablement, then chose Keep it; its temporary admin was removed directly during test cleanup.
 
 ## Dashboard contrast and media upload release
 
