@@ -38,6 +38,8 @@ Last updated: 2026-08-11
 - Destructive authenticated QA used a temporary admin but never submitted a removal. Exact 390 x 844 browser QA passed the account control, disabled confirmation state, modal fit, and Removal Log fit. The temporary account was deleted afterward and the final QA-account count was zero.
 - Vercel and local server configuration now use Supabase's publishable and server-only secret API keys. The legacy anon/service API keys were disabled after successful production verification on 2026-08-11. The server secret must never be exposed through a `NEXT_PUBLIC_` variable or client component.
 - Release verification passed TypeScript, ESLint, `git diff --check`, the optimized 41-route build, linked database lint, migration dry-run/push, recovery browser QA, and authenticated admin browser QA.
+- A production recovery proof on 2026-08-11 created a temporary confirmed user at Resend's official delivery-test address, requested a new email, confirmed the delivered HTML used `zekesolution.com/auth/confirm` with only `token_hash` and `type`, loaded the Zeke Continue page, verified the token from a separate session, updated the password, and signed in with it. The QA user was deleted and the final recovery-QA user count was zero.
+- During the owner's follow-up, Resend showed that the newest real-account reset email was sent at 2026-08-10 20:36 UTC, before this release. Its old Supabase `/auth/v1/verify` link explains the continued mobile error; previously delivered emails cannot adopt the new template retroactively.
 
 ### Google sign-in foundation and guarded onboarding: 2026-08-10
 
@@ -212,7 +214,7 @@ Last updated: 2026-08-11
 - Homepage polish in the same working set: simplified the hero from an analytics graph to a clear deal-progress card, renamed the example to `Brand Campaign`, removed the unwanted divider/overlay line, corrected CTA headline contrast, and applied four no-human product/social-UI background images to the approved cards.
 - `next.config.ts` now sets `devIndicators: false`; this removes the development badge and its viewport guide line from local visual QA while framework errors continue to surface normally.
 - Production `/register` returns 200 on both `zekesolution.com` and `www.zekesolution.com`. A controlled Supabase signup succeeded for `mufeedputhalath+zekeqa-20260809094042@gmail.com`: a new identity was created and email confirmation was required. This proves signup submission and the configured email-send path accept a non-team inbox alias.
-- Manual launch check still required: click the received confirmation link and verify the production callback/login, then run the password-reset email callback. Do not mark those two real-inbox callbacks complete until clicked.
+- Historical note superseded on 2026-08-11: the password-reset flow now has a complete production delivery, cross-session verification, password-update, and sign-in proof. A real-inbox signup confirmation click remains separate.
 - Durable product, Shield, brand, auth, and workflow decisions are also recorded in `MEMORY.md`. No secrets are stored there.
 - Added `docs/EXTERNAL-MEETING-PROTOCOL.md` as the owner-requested standard for every Zeke interaction involving outsiders, including investment, collaborations, vendors, users, legal providers, media, and events. It includes authority limits, confidentiality tiers, meeting controls, category addenda, escalation triggers, an approval matrix, and a reusable record template.
 - Published the complete production line directly to `origin/main` as a fast-forward. Product release commit `924d6b0` and all five earlier production-cutover commits are now on `main`; the unrelated untracked root `HANDOFF.md` remained excluded.
@@ -226,7 +228,7 @@ Last updated: 2026-08-11
 - `zekesolution.com` resolves to Vercel `76.76.21.21`; `www.zekesolution.com` is a CNAME to `cname.vercel-dns-0.com`. Both are attached as aliases to the new deployment.
 - Cache-bypassed HTTPS probes returned 200 from both domains with the new Next.js hero and `/_next/static/` assets, not the legacy HTML. `/login` and creator registration return 200; anonymous `/creator` returns 307 to `/login`.
 - Vercel Production now contains `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, and `NEXT_PUBLIC_SITE_URL=https://zekesolution.com`. The first CLI upload accidentally prefixed the values with a UTF-8 BOM and broke login; all three were replaced with raw BOM-free values and authenticated production login now passes. `SUPABASE_SERVICE_ROLE_KEY` was intentionally not added because the admin client helper is unused by application code.
-- Production migrations 0001-0003 were applied successfully to Supabase on 2026-07-22. Authenticated creator/brand/admin production QA is complete; only real-inbox auth email callbacks remain as a manual launch check.
+- Production migrations 0001-0003 were applied successfully to Supabase on 2026-07-22. Authenticated creator/brand/admin production QA is complete. Password recovery gained a full production proof on 2026-08-11; only the separate real-inbox signup-confirmation callback remains manual.
 
 ### Authenticated production QA: 2026-07-22
 
@@ -455,10 +457,9 @@ RPC-backed Shield, dispute, and notification actions are now installed. Duplicat
 
 ## Remaining manual launch QA
 
-Use real authenticated accounts to test:
-
-1. Complete a real-inbox signup confirmation and password-reset link through `/auth/callback` and `/update-password`.
-2. Confirm the production Supabase Site URL and redirect allowlist include the apex domain and required auth callback paths.
+1. Complete a real-inbox signup confirmation through `/auth/callback`.
+2. Password recovery is no longer pending: its production email, cross-session token verification, password update, and new-password login passed on 2026-08-11.
+3. Production Site URL and redirect entries were verified for the apex, `www`, localhost callback, and `/auth/confirm` routes.
 
 ## Run locally
 
