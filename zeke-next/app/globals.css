@@ -441,3 +441,92 @@ h3 {
     overflow-wrap: normal;
   }
 }
+
+/* Site-wide borderless surfaces
+   -----------------------------
+   Public, auth, recovery, and signed-in pages use color contrast, spacing,
+   and soft elevation instead of decorative outline lines. Interactive
+   controls keep their own boundaries: inputs, selects, textareas, buttons,
+   compact action links, focus states, and upload targets are intentionally
+   excluded from this rule. */
+:where(
+    div,
+    section,
+    article,
+    header,
+    footer,
+    nav,
+    main,
+    aside,
+    form,
+    fieldset,
+    ul,
+    ol,
+    li,
+    table,
+    thead,
+    tbody,
+    tfoot,
+    tr,
+    th,
+    td,
+    details,
+    summary,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    span,
+    blockquote,
+    figure,
+    figcaption,
+    dl,
+    dt,
+    dd,
+    hr
+  )[class*="border"] {
+  border-color: transparent !important;
+}
+
+/* Full-card links are navigation surfaces, not outline buttons. Smaller
+   rounded action links remain bounded so their affordance stays obvious. */
+a[class*="border"]:is(
+    [class~="rounded-xl"],
+    [class~="rounded-2xl"],
+    [class~="rounded-3xl"],
+    [class~="brand-card"],
+    [class~="brand-panel"]
+  ) {
+  border-color: transparent !important;
+}
+
+/* Tailwind divide utilities draw borders on their children, which do not
+   carry the divide class themselves. */
+:where([class*="divide-x"], [class*="divide-y"]) > :not(:last-child) {
+  border-color: transparent !important;
+}
+
+/* Marketing panels used a masked one-pixel gradient outline in addition to a
+   normal border. Their gradient fill and shadow already provide separation. */
+.brand-panel::before {
+  display: none;
+}
+
+.brand-panel,
+.brand-card,
+.brand-cta,
+.brand-sidebar,
+.brand-chip,
+.dashboard-nav {
+  border-color: transparent !important;
+}
+
+/* Auth and recovery cards previously simulated another one-pixel border with
+   the first inset shadow. Replace it with elevation only. */
+.auth-content
+  :where(div, section, article, form)[class*="shadow-[0_0_0_1px"] {
+  box-shadow: 0 10px 32px rgba(5, 3, 13, 0.2) !important;
+}

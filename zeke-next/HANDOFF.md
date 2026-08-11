@@ -26,6 +26,18 @@ Last updated: 2026-08-11
 
 ## Current status
 
+### Site-wide borderless surfaces and campaign invitation email: 2026-08-11
+
+- Decorative outline lines are now removed across marketing, public creator pages, Login, Registration, password recovery, and creator, brand, and admin workspaces. Cards, boxes, tables, data rows, headers, footers, navigation shells, dividers, badges, and inset content rely on their existing background colors, spacing, and elevation for separation.
+- Operational boundaries remain visible on inputs, selects, textareas, buttons, compact action links, focus states, and selectable controls. The formal content and semantic colors remain unchanged; this is a presentation-only CSS layer.
+- Computed-style browser QA passed 12 public/auth route and viewport combinations at 1440 x 1000 and 390 x 844: zero decorative border lines, zero full-card link outlines, no horizontal overflow, preserved Login/Reset input borders, and no simulated one-pixel auth-card outline. This complements the prior authenticated creator/brand/admin borderless QA recorded below.
+- A newly inserted campaign offer now sends a personalized notification email to the invited creator after the in-app deal, event message, and notification are created. Both Campaigns bulk send and Discover's existing-campaign picker use this same server action.
+- Email includes brand, campaign title, platform, creator fee, deadline, and a direct `/creator/offers` action. It explicitly says that opening the email does not accept the campaign. Already-invited creators and failed/rolled-back inserts do not receive another email.
+- Resend delivery uses one server-side batch request for up to 100 personalized recipients, matching the action's existing maximum. Creator Auth email addresses are read only through the server-only Supabase admin client and never returned to the browser or logged.
+- Email transport is best-effort after the durable in-app invitation is created. A transient provider failure is logged without recipient or secret data and does not falsely roll back or duplicate the invitation; the in-app offer remains the source of truth.
+- Vercel Production now has `RESEND_API_KEY` as a Sensitive, server-only environment variable. The sender is `Zeke <no-reply@zekesolution.com>`. An isolated delivery check through Resend's official test inbox passed the batch endpoint, verified sender domain, delivered event, subject, and `/creator/offers` link without contacting a real user.
+- TypeScript, ESLint, `git diff --check`, the optimized 41-route production build, and the 12-case browser style audit pass.
+
 ### Campaign creator tracking: 2026-08-11
 
 - Brand Campaigns now keeps each reusable campaign as the parent record and shows every invited creator directly inside it.

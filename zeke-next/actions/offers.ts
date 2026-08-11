@@ -2,9 +2,14 @@
 
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { createNotification } from "@/lib/supabase/notifications";
 import { getSessionForRole } from "@/lib/auth/roles";
 import { fmtNum } from "@/lib/domain/format";
+import {
+  sendCampaignInvitationEmails,
+  type CampaignInvitationEmail,
+} from "@/lib/email/campaign-invitation";
 import { isShieldMembershipActive } from "@/lib/domain/shield-membership";
 import {
   sendCampaignOffersSchema,
@@ -236,6 +241,19 @@ export async function sendCampaignOffers(input: SendCampaignOffersInput): Promis
   if (notifRows.length) {
     await Promise.all(notifRows.map((notification) => createNotification(supabase, notification)));
   }
+  if (inserted?.length) {
+    await emailNewCampaignInvitations({
+      inserted,
+      supabase,
+      brandName,
+      campaign: {
+        title: campaign.title,
+        platform: v.platform,
+        budget: campaign.budget,
+        deadline: campaign.deadline,
+      },
+    });
+  }
 
   revalidatePath("/brand/deals");
   revalidatePath("/brand/chats");
@@ -243,6 +261,80 @@ export async function sendCampaignOffers(input: SendCampaignOffersInput): Promis
   revalidatePath("/creator/offers");
   revalidatePath("/creator/chats");
   return { ok: true };
+}
+
+async function emailNewCampaignInvitations({
+  inserted,
+  supabase,
+  brandName,
+  campaign,
+}: {
+  inserted: { id: string; influencer_id: string | null }[];
+  supabase: Awaited<ReturnType<typeof createClient>>;
+  brandName: string;
+  campaign: {
+    title: string;
+    platform: string;
+    budget: number | null;
+    deadline: string | null;
+  };
+}) {
+  const creatorIds = inserted
+    .map((deal) => deal.influencer_id)
+    .filter((id): id is string => Boolean(id));
+  if (creatorIds.length === 0) return;
+
+  try {
+    const { data: creatorProfiles } = await supabase
+      .from("profiles")
+      .select("id,display_name")
+      .in("id", creatorIds);
+    const creatorNames = new Map(
+      (creatorProfiles ?? []).map((profile) => [
+        profile.id,
+        profile.display_name ?? "Creator",
+      ]),
+    );
+    const admin = createAdminClient();
+
+    const invitations = (
+      await Promise.all(
+        inserted.map(async (deal) => {
+          if (!deal.influencer_id) return null;
+          const { data, error } = await admin.auth.admin.getUserById(
+            deal.influencer_id,
+          );
+          const email = data.user?.email;
+          if (error || !email) return null;
+
+          return {
+            dealId: deal.id,
+            to: email,
+            creatorName: creatorNames.get(deal.influencer_id) ?? "Creator",
+            brandName,
+            campaignTitle: campaign.title,
+            platform: campaign.platform,
+            amount: campaign.budget,
+            deadline: campaign.deadline,
+          } satisfies CampaignInvitationEmail;
+        }),
+      )
+    ).filter(
+      (invitation): invitation is CampaignInvitationEmail =>
+        invitation !== null,
+    );
+
+    const result = await sendCampaignInvitationEmails(invitations);
+    if (!result.ok) {
+      console.error("[email] campaign invitations remain available in-app", {
+        invitationCount: inserted.length,
+      });
+    }
+  } catch {
+    console.error("[email] campaign invitation delivery could not start", {
+      invitationCount: inserted.length,
+    });
+  }
 }
 
 // Port of brand.js's saveEditedOffer().
