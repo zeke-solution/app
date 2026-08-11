@@ -76,7 +76,7 @@ Last updated: 2026-08-11
 - Old reset emails may use the retired callback and remain invalid. Acceptance testing must request exactly one fresh email after the current template is live and use only its newest link.
 - A controlled signup on 2026-08-08 succeeded for the Gmail alias `mufeedputhalath+zekeqa-20260809094042@gmail.com`; Supabase created a new identity and required email confirmation.
 - The recovery UI and invalid-token path passed browser QA, including a true 390 x 844 viewport. The remaining acceptance check is requesting one fresh real-inbox password email and completing it on a different device.
-- Required production variables are `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `NEXT_PUBLIC_SITE_URL`, and server-only `SUPABASE_SERVICE_ROLE_KEY`. The public variable uses a Supabase publishable key; the secret key is needed only by guarded admin removal actions and must never enter client code.
+- Required production variables are `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `NEXT_PUBLIC_SITE_URL`, and server-only `SUPABASE_SERVICE_ROLE_KEY`. The public variable uses a Supabase publishable key; the secret key is needed only by guarded admin removal actions and must never enter client code. Legacy anon/service API keys were disabled on 2026-08-11 after the replacement keys passed production checks; stale tabs from before that deployment may need one refresh.
 
 ## Admin master removal controls
 

@@ -36,7 +36,7 @@ Last updated: 2026-08-11
 - User, campaign, and deal removal also cleans their dependent workflow records and known Storage objects. Administrator accounts are deliberately protected from dashboard deletion.
 - Migration `0020_admin_removal_audit.sql` is applied to production. It adds an append-only, admin-readable Removal Log; application users cannot insert, update, or delete audit entries.
 - Destructive authenticated QA used a temporary admin but never submitted a removal. Exact 390 x 844 browser QA passed the account control, disabled confirmation state, modal fit, and Removal Log fit. The temporary account was deleted afterward and the final QA-account count was zero.
-- Vercel and local server configuration now use Supabase's publishable and server-only secret API keys. The server secret must never be exposed through a `NEXT_PUBLIC_` variable or client component.
+- Vercel and local server configuration now use Supabase's publishable and server-only secret API keys. The legacy anon/service API keys were disabled after successful production verification on 2026-08-11. The server secret must never be exposed through a `NEXT_PUBLIC_` variable or client component.
 - Release verification passed TypeScript, ESLint, `git diff --check`, the optimized 41-route build, linked database lint, migration dry-run/push, recovery browser QA, and authenticated admin browser QA.
 
 ### Google sign-in foundation and guarded onboarding: 2026-08-10
