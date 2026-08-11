@@ -113,6 +113,8 @@ Last updated: 2026-08-11
 - `sendCampaignOffers` must verify brand ownership and active status, skip recipients with an existing non-cancelled offer for that campaign, and keep the partial unique database index as the race-safe final duplicate guard.
 - Keep navigation status-aware: a negotiating campaign opens Chat; an accepted workflow record opens Deals. The Deals list itself remains accepted-only.
 - Campaign briefs persist platform, objective, deliverables, creator requirements, usage rights, exclusivity, payment terms, fee, and deadline. Bulk offers must inherit the applicable saved terms rather than reconstructing them from one free-text description.
+- Brand Campaigns presents each brief as the parent record with an aggregate invitation summary and every invited creator underneath it. Desktop creator rows use aligned Creator, Status, Fee, Invited, and Action columns; mobile uses labelled creator cards. Each row opens Chat while negotiating and Deal after the workflow advances.
+- Do not label a negotiating campaign recipient as awaiting response: that state also covers active negotiation messages, so the truthful label is Negotiating.
 - Signed-in chat pages reserve the visible workspace with `100dvh`. The message pane is the internal scroller. On mobile, the composer is fixed directly above the 64 px safe-area-aware bottom navigation; on desktop it returns to normal flow.
 - Exact mobile QA on 2026-08-10 measured the composer at y=713-780 and navigation at y=780-844 in a 390 x 844 viewport. They touch without a gap or overlap, and document width remains 390.
 - Creator cards and brand-facing campaign, chat, and deal surfaces must request and render `profiles.avatar_url` through `ProfileAvatar`, with initials only as fallback.

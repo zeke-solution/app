@@ -21,10 +21,12 @@ export interface CampaignRow {
 export function CampaignCard({
   campaign,
   recipientSummary,
+  recipients,
   children,
 }: {
   campaign: CampaignRow;
   recipientSummary?: string;
+  recipients?: React.ReactNode;
   children?: React.ReactNode;
 }) {
   return (
@@ -67,6 +69,8 @@ export function CampaignCard({
           {recipientSummary}
         </div>
       )}
+
+      {recipients}
 
       {(campaign.deliverables ||
         campaign.creator_requirements ||

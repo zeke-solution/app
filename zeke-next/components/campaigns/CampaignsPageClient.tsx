@@ -133,6 +133,7 @@ export function CampaignsPageClient({
                 key={campaign.id}
                 campaign={campaign}
                 recipientSummary={recipientSummary(recipients)}
+                recipients={<CampaignRecipients recipients={recipients} />}
               >
                 {campaign.status === 'active' ? (
                   <div className='mt-3 flex flex-col gap-2 border-t border-border pt-3 sm:flex-row'>
@@ -250,17 +251,187 @@ function recipientSummary(recipients: CampaignDeliveryRow[]) {
   const negotiating = recipients.filter(
     (delivery) => delivery.status === 'negotiating',
   ).length;
-  const declined = recipients.filter(
+  const cancelled = recipients.filter(
     (delivery) => delivery.status === 'cancelled',
   ).length;
-  const accepted = recipients.length - negotiating - declined;
+  const completed = recipients.filter(
+    (delivery) => delivery.status === 'completed',
+  ).length;
+  const inProgress = recipients.length - negotiating - cancelled - completed;
   const parts = [
-    recipients.length + (recipients.length === 1 ? ' creator' : ' creators'),
+    recipients.length +
+      (recipients.length === 1 ? ' creator invited' : ' creators invited'),
     negotiating ? negotiating + ' negotiating' : '',
-    accepted ? accepted + ' accepted' : '',
-    declined ? declined + ' declined or cancelled' : '',
+    inProgress ? inProgress + ' in progress' : '',
+    completed ? completed + ' completed' : '',
+    cancelled ? cancelled + ' declined or cancelled' : '',
   ].filter(Boolean);
   return parts.join(' - ');
+}
+
+function CampaignRecipients({
+  recipients,
+}: {
+  recipients: CampaignDeliveryRow[];
+}) {
+  if (recipients.length === 0) return null;
+
+  return (
+    <section className='mt-3 rounded-xl bg-dark/70 p-2.5 sm:p-3'>
+      <div className='mb-2.5 flex items-center justify-between gap-3 px-1'>
+        <div>
+          <h3 className='text-xs font-black text-light'>Invited creators</h3>
+          <p className='mt-0.5 text-[11px] text-muted'>
+            Live status for every campaign invitation.
+          </p>
+        </div>
+        <span className='rounded-full bg-card px-2.5 py-1 text-xs font-bold text-muted'>
+          {recipients.length}
+        </span>
+      </div>
+
+      <div className='space-y-2 md:hidden'>
+        {recipients.map((recipient) => (
+          <CampaignRecipientMobile key={recipient.id} recipient={recipient} />
+        ))}
+      </div>
+
+      <div className='hidden md:block'>
+        <div className='grid grid-cols-[minmax(0,1.4fr)_minmax(116px,.7fr)_90px_100px_92px] gap-3 px-3 py-2 text-[11px] font-bold uppercase tracking-[0.08em] text-muted'>
+          <span>Creator</span>
+          <span>Status</span>
+          <span>Fee</span>
+          <span>Invited</span>
+          <span className='text-right'>Action</span>
+        </div>
+        <div className='space-y-1.5'>
+          {recipients.map((recipient) => (
+            <CampaignRecipientDesktop key={recipient.id} recipient={recipient} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function CampaignRecipientMobile({
+  recipient,
+}: {
+  recipient: CampaignDeliveryRow;
+}) {
+  const creatorName = recipient.creator?.display_name ?? 'Creator';
+  const status = recipient.status as DealStatus;
+
+  return (
+    <article className='rounded-xl bg-card px-3 py-3 shadow-[0_1px_2px_rgba(15,23,42,0.04)]'>
+      <div className='flex items-start justify-between gap-3'>
+        <div className='flex min-w-0 items-center gap-2.5'>
+          <ProfileAvatar
+            name={creatorName}
+            avatarUrl={recipient.creator?.avatar_url}
+            className='h-9 w-9 rounded-full bg-accent/10 text-[10px] text-accent'
+          />
+          <div className='min-w-0'>
+            <div className='truncate text-sm font-bold text-light'>
+              {creatorName}
+            </div>
+            <div className='mt-0.5 text-[11px] text-muted'>
+              {recipient.platform ?? 'Campaign invitation'}
+            </div>
+          </div>
+        </div>
+        <Badge variant={statusBadge(status)}>
+          {campaignRecipientStatusLabel(status)}
+        </Badge>
+      </div>
+      <div className='mt-3 grid grid-cols-2 gap-2'>
+        <RecipientField label='Fee' value={'₹' + fmtNum(recipient.amount)} />
+        <RecipientField
+          label='Invited'
+          value={recipient.created_at ? fmtDateShort(recipient.created_at) : '—'}
+        />
+      </div>
+      <Link
+        href={campaignRecipientHref(recipient)}
+        className={buttonClassName({
+          variant: 'outline',
+          size: 'sm',
+          className: 'mt-3 w-full',
+        })}
+      >
+        {status === 'negotiating' ? 'Open chat' : 'Open deal'}
+      </Link>
+    </article>
+  );
+}
+
+function CampaignRecipientDesktop({
+  recipient,
+}: {
+  recipient: CampaignDeliveryRow;
+}) {
+  const creatorName = recipient.creator?.display_name ?? 'Creator';
+  const status = recipient.status as DealStatus;
+
+  return (
+    <div className='grid grid-cols-[minmax(0,1.4fr)_minmax(116px,.7fr)_90px_100px_92px] items-center gap-3 rounded-lg bg-card px-3 py-2.5 shadow-[0_1px_2px_rgba(15,23,42,0.035)]'>
+      <div className='flex min-w-0 items-center gap-2.5'>
+        <ProfileAvatar
+          name={creatorName}
+          avatarUrl={recipient.creator?.avatar_url}
+          className='h-8 w-8 rounded-full bg-accent/10 text-[9px] text-accent'
+        />
+        <div className='min-w-0'>
+          <div className='truncate text-xs font-bold text-light'>
+            {creatorName}
+          </div>
+          <div className='mt-0.5 truncate text-[11px] text-muted'>
+            {recipient.platform ?? 'Campaign invitation'}
+          </div>
+        </div>
+      </div>
+      <div>
+        <Badge variant={statusBadge(status)}>
+          {campaignRecipientStatusLabel(status)}
+        </Badge>
+      </div>
+      <div className='text-xs font-bold text-light'>
+        ₹{fmtNum(recipient.amount)}
+      </div>
+      <div className='text-xs text-muted'>
+        {recipient.created_at ? fmtDateShort(recipient.created_at) : '—'}
+      </div>
+      <Link
+        href={campaignRecipientHref(recipient)}
+        className='text-right text-xs font-bold text-accent hover:text-light'
+      >
+        {status === 'negotiating' ? 'Open chat' : 'Open deal'}
+      </Link>
+    </div>
+  );
+}
+
+function RecipientField({ label, value }: { label: string; value: string }) {
+  return (
+    <div className='rounded-lg bg-dark/60 px-2.5 py-2'>
+      <div className='text-[10px] font-bold uppercase tracking-wide text-muted'>
+        {label}
+      </div>
+      <div className='mt-0.5 text-xs font-bold text-light'>{value}</div>
+    </div>
+  );
+}
+
+function campaignRecipientStatusLabel(status: DealStatus) {
+  return status === 'negotiating'
+    ? 'Negotiating'
+    : dealStatusLabel(status, 'brand');
+}
+
+function campaignRecipientHref(recipient: CampaignDeliveryRow) {
+  return recipient.status === 'negotiating'
+    ? '/brand/chats/' + recipient.id
+    : '/brand/deals/' + recipient.id;
 }
 
 function statusBadge(

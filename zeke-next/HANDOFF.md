@@ -26,6 +26,14 @@ Last updated: 2026-08-11
 
 ## Current status
 
+### Campaign creator tracking: 2026-08-11
+
+- Brand Campaigns now keeps each reusable campaign as the parent record and shows every invited creator directly inside it.
+- Each campaign retains its brief summary, commercial terms, deadline, and aggregate recipient summary. Invited creator rows add avatar/name, truthful workflow status, fee, invitation date, and the correct Chat or Deal action.
+- Desktop uses aligned Creator, Status, Fee, Invited, and Action columns. Mobile switches to labelled creator cards so the page does not require horizontal scrolling.
+- The UI reuses the existing brand-owned campaign and deal query; there is no database migration or workflow-state change. The negotiating state remains labelled Negotiating because the database does not distinguish a fresh invitation from an active negotiation.
+- TypeScript, ESLint, git diff checks, and the optimized 41-route production build pass.
+
 ### Borderless dashboard surfaces: 2026-08-11
 
 - Creator, brand, and admin workspaces now remove neutral outline lines from cards, inset boxes, list/table rows, and their internal neutral separators. Marketing and auth surfaces are unchanged.
