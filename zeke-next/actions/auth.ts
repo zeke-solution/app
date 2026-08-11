@@ -223,13 +223,15 @@ export async function requestPasswordReset(input: ResetInput): Promise<ActionRes
 
 export async function confirmPasswordRecovery(formData: FormData): Promise<never> {
   const tokenHash = String(formData.get("token_hash") ?? "").trim();
-  const type = String(formData.get("type") ?? "");
 
-  if (type !== "recovery" || tokenHash.length < 20 || tokenHash.length > 1024) {
+  if (tokenHash.length < 20 || tokenHash.length > 1024) {
     redirect("/login?error=recovery_link_invalid");
   }
 
   const supabase = await createClient();
+  // This action is recovery-only. Keeping the token type server-side avoids a
+  // second query parameter that mobile mail clients can strip or rewrite,
+  // while Supabase still verifies that the token itself is a recovery token.
   const { error } = await supabase.auth.verifyOtp({
     token_hash: tokenHash,
     type: "recovery",

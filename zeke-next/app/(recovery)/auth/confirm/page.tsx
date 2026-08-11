@@ -5,10 +5,10 @@ import { Button } from "@/components/ui/Button";
 export default async function ConfirmRecoveryPage({
   searchParams,
 }: {
-  searchParams: Promise<{ token_hash?: string; type?: string }>;
+  searchParams: Promise<{ token_hash?: string }>;
 }) {
-  const { token_hash: tokenHash = "", type = "" } = await searchParams;
-  const validRequest = type === "recovery" && tokenHash.length >= 20 && tokenHash.length <= 1024;
+  const { token_hash: tokenHash = "" } = await searchParams;
+  const validRequest = tokenHash.length >= 20 && tokenHash.length <= 1024;
 
   if (!validRequest) {
     return (
@@ -38,7 +38,6 @@ export default async function ConfirmRecoveryPage({
       </p>
       <form action={confirmPasswordRecovery} className="mt-5">
         <input type="hidden" name="token_hash" value={tokenHash} />
-        <input type="hidden" name="type" value="recovery" />
         <Button type="submit" fullWidth>
           Continue securely
         </Button>
