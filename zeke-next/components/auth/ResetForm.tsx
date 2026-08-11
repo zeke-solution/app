@@ -26,18 +26,22 @@ export function ResetForm() {
     <form onSubmit={handleSubmit} className="flex flex-col gap-5 rounded-2xl border border-border bg-card p-7">
       {sent ? (
         <>
-          <div className="rounded-2xl border border-zgreen/25 bg-zgreen/[0.06] p-4">
+          <div role="status" className="rounded-2xl border border-zgreen/25 bg-zgreen/[0.06] p-4">
             <div className="text-sm font-bold text-zgreen">Reset request received</div>
             <p className="mt-2 text-[13px] leading-relaxed text-muted">
-              If this email belongs to a Zeke account, the reset link will arrive shortly. Check the inbox and spam folder.
+              If a Zeke account matches this exact address, the reset link will arrive shortly.
             </p>
+            <div className="mt-3 rounded-xl bg-dark/60 px-3 py-2.5 text-left">
+              <div className="text-[11px] font-semibold uppercase tracking-wide text-muted">Submitted email</div>
+              <div className="mt-1 break-words text-sm font-semibold text-light">{email}</div>
+            </div>
           </div>
           <div className="rounded-xl border border-border bg-dark p-3 text-xs leading-relaxed text-muted">
-            No email yet? Check the spelling, wait a minute, then try again. New to Zeke?{" "}
+            Check the spelling above, then check the inbox and spam folder. New to Zeke?{" "}
             <Link href="/register" className="font-semibold text-accent">Create an account</Link>.
           </div>
           <button type="button" onClick={() => { setSent(false); setError(""); }} className="text-xs font-semibold text-accent">
-            Try another email
+            Wrong email? Change it
           </button>
         </>
       ) : (
