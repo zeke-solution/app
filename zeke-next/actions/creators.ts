@@ -20,7 +20,8 @@ export async function searchCreators(filters: {
       'id,niche,ig_followers,rating,shield_active,shield_expires,handle,profiles!influencer_profiles_id_fkey(display_name,location,avatar_url)',
     )
     .order('shield_active', { ascending: false })
-    .order('ig_followers', { ascending: false });
+    .order('ig_followers', { ascending: false })
+    .limit(100);
 
   if (filters.niche) query = query.eq('niche', filters.niche);
 

@@ -47,8 +47,8 @@ export function SectionHeader({
   action?: ReactNode;
 }) {
   return (
-    <div className="mb-3 flex items-end justify-between gap-4">
-      <div>
+    <div className="mb-3 flex min-w-0 items-end justify-between gap-4">
+      <div className="min-w-0">
         <h2 className="text-[15px] font-bold text-light">{title}</h2>
         {description && <p className="mt-0.5 text-sm text-muted">{description}</p>}
       </div>

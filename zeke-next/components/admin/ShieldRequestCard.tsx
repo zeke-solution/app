@@ -12,7 +12,11 @@ export interface ShieldRequestRow {
   id: string;
   influencer_id: string;
   amount: number | null;
+  status: string | null;
   requested_at: string | null;
+  activated_at: string | null;
+  expires_at: string | null;
+  note: string | null;
   creatorName: string;
   location: string;
 }
@@ -22,6 +26,7 @@ export function ShieldRequestCard({ request }: { request: ShieldRequestRow }) {
   const [pending, setPending] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const router = useRouter();
+  const status = request.status ?? "pending";
 
   async function handleActivate() {
     if (!confirm("Confirm payment received and activate Shield for this creator?")) return;
@@ -56,22 +61,37 @@ export function ShieldRequestCard({ request }: { request: ShieldRequestRow }) {
         </div>
         <div className="flex-shrink-0 text-right">
           <div className="text-sm font-black text-gold">₹{request.amount ?? 1999}</div>
-          <Badge variant="gold">Pending</Badge>
+          <Badge variant={status === "activated" ? "green" : status === "rejected" ? "danger" : "gold"}>
+            {status}
+          </Badge>
         </div>
       </button>
-      <div className="flex gap-2 border-t border-border pt-3">
-        <button onClick={handleActivate} disabled={pending} className="flex-1 rounded-lg border border-zgreen/30 bg-zgreen/[0.05] py-2 text-xs font-bold text-zgreen disabled:opacity-50">
-          &#128737; Activate
-        </button>
-        <button onClick={handleReject} disabled={pending} className="rounded-lg border border-accent/30 bg-accent/[0.05] px-4 py-2 text-xs font-bold text-accent disabled:opacity-50">
-          &#10006; Reject
-        </button>
-        <AdminRemoveButton
-          kind="shield_request"
-          entityId={request.id}
-          entityLabel={`${request.creatorName}'s Shield request`}
-          description="This permanently removes the pending membership request without activating or rejecting it."
-        />
+      <div className="flex flex-wrap gap-2 border-t border-border pt-3">
+        {status === "pending" && (
+          <>
+            <button onClick={handleActivate} disabled={pending} className="flex-1 rounded-lg border border-zgreen/30 bg-zgreen/[0.05] py-2 text-xs font-bold text-zgreen disabled:opacity-50">
+              &#128737; Activate
+            </button>
+            <button onClick={handleReject} disabled={pending} className="rounded-lg border border-accent/30 bg-accent/[0.05] px-4 py-2 text-xs font-bold text-accent disabled:opacity-50">
+              &#10006; Reject
+            </button>
+          </>
+        )}
+        {status !== "pending" && (
+          <div className="min-w-0 flex-1 text-xs leading-5 text-muted">
+            {request.activated_at && <span>Activated {fmtDate(request.activated_at)}. </span>}
+            {request.expires_at && <span>Expires {new Date(request.expires_at).toLocaleDateString("en-GB")}. </span>}
+            {request.note && <span className="break-words">Note: {request.note}</span>}
+          </div>
+        )}
+        {status === "pending" && (
+          <AdminRemoveButton
+            kind="shield_request"
+            entityId={request.id}
+            entityLabel={`${request.creatorName}'s Shield request`}
+            description="This permanently removes the pending membership request without activating or rejecting it."
+          />
+        )}
       </div>
       {showProfile && (
         <EntityDetailModal target={{ type: "creator", id: request.influencer_id }} onClose={() => setShowProfile(false)} />

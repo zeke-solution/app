@@ -34,6 +34,8 @@ export async function markPaymentSent(dealId: string, amount: number): Promise<A
 
   revalidatePath(`/brand/deals/${dealId}`);
   revalidatePath(`/creator/deals/${dealId}`);
+  revalidatePath("/brand/overview");
+  revalidatePath("/brand/partnerships");
   return { ok: true };
 }
 
@@ -61,5 +63,7 @@ export async function confirmPayment(paymentId: string, dealId: string): Promise
 
   revalidatePath(`/creator/deals/${dealId}`);
   revalidatePath(`/brand/deals/${dealId}`);
+  revalidatePath("/brand/overview");
+  revalidatePath("/brand/partnerships");
   return { ok: true };
 }

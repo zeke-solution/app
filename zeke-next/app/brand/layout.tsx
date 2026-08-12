@@ -6,7 +6,6 @@ import { MobileBottomNav } from "@/components/layout/MobileBottomNav";
 import {
   HomeIcon,
   CampaignIcon,
-  ChatIcon,
   DealsIcon,
   DiscoverIcon,
   ProfileIcon,
@@ -25,18 +24,17 @@ export default async function BrandLayout({
   const navItems = [
     { href: "/brand/overview", label: "Overview", icon: <HomeIcon /> },
     { href: "/brand/campaigns", label: "Campaigns", icon: <CampaignIcon /> },
-    { href: "/brand/chats", label: "Chats", icon: <ChatIcon /> },
-    { href: "/brand/deals", label: "Deals", icon: <DealsIcon /> },
-    { href: "/brand/discover", label: "Discover Creators", icon: <DiscoverIcon /> },
-    { href: "/brand/profile", label: "Brand Profile", icon: <ProfileIcon /> },
+    { href: "/brand/discover", label: "Creators", icon: <DiscoverIcon /> },
+    { href: "/brand/partnerships", label: "Partnerships", icon: <DealsIcon />, activePrefixes: ["/brand/chats", "/brand/deals"] },
+    { href: "/brand/profile", label: "Account", icon: <ProfileIcon /> },
   ];
 
   const mobileItems = [
-    { href: "/brand/overview", label: "Overview", icon: <HomeIcon width={18} height={18} /> },
+    { href: "/brand/overview", label: "Home", icon: <HomeIcon width={18} height={18} /> },
     { href: "/brand/campaigns", label: "Campaigns", icon: <CampaignIcon width={18} height={18} /> },
-    { href: "/brand/chats", label: "Chats", icon: <ChatIcon width={18} height={18} /> },
-    { href: "/brand/deals", label: "Deals", icon: <DealsIcon width={18} height={18} /> },
-    { href: "/brand/profile", label: "Profile", icon: <ProfileIcon width={18} height={18} /> },
+    { href: "/brand/discover", label: "Creators", icon: <DiscoverIcon width={18} height={18} /> },
+    { href: "/brand/partnerships", label: "Work", icon: <DealsIcon width={18} height={18} />, activePrefixes: ["/brand/chats", "/brand/deals"] },
+    { href: "/brand/profile", label: "Account", icon: <ProfileIcon width={18} height={18} /> },
   ];
 
   return (
@@ -46,8 +44,8 @@ export default async function BrandLayout({
         homeHref="/brand/overview"
         dealHrefPrefix="/brand/deals"
         rightExtra={
-          <Link href="/brand/campaigns" className="brand-button-primary hidden rounded-xl border px-4 py-2 text-xs font-bold text-white sm:inline">
-            + New Campaign
+          <Link href="/brand/campaigns?new=1" className="brand-button-primary hidden rounded-xl border px-4 py-2 text-xs font-bold text-white sm:inline">
+            New campaign
           </Link>
         }
       />

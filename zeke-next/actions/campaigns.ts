@@ -59,5 +59,6 @@ export async function closeCampaign(campaignId: string): Promise<ActionResult> {
   if (!data) return { ok: false, error: "Campaign was already closed or could not be found." };
 
   revalidatePath("/brand/campaigns");
+  revalidatePath("/brand/overview");
   return { ok: true };
 }

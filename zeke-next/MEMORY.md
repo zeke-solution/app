@@ -1,6 +1,6 @@
 # Zeke project memory
 
-Last updated: 2026-08-11
+Last updated: 2026-08-12
 
 ## Source of truth
 
@@ -13,13 +13,40 @@ Last updated: 2026-08-11
 
 ## Technical QA follow-up
 
-- Release 1 is implemented and migration 0021 is live. Admin removals use a database-transactional operation ledger, with external Auth/Storage cleanup explicitly retryable from Admin > Removal log. Do not bypass this path with direct table-by-table deletion.
+- Brand workspace navigation invariant: keep five user-level destinations—Overview, Campaigns, Creators, Partnerships, Account. Chats and Deals are workflow internals, not separate list destinations; keep their list URLs redirecting to Partnerships and keep dynamic record URLs compatible.
+- Brand Overview is an action queue before it is a reporting surface. Treat negotiating offers, submitted content, final links awaiting payment, creator cancellation requests, and disputes as Needs attention; derive the label and deep link through `lib/domain/brand-workflow.ts` so Overview and Partnerships cannot drift.
+- One prominent next action belongs on each Brand partnership row. Normal workflow actions are primary; cancellation and disputes stay separated under Partnership options/problem controls. Deal tabs are conditional on actual submissions, final links, payments, and agreements instead of exposing empty equal-weight tabs.
+- `/brand/campaigns?new=1` must open the composer directly, including navigation while already on Campaigns. Keep `CampaignsPageClient` keyed from the server query state; do not restore a synchronous state-setting effect. Recipient rows remain collapsed by default.
+- Negotiating offer editing belongs directly in Brand Chat and continues to use the validated `editOffer` action. Every workflow mutation must revalidate `/brand/overview` and `/brand/partnerships` so the attention queue stays current.
+- Mobile Brand navigation must retain Creators and Work. Partnership filters must wrap rather than escape the 320 px viewport. Creator search is debounced 250 ms and the server result is capped at 100 until real pagination is implemented.
+- The 2026-08-12 populated Brand QA passed 39 route/viewport combinations at 320, 768, and 1440 px plus attention, direct-composer, negotiation-editor, status-deep-link, and compatibility-redirect assertions. There were zero overflows/browser errors and zero QA accounts after cleanup.
+
+- Admin coverage invariant: the Admin role has complete operational read access, not access to passwords, API keys, provider secrets, or raw project secrets. Keep `/admin/system` explicitly protected with `requireRole("admin")`; use the server-only Admin client only for Auth metadata, Storage inventory, and signed file access that cannot be obtained from public-table RLS.
+- Keep the standard Admin destinations: global Campaigns, paginated Platform Records, System/identity inventory, and the mobile All Admin Tools directory. Platform Records owns messages, notifications, submissions, agreements, payments, final links, and guardians.
+- Queue pages must not erase history by filtering it away. Shield Requests and Disputes default to all records and provide status filters. Activated/rejected Shield requests and resolved disputes are read-only; only pending/open records retain their existing destructive controls.
+- Admin agreement downloads intentionally bypass the participant Shield-membership gate after Admin identity is verified. Participant downloads retain the active-Shield requirement.
+- The 2026-08-12 live baseline contained 2 campaigns, 27 messages, 3 agreements, 12 notifications, 9 Auth users, 1 activated Shield request, and 12 removal-audit entries. Authenticated Admin QA passed 72 route/viewport combinations plus a real agreement-PDF access proof; the temporary account was removed.
+
+- Dashboard fit invariant: below 768 px use the mobile bottom navigation; from 768 px through 1023 px keep the 72 px icon rail; at 1024 px and above expand to the 240 px sidebar. Do not restore the full sidebar at 768 px because it leaves only 528 px for dashboard content while data grids are already in their wider layouts.
+- Dashboard overview grids and their direct sections must remain `min-w-0`; otherwise populated Admin deal rows can force a single-column grid 30 px beyond the usable 320 px mobile content slot while page-level clipping hides the defect.
+- The mobile notification list must remain fixed to `inset-x-3` below 640 px. Its anchored `w-80` form belongs at `sm` and above only.
+- The 2026-08-12 authenticated fit matrix passed 92 combinations across 23 dashboard routes and four viewports (320, 768, 1024, and 1440 px wide), plus open notification panels for creator, brand, and admin. Temporary QA accounts were removed.
+
+- Release 1 is live from main commit `7beff82`; Vercel completed successfully and production smoke/header checks pass. Migration 0021 is live and the remote migration ledger is up to date.
+- Admin removals use a database-transactional operation ledger, with external Auth/Storage cleanup explicitly retryable from Admin > Removal log. Do not bypass this path with direct table-by-table deletion.
 - Keep the central response headers and powered-by opt-out in next.config.ts. The intentionally limited CSP protects object/base/form/frame behavior without forcing every static page into nonce-based dynamic rendering.
 - Keep AuthShell as the authentication main landmark, preserve one h1 per repaired auth/public page, let TextField generate stable label IDs, and keep password reveal controls at least 24 x 24 px.
 - Performance needs a controlled live trace rather than asset guessing. Three current live mobile Lighthouse samples have median Performance 84 and median TBT about 466 ms despite unchanged ~303 KiB transfer; local mobile is 93 with 60 ms TBT.
 - Consolidate apex/www through a redirect or canonical metadata, add route-specific metadata, and publish robots/sitemap endpoints.
 - Legal-provider URLs are HTTP(S)-only. Payment-proof is limited to 20 MB PDF/images and agreements to 10 MB PDF at the bucket boundary.
 - Add automated app tests and expand database coverage through migration 0021 before relying on the old 0001-0003/0010-0011 shim as full coverage.
+
+## Open core workflow findings
+
+- Highest priority after Release 1 is moving offer acceptance and decline into locking database RPCs. The current action changes deal status, then writes the agreement, event message, and notification separately without checking every result.
+- Offer acceptance also needs optimistic concurrency: validate the amount or `updated_at` value the creator actually saw so an edited negotiating offer cannot be accepted under silently changed terms.
+- Fix Shield dispute classification together: `raise_dispute_transaction` must check the deal creator's active, unexpired membership rather than checking only the actor's `shield_active` flag.
+- Submission revision status and multiple simultaneously pending submissions need a product decision before changing the state model. Full evidence and lower-priority findings are recorded in the 2026-08-11 static-review section of HANDOFF.md.
 
 ## Google authentication
 

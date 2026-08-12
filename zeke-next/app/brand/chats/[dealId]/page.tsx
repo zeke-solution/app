@@ -6,6 +6,7 @@ import { fmtNum } from '@/lib/domain/format';
 import { ChatThread } from '@/components/chat/ChatThread';
 import { BackIcon } from '@/components/layout/icons';
 import { ProfileAvatar } from '@/components/ui/ProfileAvatar';
+import { NegotiationOfferControl } from '@/components/offers/NegotiationOfferControl';
 
 export default async function BrandChatPage({
   params,
@@ -20,7 +21,7 @@ export default async function BrandChatPage({
   const { data: deal } = await supabase
     .from('deals')
     .select(
-      'title,amount,status,brand_id,creator_chat_closed_at,creator:profiles!deals_influencer_id_fkey(display_name,avatar_url)',
+      'title,platform,amount,deliverables,deadline,status,brand_id,creator_chat_closed_at,creator:profiles!deals_influencer_id_fkey(display_name,avatar_url)',
     )
     .eq('id', dealId)
     .single();
@@ -44,7 +45,7 @@ export default async function BrandChatPage({
     <div className='flex h-[calc(100dvh-160px)] min-h-0 flex-col md:h-[calc(100dvh-112px)]'>
       <div className='mb-4 flex flex-shrink-0 items-center gap-3 border-b border-border pb-4'>
         <Link
-          href='/brand/chats'
+          href='/brand/partnerships'
           className='flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-[10px] border border-border bg-white/5 text-light'
         >
           <BackIcon />
@@ -73,6 +74,18 @@ export default async function BrandChatPage({
           </Link>
         )}
       </div>
+      {deal.status === 'negotiating' && (
+        <NegotiationOfferControl
+          offer={{
+            dealId,
+            title: deal.title,
+            platform: deal.platform ?? '',
+            amount: deal.amount ?? 0,
+            deliverables: deal.deliverables ?? '',
+            deadline: deal.deadline ?? '',
+          }}
+        />
+      )}
       <ChatThread
         dealId={dealId}
         currentUserId={session.id}

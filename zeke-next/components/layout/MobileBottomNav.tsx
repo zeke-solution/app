@@ -8,6 +8,7 @@ export interface MobileNavItem {
   href: string;
   label: string;
   icon: ReactNode;
+  activePrefixes?: string[];
 }
 
 // Port of .mob-bottom-nav from css/zeke.css. Note the legacy app deliberately
@@ -20,7 +21,12 @@ export function MobileBottomNav({ items }: { items: MobileNavItem[] }) {
     <div className="fixed inset-x-0 bottom-0 z-30 flex h-[calc(64px+env(safe-area-inset-bottom))] border-t border-accent/10 bg-navy pb-[env(safe-area-inset-bottom)] pt-1.5 md:hidden">
       <div className="flex w-full items-center justify-evenly">
         {items.map((item) => {
-          const active = pathname === item.href || pathname?.startsWith(item.href + "/");
+          const active =
+            pathname === item.href ||
+            pathname?.startsWith(item.href + "/") ||
+            item.activePrefixes?.some(
+              (prefix) => pathname === prefix || pathname?.startsWith(prefix + "/"),
+            );
           return (
             <Link
               key={item.href}

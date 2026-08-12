@@ -34,6 +34,8 @@ export async function raiseDispute(dealId: string, reason: string): Promise<Acti
 
   revalidatePath(`/creator/deals/${dealId}`);
   revalidatePath(`/brand/deals/${dealId}`);
+  revalidatePath("/brand/overview");
+  revalidatePath("/brand/partnerships");
   revalidatePath("/creator/shield");
   revalidatePath("/admin/shield/cases");
   return { ok: true };
@@ -55,5 +57,7 @@ export async function resolveDispute(disputeId: string, resolution: string): Pro
   revalidatePath("/admin/disputes");
   revalidatePath("/admin/overview");
   revalidatePath("/admin/deals");
+  revalidatePath("/brand/overview");
+  revalidatePath("/brand/partnerships");
   return { ok: true };
 }

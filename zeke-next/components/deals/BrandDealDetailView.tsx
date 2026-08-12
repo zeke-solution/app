@@ -54,6 +54,7 @@ export function BrandDealDetailView({
   finalLink,
   payment,
   agreement,
+  initialTab,
 }: {
   dealId: string;
   brandName: string;
@@ -71,24 +72,35 @@ export function BrandDealDetailView({
   finalLink: { url: string; submitted_at: string | null } | null;
   payment: { id: string; amount: number | null; status: string | null } | null;
   agreement: AgreementInfo | null;
+  initialTab?: string;
 }) {
-  const [tab, setTab] = useState<TabKey>("overview");
   const meta = DEAL_STATUS_META[status];
   const router = useRouter();
 
-  const tabs: { key: TabKey; label: string }[] = [
+  const tabs: { key: Exclude<TabKey, "cancel">; label: string }[] = [
     { key: "overview", label: "Overview" },
-    { key: "review", label: "Review Content" },
-    { key: "finallink", label: "Final Link" },
-    { key: "payment", label: "Payment" },
-    { key: "agreement", label: "Agreement" },
-    { key: "cancel", label: "Cancel" },
   ];
+  if (submissions.length > 0 || status === "submitted" || status === "approved") {
+    tabs.push({ key: "review", label: "Content review" });
+  }
+  if (finalLink || ["link_submitted", "payment_sent", "completed"].includes(status)) {
+    tabs.push({ key: "finallink", label: "Final link" });
+  }
+  if (payment || ["link_submitted", "payment_sent", "completed"].includes(status)) {
+    tabs.push({ key: "payment", label: "Payment" });
+  }
+  if (agreement) tabs.push({ key: "agreement", label: "Agreement" });
+  const initialKey = initialTab as TabKey | undefined;
+  const [tab, setTab] = useState<TabKey>(
+    initialKey && (initialKey === "cancel" || tabs.some((item) => item.key === initialKey))
+      ? initialKey
+      : "overview",
+  );
 
   return (
     <div>
       <div className="mb-4 flex items-center gap-3">
-        <Link href="/brand/deals" className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-[10px] border border-border bg-white/5 text-light">
+        <Link href="/brand/partnerships" className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-[10px] border border-border bg-white/5 text-light">
           <BackIcon />
         </Link>
         <div className="min-w-0 flex-1">
@@ -111,18 +123,28 @@ export function BrandDealDetailView({
         </span>
       </div>
 
-      <div className="mb-5 flex gap-0 overflow-x-auto border-b border-border">
-        {tabs.map((t) => (
-          <button
-            key={t.key}
-            onClick={() => setTab(t.key)}
-            className={`whitespace-nowrap px-3.5 py-2.5 text-[13px] font-semibold transition-colors ${
-              tab === t.key ? "border-b-2 border-accent text-accent" : "text-muted"
-            }`}
-          >
-            {t.label}
-          </button>
-        ))}
+      <div className="mb-5 flex items-end justify-between gap-3 border-b border-border">
+        <div className="flex min-w-0 gap-0 overflow-x-auto">
+          {tabs.map((t) => (
+            <button
+              key={t.key}
+              onClick={() => setTab(t.key)}
+              className={`min-h-11 whitespace-nowrap px-3.5 py-2.5 text-[13px] font-semibold transition-colors ${
+                tab === t.key ? "border-b-2 border-accent text-accent" : "text-muted"
+              }`}
+            >
+              {t.label}
+            </button>
+          ))}
+        </div>
+        <button
+          onClick={() => setTab("cancel")}
+          className={`min-h-11 flex-shrink-0 px-2 text-xs font-semibold transition-colors ${
+            tab === "cancel" ? "border-b-2 border-danger text-danger" : "text-muted hover:text-light"
+          }`}
+        >
+          Partnership options
+        </button>
       </div>
 
       {tab === "overview" && (
@@ -238,17 +260,30 @@ export function BrandDealDetailView({
           <div className="text-xs leading-relaxed text-muted">{p.deliverables || "No deliverables specified."}</div>
         </div>
 
-        <div className="flex flex-wrap gap-2 border-t border-border pt-2">
+        <div className="flex flex-wrap gap-2 border-t border-border pt-3">
           <Link href={`/brand/chats/${p.dealId}`}>
-            <Button variant="outline" size="sm"><ChatIcon width={13} height={13} /> Chat</Button>
+            <Button variant="outline" size="sm"><ChatIcon width={13} height={13} /> Message creator</Button>
           </Link>
-          <Button variant="ghost" size="sm" onClick={() => setTab("agreement")}>
-            <AgreementIcon width={13} height={13} /> Agreement
-          </Button>
-          <Button variant="ghost" size="sm" className="!text-accent" onClick={() => setDisputeOpen((o) => !o)}>
-            <DisputeIcon width={13} height={13} /> Raise Dispute
-          </Button>
+          {agreement && (
+            <Button variant="ghost" size="sm" onClick={() => setTab("agreement")}>
+              <AgreementIcon width={13} height={13} /> Agreement
+            </Button>
+          )}
         </div>
+
+        <details className="mt-3 rounded-xl bg-dark/60 px-3.5 py-2.5">
+          <summary className="min-h-8 cursor-pointer text-xs font-semibold text-muted">
+            Problem with this partnership?
+          </summary>
+          <div className="mt-2 flex flex-wrap gap-2 border-t border-border pt-3">
+            <Button variant="ghost" size="sm" className="!text-danger" onClick={() => setDisputeOpen((o) => !o)}>
+              <DisputeIcon width={13} height={13} /> Raise dispute
+            </Button>
+            <Button variant="ghost" size="sm" onClick={() => setTab("cancel")}>
+              Cancellation options
+            </Button>
+          </div>
+        </details>
 
         {disputeOpen && <DisputeForm dealId={p.dealId} onDone={() => setDisputeOpen(false)} />}
         {editOpen && (

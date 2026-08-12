@@ -9,6 +9,7 @@ export interface SidebarNavItem {
   href: string;
   label: string;
   icon: ReactNode;
+  activePrefixes?: string[];
   /** Shown as a small pill (e.g. unread/active counts). */
   count?: number;
   countColor?: string;
@@ -34,35 +35,41 @@ export function Sidebar({
   const pathname = usePathname();
 
   return (
-    <aside className="brand-sidebar hidden w-60 flex-shrink-0 flex-col gap-1 border-r p-4 md:flex">
-      <div className="mb-3 flex items-center gap-2.5 border-b border-border px-2 pb-5">
+    <aside className="brand-sidebar hidden w-[72px] flex-shrink-0 flex-col gap-1 overflow-y-auto border-r p-2 md:flex lg:w-60 lg:p-4">
+      <div className="mb-3 flex items-center justify-center gap-2.5 border-b border-border px-1 pb-5 lg:justify-start lg:px-2">
         <div
           className={`flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-cover bg-center text-xs font-black ${avatarClassName}`}
           style={avatarUrl ? { backgroundImage: `url(${avatarUrl})` } : undefined}
         >
           {!avatarUrl && avatarInitials}
         </div>
-        <div>
-          <div className="text-sm font-bold text-white">{name}</div>
-          <div className="text-[11px] text-muted">{sub}</div>
+        <div className="hidden min-w-0 lg:block">
+          <div className="truncate text-sm font-bold text-white">{name}</div>
+          <div className="truncate text-[11px] text-muted">{sub}</div>
         </div>
       </div>
 
       {navItems.map((item) => {
-        const active = pathname === item.href || pathname?.startsWith(item.href + "/");
+        const active =
+          pathname === item.href ||
+          pathname?.startsWith(item.href + "/") ||
+          item.activePrefixes?.some(
+            (prefix) => pathname === prefix || pathname?.startsWith(prefix + "/"),
+          );
         return (
           <Link
             key={item.href}
             href={item.href}
-            className={`flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors ${
+            title={item.label}
+            className={`flex items-center justify-center gap-2.5 rounded-xl px-2 py-2.5 text-sm font-medium transition-colors lg:justify-start lg:px-3 ${
               active ? "brand-nav-active" : "text-muted hover:bg-white/5 hover:text-light"
             }`}
           >
-            {item.icon}
-            {item.label}
+            <span className="flex-shrink-0">{item.icon}</span>
+            <span className="sr-only lg:not-sr-only">{item.label}</span>
             {!!item.count && (
               <span
-                className="ml-auto rounded-full px-1.5 py-0.5 text-[10px] font-bold text-white"
+                className="ml-auto hidden rounded-full px-1.5 py-0.5 text-[10px] font-bold text-white lg:inline-flex"
                 style={{ background: item.countColor ?? "#6366F1" }}
               >
                 {item.count}
@@ -73,7 +80,12 @@ export function Sidebar({
       })}
 
       <div className="mt-auto flex flex-col gap-1">
-        <SignOutButton fullWidth />
+        <div className="flex justify-center lg:hidden">
+          <SignOutButton iconOnly />
+        </div>
+        <div className="hidden lg:block">
+          <SignOutButton fullWidth />
+        </div>
       </div>
     </aside>
   );

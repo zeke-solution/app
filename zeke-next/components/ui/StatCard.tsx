@@ -15,8 +15,8 @@ export function StatCard({
   valueColor?: string;
 }) {
   return (
-    <div className="brand-card rounded-xl border p-4">
-      <div className="flex items-start justify-between gap-3">
+    <div className="brand-card min-w-0 rounded-xl border p-4">
+      <div className="flex flex-col-reverse items-start justify-between gap-2 sm:flex-row sm:gap-3">
         <div className="text-xs font-semibold uppercase tracking-[0.08em] text-muted">{label}</div>
         <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-dark" style={{ color: iconColor }}>
           {icon}

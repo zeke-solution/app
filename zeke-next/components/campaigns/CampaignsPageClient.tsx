@@ -70,13 +70,21 @@ const EMPTY_FORM: CampaignFormState = {
 export function CampaignsPageClient({
   campaigns,
   deliveries,
+  initialShowForm = false,
 }: {
   campaigns: CampaignRow[];
   deliveries: CampaignDeliveryRow[];
+  initialShowForm?: boolean;
 }) {
-  const [showForm, setShowForm] = useState(false);
+  const [showForm, setShowForm] = useState(initialShowForm);
   const [sendTarget, setSendTarget] = useState<CampaignRow | null>(null);
+  const router = useRouter();
   const directSends = deliveries.filter((delivery) => !delivery.campaign_id);
+
+  function setComposerOpen(open: boolean) {
+    setShowForm(open);
+    if (!open && initialShowForm) router.replace('/brand/campaigns', { scroll: false });
+  }
 
   return (
     <div>
@@ -84,13 +92,13 @@ export function CampaignsPageClient({
         title='Campaigns'
         description='Build complete briefs, send them to creators, and track every offer.'
         actions={
-          <Button size='sm' onClick={() => setShowForm((open) => !open)}>
+          <Button size='sm' onClick={() => setComposerOpen(!showForm)}>
             {showForm ? 'Close form' : '+ Create campaign'}
           </Button>
         }
       />
 
-      {showForm && <CreateCampaignForm onDone={() => setShowForm(false)} />}
+      {showForm && <CreateCampaignForm onDone={() => setComposerOpen(false)} />}
 
       {directSends.length > 0 && (
         <section className='mb-6'>
@@ -133,7 +141,19 @@ export function CampaignsPageClient({
                 key={campaign.id}
                 campaign={campaign}
                 recipientSummary={recipientSummary(recipients)}
-                recipients={<CampaignRecipients recipients={recipients} />}
+                recipients={
+                  recipients.length > 0 ? (
+                    <details className='mt-3 rounded-xl bg-dark/70 px-3 py-2.5'>
+                      <summary className='flex min-h-8 cursor-pointer list-none items-center justify-between gap-3 text-xs font-black text-accent'>
+                        <span>View invited creators</span>
+                        <span className='rounded-full bg-card px-2 py-0.5 text-[11px] text-muted'>
+                          {recipients.length}
+                        </span>
+                      </summary>
+                      <CampaignRecipients recipients={recipients} />
+                    </details>
+                  ) : null
+                }
               >
                 {campaign.status === 'active' ? (
                   <div className='mt-3 flex flex-col gap-2 border-t border-border pt-3 sm:flex-row'>
@@ -277,18 +297,10 @@ function CampaignRecipients({
   if (recipients.length === 0) return null;
 
   return (
-    <section className='mt-3 rounded-xl bg-dark/70 p-2.5 sm:p-3'>
-      <div className='mb-2.5 flex items-center justify-between gap-3 px-1'>
-        <div>
-          <h3 className='text-xs font-black text-light'>Invited creators</h3>
-          <p className='mt-0.5 text-[11px] text-muted'>
-            Live status for every campaign invitation.
-          </p>
-        </div>
-        <span className='rounded-full bg-card px-2.5 py-1 text-xs font-bold text-muted'>
-          {recipients.length}
-        </span>
-      </div>
+    <section className='mt-3'>
+      <p className='mb-2.5 px-1 text-[11px] text-muted'>
+        Live status for every campaign invitation.
+      </p>
 
       <div className='space-y-2 md:hidden'>
         {recipients.map((recipient) => (

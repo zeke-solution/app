@@ -190,4 +190,6 @@ export async function declineCancel(dealId: string): Promise<ActionResult> {
 function revalidateDeal(dealId: string) {
   revalidatePath(`/creator/deals/${dealId}`);
   revalidatePath(`/brand/deals/${dealId}`);
+  revalidatePath("/brand/overview");
+  revalidatePath("/brand/partnerships");
 }

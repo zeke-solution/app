@@ -2,16 +2,20 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { StatCard, StatGrid } from "@/components/ui/StatCard";
 import { DealsTable, type AdminDealRow } from "@/components/admin/DealsTable";
-import { UsersIcon, ShieldIcon, DisputeIcon } from "@/components/layout/icons";
+import { UsersIcon, ShieldIcon, DisputeIcon, CampaignIcon, ChatIcon, AgreementIcon, BellIcon } from "@/components/layout/icons";
 import { PageHeader, SectionHeader } from "@/components/layout/PageHeader";
 
 export default async function AdminOverviewPage() {
   const supabase = await createClient();
   const today = new Date().toISOString().slice(0, 10);
 
-  const [usersRes, dealsRes, shieldRes, disputesRes, shieldPendingRes, recentDealsRes] = await Promise.all([
+  const [usersRes, dealsRes, campaignsRes, messagesRes, agreementsRes, notificationsRes, shieldRes, disputesRes, shieldPendingRes, recentDealsRes] = await Promise.all([
     supabase.from("profiles").select("id", { count: "exact", head: true }),
     supabase.from("deals").select("id", { count: "exact", head: true }).not("status", "in", '("completed","cancelled")'),
+    supabase.from("campaigns").select("id", { count: "exact", head: true }),
+    supabase.from("deal_messages").select("id", { count: "exact", head: true }),
+    supabase.from("agreements").select("id", { count: "exact", head: true }),
+    supabase.from("notifications").select("id", { count: "exact", head: true }),
     supabase.from("influencer_profiles").select("id", { count: "exact", head: true }).eq("shield_active", true).or(`shield_expires.is.null,shield_expires.gte.${today}`),
     supabase.from("disputes").select("id", { count: "exact", head: true }).eq("status", "open"),
     supabase.from("shield_requests").select("id", { count: "exact", head: true }).eq("status", "pending"),
@@ -48,12 +52,16 @@ export default async function AdminOverviewPage() {
           value={dealsRes.count ?? 0}
           label="Active Deals"
         />
+        <StatCard icon={<CampaignIcon width={16} height={16} />} iconColor="#6B21A8" value={campaignsRes.count ?? 0} label="Campaigns" />
+        <StatCard icon={<ChatIcon width={16} height={16} />} iconColor="#0E7490" value={messagesRes.count ?? 0} label="Messages" />
+        <StatCard icon={<AgreementIcon width={16} height={16} />} iconColor="#92400E" value={agreementsRes.count ?? 0} label="Agreements" />
+        <StatCard icon={<BellIcon width={16} height={16} />} iconColor="#BE185D" value={notificationsRes.count ?? 0} label="Notifications" />
         <StatCard icon={<ShieldIcon width={16} height={16} />} iconColor="#92400E" value={shieldRes.count ?? 0} label="Shield Members" />
         <StatCard icon={<DisputeIcon width={16} height={16} />} iconColor="#BE123C" value={disputesRes.count ?? 0} label="Open Disputes" />
       </StatGrid>
 
-      <div className="grid gap-6 xl:grid-cols-[minmax(18rem,0.65fr)_minmax(0,1.35fr)]">
-        <section>
+      <div className="grid min-w-0 gap-6 xl:grid-cols-[minmax(18rem,0.65fr)_minmax(0,1.35fr)]">
+        <section className="min-w-0">
           <SectionHeader title="Needs attention" description="Queues requiring an admin review" />
           <div className="grid gap-3">
             <Link href="/admin/shield" className="flex items-center gap-3 rounded-2xl border border-border bg-card p-3.5">
@@ -77,7 +85,7 @@ export default async function AdminOverviewPage() {
           </div>
         </section>
 
-        <section>
+        <section className="min-w-0">
           <SectionHeader
             title="Recent deals"
             description="Latest activity across creator-brand work"

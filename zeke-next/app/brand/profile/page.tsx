@@ -33,8 +33,8 @@ export default async function BrandProfilePage() {
   return (
     <div>
       <PageHeader
-        title="Brand profile"
-        description="Manage the identity and account details creators see on Zeke."
+        title="Account"
+        description="Review the brand identity creators see and manage this signed-in session."
       />
 
       <Card>

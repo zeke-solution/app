@@ -43,5 +43,7 @@ export async function submitFinalLink(dealId: string, url: string): Promise<Acti
 
   revalidatePath(`/creator/deals/${dealId}`);
   revalidatePath(`/brand/deals/${dealId}`);
+  revalidatePath("/brand/overview");
+  revalidatePath("/brand/partnerships");
   return { ok: true };
 }

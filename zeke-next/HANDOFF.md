@@ -1,6 +1,6 @@
 # Zeke Next.js handoff
 
-Last updated: 2026-08-11
+Last updated: 2026-08-12
 
 ## Working agreement
 
@@ -26,8 +26,44 @@ Last updated: 2026-08-11
 
 ## Current status
 
+### Brand workspace usability release: 2026-08-12 (local, not yet published)
+
+- Brand navigation is now task-oriented: Overview, Campaigns, Creators, Partnerships, and Account. The old standalone Chats and Deals list URLs remain compatible and redirect to the matching Partnerships filter; dynamic Chat and Deal record URLs remain unchanged.
+- `/brand/partnerships` is the single work queue for negotiations, accepted delivery, reviews, payments, disputes, and completed/cancelled history. Its Needs attention, Negotiating, Active, History, and All filters show counts and each row exposes one status-aware next action.
+- Brand Overview now begins with decisions waiting on the brand: creator negotiation, content review, final-link payment, cancellation response, or dispute review. It removes the fake average-rating placeholder and adds direct New campaign and Find creators actions, meaningful active/spend metrics, compact active-campaign summaries, and recent partnerships.
+- The global New campaign action now opens the full campaign composer directly via `/brand/campaigns?new=1`, including same-page navigation from Campaigns. Campaign recipient lists are collapsed by default so one campaign does not dominate the page, while recipient counts and full live status remain one click away.
+- Negotiating brands can edit title, platform, fee, deliverables, and deadline directly above Chat. The existing `editOffer` server action and validation remain authoritative, the creator is notified, and the new Brand views revalidate after every campaign, offer, submission, link, payment, dispute, and cancellation transition.
+- Deal Details now derives its tabs from the available workflow data instead of always showing six equal tabs. Deep links open Review, Payment, Agreement, or Cancellation directly; cancellation and dispute controls are separated under Partnership options / problem controls instead of competing with normal workflow actions.
+- Mobile now exposes Creators and Work as first-class bottom destinations. Partnership filters wrap at 320 px instead of hiding filters off-screen. Creator search is debounced by 250 ms and bounded to 100 ordered results to avoid a server request for every keystroke and an unbounded initial directory.
+- No database migration or state-transition rewrite was required. Existing deep links, RLS, actions, audit records, notifications, and workflow states remain compatible.
+- Populated authenticated browser QA passed 39 route/viewport combinations across 13 Brand destinations at 320 x 700, 768 x 900, and 1440 x 1000. The attention queue, mobile navigation, direct composer, negotiation editor, status deep links, and legacy redirects passed with zero overflow, browser errors, or failed assertions. Temporary Brand/Creator accounts and records were removed; their final Auth count is zero.
+- Strict TypeScript, ESLint, `git diff --check`, and the optimized 46-page production build pass. This release remains local and has not been committed, pushed, or deployed.
+
+### Admin operations coverage release: 2026-08-12 (local, not yet published)
+
+- The Admin information architecture now covers the full operational data model instead of only users, deals, open disputes, pending Shield requests, providers, and removals. New first-class routes are `/admin/campaigns`, `/admin/records`, `/admin/system`, and `/admin/menu`.
+- The live read-only baseline proved the gap: production had 2 campaigns, 27 deal messages, 3 agreements, 12 notifications, 9 confirmed Auth accounts, 1 activated Shield request, and 12 permanent removal-audit entries. Campaigns, messages, agreements, notifications, Auth metadata, and activated Shield history had no complete Admin view.
+- Campaigns now has a global index with brand, status, commercial metrics, recipient workflow counts, the complete campaign brief, IDs, and the existing recoverable removal control.
+- Platform Records provides paginated views for messages, notifications, submissions, agreements, payments, final links, and guardians. Private submission/payment links are server-generated, signed, and time-limited. Admins can download an agreement PDF even when the creator no longer has active Shield; participant access keeps its existing Shield rule.
+- System is explicitly guarded by `requireRole("admin")` and uses the server-only Admin client for Auth metadata and Storage inventory. It shows every Auth identity, role/profile alignment, confirmation and ban state, provider, onboarding state, last sign-in, all application-table counts, and bucket object totals. Passwords, API keys, provider secrets, and Supabase project secrets are never exposed.
+- Shield Requests and Disputes now default to complete history with status filters instead of silently hiding activated/rejected memberships and resolved cases. Completed history is read-only; destructive controls remain limited to pending Shield requests and open disputes so audit records cannot be casually erased.
+- Admin overview now surfaces campaign, message, agreement, and notification totals. Users links to Auth/access inventory. Mobile Admin navigation now ends in a More destination containing every platform, trust, and governance tool; the desktop/tablet sidebar includes the new routes and scrolls safely on short screens.
+- No database migration was needed: existing RLS already grants Admin read access to all public workflow tables. The missing access was an application information-architecture/UI problem.
+- Authenticated Chrome QA passed 72 route/viewport combinations across 24 Admin destinations at 320 x 700, 768 x 900, and 1440 x 1000. Live campaign/message/agreement/notification/Shield/Auth assertions passed, an existing agreement returned a real PDF to Admin, every route returned 200 at the expected path, and there were zero overflow, semantic, browser, or resource failures. The temporary Admin was deleted.
+- Strict TypeScript, ESLint, `git diff --check`, and the optimized 45-page production build pass. This release remains local and has not been committed, pushed, or deployed.
+
+### Dashboard screen-fit release: 2026-08-12 (local, not yet published)
+
+- Creator, brand, and admin dashboards now use a compact 72 px navigation rail from 768 px through 1023 px, then expand to the full 240 px sidebar at 1024 px. This keeps every navigation destination available on tablets while increasing the 768 px dashboard content area from 528 px to 696 px.
+- The populated Admin overview exposed a hidden mobile overflow that the page-level `overflow-x: clip` had concealed: an intrinsic grid minimum painted 30 px past its 288 px content slot at a 320 px viewport. All three overview grids and their sections now opt into `min-w-0`, and the shared section heading also permits its text column to shrink safely.
+- The notification dropdown is now a viewport-inset fixed panel below 640 px and retains its anchored 320 px desktop/tablet form at larger widths. Opening it at 320 px no longer sends the panel off the left edge.
+- Authenticated Chrome QA covered 23 creator, brand, and admin routes at 320 x 700, 768 x 900, 1024 x 900, and 1440 x 1000: 92 route/viewport combinations, plus the opened notification overlay for all three roles. Every route returned 200, stayed at its expected path, and had zero elements escaping either side of the viewport. The populated Admin data rows were included.
+- Temporary creator, brand, and admin QA accounts were deleted after the run; no destructive workflow action was submitted. Strict TypeScript, ESLint, `git diff --check`, and the optimized 41-page production build pass.
+- This release is only in the local working tree. It has not been committed, pushed, or deployed.
+
 ### Technical QA release 1: 2026-08-11
 
+- Source commit `7beff82` ("Harden admin removal and app security") was pushed directly to `main`. Vercel reported the production deployment Ready, `origin/main` matched the full commit, and live smoke checks passed on `https://zekesolution.com`.
 - Admin master removals are now recoverable. Migration 0021 creates an admin-only operation ledger, runs all relational deletion inside one database transaction, stores cleanup references, and completes the permanent audit atomically. Auth and Storage cleanup remain external by necessity, but incomplete work is visible and safely retryable from Admin > Removal log.
 - Migration 0021 is live on the linked Supabase project. Remote history is up to date, linked database lint reports no schema errors, the new table and both RPCs passed read-only verification, anonymous access is denied, and no destructive removal was used for QA.
 - Storage now enforces the documented bucket boundaries: payment-proof accepts PDF and common image formats up to 20 MB; agreements accepts PDF only up to 10 MB.
@@ -35,6 +71,7 @@ Last updated: 2026-08-11
 - Auth/public accessibility is repaired: AuthShell supplies the main landmark; About, Privacy, Login, Registration, Reset, Verify, and Update Password each have one h1; TextField always associates labels through stable IDs; password toggles meet touch-target size; and the identified role/link/pink-label contrast failures are corrected.
 - Legal-provider websites accept only HTTP or HTTPS URLs without embedded credentials.
 - ESLint, strict TypeScript, the optimized 41-page build, git diff --check, linked migration dry-run, and database lint pass. Local Lighthouse reports 100 Accessibility and 100 Best Practices for both homepage and Registration. All seven repaired pages returned 200 with exactly one h1 and one main landmark.
+- Production verification repeated those semantic checks on Login, Registration, Reset, Verify, Update Password, About, and Privacy: all returned 200 with one h1 and one main. Login serves CSP, nosniff, DENY framing, no-referrer, Permissions-Policy and HSTS without exposing X-Powered-By.
 - Remaining Release 2 work: controlled live performance tracing, apex/www canonical and route metadata plus robots/sitemap, automated Playwright/unit/database coverage, and safe dependency patch updates.
 
 ### Comprehensive technical QA: 2026-08-11
@@ -545,3 +582,36 @@ Then open `http://localhost:3000`.
 
 - Email sender/domain configuration.
 - Authenticated creator/brand/admin live workflow QA.
+
+## Marketing copy release: 2026-08-11 (commit 8bdea0d, deployed)
+
+- Sadhim was removed from the public About page at the owner's instruction. The founder count is now three, the grid is `sm:grid-cols-3`, and his marketing/brand remit moved into Fidha's card (role title is now "Creator Growth & Brand Strategy") so the page does not show an unowned function. This was a website-only change: no Supabase account, role, or record was touched, and the legacy `index.html` and `reference-homepage.html` still contain his card.
+- Marketing body copy on Home, About and Shield was rewritten from third person into second person with plainer verbs. Legal text, every Shield disclaimer, pricing facts, published email addresses, and the locked "Create with confidence. Close with clarity." headline were deliberately left unchanged. Privacy and Terms were not touched at all, because friendlier phrasing there risks changing what the company commits to.
+- One regression was caught in browser QA and fixed before shipping: "Support if a deal goes wrong" wrapped to two lines in the hero benefit chip and grew all three chips from 62px to 74px. Shortened to "Support when it matters". Lesson worth keeping: TypeScript, ESLint and the build all passed with that regression present. Copy-length changes need a rendered check, not just a green build.
+- Verified live after deploy: 8 public routes return 200 on both domains, Sadhim is gone, new copy present, locked headline and all three Shield legal statements intact.
+
+## Open logic findings: 2026-08-11 (static review of 8bdea0d, nothing executed)
+
+Reviewed the stable core only. Deliberately skipped the files Codex had open at the time (`admin-removal.ts`, the auth pages, `next.config.ts`, `0021_recoverable_admin_removals.sql`).
+
+1. **`acceptOffer` is not atomic and swallows errors.** `actions/offers.ts` does a correct compare-and-swap on status, then fires the agreement upsert, the event message and the notification as separate calls whose results are never checked. A failed agreement insert leaves an `active` deal with no agreement row while the action still returns `ok: true`. This is the exact bug class `0003_atomic_transitions.sql` was written to remove; `acceptOffer` and `declineOffer` are the last two transitions never migrated to a locking RPC. Highest priority.
+2. **Accepted terms can differ from displayed terms.** `editOffer` may change `amount` while status is `negotiating`, and `acceptOffer` only re-checks the status, never the amount the creator was shown. No optimistic-concurrency token exists. Small fix, high value: pass the seen amount or `updated_at` and reject the accept if it moved.
+3. **Shield expiry is not checked in `raise_dispute_transaction`** (`0003` line 420 reads only `shield_active`). Every other Shield gate also checks `shield_expires` (`0004` lines 161/285, `0012` line 95, and `isShieldMembershipActive()`), so an expired member's dispute still gets the gold Shield treatment.
+4. **Same function reads Shield from the actor, not the deal's creator.** When the brand raises the dispute there is no `influencer_profiles` row for them, so a Shield creator's deal is labelled "Warning" instead of "Shield" depending only on who clicked.
+5. **A rejected submission leaves the deal status at `submitted`,** so both sides keep reading "Submitted"/"Reviewing" through the whole revision cycle. Needs a product decision: relabel only, or add a real `changes_requested` status.
+6. Multiple pending submissions are reachable (`submissions_unique_round` covers `(deal_id, round)`, not pending-ness), so approving round 1 can strand round 2 as pending forever. Low.
+7. Bulk campaign send is all-or-nothing: one `23505` fails the whole batch insert while the error message implies a single creator. The partial index `campaign_offer_one_per_creator ... where status <> 'cancelled'` is correctly scoped, so re-inviting a declined creator does work. Low.
+
+Suggested sequencing: fix 1 and 2 together in one `accept_offer_transaction` RPC, fold 3 and 4 into the same migration since both live in `raise_dispute_transaction`, bring 5 to the owner as a product call, and leave 6 and 7 until that area is next open.
+
+## Dashboard and auth typography audit: 2026-08-11
+
+Root cause of the owner's "it all looks cartoonish" report. Measured, not guessed.
+
+- `app/globals.css` silently rewrites dashboard type: `text-[9px]/[10px]/[11px]` all render at **12px**, and `text-xs`/`text-[12px]`/`text-[13px]` all render at **13px**. Six declared sizes collapse into two, so size can no longer express hierarchy.
+- Because size cannot, weight does all the work: **43 `font-black` + 16 `font-extrabold` against only 2 `font-medium`** across 77 dashboard files. Small uniform text emphasised by fattening is what reads as cartoonish.
+- Radii have no system: 8 distinct values, with 16px used 78 times against the documented 12px standard.
+- Live login page proves the inversion: the `h1` "Sign in to your account" is **14px/500/muted**, while the "EMAIL" and "PASSWORD" labels are **11px/700/bright**. The page title is quieter than its own field labels.
+- Recommended order: give login a real visible title, restore a five-step size ladder, cap weight at 600, reduce to two radii, then delete the clamp block so component classes mean what they say. Keep the `.agreement-document` exemption, whose 8px type is intentional letterhead scaling.
+- **Not yet verified:** the signed-in dashboards have never been seen rendered. Production redirected to `/login`, and no agent should handle the owner's credentials. Structure and data density remain unaudited until the owner signs in and hands over a live session.
+- Possible false positive in the other QA pass: it reported the password Show/Hide target as 32x16px, but the live button measures 48x36 at a 770px viewport. Recheck before "fixing" it.

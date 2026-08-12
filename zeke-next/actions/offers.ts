@@ -87,6 +87,8 @@ export async function acceptOffer(dealId: string): Promise<ActionResult> {
   revalidatePath("/brand/deals");
   revalidatePath("/brand/chats");
   revalidatePath("/brand/campaigns");
+  revalidatePath("/brand/overview");
+  revalidatePath("/brand/partnerships");
   revalidatePath(`/creator/deals/${dealId}`);
   return { ok: true };
 }
@@ -145,6 +147,8 @@ export async function declineOffer(dealId: string): Promise<ActionResult> {
   revalidatePath("/creator/chats");
   revalidatePath("/brand/chats");
   revalidatePath("/brand/campaigns");
+  revalidatePath("/brand/overview");
+  revalidatePath("/brand/partnerships");
   return { ok: true };
 }
 
@@ -258,6 +262,8 @@ export async function sendCampaignOffers(input: SendCampaignOffersInput): Promis
   revalidatePath("/brand/deals");
   revalidatePath("/brand/chats");
   revalidatePath("/brand/campaigns");
+  revalidatePath("/brand/overview");
+  revalidatePath("/brand/partnerships");
   revalidatePath("/creator/offers");
   revalidatePath("/creator/chats");
   return { ok: true };
@@ -390,6 +396,9 @@ export async function editOffer(input: EditOfferInput): Promise<ActionResult> {
   }
 
   revalidatePath(`/brand/deals/${v.dealId}`);
+  revalidatePath(`/brand/chats/${v.dealId}`);
+  revalidatePath("/brand/overview");
+  revalidatePath("/brand/partnerships");
   revalidatePath("/brand/campaigns");
   return { ok: true };
 }

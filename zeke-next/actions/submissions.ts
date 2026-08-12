@@ -92,6 +92,8 @@ export async function createSubmissionRecord(
 
   revalidatePath(`/creator/deals/${dealId}`);
   revalidatePath(`/brand/deals/${dealId}`);
+  revalidatePath("/brand/overview");
+  revalidatePath("/brand/partnerships");
   return { ok: true };
 }
 
@@ -132,6 +134,8 @@ export async function reviewSubmission(
 
   revalidatePath(`/brand/deals/${dealId}`);
   revalidatePath(`/creator/deals/${dealId}`);
+  revalidatePath("/brand/overview");
+  revalidatePath("/brand/partnerships");
   return { ok: true };
 }
 

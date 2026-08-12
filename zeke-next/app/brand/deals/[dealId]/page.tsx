@@ -7,10 +7,13 @@ import { isShieldMembershipActive } from "@/lib/domain/shield-membership";
 
 export default async function BrandDealDetailPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ dealId: string }>;
+  searchParams: Promise<{ tab?: string }>;
 }) {
   const { dealId } = await params;
+  const initialTab = (await searchParams).tab;
   const session = await getSessionProfile();
   if (!session) return null;
   const supabase = await createClient();
@@ -52,6 +55,7 @@ export default async function BrandDealDetailPage({
 
   return (
     <BrandDealDetailView
+      key={initialTab ?? "overview"}
       dealId={dealId}
       brandName={session.profile.display_name}
       creatorName={(deal.creator as { display_name?: string } | null)?.display_name ?? "Creator"}
@@ -68,6 +72,7 @@ export default async function BrandDealDetailPage({
       finalLink={finalLinkRes.data ?? null}
       payment={paymentRes.data ?? null}
       agreement={agreement}
+      initialTab={initialTab}
     />
   );
 }

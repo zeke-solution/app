@@ -64,8 +64,8 @@ export default async function CreatorOverviewPage() {
         />
       </StatGrid>
 
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,0.75fr)_minmax(0,1.25fr)]">
-        <section>
+      <div className="grid min-w-0 gap-6 lg:grid-cols-[minmax(0,0.75fr)_minmax(0,1.25fr)]">
+        <section className="min-w-0">
           <SectionHeader title="Connected platforms" description="Your active audience channels" />
           <Card>
             <div className="flex flex-col gap-3">
@@ -80,7 +80,7 @@ export default async function CreatorOverviewPage() {
           </Card>
         </section>
 
-        <section>
+        <section className="min-w-0">
           <SectionHeader title="Recent activity" description="Your latest campaign update" />
           {recentDeal ? (
             <DealCard

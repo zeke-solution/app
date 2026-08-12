@@ -17,6 +17,7 @@ export default async function AdminUsersPage({
         eyebrow="Directory"
         title="Users"
         description="Browse registered brands and creators and open their operational records."
+        actions={<Link href="/admin/system" className="rounded-lg bg-card px-3 py-2 text-sm font-semibold text-accent">Auth accounts and access</Link>}
       />
       <div className="mb-5 flex gap-1 rounded-lg border border-border bg-card p-1">
         <Link

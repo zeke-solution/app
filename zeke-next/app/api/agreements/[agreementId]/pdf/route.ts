@@ -30,14 +30,18 @@ export async function GET(
   };
   const uid = userRes.user.id;
   const isParty = deal.influencer_id === uid || deal.brand_id === uid;
+  let isAdmin = false;
   if (!isParty) {
     const { data: profile } = await supabase.from("profiles").select("role").eq("id", uid).single();
-    if (profile?.role !== "admin") return new Response(null, { status: 403 });
+    isAdmin = profile?.role === "admin";
+    if (!isAdmin) return new Response(null, { status: 403 });
   }
 
-  const { data: inf } = await supabase.from("influencer_profiles").select("shield_active,shield_expires").eq("id", deal.influencer_id ?? "").maybeSingle();
-  if (!isShieldMembershipActive(inf)) {
-    return new Response("PDF available only when the creator on this deal is a Shield member.", { status: 403 });
+  if (!isAdmin) {
+    const { data: inf } = await supabase.from("influencer_profiles").select("shield_active,shield_expires").eq("id", deal.influencer_id ?? "").maybeSingle();
+    if (!isShieldMembershipActive(inf)) {
+      return new Response("PDF available only when the creator on this deal is a Shield member.", { status: 403 });
+    }
   }
 
   const logoData = await readFile(join(process.cwd(), "public", "images", "zeke-logo-white.png"));
