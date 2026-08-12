@@ -26,7 +26,15 @@ Last updated: 2026-08-12
 
 ## Current status
 
-### Brand workspace usability release: 2026-08-12 (local, not yet published)
+### Release and deployment: 2026-08-12
+
+- The three 2026-08-12 releases below (Brand workspace usability, Admin operations coverage, Dashboard screen-fit) were committed together as `fdf30aa` "Add brand partnerships queue and admin operations coverage" and pushed to `main` as a fast-forward from `7beff82`. The `agent/production-cutover` branch points at the same commit.
+- Pre-push verification re-ran on the exact committed tree: `tsc --noEmit` clean, ESLint clean, and the optimized production build succeeded. The earlier per-release QA recorded below was not repeated.
+- Vercel Production deployment `app-ahtjadp71-mufeed-4343s-projects.vercel.app` is Ready and aliased to `https://zekesolution.com` and `https://www.zekesolution.com`. Both apex and www return 200.
+- 42 files were committed. The repository-root `HANDOFF.md` remains intentionally untracked per the root handoff's working agreement.
+- Anonymous smoke checks on `/brand/partnerships`, `/admin/system`, and `/admin/records` return 307 to `/login`, but this is not by itself proof of the new build: unknown paths under `/brand` and `/admin` also return 307, and the cached homepage reported a stale `Age`. The deployment commit and alias state above are the reliable evidence. A signed-in click-through of Partnerships and the new Admin routes on production remains the final acceptance check.
+
+### Brand workspace usability release: 2026-08-12
 
 - Brand navigation is now task-oriented: Overview, Campaigns, Creators, Partnerships, and Account. The old standalone Chats and Deals list URLs remain compatible and redirect to the matching Partnerships filter; dynamic Chat and Deal record URLs remain unchanged.
 - `/brand/partnerships` is the single work queue for negotiations, accepted delivery, reviews, payments, disputes, and completed/cancelled history. Its Needs attention, Negotiating, Active, History, and All filters show counts and each row exposes one status-aware next action.
@@ -37,9 +45,9 @@ Last updated: 2026-08-12
 - Mobile now exposes Creators and Work as first-class bottom destinations. Partnership filters wrap at 320 px instead of hiding filters off-screen. Creator search is debounced by 250 ms and bounded to 100 ordered results to avoid a server request for every keystroke and an unbounded initial directory.
 - No database migration or state-transition rewrite was required. Existing deep links, RLS, actions, audit records, notifications, and workflow states remain compatible.
 - Populated authenticated browser QA passed 39 route/viewport combinations across 13 Brand destinations at 320 x 700, 768 x 900, and 1440 x 1000. The attention queue, mobile navigation, direct composer, negotiation editor, status deep links, and legacy redirects passed with zero overflow, browser errors, or failed assertions. Temporary Brand/Creator accounts and records were removed; their final Auth count is zero.
-- Strict TypeScript, ESLint, `git diff --check`, and the optimized 46-page production build pass. This release remains local and has not been committed, pushed, or deployed.
+- Strict TypeScript, ESLint, `git diff --check`, and the optimized 46-page production build pass. Shipped in commit `fdf30aa`; see Release and deployment below.
 
-### Admin operations coverage release: 2026-08-12 (local, not yet published)
+### Admin operations coverage release: 2026-08-12
 
 - The Admin information architecture now covers the full operational data model instead of only users, deals, open disputes, pending Shield requests, providers, and removals. New first-class routes are `/admin/campaigns`, `/admin/records`, `/admin/system`, and `/admin/menu`.
 - The live read-only baseline proved the gap: production had 2 campaigns, 27 deal messages, 3 agreements, 12 notifications, 9 confirmed Auth accounts, 1 activated Shield request, and 12 permanent removal-audit entries. Campaigns, messages, agreements, notifications, Auth metadata, and activated Shield history had no complete Admin view.
@@ -50,16 +58,16 @@ Last updated: 2026-08-12
 - Admin overview now surfaces campaign, message, agreement, and notification totals. Users links to Auth/access inventory. Mobile Admin navigation now ends in a More destination containing every platform, trust, and governance tool; the desktop/tablet sidebar includes the new routes and scrolls safely on short screens.
 - No database migration was needed: existing RLS already grants Admin read access to all public workflow tables. The missing access was an application information-architecture/UI problem.
 - Authenticated Chrome QA passed 72 route/viewport combinations across 24 Admin destinations at 320 x 700, 768 x 900, and 1440 x 1000. Live campaign/message/agreement/notification/Shield/Auth assertions passed, an existing agreement returned a real PDF to Admin, every route returned 200 at the expected path, and there were zero overflow, semantic, browser, or resource failures. The temporary Admin was deleted.
-- Strict TypeScript, ESLint, `git diff --check`, and the optimized 45-page production build pass. This release remains local and has not been committed, pushed, or deployed.
+- Strict TypeScript, ESLint, `git diff --check`, and the optimized 45-page production build pass. Shipped in commit `fdf30aa`; see Release and deployment below.
 
-### Dashboard screen-fit release: 2026-08-12 (local, not yet published)
+### Dashboard screen-fit release: 2026-08-12
 
 - Creator, brand, and admin dashboards now use a compact 72 px navigation rail from 768 px through 1023 px, then expand to the full 240 px sidebar at 1024 px. This keeps every navigation destination available on tablets while increasing the 768 px dashboard content area from 528 px to 696 px.
 - The populated Admin overview exposed a hidden mobile overflow that the page-level `overflow-x: clip` had concealed: an intrinsic grid minimum painted 30 px past its 288 px content slot at a 320 px viewport. All three overview grids and their sections now opt into `min-w-0`, and the shared section heading also permits its text column to shrink safely.
 - The notification dropdown is now a viewport-inset fixed panel below 640 px and retains its anchored 320 px desktop/tablet form at larger widths. Opening it at 320 px no longer sends the panel off the left edge.
 - Authenticated Chrome QA covered 23 creator, brand, and admin routes at 320 x 700, 768 x 900, 1024 x 900, and 1440 x 1000: 92 route/viewport combinations, plus the opened notification overlay for all three roles. Every route returned 200, stayed at its expected path, and had zero elements escaping either side of the viewport. The populated Admin data rows were included.
 - Temporary creator, brand, and admin QA accounts were deleted after the run; no destructive workflow action was submitted. Strict TypeScript, ESLint, `git diff --check`, and the optimized 41-page production build pass.
-- This release is only in the local working tree. It has not been committed, pushed, or deployed.
+- Shipped in commit `fdf30aa`; see Release and deployment below.
 
 ### Technical QA release 1: 2026-08-11
 
