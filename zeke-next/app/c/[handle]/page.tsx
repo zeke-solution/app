@@ -2,18 +2,71 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { fmtNum } from "@/lib/domain/format";
 import { getPublicCreatorProfile } from "@/lib/public-creator-profile";
+import { absoluteUrl, createPageMetadata, noIndexMetadata } from "@/lib/seo";
 import { BrandLogo } from "@/components/ui/BrandLogo";
+import { JsonLd } from "@/components/seo/JsonLd";
 
-export default async function PublicCreatorPage({ params }: { params: Promise<{ handle: string }> }) {
+const HANDLE_PATTERN = /^[a-zA-Z0-9._]{2,30}$/;
+
+type PublicCreatorPageProps = {
+  params: Promise<{ handle: string }>;
+};
+
+export async function generateMetadata({ params }: PublicCreatorPageProps) {
   const { handle } = await params;
-  if (!/^[a-zA-Z0-9._]{2,30}$/.test(handle)) notFound();
+  if (!HANDLE_PATTERN.test(handle)) {
+    return { ...noIndexMetadata, title: "Creator profile unavailable" };
+  }
+
+  const creator = await getPublicCreatorProfile(handle);
+  if (!creator) {
+    return { ...noIndexMetadata, title: "Creator profile unavailable" };
+  }
+
+  const category = creator.niche || "Creator";
+  const description = `View ${creator.display_name}'s public Zeke profile, including ${category.toLowerCase()} category, social audience, verified status, and completed collaborations.`;
+
+  return createPageMetadata({
+    title: `${creator.display_name} (@${creator.handle})`,
+    description,
+    path: `/c/${encodeURIComponent(creator.handle.toLowerCase())}`,
+  });
+}
+
+export default async function PublicCreatorPage({ params }: PublicCreatorPageProps) {
+  const { handle } = await params;
+  if (!HANDLE_PATTERN.test(handle)) notFound();
   const creator = await getPublicCreatorProfile(handle);
   if (!creator) notFound();
 
   const initials = creator.display_name.slice(0, 2).toUpperCase();
+  const profileUrl = absoluteUrl(`/c/${encodeURIComponent(creator.handle.toLowerCase())}`);
+  const profileDescription = `${creator.niche || "Creator"} on Zeke${creator.location ? `, based in ${creator.location}` : ""}.`;
+  const profileEntity: Record<string, unknown> = {
+    "@type": "Person",
+    "@id": `${profileUrl}#creator`,
+    name: creator.display_name,
+    alternateName: `@${creator.handle}`,
+    identifier: creator.handle,
+    description: profileDescription,
+  };
+
+  if (creator.avatar_url) profileEntity.image = creator.avatar_url;
+
+  const profileStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    "@id": `${profileUrl}#profile-page`,
+    url: profileUrl,
+    name: `${creator.display_name} (@${creator.handle})`,
+    description: profileDescription,
+    isPartOf: { "@id": `${absoluteUrl("/")}#website` },
+    mainEntity: profileEntity,
+  };
 
   return (
     <main className="min-h-screen bg-dark px-4 py-8 text-light">
+      <JsonLd data={profileStructuredData} />
       <div className="mx-auto max-w-2xl">
         <Link href="/" aria-label="Zeke website home" className="inline-flex"><BrandLogo className="w-[94px]" preload /></Link>
         <section className="mt-8 overflow-hidden rounded-3xl border border-border bg-card shadow-2xl">

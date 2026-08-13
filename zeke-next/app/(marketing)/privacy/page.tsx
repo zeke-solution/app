@@ -1,4 +1,12 @@
 import Link from "next/link";
+import { createPageMetadata } from "@/lib/seo";
+
+export const metadata = createPageMetadata({
+  title: "Privacy Policy",
+  description:
+    "Read how Zeke collects, uses, protects, and retains personal information across creator accounts, brand accounts, deals, and Shield support.",
+  path: "/privacy",
+});
 import { Accordion } from "@/components/marketing/Accordion";
 
 const SECTIONS = [

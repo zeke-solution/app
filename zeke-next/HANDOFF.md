@@ -2,6 +2,18 @@
 
 Last updated: 2026-08-13
 
+### SEO, search preview, and committee-approved tagline: 2026-08-13
+
+- The approved Zeke tagline is exactly: **Create. Collaborate. Get paid.** Preserve this wording, capitalization, and punctuation unless the committee approves a replacement. The rejected local alternative "Deal safe, get paid." must not return.
+- The tagline now appears in the homepage hero, marketing footer, default browser/search title, meta description, Open Graph/Twitter previews, web-app manifest, organization slogan, and generated social-share image.
+- The preferred homepage title is `Zeke | Create. Collaborate. Get paid.`. Public pages now have unique titles, descriptions, canonical URLs, and complete social metadata; account, recovery, onboarding, creator, brand, and admin areas use `noindex` metadata.
+- Added a square 192x192 favicon, 180x180 Apple icon, multi-size `favicon.ico`, 512x512 organization logo, and a 1200x630 Zeke social-share card. The previous search icon source was the non-square 639x547 logo mark.
+- Added homepage `WebSite` and `Organization` JSON-LD plus public creator `ProfilePage` JSON-LD. The organization logo URL is crawlable and the creator schema deliberately excludes external-platform follower counts from `interactionStatistic`.
+- Added `/robots.txt`, `/sitemap.xml`, and `/manifest.webmanifest`. The sitemap contains only the five static public pages; public creator profiles remain indexable but are not bulk-listed without an explicit product decision about discovery/indexing.
+- Added a permanent host redirect from `www.zekesolution.com` to the apex domain while preserving paths and query strings. The apex domain is the canonical site URL.
+- Current Google results still show the old `Zeke - Your Perfect PR Partner` title and stale historical copy. Publishing the new code does not update Google instantly; request a homepage recrawl and submit `/sitemap.xml` in Search Console after deployment.
+- Local verification passed: ESLint, strict TypeScript, optimized Next.js production build, rendered metadata inspection, JSON-LD parsing, `noindex` inspection, asset status checks, generated SEO endpoints, and a local 308 host-redirect test.
+- Deployment status: local implementation is complete and ready to publish.
 ### Homepage hero header spacing restore: 2026-08-13
 
 - Restored larger homepage hero header spacing by increasing `components/marketing/Hero.tsx` section padding back to a more prominent layout.
@@ -617,7 +629,7 @@ _Added 2026-08-13. These are ready-to-use prompts or task briefs for the next Ze
 4. Decide whether a rejected submission should change the deal status to a real `changes_requested` state or just relabel; implement the chosen behavior consistently in UI and RPCs.
 5. Add brand notifications for final-link submission and payment confirmation; both are currently silent.
 6. Tighten legal-provider URL validation to HTTP(S) only; reject other schemes.
-7. Add apex/www canonical route metadata, `/robots.txt`, `/sitemap.xml`, and route-level `title`/`description`.
+7. DONE locally (2026-08-13): added the apex/www redirect and canonical metadata, route-specific titles/descriptions, favicon/logo signals, structured data, `/robots.txt`, `/sitemap.xml`, and the web manifest. Deploy and request Search Console recrawling.
 
 ### Priority 3 — infra/launch readiness
 8. Finish Google OAuth activation: create Web OAuth client, set `NEXT_PUBLIC_GOOGLE_AUTH_ENABLED=true`, verify new-user and existing-account flows.

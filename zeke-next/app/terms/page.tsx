@@ -1,4 +1,12 @@
 import Link from "next/link";
+import { createPageMetadata } from "@/lib/seo";
+
+export const metadata = createPageMetadata({
+  title: "Terms of Service",
+  description:
+    "Read the terms that govern Zeke accounts, creator-brand deals, payments, platform records, and Zeke Shield support.",
+  path: "/terms",
+});
 
 const SECTIONS = [
   {

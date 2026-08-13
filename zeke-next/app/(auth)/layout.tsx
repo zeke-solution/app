@@ -2,6 +2,9 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { AuthShell } from "@/components/auth/AuthShell";
 import { roleHome } from "@/lib/auth/navigation";
+import { noIndexMetadata } from "@/lib/seo";
+
+export const metadata = noIndexMetadata;
 
 // Port of auth.js's boot-time getSession() -> role lookup -> redirect, done
 // server-side now (no more "flash of login form before JS redirects").

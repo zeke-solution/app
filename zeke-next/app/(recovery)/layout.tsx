@@ -1,4 +1,7 @@
 import { AuthShell } from "@/components/auth/AuthShell";
+import { noIndexMetadata } from "@/lib/seo";
+
+export const metadata = noIndexMetadata;
 
 // Password-recovery links create an authenticated Supabase session before
 // rendering /update-password. Keep this route outside the normal auth layout,

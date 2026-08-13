@@ -12,6 +12,9 @@ import {
   ProfileIcon,
   ShieldIcon,
 } from "@/components/layout/icons";
+import { noIndexMetadata } from "@/lib/seo";
+
+export const metadata = noIndexMetadata;
 
 export default async function CreatorLayout({
   children,

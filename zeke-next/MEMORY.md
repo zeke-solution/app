@@ -1,6 +1,13 @@
 # Zeke project memory
 
-Last updated: 2026-08-12
+Last updated: 2026-08-13
+
+## Approved brand tagline
+
+- Committee-approved wording: **Create. Collaborate. Get paid.**
+- Preserve the exact wording, capitalization and punctuation in the marketing hero, marketing footer, default title, search/social metadata, manifest, and organization slogan.
+- Do not use the rejected alternative “Deal safe, get paid.” without new committee approval.
+- The preferred site title is `Zeke | Create. Collaborate. Get paid.` and the canonical production origin is `https://zekesolution.com`.
 
 ## Source of truth
 
@@ -37,7 +44,7 @@ Last updated: 2026-08-12
 - Keep the central response headers and powered-by opt-out in next.config.ts. The intentionally limited CSP protects object/base/form/frame behavior without forcing every static page into nonce-based dynamic rendering.
 - Keep AuthShell as the authentication main landmark, preserve one h1 per repaired auth/public page, let TextField generate stable label IDs, and keep password reveal controls at least 24 x 24 px.
 - Performance needs a controlled live trace rather than asset guessing. Three current live mobile Lighthouse samples have median Performance 84 and median TBT about 466 ms despite unchanged ~303 KiB transfer; local mobile is 93 with 60 ms TBT.
-- Consolidate apex/www through a redirect or canonical metadata, add route-specific metadata, and publish robots/sitemap endpoints.
+- SEO baseline completed locally on 2026-08-13: apex canonical plus permanent www redirect, unique public-page metadata, square favicon/logo assets, social preview image, WebSite/Organization/ProfilePage JSON-LD, private-route noindex metadata, and robots/sitemap/manifest endpoints. Publish it, then submit the sitemap and request recrawling in Google Search Console.
 - Legal-provider URLs are HTTP(S)-only. Payment-proof is limited to 20 MB PDF/images and agreements to 10 MB PDF at the bucket boundary.
 - Add automated app tests and expand database coverage through migration 0021 before relying on the old 0001-0003/0010-0011 shim as full coverage.
 

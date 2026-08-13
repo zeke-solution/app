@@ -74,7 +74,7 @@ export function Footer() {
           <div className="text-xs text-muted">
             &copy; {new Date().getFullYear()} Zeke. All rights reserved.
           </div>
-          <div className="text-xs text-light">&#128737; Clear deals. Creator-controlled support.</div>
+          <div className="text-xs text-light">Create. Collaborate. Get paid.</div>
         </div>
       </div>
     </footer>

@@ -1,4 +1,12 @@
 import Link from "next/link";
+import { createPageMetadata } from "@/lib/seo";
+
+export const metadata = createPageMetadata({
+  title: "About Zeke",
+  description:
+    "Meet the team building Zeke and learn why we are creating a clearer, more structured way for creators and brands to work together.",
+  path: "/about",
+});
 
 const FOUNDERS = [
   {

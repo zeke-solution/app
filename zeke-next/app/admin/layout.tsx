@@ -3,6 +3,9 @@ import { DashboardTopNav } from "@/components/layout/DashboardTopNav";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { MobileBottomNav } from "@/components/layout/MobileBottomNav";
 import { GridIcon, UsersIcon, ShieldIcon, DisputeIcon, ListIcon, AgreementIcon, ProfileIcon, CampaignIcon } from "@/components/layout/icons";
+import { noIndexMetadata } from "@/lib/seo";
+
+export const metadata = noIndexMetadata;
 
 export default async function AdminLayout({
   children,

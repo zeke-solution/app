@@ -1,4 +1,12 @@
 import Link from "next/link";
+import { createPageMetadata } from "@/lib/seo";
+
+export const metadata = createPageMetadata({
+  title: "Zeke Shield: Creator Payment Support",
+  description:
+    "See how Zeke Shield supports creators with professional payment follow-ups, table talks, organised records, and creator-controlled case coordination.",
+  path: "/shield",
+});
 import { ShieldCoverage } from "@/components/shield/ShieldCoverage";
 import { ShieldIcon } from "@/components/layout/icons";
 import { buttonClassName } from "@/components/ui/Button";

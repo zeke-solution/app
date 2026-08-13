@@ -3,6 +3,9 @@ import { AuthShell } from "@/components/auth/AuthShell";
 import { RegisterForm } from "@/components/auth/RegisterForm";
 import { roleHome } from "@/lib/auth/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { noIndexMetadata } from "@/lib/seo";
+
+export const metadata = noIndexMetadata;
 
 export default async function OnboardingPage({
   searchParams,

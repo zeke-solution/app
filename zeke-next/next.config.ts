@@ -25,6 +25,16 @@ const nextConfig: NextConfig = {
   images: {
     minimumCacheTTL: 2678400,
   },
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.zekesolution.com" }],
+        destination: "https://zekesolution.com/:path*",
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {
