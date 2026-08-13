@@ -10,7 +10,7 @@ const BENEFITS = [
 
 export function Hero() {
   return (
-    <section className="brand-hero relative overflow-hidden bg-dark px-5 pb-8 pt-8 sm:px-6 sm:pb-10 sm:pt-16 lg:pb-14 lg:pt-20">
+    <section className="brand-hero relative overflow-hidden bg-dark px-5 pb-10 pt-14 sm:px-6 sm:pb-14 sm:pt-24 lg:pb-20 lg:pt-32">
       <div className="relative z-10 mx-auto max-w-[1180px]">
         <div className="max-w-[760px]">
           <div className="brand-chip mb-4 inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-[11px] font-bold sm:mb-6 sm:px-4 sm:py-2 sm:text-xs">
