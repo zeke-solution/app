@@ -40,20 +40,20 @@ export function InfluencerProfileForm({ inf }: { inf: InfluencerProfile | null }
 
   return (
     <form onSubmit={handleSubmit} className="rounded-2xl border border-border bg-card p-5">
-      <div className="mb-4 text-sm font-bold text-light">Update Platform Stats</div>
-      <div className="flex flex-col gap-3.5">
+      <div className="mb-4 text-base font-semibold text-light">Update Platform Stats</div>
+      <div className="flex flex-col gap-4">
         <div>
           <div className="mb-2 flex items-center gap-2">
-            <span className="rounded-md bg-accent/10 px-2 py-0.5 text-[11px] font-extrabold text-accent">IG</span>
-            <span className="text-[13px] font-bold text-light">Instagram</span>
-            <span className="ml-auto text-[10px] font-semibold text-accent">Required</span>
+            <span className="rounded-md bg-accent/10 px-2 py-0.5 text-xs font-semibold text-accent">IG</span>
+            <span className="text-sm font-semibold text-light">Instagram</span>
+            <span className="ml-auto text-xs text-muted">Required</span>
           </div>
           <div className="grid grid-cols-2 gap-2">
             <input
               value={igHandle}
               onChange={(e) => setIgHandle(e.target.value)}
               placeholder="@yourhandle"
-              className="rounded-xl border border-border bg-dark px-3 py-2 text-[13px] text-light outline-none"
+              className="rounded-xl border border-border bg-dark px-3 py-2 text-sm text-light outline-none"
             />
             <input
               type="number"
@@ -61,7 +61,7 @@ export function InfluencerProfileForm({ inf }: { inf: InfluencerProfile | null }
               value={igFollowers}
               onChange={(e) => setIgFollowers(e.target.value)}
               placeholder="Followers"
-              className="rounded-xl border border-border bg-dark px-3 py-2 text-[13px] text-light outline-none"
+              className="rounded-xl border border-border bg-dark px-3 py-2 text-sm text-light outline-none"
             />
           </div>
         </div>
@@ -101,7 +101,7 @@ export function InfluencerProfileForm({ inf }: { inf: InfluencerProfile | null }
       )}
       {success && (
         <div className="mt-3 rounded-[10px] border border-zgreen/25 bg-zgreen/[0.06] px-3.5 py-2 text-xs text-zgreen">
-          &#10003; Saved.
+          ✓ Saved.
         </div>
       )}
       <Button type="submit" disabled={pending} fullWidth className="mt-4">
@@ -139,10 +139,10 @@ function PlatformEditRow({
   return (
     <div>
       <div className="mb-2 flex items-center gap-2">
-        <span className={`rounded-md px-2 py-0.5 text-[11px] font-extrabold ${chipClass}`}>{chip}</span>
-        <span className="text-[13px] font-bold text-light">{label}</span>
+        <span className={`rounded-md px-2 py-0.5 text-xs font-semibold ${chipClass}`}>{chip}</span>
+        <span className="text-sm font-semibold text-light">{label}</span>
         <label className="ml-auto flex cursor-pointer items-center gap-1.5">
-          <span className="text-[11px] text-muted">Enable</span>
+          <span className="text-xs text-muted">Enable</span>
           <input
             type="checkbox"
             checked={enabled}
@@ -157,7 +157,7 @@ function PlatformEditRow({
             value={handle}
             onChange={(e) => onHandle(e.target.value)}
             placeholder={handlePlaceholder}
-            className="rounded-xl border border-border bg-dark px-3 py-2 text-[13px] text-light outline-none"
+            className="rounded-xl border border-border bg-dark px-3 py-2 text-sm text-light outline-none"
           />
           <input
             type="number"
@@ -165,7 +165,7 @@ function PlatformEditRow({
             value={followers}
             onChange={(e) => onFollowers(e.target.value)}
             placeholder={followersPlaceholder}
-            className="rounded-xl border border-border bg-dark px-3 py-2 text-[13px] text-light outline-none"
+            className="rounded-xl border border-border bg-dark px-3 py-2 text-sm text-light outline-none"
           />
         </div>
       )}

@@ -65,6 +65,21 @@ h1,
 h2,
 h3 {
   font-family: var(--font-sora);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+h1 {
+  font-size: 22px;
+}
+
+h2 {
+  font-size: 18px;
+}
+
+h3 {
+  font-size: 16px;
 }
 
 .brand-gradient-text {
@@ -77,32 +92,30 @@ h3 {
 
 .brand-chip {
   color: #c4b5fd;
-  border-color: rgba(168, 85, 247, 0.38);
-  background: linear-gradient(120deg, rgba(99, 102, 241, 0.14), rgba(168, 85, 247, 0.12));
-  box-shadow: inset 0 0 18px rgba(99, 102, 241, 0.08), 0 0 22px rgba(168, 85, 247, 0.08);
+  border-color: rgba(168, 85, 247, 0.25);
+  background: rgba(99, 102, 241, 0.08);
 }
 
 .brand-button-primary {
-  border-color: rgba(196, 181, 253, 0.38);
+  border-color: rgba(196, 181, 253, 0.35);
   background-image: var(--brand-gradient);
-  box-shadow: 0 10px 30px rgba(168, 85, 247, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.15);
 }
 
 .brand-button-primary:hover {
-  filter: saturate(1.12) brightness(1.06);
+  filter: saturate(1.08) brightness(1.04);
   transform: translateY(-1px);
-  box-shadow: 0 13px 34px rgba(236, 72, 153, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  box-shadow: 0 10px 28px rgba(168, 85, 247, 0.18);
 }
 
 .brand-button-outline {
-  border-color: rgba(168, 85, 247, 0.38);
-  box-shadow: inset 0 0 20px rgba(99, 102, 241, 0.035);
+  border-color: rgba(168, 85, 247, 0.35);
+  background: transparent;
 }
 
 .brand-button-outline:hover {
-  border-color: rgba(236, 72, 153, 0.62);
-  background: rgba(168, 85, 247, 0.08);
-  box-shadow: 0 0 24px rgba(168, 85, 247, 0.1);
+  border-color: rgba(236, 72, 153, 0.5);
+  background: rgba(168, 85, 247, 0.06);
 }
 
 .brand-nav {
@@ -120,9 +133,9 @@ h3 {
 
 .brand-panel,
 .brand-card {
-  background: linear-gradient(145deg, rgba(36, 26, 77, 0.9), rgba(26, 19, 51, 0.92));
-  border-color: rgba(168, 85, 247, 0.2);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.025), 0 16px 42px rgba(5, 3, 13, 0.16);
+  background: linear-gradient(160deg, rgba(36, 26, 77, 0.88), rgba(26, 19, 51, 0.92));
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15), 0 12px 32px rgba(0, 0, 0, 0.2);
 }
 
 .brand-panel::before {
@@ -132,12 +145,11 @@ h3 {
   border-radius: inherit;
   padding: 1px;
   pointer-events: none;
-  background: linear-gradient(135deg, rgba(99, 102, 241, 0.55), rgba(168, 85, 247, 0.3), rgba(236, 72, 153, 0.22), rgba(34, 211, 238, 0.25));
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.02));
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
-  opacity: 0.26;
-  transition: opacity 0.25s ease;
+  opacity: 0.5;
 }
 
 .brand-panel:hover::before,
@@ -383,14 +395,55 @@ h3 {
   border-radius: 0.75rem;
 }
 
-.dashboard-content :where(.text-xs, [class~="text-[12px]"], [class~="text-[13px]"]):not(.agreement-document *) {
-  font-size: 13px;
-  line-height: 1.15rem;
+.dashboard-content .rounded-xl {
+  border-radius: 0.5rem;
 }
 
-.dashboard-content :where([class~="text-[9px]"], [class~="text-[10px]"], [class~="text-[11px]"]):not(.agreement-document *) {
+.dashboard-content :where([class*="rounded-[10px]"], [class*="rounded-3xl"]) {
+  border-radius: 0.75rem;
+}
+
+/* Dashboard type scale: restore real hierarchy instead of collapsing everything
+   to 12px/13px. The previous override forced 6 declared sizes into 2 rendered
+   sizes, which is why everything looked fat and cartoonish. */
+.dashboard-content :where(.text-xs, [class~="text-[12px]"]) {
   font-size: 12px;
-  line-height: 1rem;
+  line-height: 1.1rem;
+}
+
+.dashboard-content :where(.text-sm, [class~="text-[13px]"]):not(.agreement-document *) {
+  font-size: 14px;
+  line-height: 1.25rem;
+}
+
+.dashboard-content :where(.text-base, [class~="text-[15px]"]) {
+  font-size: 16px;
+  line-height: 1.35rem;
+}
+
+.dashboard-content :where(.text-lg, [class~="text-[17px]"]) {
+  font-size: 18px;
+  line-height: 1.45rem;
+}
+
+.dashboard-content :where(.text-xl) {
+  font-size: 20px;
+  line-height: 1.5rem;
+}
+
+/* Weight cap for dashboard body text: use font-semibold (600) as the heaviest
+   normal text weight. Headings keep their Sora weights. This replaces the old
+   pattern of 43 font-black + 16 font-extrabold across dashboard files. */
+.dashboard-content :where(p, span, a, button, td, th, label, li, div, section, article, details, summary):not(h1, h2, h3, h4, h5, h6) {
+  font-weight: 400;
+}
+
+.dashboard-content :where(p, span, a, button, td, th, label, li, div, section, article, details, summary)[class*="font-semibold"]:not(h1, h2, h3, h4, h5, h6) {
+  font-weight: 600;
+}
+
+.dashboard-content :where(p, span, a, button, td, th, label, li, div, section, article, details, summary)[class*="font-bold"]:not(h1, h2, h3, h4, h5, h6) {
+  font-weight: 600;
 }
 
 .dashboard-content .brand-button-primary,

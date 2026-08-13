@@ -1,6 +1,18 @@
 # Zeke Next.js handoff
 
-Last updated: 2026-08-12
+Last updated: 2026-08-13
+
+### Creator profile UI refresh: 2026-08-13
+
+- Creator profile page redesigned to a cleaner, modern layout: centered identity header with overlapping avatar, separate cards for platform stats, deal history, platform stats form, shield upsell, and account sign-out.
+- Removed helper copy like “Manage the public identity...” from PageHeader and “Sign out safely on this device” from the account card.
+- Typography tightened: Sora headings now use font-weight 600, letter-spacing -0.02em, line-height 1.2, with explicit sizes h1=22px, h2=18px, h3=16px.
+- Dashboard type scale restored to real hierarchy: 12px/14px/16px/18px/20px instead of the collapsed 12px/13px.
+- Body text weight cap enforced: normal text at 400, emphasized at 600 only; no more font-black/extrabold across dashboard components.
+- Border radii reduced to a consistent system: 8px for small elements, 12px for cards.
+- Card/panel styling refreshed: glossy gradient backgrounds, softer elevation, subtle edge highlight via masked gradient border, reduced neon glow.
+- Button styling toned down: chips flattened, primary/outline hover effects reduced, inset glow removed.
+- Lint, TypeScript, and build all pass after these changes.
 
 ## Working agreement
 
@@ -586,6 +598,46 @@ Then open `http://localhost:3000`.
 
 - The brand is never notified when a creator submits the final link, nor when a creator confirms payment. Neither `submitFinalLink()` nor `confirmPayment()` ever sent a notification, and `0003_atomic_transitions.sql` deliberately preserved that rather than mixing a behaviour change into a correctness refactor. Both are one insert inside the relevant function if the product wants them.
 
+## Suggested work for later / Claude prompts
+
+_Added 2026-08-13. These are ready-to-use prompts or task briefs for the next Zeke session._
+
+### Priority 1 — correctness/atomicity fixes
+1. Refactor `acceptOffer`/`declineOffer` into one `accept_offer_transaction` RPC so agreement upsert, event message and notification are atomic. Do not return `ok: true` when a downstream write fails.
+2. Add optimistic concurrency to `acceptOffer`: pass the seen `amount` or `updated_at` and reject the accept if the offer changed while the creator was reviewing it.
+3. In `raise_dispute_transaction`, check `shield_expires` in addition to `shield_active`, and read Shield state from the deal's creator profile rather than the acting user.
+
+### Priority 2 — product/branch behavior
+4. Decide whether a rejected submission should change the deal status to a real `changes_requested` state or just relabel; implement the chosen behavior consistently in UI and RPCs.
+5. Add brand notifications for final-link submission and payment confirmation; both are currently silent.
+6. Tighten legal-provider URL validation to HTTP(S) only; reject other schemes.
+7. Add apex/www canonical route metadata, `/robots.txt`, `/sitemap.xml`, and route-level `title`/`description`.
+
+### Priority 3 — infra/launch readiness
+8. Finish Google OAuth activation: create Web OAuth client, set `NEXT_PUBLIC_GOOGLE_AUTH_ENABLED=true`, verify new-user and existing-account flows.
+9. Add push notifications per `docs/PUSH-NOTIFICATION-SETUP.md`.
+10. Add Cloudflare protection before broad launch.
+11. Fix `pg_publication_tables` so `supabase_realtime` has public tables; chat/notification subscriptions currently time out in production.
+12. Package mobile web as an Android APK with Capacitor after mobile-web acceptance is complete.
+13. Remove the dead legacy HTML site at the repository root at cutover.
+14. Add automated Playwright/unit/database coverage.
+
+### Priority 4 — polish
+15. Fix the dashboard typography audit findings: restore a real five-step size ladder, cap weight at 600, reduce radii to two values, and remove the globals.css clamp block that collapses declared sizes.
+16. Complete one live signed-in creator/brand/admin click-through of Partnerships and the new Admin routes on production and record the result.
+17. Send an email alert to admin whenever a new brand or content creator joins.
+18. Require admin verification before a brand account is approved/activated.
+19. Disallow chat option until the creator clicks negotiate or accept.
+20. Let creators see brand campaigns.
+21. Add a Community tab, Shield-members only, with a Coming Soon screen.
+22. Calibrate alignments across every dashboard.
+23. Delete account data completely upon user request.
+24. Make dashboard cards and followers card clickable, leading to their respective pages including Instagram.
+25. Update the profile page to match Instagram-optimized, user-friendly alignment/layout.
+26. Show a verified tick against Shield members.
+
+---
+
 ## Deliberately deferred
 
 - Email sender/domain configuration.
@@ -598,7 +650,18 @@ Then open `http://localhost:3000`.
 - One regression was caught in browser QA and fixed before shipping: "Support if a deal goes wrong" wrapped to two lines in the hero benefit chip and grew all three chips from 62px to 74px. Shortened to "Support when it matters". Lesson worth keeping: TypeScript, ESLint and the build all passed with that regression present. Copy-length changes need a rendered check, not just a green build.
 - Verified live after deploy: 8 public routes return 200 on both domains, Sadhim is gone, new copy present, locked headline and all three Shield legal statements intact.
 
-## Open logic findings: 2026-08-11 (static review of 8bdea0d, nothing executed)
+### Creator profile UI refresh: 2026-08-13
+
+- Files changed: `app/creator/profile/page.tsx`, `components/profile/InfluencerProfileForm.tsx`, `app/globals.css`.
+- Profile layout is now left-aligned in a `max-w-2xl` column instead of centered. The giant single card was split into separate sections: overlapping avatar header, platform stats, deal history, platform edit form, shield upsell, and account sign-out.
+- Removed PageHeader description "Manage the public identity..." and the "Sign out safely on this device" helper copy from the account card.
+- Typography: Sora headings standardized to `font-weight: 600`, `letter-spacing: -0.02em`, `line-height: 1.2` with explicit sizes `h1=22px`, `h2=18px`, `h3=16px`. Dashboard body type scale restored from collapsed `12px/13px` to `12px/14px/16px/18px/20px`. Normal text weight capped at `400`, emphasized text at `600` only; removed `font-black` and `font-extrabold` usage from dashboard components.
+- Radii system reduced to two values: `8px` for small elements, `12px` for cards. Added `.dashboard-content .rounded-xl` override at `0.5rem` and capped `rounded-[10px]`/`rounded-3xl` at `0.75rem`.
+- Card/panel styling: `.brand-panel` and `.brand-card` now use a restrained glossy gradient background `linear-gradient(160deg, rgba(36,26,77,0.88), rgba(26,19,51,0.92))` with a subtle masked gradient edge highlight at `rgba(255,255,255,0.12)` instead of the old heavy neon border. Shadow simplified to two soft layers: `0 4px 12px rgba(0,0,0,0.15)` and `0 12px 32px rgba(0,0,0,0.2)`.
+- Button styling toned down: `.brand-chip` background flattened to `rgba(99,102,241,0.08)`, border opacity reduced to `0.25`. `.brand-button-primary` hover uses `saturate(1.08)` and `brightness(1.04)` with a single shadow layer. `.brand-button-outline` hover uses `rgba(236,72,153,0.5)` border and `rgba(99,102,241,0.06)` background; inset glow removed entirely.
+- Verification: ESLint clean, `tsc --noEmit` clean, `npm run build` compiled 46 routes. Profile page patterns confirmed in `page.tsx`: `max-w-2xl`, overlapping avatar `-mt-8`, `text-xl` name, `rounded-full` badges, separate stats/deal-history/form/account cards. `globals.css` patterns confirmed: `linear-gradient(160deg`, `rgba(255,255,255,0.08)` border, `box-shadow: 0 4px 12px`, `::before` mask gradient, `letter-spacing: -0.02em`.
+
+### Open logic findings: 2026-08-11 (static review of 8bdea0d, nothing executed)
 
 Reviewed the stable core only. Deliberately skipped the files Codex had open at the time (`admin-removal.ts`, the auth pages, `next.config.ts`, `0021_recoverable_admin_removals.sql`).
 
