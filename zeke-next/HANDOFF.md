@@ -2,6 +2,12 @@
 
 Last updated: 2026-08-13
 
+### Homepage hero header spacing restore: 2026-08-13
+
+- Restored larger homepage hero header spacing by increasing `components/marketing/Hero.tsx` section padding back to a more prominent layout.
+- Mobile: `pt-14 pb-10`; sm: `sm:pt-24 sm:pb-14`; lg: `lg:pt-32 lg:pb-20`.
+- Previous reduced values were `pt-8 pb-8`, `sm:pt-16 sm:pb-10`, `lg:pt-20 lg:pb-14`.
+
 ### Creator profile UI refresh: 2026-08-13
 
 - Creator profile page redesigned to a cleaner, modern layout: centered identity header with overlapping avatar, separate cards for platform stats, deal history, platform stats form, shield upsell, and account sign-out.
