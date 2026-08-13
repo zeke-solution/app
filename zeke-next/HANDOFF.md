@@ -13,7 +13,7 @@ Last updated: 2026-08-13
 - Added a permanent host redirect from `www.zekesolution.com` to the apex domain while preserving paths and query strings. The apex domain is the canonical site URL.
 - Current Google results still show the old `Zeke - Your Perfect PR Partner` title and stale historical copy. Publishing the new code does not update Google instantly; request a homepage recrawl and submit `/sitemap.xml` in Search Console after deployment.
 - Local verification passed: ESLint, strict TypeScript, optimized Next.js production build, rendered metadata inspection, JSON-LD parsing, `noindex` inspection, asset status checks, generated SEO endpoints, and a local 308 host-redirect test.
-- Deployment status: local implementation is complete and ready to publish.
+- Deployment status: live from `main` commit `de1be05` via successful Vercel deployment `5NQHNYHWYGFNZqhpAcxjrmvJE5ev`. Live checks passed for the new title/description/canonical/social metadata, WebSite and Organization JSON-LD, 200 favicon/logo/social assets, 200 robots/sitemap endpoints, and the www-to-apex 308 redirect.
 ### Homepage hero header spacing restore: 2026-08-13
 
 - Restored larger homepage hero header spacing by increasing `components/marketing/Hero.tsx` section padding back to a more prominent layout.

@@ -44,7 +44,7 @@ Last updated: 2026-08-13
 - Keep the central response headers and powered-by opt-out in next.config.ts. The intentionally limited CSP protects object/base/form/frame behavior without forcing every static page into nonce-based dynamic rendering.
 - Keep AuthShell as the authentication main landmark, preserve one h1 per repaired auth/public page, let TextField generate stable label IDs, and keep password reveal controls at least 24 x 24 px.
 - Performance needs a controlled live trace rather than asset guessing. Three current live mobile Lighthouse samples have median Performance 84 and median TBT about 466 ms despite unchanged ~303 KiB transfer; local mobile is 93 with 60 ms TBT.
-- SEO baseline completed locally on 2026-08-13: apex canonical plus permanent www redirect, unique public-page metadata, square favicon/logo assets, social preview image, WebSite/Organization/ProfilePage JSON-LD, private-route noindex metadata, and robots/sitemap/manifest endpoints. Publish it, then submit the sitemap and request recrawling in Google Search Console.
+- SEO baseline is live from commit `de1be05` (2026-08-13): apex canonical plus permanent www redirect, unique public-page metadata, square favicon/logo assets, social preview image, WebSite/Organization/ProfilePage JSON-LD, private-route noindex metadata, and robots/sitemap/manifest endpoints. Next manual step: submit `https://zekesolution.com/sitemap.xml` and request homepage recrawling in Google Search Console.
 - Legal-provider URLs are HTTP(S)-only. Payment-proof is limited to 20 MB PDF/images and agreements to 10 MB PDF at the bucket boundary.
 - Add automated app tests and expand database coverage through migration 0021 before relying on the old 0001-0003/0010-0011 shim as full coverage.
 
