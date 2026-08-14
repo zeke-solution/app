@@ -12,6 +12,13 @@ Last updated: 2026-08-14
 - Application release: commit `02ce10c` (`Fix cross-device signup confirmation`), Vercel deployment `dpl_8P5AV8xXpSdA6A9N22aoPBMM11Xm`, Ready on both production domains. Supabase's hosted template/config was updated separately through the Management API.
 - Previously delivered signup emails retain their old callback URL and cannot inherit this fix. Test and support users must request a fresh signup email; if an identity is already confirmed, they can sign in with the password chosen during signup or use password recovery if they forgot it.
 
+### Homepage hero heading-size regression fix: 2026-08-14
+
+- Root cause: the 2026-08-13 dashboard typography refresh added unscoped `h1`, `h2`, and `h3` weight, spacing, line-height, and size rules in `app/globals.css`. Because those unlayered rules override Tailwind utilities, the marketing hero headline rendered at the dashboard `22px` size instead of its responsive component scale.
+- Fix: keep only the Sora font family global; scope the dashboard heading metrics and `22px`/`18px`/`16px` sizes under `.dashboard-content`. `components/marketing/Hero.tsx` did not need redesign or copy changes.
+- Rendered Chrome verification passed at `390px`, `768px`, and `1440px`: the hero headline computes to `34px`, `58px`, and `64px` respectively, with its original `800` weight. TypeScript, ESLint, `git diff --check`, and the optimized 50-page production build also pass.
+- Deployment state: verified locally; commit, push, production deployment, and live computed-style confirmation are the remaining release steps.
+
 ### SEO, search preview, and committee-approved tagline: 2026-08-13
 
 - The approved Zeke tagline is exactly: **Create. Collaborate. Get paid.** Preserve this wording, capitalization, and punctuation unless the committee approves a replacement. The rejected local alternative "Deal safe, get paid." must not return.
@@ -702,6 +709,11 @@ Reviewed the stable core only. Deliberately skipped the files Codex had open at 
 7. Bulk campaign send is all-or-nothing: one `23505` fails the whole batch insert while the error message implies a single creator. The partial index `campaign_offer_one_per_creator ... where status <> 'cancelled'` is correctly scoped, so re-inviting a declined creator does work. Low.
 
 Suggested sequencing: fix 1 and 2 together in one `accept_offer_transaction` RPC, fold 3 and 4 into the same migration since both live in `raise_dispute_transaction`, bring 5 to the owner as a product call, and leave 6 and 7 until that area is next open.
+
+## Documentation continuity rule: 2026-08-14
+
+- Owner instruction: after every meaningful completed project step or milestone, update both `HANDOFF.md` and `MEMORY.md` before handing control back.
+- Each update must capture the outcome, checks performed, commit/deployment state when applicable, and anything still pending. Never store credentials, tokens, or other secrets in either file.
 
 ## Dashboard and auth typography audit: 2026-08-11
 

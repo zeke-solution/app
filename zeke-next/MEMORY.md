@@ -1,6 +1,6 @@
 # Zeke project memory
 
-Last updated: 2026-08-13
+Last updated: 2026-08-14
 
 ## Approved brand tagline
 
@@ -8,6 +8,11 @@ Last updated: 2026-08-13
 - Preserve the exact wording, capitalization and punctuation in the marketing hero, marketing footer, default title, search/social metadata, manifest, and organization slogan.
 - Do not use the rejected alternative “Deal safe, get paid.” without new committee approval.
 - The preferred site title is `Zeke | Create. Collaborate. Get paid.` and the canonical production origin is `https://zekesolution.com`.
+
+## Marketing typography
+
+- Marketing and public heading sizes, weights, spacing, and line heights are controlled by their component utility classes. Dashboard heading defaults must remain scoped under `.dashboard-content`; never add unscoped global `h1`, `h2`, or `h3` metrics because they override the responsive marketing utilities.
+- Homepage hero headline baseline: `34px` below `640px`, `58px` from `640px`, and `64px` from `1024px`, with weight `800`. The 2026-08-14 rendered regression check passed at `390px`, `768px`, and `1440px` after restoring this scale.
 
 ## Source of truth
 
@@ -216,6 +221,7 @@ Last updated: 2026-08-13
 - Use minimum-necessary disclosure, explicit recording or AI-transcription consent, documented conflicts, a named meeting owner, and a written follow-up record.
 ## Working conventions
 
+- Documentation continuity is mandatory: after every meaningful completed project step or milestone, update both `HANDOFF.md` and `MEMORY.md` before handing control back. Record the outcome, verification performed, deployment/commit state, and any pending work; never copy secrets into either file.
 - Read `AGENTS.md` and the relevant bundled Next.js 16 guide under `node_modules/next/dist/docs/` before changing framework behavior.
 - Preserve unrelated work in a dirty tree. Stage only explicit intended paths, never the stale root handoff.
 - Before publishing, run TypeScript, ESLint, a production build, targeted browser QA, and a remote/live verification appropriate to the change.

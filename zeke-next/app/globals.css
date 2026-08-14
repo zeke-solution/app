@@ -65,20 +65,25 @@ h1,
 h2,
 h3 {
   font-family: var(--font-sora);
+}
+
+.dashboard-content h1,
+.dashboard-content h2,
+.dashboard-content h3 {
   font-weight: 600;
   letter-spacing: -0.02em;
   line-height: 1.2;
 }
 
-h1 {
+.dashboard-content h1 {
   font-size: 22px;
 }
 
-h2 {
+.dashboard-content h2 {
   font-size: 18px;
 }
 
-h3 {
+.dashboard-content h3 {
   font-size: 16px;
 }
 
