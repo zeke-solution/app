@@ -8,7 +8,7 @@ Last updated: 2026-08-14
 - Shield classification now requires `shield_active = true` and either no expiry date or `shield_expires >= current_date`. Expired memberships produce the standard `event` / `Warning` dispute record instead of `event_gold` / `Shield`.
 - Added a focused SQL regression file covering a brand-raised dispute for an active Shield creator and the same brand-raised flow after expiry. The assertions were not executed locally because this workstation currently has no Docker, Podman, WSL distribution, or PostgreSQL runtime; no production fixture data was created to imitate the test.
 - Validation passed: linked Supabase dry run identified only migration `0023`, strict TypeScript, full source ESLint with the preserved generated hero-QA artifacts excluded, optimized 50-route production build, `git diff --check`, remote migration-ledger verification through `0023`, and linked database lint with no schema errors.
-- Database release: migration `0023` is applied to linked production project `fslthsbjtgmdbabwcubs`. This is a database-function-only release; no Vercel deployment is required.
+- Database release: migration `0023` is applied to linked production project `fslthsbjtgmdbabwcubs`. Application source commit `5820659` (`Correct dispute Shield classification`) is pushed to `origin/main`; its automatic Vercel deployment completed successfully even though the runtime application code did not change.
 
 ### Atomic creator offer responses: 2026-08-14
 
