@@ -12,7 +12,7 @@ Last updated: 2026-08-14
 ## Marketing typography
 
 - Marketing and public heading sizes, weights, spacing, and line heights are controlled by their component utility classes. Dashboard heading defaults must remain scoped under `.dashboard-content`; never add unscoped global `h1`, `h2`, or `h3` metrics because they override the responsive marketing utilities.
-- Homepage hero headline baseline: `34px` below `640px`, `58px` from `640px`, and `64px` from `1024px`, with weight `800`. The 2026-08-14 rendered regression check passed at `390px`, `768px`, and `1440px` after restoring this scale.
+- Homepage hero headline baseline: `34px` below `640px`, `58px` from `640px`, and `64px` from `1024px`, with weight `800`. The fix is live from commit `6cc93ba` via Ready production deployment `dpl_E2PQu2swbWE4PoXZ7YWkg1PpU3Ba`; the 2026-08-14 public-domain Chrome check passed at `390px`, `768px`, and `1440px` after restoring this scale.
 
 ## Source of truth
 

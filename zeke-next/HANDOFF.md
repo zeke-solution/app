@@ -17,7 +17,8 @@ Last updated: 2026-08-14
 - Root cause: the 2026-08-13 dashboard typography refresh added unscoped `h1`, `h2`, and `h3` weight, spacing, line-height, and size rules in `app/globals.css`. Because those unlayered rules override Tailwind utilities, the marketing hero headline rendered at the dashboard `22px` size instead of its responsive component scale.
 - Fix: keep only the Sora font family global; scope the dashboard heading metrics and `22px`/`18px`/`16px` sizes under `.dashboard-content`. `components/marketing/Hero.tsx` did not need redesign or copy changes.
 - Rendered Chrome verification passed at `390px`, `768px`, and `1440px`: the hero headline computes to `34px`, `58px`, and `64px` respectively, with its original `800` weight. TypeScript, ESLint, `git diff --check`, and the optimized 50-page production build also pass.
-- Deployment state: verified locally; commit, push, production deployment, and live computed-style confirmation are the remaining release steps.
+- Release state: committed and pushed as `6cc93ba` (`Fix homepage hero heading scale`). Vercel production deployment `dpl_E2PQu2swbWE4PoXZ7YWkg1PpU3Ba` is Ready and aliased to the apex, `www`, and production Vercel domains.
+- Live verification passed on 2026-08-14: `https://zekesolution.com/` returned HTTP 200 from Vercel, and headless Chrome measured the hero at `34px/800` at 390px, `58px/800` at 768px, and `64px/800` at 1440px. The regression fix is fully released; no hero follow-up remains.
 
 ### SEO, search preview, and committee-approved tagline: 2026-08-13
 
