@@ -5,14 +5,20 @@ import { useRouter } from "next/navigation";
 import { acceptOffer, declineOffer } from "@/actions/offers";
 import { Button } from "@/components/ui/Button";
 
-export function OfferActions({ dealId }: { dealId: string }) {
+export function OfferActions({
+  dealId,
+  seenUpdatedAt,
+}: {
+  dealId: string;
+  seenUpdatedAt: string;
+}) {
   const [pending, setPending] = useState<"accept" | "decline" | null>(null);
   const router = useRouter();
 
   async function handleAccept() {
     if (!confirm("Accept this offer? Terms will be locked once accepted.")) return;
     setPending("accept");
-    const res = await acceptOffer(dealId);
+    const res = await acceptOffer({ dealId, seenUpdatedAt });
     setPending(null);
     if (!res.ok) alert(res.error);
     else router.push(`/creator/deals/${dealId}`);
@@ -21,7 +27,7 @@ export function OfferActions({ dealId }: { dealId: string }) {
   async function handleDecline() {
     if (!confirm("Decline this offer?")) return;
     setPending("decline");
-    const res = await declineOffer(dealId);
+    const res = await declineOffer({ dealId, seenUpdatedAt });
     setPending(null);
     if (!res.ok) alert(res.error);
     else router.refresh();

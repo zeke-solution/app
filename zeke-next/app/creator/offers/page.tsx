@@ -12,7 +12,7 @@ export default async function CreatorOffersPage() {
 
   const { data } = await supabase
     .from("deals")
-    .select("id,title,platform,amount,brand:profiles!deals_brand_id_fkey(display_name)")
+    .select("id,title,platform,amount,updated_at,brand:profiles!deals_brand_id_fkey(display_name)")
     .eq("influencer_id", session.id)
     .eq("status", "negotiating")
     .order("created_at", { ascending: false });
@@ -50,7 +50,7 @@ export default async function CreatorOffersPage() {
                 </div>
                 <div className="flex-shrink-0 text-sm font-black text-gold">₹{fmtNum(d.amount)}</div>
               </div>
-              <OfferActions dealId={d.id} />
+              <OfferActions dealId={d.id} seenUpdatedAt={d.updated_at ?? ""} />
             </div>
           );
         })

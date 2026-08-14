@@ -10,146 +10,67 @@ import {
   sendCampaignInvitationEmails,
   type CampaignInvitationEmail,
 } from "@/lib/email/campaign-invitation";
-import { isShieldMembershipActive } from "@/lib/domain/shield-membership";
 import {
   sendCampaignOffersSchema,
+  respondToOfferSchema,
   editOfferSchema,
   type SendCampaignOffersInput,
+  type RespondToOfferInput,
   type EditOfferInput,
 } from "@/lib/validation/offer.schema";
 import type { ActionResult } from "@/actions/auth";
+import { transitionError } from "@/lib/domain/transitions";
 
-export async function acceptOffer(dealId: string): Promise<ActionResult> {
+async function respondToOffer(
+  input: RespondToOfferInput,
+  decision: "accept" | "decline"
+): Promise<ActionResult> {
+  const parsed = respondToOfferSchema.safeParse(input);
+  if (!parsed.success) return { ok: false, error: "Invalid offer details." };
+
   const supabase = await createClient();
-  const { data: userRes } = await supabase.auth.getUser();
-  if (!userRes.user) return { ok: false, error: "Not authenticated." };
-
-  const { data: deal, error: dealErr } = await supabase
-    .from("deals")
-    .select("*")
-    .eq("id", dealId)
-    .single();
-  if (dealErr || !deal) return { ok: false, error: "Could not load deal." };
-  if (deal.influencer_id !== userRes.user.id) return { ok: false, error: "Not your offer." };
-  if (deal.status !== "negotiating") {
-    return { ok: false, error: "This offer is no longer available." };
-  }
-
-  const { data: inf } = await supabase
-    .from("influencer_profiles")
-    .select("shield_active,shield_expires")
-    .eq("id", userRes.user.id)
-    .single();
-  const isShield = isShieldMembershipActive(inf);
-
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("display_name")
-    .eq("id", userRes.user.id)
-    .single();
-  const displayName = profile?.display_name ?? "Creator";
-
-  const { data: updatedDeal, error: updateErr } = await supabase
-    .from("deals")
-    .update({ status: "active", updated_at: new Date().toISOString() })
-    .eq("id", dealId)
-    .eq("status", "negotiating")
-    .select("id")
-    .maybeSingle();
-  if (updateErr) return { ok: false, error: "Could not accept this offer." };
-  if (!updatedDeal) return { ok: false, error: "This offer was already processed." };
-
-  await supabase.from("agreements").upsert(
-    { deal_id: dealId, signed_brand: true, signed_creator: true },
-    { onConflict: "deal_id", ignoreDuplicates: true }
-  );
-  await supabase.from("deal_messages").insert({
-    deal_id: dealId,
-    sender_id: userRes.user.id,
-    msg_type: isShield ? "event_gold" : "event",
-    content:
-      (isShield ? "🛡 " : "✓ ") +
-      `Offer accepted by ${displayName} · Deal active` +
-      (isShield ? " · Shield agreement generated" : ""),
+  const { data: code, error } = await supabase.rpc("respond_to_offer_transaction", {
+    p_deal_id: parsed.data.dealId,
+    p_decision: decision,
+    p_seen_updated_at: parsed.data.seenUpdatedAt,
   });
-  if (deal.brand_id) {
-    await createNotification(supabase, {
-      userId: deal.brand_id,
-      title: "Offer accepted",
-      body: `${displayName} accepted your offer · ${deal.title}`,
-      type: "deal",
-      relatedDealId: dealId,
-    });
+  const fallback = decision === "accept"
+    ? "Could not accept this offer."
+    : "Could not decline this offer.";
+  if (error) return { ok: false, error: fallback };
+  if (code) {
+    return {
+      ok: false,
+      error: transitionError(
+        code,
+        {
+          wrong_status: "This offer is no longer available.",
+          offer_changed: "This offer changed since you opened it. Review the latest terms before accepting.",
+          invalid_decision: "Invalid offer response.",
+        },
+        fallback
+      ),
+    };
   }
 
   revalidatePath("/creator/offers");
   revalidatePath("/creator/deals");
+  revalidatePath("/creator/chats");
   revalidatePath("/brand/deals");
   revalidatePath("/brand/chats");
   revalidatePath("/brand/campaigns");
   revalidatePath("/brand/overview");
   revalidatePath("/brand/partnerships");
-  revalidatePath(`/creator/deals/${dealId}`);
+  revalidatePath(`/creator/deals/${parsed.data.dealId}`);
   return { ok: true };
 }
 
-// Port of creator.js's declineOffer().
-export async function declineOffer(dealId: string): Promise<ActionResult> {
-  const supabase = await createClient();
-  const { data: userRes } = await supabase.auth.getUser();
-  if (!userRes.user) return { ok: false, error: "Not authenticated." };
+export async function acceptOffer(input: RespondToOfferInput): Promise<ActionResult> {
+  return respondToOffer(input, "accept");
+}
 
-  const { data: deal, error: dealErr } = await supabase
-    .from("deals")
-    .select("brand_id,title,influencer_id,status")
-    .eq("id", dealId)
-    .single();
-  if (dealErr || !deal) return { ok: false, error: "Could not load deal." };
-  if (deal.influencer_id !== userRes.user.id) return { ok: false, error: "Not your offer." };
-  if (deal.status !== "negotiating") {
-    return { ok: false, error: "This offer is no longer available." };
-  }
-
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("display_name")
-    .eq("id", userRes.user.id)
-    .single();
-  const displayName = profile?.display_name ?? "Creator";
-
-  const { data: updatedDeal, error: updateErr } = await supabase
-    .from("deals")
-    .update({ status: "cancelled" })
-    .eq("id", dealId)
-    .eq("status", "negotiating")
-    .select("id")
-    .maybeSingle();
-  if (updateErr) return { ok: false, error: "Could not decline this offer." };
-  if (!updatedDeal) return { ok: false, error: "This offer was already processed." };
-
-  await supabase.from("deal_messages").insert({
-    deal_id: dealId,
-    sender_id: userRes.user.id,
-    msg_type: "event",
-    content: `✗ Offer declined by ${displayName}`,
-  });
-  if (deal.brand_id) {
-    await createNotification(supabase, {
-      userId: deal.brand_id,
-      title: "Offer declined",
-      body: `${displayName} declined your offer · ${deal.title}`,
-      type: "deal",
-      relatedDealId: dealId,
-    });
-  }
-
-  revalidatePath("/creator/offers");
-  revalidatePath("/creator/chats");
-  revalidatePath("/brand/chats");
-  revalidatePath("/brand/campaigns");
-  revalidatePath("/brand/overview");
-  revalidatePath("/brand/partnerships");
-  return { ok: true };
+export async function declineOffer(input: RespondToOfferInput): Promise<ActionResult> {
+  return respondToOffer(input, "decline");
 }
 
 // Port of brand.js's submitCampaignOffers() (bulk send).
@@ -361,7 +282,7 @@ export async function editOffer(input: EditOfferInput): Promise<ActionResult> {
   if (!deal || deal.brand_id !== session.id) return { ok: false, error: "Not your deal." };
   if (deal.status !== "negotiating") return { ok: false, error: "Offer can only be edited while still negotiating." };
 
-  const { error } = await supabase
+  const { data: updatedDeal, error } = await supabase
     .from("deals")
     .update({
       title: v.title,
@@ -371,8 +292,14 @@ export async function editOffer(input: EditOfferInput): Promise<ActionResult> {
       deadline: v.deadline || null,
       updated_at: new Date().toISOString(),
     })
-    .eq("id", v.dealId);
+    .eq("id", v.dealId)
+    .eq("status", "negotiating")
+    .select("id")
+    .maybeSingle();
   if (error) return { ok: false, error: error.message };
+  if (!updatedDeal) {
+    return { ok: false, error: "This offer was already processed. Refresh to see its latest status." };
+  }
 
   const { data: profile } = await supabase.from("profiles").select("display_name").eq("id", session.id).single();
   const brandName = profile?.display_name ?? "Brand";
@@ -397,6 +324,7 @@ export async function editOffer(input: EditOfferInput): Promise<ActionResult> {
 
   revalidatePath(`/brand/deals/${v.dealId}`);
   revalidatePath(`/brand/chats/${v.dealId}`);
+  revalidatePath("/creator/offers");
   revalidatePath("/brand/overview");
   revalidatePath("/brand/partnerships");
   revalidatePath("/brand/campaigns");

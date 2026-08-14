@@ -10,6 +10,17 @@ export const sendCampaignOffersSchema = z.object({
 });
 export type SendCampaignOffersInput = z.infer<typeof sendCampaignOffersSchema>;
 
+export const respondToOfferSchema = z.object({
+  dealId: z.string().uuid(),
+  seenUpdatedAt: z
+    .string()
+    .trim()
+    .min(1)
+    .max(64)
+    .refine((value) => Number.isFinite(Date.parse(value)), 'Invalid offer version.'),
+});
+export type RespondToOfferInput = z.infer<typeof respondToOfferSchema>;
+
 export const editOfferSchema = z.object({
   dealId: z.string().uuid(),
   title: z.string().trim().min(1, 'Enter a title.'),

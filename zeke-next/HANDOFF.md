@@ -2,6 +2,15 @@
 
 Last updated: 2026-08-14
 
+### Atomic creator offer responses: 2026-08-14
+
+- Creator acceptance and decline now use `respond_to_offer_transaction` from migration `0022_atomic_offer_responses.sql`. The security-definer RPC derives the caller from `auth.uid()`, locks the deal row, verifies creator ownership and negotiating status, and commits the deal status, agreement, event message, and brand notification as one transaction.
+- Acceptance includes optimistic concurrency. The creator offers page sends the exact `deals.updated_at` value it rendered; the RPC rejects acceptance with `offer_changed` if the brand edited the terms afterward. Decline intentionally remains valid after an edit.
+- Brand offer editing now conditions its final write on `status = negotiating`. This closes the opposite race where an edit that read negotiating before acceptance could otherwise modify the deal after it became active. Successful edits also revalidate the creator offers page.
+- The RPC is executable by `authenticated` only and explicitly revoked from `public` and `anon`. User-facing transition errors stay in TypeScript, while authorization and transaction integrity stay in PostgreSQL.
+- Local validation passed: strict TypeScript, full source ESLint with the preserved generated hero-QA artifacts excluded, optimized 50-route production build, `git diff --check`, and 75/75 isolated PostgreSQL transition assertions. Coverage includes anonymous/authenticated RPC permissions, wrong actor/status, stale acceptance with zero side effects, successful accept/decline, double processing, decline after edited terms, and forced downstream-failure rollback.
+- Database release: migration `0022` is applied to linked production project `fslthsbjtgmdbabwcubs`; the remote migration ledger matches through `0022` and linked database lint reports no schema errors. Application commit, push, and Vercel verification are still pending.
+
 ### Cross-device signup confirmation fix: 2026-08-14
 
 - Root cause: email-password signup sent Supabase's PKCE callback URL. The verifier cookie exists only in the browser that submitted signup, so opening the confirmation email on mobile, in an in-app browser, or in another browser could reach `/auth/callback` without a verifier and appear invalid. The originally chosen signup password was not the problem.

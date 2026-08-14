@@ -556,6 +556,14 @@ export interface Database {
         Args: { p_dispute_id: string; p_resolution: string };
         Returns: boolean;
       };
+      respond_to_offer_transaction: {
+        Args: {
+          p_deal_id: string;
+          p_decision: "accept" | "decline";
+          p_seen_updated_at: string;
+        };
+        Returns: string | null;
+      };
       // 0003_atomic_transitions.sql. These return null on success or a short
       // error code; TransitionCode in lib/domain/transitions.ts maps the codes
       // to user-facing copy.

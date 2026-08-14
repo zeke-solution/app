@@ -39,6 +39,21 @@ exception
 end $$;
 grant execute on function test_invalid_chat(uuid, uuid, text) to public;
 
+create or replace function test_offer_atomic_failure(
+  target_deal_id uuid,
+  target_seen_updated_at timestamptz
+)
+returns text language plpgsql as $$
+begin
+  perform public.respond_to_offer_transaction(
+    target_deal_id, 'accept', target_seen_updated_at
+  );
+  return 'not_rolled_back';
+exception
+  when sqlstate 'P0001' then return 'rolled_back';
+end $$;
+grant execute on function test_offer_atomic_failure(uuid, timestamptz) to public;
+
 -- ---------------------------------------------------------------- fixtures
 insert into auth.users (id, email, raw_user_meta_data) values
   ('11111111-1111-1111-1111-111111111111','creator@t.com',
@@ -52,11 +67,142 @@ insert into auth.users (id, email, raw_user_meta_data) values
 
 update public.profiles set role = 'admin' where id = '33333333-3333-3333-3333-333333333333';
 
-insert into public.deals (id, brand_id, influencer_id, title, amount, status) values
+insert into public.deals (id, brand_id, influencer_id, title, amount, status, updated_at) values
   ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa','22222222-2222-2222-2222-222222222222',
-   '11111111-1111-1111-1111-111111111111','Happy Path Deal', 5000, 'active'),
+   '11111111-1111-1111-1111-111111111111','Happy Path Deal', 5000, 'active', '2026-08-14 10:00:00+00'),
   ('bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb','22222222-2222-2222-2222-222222222222',
-   '11111111-1111-1111-1111-111111111111','Dispute Deal', 5000, 'active');
+   '11111111-1111-1111-1111-111111111111','Dispute Deal', 5000, 'active', '2026-08-14 10:00:00+00'),
+  ('cccccccc-cccc-cccc-cccc-cccccccccccc','22222222-2222-2222-2222-222222222222',
+   '11111111-1111-1111-1111-111111111111','Accept Offer', 5000, 'negotiating', '2026-08-14 10:00:00+00'),
+  ('dddddddd-dddd-dddd-dddd-dddddddddddd','22222222-2222-2222-2222-222222222222',
+   '11111111-1111-1111-1111-111111111111','Decline Offer', 2000, 'negotiating', '2026-08-14 10:00:00+00'),
+  ('eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee','22222222-2222-2222-2222-222222222222',
+   '11111111-1111-1111-1111-111111111111','Rollback Offer', 3000, 'negotiating', '2026-08-14 10:00:00+00');
+
+\echo '=============== 0. creator responds to offer ==============='
+select test_eq(has_function_privilege(
+  'anon', 'public.respond_to_offer_transaction(uuid,text,timestamptz)', 'execute')::text,
+  'false', 'anonymous role cannot execute offer response RPC');
+select test_eq(has_function_privilege(
+  'authenticated', 'public.respond_to_offer_transaction(uuid,text,timestamptz)', 'execute')::text,
+  'true', 'authenticated role can execute offer response RPC');
+
+begin;
+  set local role authenticated;
+  set local request.jwt.claims = '{"sub":"11111111-1111-1111-1111-111111111111"}';
+  select test_eq(public.respond_to_offer_transaction(
+    'cccccccc-cccc-cccc-cccc-cccccccccccc', 'invalid', '2026-08-14 10:00:00+00'),
+    'invalid_decision', 'invalid offer response rejected');
+commit;
+
+begin;
+  set local role authenticated;
+  set local request.jwt.claims = '{"sub":"22222222-2222-2222-2222-222222222222"}';
+  select test_eq(public.respond_to_offer_transaction(
+    'cccccccc-cccc-cccc-cccc-cccccccccccc', 'accept', '2026-08-14 10:00:00+00'),
+    'not_your_deal', 'brand cannot accept creator offer');
+  update public.deals
+  set amount = 5500, updated_at = '2026-08-14 10:05:00+00'
+  where id = 'cccccccc-cccc-cccc-cccc-cccccccccccc';
+commit;
+
+begin;
+  set local role authenticated;
+  set local request.jwt.claims = '{"sub":"11111111-1111-1111-1111-111111111111"}';
+  select test_eq(public.respond_to_offer_transaction(
+    'cccccccc-cccc-cccc-cccc-cccccccccccc', 'accept', '2026-08-14 10:00:00+00'),
+    'offer_changed', 'accept rejects terms changed after render');
+commit;
+select test_eq((select status from public.deals where id='cccccccc-cccc-cccc-cccc-cccccccccccc'),
+  'negotiating', 'stale accept leaves deal negotiating');
+select test_eq((select count(*)::text from public.agreements where deal_id='cccccccc-cccc-cccc-cccc-cccccccccccc'),
+  '0', 'stale accept creates no agreement');
+select test_eq((select count(*)::text from public.deal_messages where deal_id='cccccccc-cccc-cccc-cccc-cccccccccccc'),
+  '0', 'stale accept creates no event');
+select test_eq((select count(*)::text from public.notifications where related_deal_id='cccccccc-cccc-cccc-cccc-cccccccccccc'),
+  '0', 'stale accept creates no notification');
+
+begin;
+  set local role authenticated;
+  set local request.jwt.claims = '{"sub":"11111111-1111-1111-1111-111111111111"}';
+  select test_eq(public.respond_to_offer_transaction(
+    'cccccccc-cccc-cccc-cccc-cccccccccccc', 'accept', '2026-08-14 10:05:00+00'),
+    null, 'current offer accepts successfully');
+commit;
+select test_eq((select status from public.deals where id='cccccccc-cccc-cccc-cccc-cccccccccccc'),
+  'active', 'accepted offer becomes active');
+select test_eq((select (signed_brand and signed_creator)::text from public.agreements
+  where deal_id='cccccccc-cccc-cccc-cccc-cccccccccccc'),
+  'true', 'accept creates signed agreement');
+select test_eq((select count(*)::text from public.deal_messages
+  where deal_id='cccccccc-cccc-cccc-cccc-cccccccccccc' and msg_type='event'),
+  '1', 'accept creates event message');
+select test_eq((select count(*)::text from public.notifications
+  where related_deal_id='cccccccc-cccc-cccc-cccc-cccccccccccc' and title='Offer accepted'),
+  '1', 'accept notifies brand');
+
+begin;
+  set local role authenticated;
+  set local request.jwt.claims = '{"sub":"11111111-1111-1111-1111-111111111111"}';
+  select test_eq(public.respond_to_offer_transaction(
+    'cccccccc-cccc-cccc-cccc-cccccccccccc', 'accept', '2026-08-14 10:05:00+00'),
+    'wrong_status', 'accepted offer cannot be processed twice');
+commit;
+
+begin;
+  set local role authenticated;
+  set local request.jwt.claims = '{"sub":"22222222-2222-2222-2222-222222222222"}';
+  update public.deals
+  set amount = 2500, updated_at = '2026-08-14 10:10:00+00'
+  where id = 'dddddddd-dddd-dddd-dddd-dddddddddddd';
+commit;
+begin;
+  set local role authenticated;
+  set local request.jwt.claims = '{"sub":"11111111-1111-1111-1111-111111111111"}';
+  select test_eq(public.respond_to_offer_transaction(
+    'dddddddd-dddd-dddd-dddd-dddddddddddd', 'decline', '2026-08-14 10:00:00+00'),
+    null, 'decline remains valid after terms change');
+commit;
+select test_eq((select status from public.deals where id='dddddddd-dddd-dddd-dddd-dddddddddddd'),
+  'cancelled', 'declined offer becomes cancelled');
+select test_eq((select count(*)::text from public.agreements where deal_id='dddddddd-dddd-dddd-dddd-dddddddddddd'),
+  '0', 'decline creates no agreement');
+select test_eq((select count(*)::text from public.deal_messages where deal_id='dddddddd-dddd-dddd-dddd-dddddddddddd'),
+  '1', 'decline creates event message');
+select test_eq((select count(*)::text from public.notifications
+  where related_deal_id='dddddddd-dddd-dddd-dddd-dddddddddddd' and title='Offer declined'),
+  '1', 'decline notifies brand');
+
+create or replace function fail_offer_event_for_test()
+returns trigger language plpgsql as $$
+begin
+  if new.deal_id = 'eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee' then
+    raise exception 'forced offer event failure' using errcode = 'P0001';
+  end if;
+  return new;
+end $$;
+create trigger fail_offer_event_for_test_trigger
+before insert on public.deal_messages
+for each row execute function fail_offer_event_for_test();
+
+begin;
+  set local role authenticated;
+  set local request.jwt.claims = '{"sub":"11111111-1111-1111-1111-111111111111"}';
+  select test_eq(public.test_offer_atomic_failure(
+    'eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee', '2026-08-14 10:00:00+00'),
+    'rolled_back', 'downstream event failure rolls back accept');
+commit;
+drop trigger fail_offer_event_for_test_trigger on public.deal_messages;
+drop function fail_offer_event_for_test();
+
+select test_eq((select status from public.deals where id='eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee'),
+  'negotiating', 'failed accept rolls back deal status');
+select test_eq((select count(*)::text from public.agreements where deal_id='eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee'),
+  '0', 'failed accept rolls back agreement');
+select test_eq((select count(*)::text from public.deal_messages where deal_id='eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee'),
+  '0', 'failed accept leaves no event');
+select test_eq((select count(*)::text from public.notifications where related_deal_id='eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee'),
+  '0', 'failed accept leaves no notification');
 
 \echo '=============== fmt_amount matches fmtNum() ==============='
 select test_eq(public.fmt_amount(5000),    '5.0K',   'fmt 5000 -> 5.0K');
@@ -87,7 +233,9 @@ select test_eq((select round::text from public.submissions where deal_id='aaaaaa
 select test_eq((select count(*)::text from public.deal_messages where deal_id='aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa'),
   '1', 'event message created');
 select test_eq((select count(*)::text from public.notifications
-  where user_id='22222222-2222-2222-2222-222222222222'), '1', 'brand notified of submission');
+  where user_id='22222222-2222-2222-2222-222222222222'
+    and related_deal_id='aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa'
+    and title='New submission from Test Creator'), '1', 'brand notified of submission');
 
 \echo '--- negative: brand cannot submit content ---'
 begin;
@@ -279,7 +427,7 @@ begin;
     'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb'), 'blocked',
     'pending cancellation cannot close a disputed deal');
 commit;
-select test_eq((select status from public.deals where id='bbbbbbbb-bbbb-bbbb-bbbbbbbbbbbb'),
+select test_eq((select status from public.deals where id='bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb'),
   'disputed', 'blocked cancellation leaves deal disputed');
 
 \echo '--- negative: stranger cannot dispute ---'

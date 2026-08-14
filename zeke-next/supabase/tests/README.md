@@ -1,8 +1,10 @@
 # Migration tests
 
-Runs migrations 0001-0003 plus the active-dispute close guard in 0010 and Realtime/workflow fixes in 0011 against a
-throwaway local Postgres and drives the six core transitions as simulated authenticated users. No Docker, no Supabase CLI,
-and it never touches a real project.
+Runs migrations 0001-0003 plus the active-dispute close guard in 0010,
+Realtime/workflow fixes in 0011, and atomic offer responses in 0022 against a
+throwaway local Postgres. It drives the offer response and six core transitions
+as simulated authenticated users. No Docker, no Supabase CLI, and it never
+touches a real project.
 
 The 2026-07-17 baseline against Postgres 17.5 passed 44/44 assertions plus the
 concurrency test. Migration 0011 adds four assertions that still require a
@@ -53,6 +55,7 @@ $c = @("-h","127.0.0.1","-p","55432","-U","postgres","-v","ON_ERROR_STOP=1","-q"
 & $PSQL @c -f supabase\migrations\0003_atomic_transitions.sql
 & $PSQL @c -f supabase\migrations\0010_active_dispute_close_guard.sql
 & $PSQL @c -f supabase\migrations\0011_realtime_and_workflow_notifications.sql
+& $PSQL @c -f supabase\migrations\0022_atomic_offer_responses.sql
 & $PSQL @c -f supabase\tests\01_transitions_test.sql
 ```
 

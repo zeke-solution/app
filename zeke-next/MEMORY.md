@@ -55,9 +55,10 @@ Last updated: 2026-08-14
 
 ## Open core workflow findings
 
-- Highest priority after Release 1 is moving offer acceptance and decline into locking database RPCs. The current action changes deal status, then writes the agreement, event message, and notification separately without checking every result.
-- Offer acceptance also needs optimistic concurrency: validate the amount or `updated_at` value the creator actually saw so an edited negotiating offer cannot be accepted under silently changed terms.
-- Fix Shield dispute classification together: `raise_dispute_transaction` must check the deal creator's active, unexpired membership rather than checking only the actor's `shield_active` flag.
+- Offer acceptance and decline were moved into the locking `respond_to_offer_transaction` RPC in migration 0022. Keep the exact rendered `deals.updated_at` snapshot on acceptance, keep all status/agreement/event/notification writes atomic, and keep decline valid after changed terms.
+- Brand offer edits must keep the final `status = negotiating` write condition. Without it, an edit that read the old status before acceptance could update an already-active deal after the acceptance lock commits.
+- Migration 0022 is live in production and the remote ledger/lint are clean. Local coverage passed 75/75 SQL assertions plus strict TypeScript, full source lint with generated hero-QA artifacts excluded, and the optimized production build. Application commit and deployment verification remain pending.
+- Highest remaining workflow priority is Shield dispute classification: `raise_dispute_transaction` must check the deal creator's active, unexpired membership rather than checking only the actor's `shield_active` flag.
 - Submission revision status and multiple simultaneously pending submissions need a product decision before changing the state model. Full evidence and lower-priority findings are recorded in the 2026-08-11 static-review section of HANDOFF.md.
 
 ## Google authentication
