@@ -1,6 +1,16 @@
 # Zeke Next.js handoff
 
-Last updated: 2026-08-13
+Last updated: 2026-08-14
+
+### Cross-device signup confirmation fix: 2026-08-14
+
+- Root cause: email-password signup sent Supabase's PKCE callback URL. The verifier cookie exists only in the browser that submitted signup, so opening the confirmation email on mobile, in an in-app browser, or in another browser could reach `/auth/callback` without a verifier and appear invalid. The originally chosen signup password was not the problem.
+- Signup now sends users to `/auth/confirm-signup`. The hosted Supabase confirmation template builds a first-party link from `{{ .RedirectTo }}` and `{{ .TokenHash }}`, and the server verifies it with `verifyOtp({ type: 'email' })`.
+- The new route is scanner-safe: GET only renders a confirmation page; the one-time token is consumed only when the user presses **Confirm and continue**. Successful confirmation creates the Supabase session and routes the user to the role home (`/brand` or `/creator`). Google OAuth continues to use `/auth/callback`; recovery keeps its separate `/auth/confirm` token-hash flow.
+- Supabase's hosted redirect allowlist now includes the signup-confirmation route for apex, `www`, and localhost, plus the previously missing `www` callback. Local `supabase/config.toml` now requires email confirmation to match production.
+- Validation passed: strict TypeScript, ESLint, optimized Next.js production build, local route checks, and live production checks. A no-email disposable production signup proved that GET did not confirm the identity, the explicit POST did confirm it, the browser received session cookies, and the final route was `/brand`. The disposable Auth user and QA profile were permanently removed; no matching QA records remain.
+- Application release: commit `02ce10c` (`Fix cross-device signup confirmation`), Vercel deployment `dpl_8P5AV8xXpSdA6A9N22aoPBMM11Xm`, Ready on both production domains. Supabase's hosted template/config was updated separately through the Management API.
+- Previously delivered signup emails retain their old callback URL and cannot inherit this fix. Test and support users must request a fresh signup email; if an identity is already confirmed, they can sign in with the password chosen during signup or use password recovery if they forgot it.
 
 ### SEO, search preview, and committee-approved tagline: 2026-08-13
 
