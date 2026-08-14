@@ -20,8 +20,8 @@ export default async function VerifyPage({
             : "We sent a verification link to your email."}
         </div>
         <div className="text-xs leading-relaxed text-muted">
-          Click the link in the email to activate your account. The link will redirect you back
-          here automatically.
+          The password you chose during signup is already set. Open the newest email and select
+          Confirm email address. You can safely continue on this device or another one.
         </div>
         <Link href="/login" className="w-full">
           <Button variant="outline" fullWidth>

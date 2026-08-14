@@ -6,7 +6,11 @@ export default async function LoginPage({
   searchParams: Promise<{ error?: string }>;
 }) {
   const params = await searchParams;
-  const initialError =
+  const signupLinkError =
+    params.error === 'signup_link_invalid'
+      ? 'This confirmation link is invalid, expired, or already used. Try signing in with the password you chose. If that fails, request a password reset.'
+      : '';
+  const callbackError =
     params.error === "auth_callback_failed"
       ? "This sign-in or recovery link is invalid or has expired. Please request a new one."
       : params.error === "recovery_link_invalid"
@@ -16,6 +20,8 @@ export default async function LoginPage({
         : params.error === "google_identity_required"
           ? "Please sign in with Google again to finish account setup."
       : "";
+
+  const initialError = signupLinkError || callbackError;
 
   return (
     <div>

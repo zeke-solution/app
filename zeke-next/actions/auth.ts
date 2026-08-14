@@ -95,7 +95,8 @@ export async function registerUser(input: RegisterInput): Promise<ActionResult> 
     password: v.password,
     options: {
       data: meta,
-      emailRedirectTo: `${SITE_URL}/auth/callback?next=/login`,
+      // Use a first-party token hash so confirmation works across browsers and devices.
+      emailRedirectTo: `${SITE_URL}/auth/confirm-signup`,
     },
   });
 
@@ -219,6 +220,43 @@ export async function requestPasswordReset(input: ResetInput): Promise<ActionRes
     return { ok: false, error: error.message };
   }
   return { ok: true };
+}
+
+function readTokenHash(formData: FormData): string | null {
+  const tokenHash = String(formData.get('token_hash') ?? '').trim();
+  return tokenHash.length >= 20 && tokenHash.length <= 1024 ? tokenHash : null;
+}
+
+export async function confirmEmailSignup(formData: FormData): Promise<never> {
+  const tokenHash = readTokenHash(formData);
+  if (!tokenHash) redirect('/login?error=signup_link_invalid');
+
+  const supabase = await createClient();
+  // This endpoint accepts signup-confirmation tokens only. Keeping the OTP
+  // type server-side prevents it from becoming a generic token verifier.
+  const { data, error } = await supabase.auth.verifyOtp({
+    token_hash: tokenHash,
+    type: 'email',
+  });
+
+  if (error || !data.user) {
+    console.error('[auth] signup token verification failed', {
+      name: error?.name ?? 'MissingUser',
+      code: error?.code ?? null,
+      status: error?.status ?? null,
+      message: error?.message ?? 'Verification returned no user.',
+    });
+    redirect('/login?error=signup_link_invalid');
+  }
+
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('role,onboarding_completed')
+    .eq('id', data.user.id)
+    .single();
+
+  if (!profile) redirect('/login?error=account_not_setup');
+  redirect(roleHome(profile.onboarding_completed ? profile.role : 'pending'));
 }
 
 export async function confirmPasswordRecovery(formData: FormData): Promise<never> {
