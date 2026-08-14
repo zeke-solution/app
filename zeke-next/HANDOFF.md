@@ -2,6 +2,14 @@
 
 Last updated: 2026-08-14
 
+### Correct dispute Shield classification: 2026-08-14
+
+- Migration `0023_correct_dispute_shield_classification.sql` updates `raise_dispute_transaction` so dispute presentation follows the locked deal's creator membership, regardless of whether the creator or brand raises the dispute.
+- Shield classification now requires `shield_active = true` and either no expiry date or `shield_expires >= current_date`. Expired memberships produce the standard `event` / `Warning` dispute record instead of `event_gold` / `Shield`.
+- Added a focused SQL regression file covering a brand-raised dispute for an active Shield creator and the same brand-raised flow after expiry. The assertions were not executed locally because this workstation currently has no Docker, Podman, WSL distribution, or PostgreSQL runtime; no production fixture data was created to imitate the test.
+- Validation passed: linked Supabase dry run identified only migration `0023`, strict TypeScript, full source ESLint with the preserved generated hero-QA artifacts excluded, optimized 50-route production build, `git diff --check`, remote migration-ledger verification through `0023`, and linked database lint with no schema errors.
+- Database release: migration `0023` is applied to linked production project `fslthsbjtgmdbabwcubs`. This is a database-function-only release; no Vercel deployment is required.
+
 ### Atomic creator offer responses: 2026-08-14
 
 - Creator acceptance and decline now use `respond_to_offer_transaction` from migration `0022_atomic_offer_responses.sql`. The security-definer RPC derives the caller from `auth.uid()`, locks the deal row, verifies creator ownership and negotiating status, and commits the deal status, agreement, event message, and brand notification as one transaction.
@@ -9,7 +17,8 @@ Last updated: 2026-08-14
 - Brand offer editing now conditions its final write on `status = negotiating`. This closes the opposite race where an edit that read negotiating before acceptance could otherwise modify the deal after it became active. Successful edits also revalidate the creator offers page.
 - The RPC is executable by `authenticated` only and explicitly revoked from `public` and `anon`. User-facing transition errors stay in TypeScript, while authorization and transaction integrity stay in PostgreSQL.
 - Local validation passed: strict TypeScript, full source ESLint with the preserved generated hero-QA artifacts excluded, optimized 50-route production build, `git diff --check`, and 75/75 isolated PostgreSQL transition assertions. Coverage includes anonymous/authenticated RPC permissions, wrong actor/status, stale acceptance with zero side effects, successful accept/decline, double processing, decline after edited terms, and forced downstream-failure rollback.
-- Database release: migration `0022` is applied to linked production project `fslthsbjtgmdbabwcubs`; the remote migration ledger matches through `0022` and linked database lint reports no schema errors. Application commit, push, and Vercel verification are still pending.
+- Database release: migration `0022` is applied to linked production project `fslthsbjtgmdbabwcubs`; the remote migration ledger matches through `0022` and linked database lint reports no schema errors.
+- Application release: commit `d61773b` (`Make offer responses atomic`) is pushed to `origin/main`. Vercel deployment `dpl_4r7JMxozaqauammDgtigRmprpMaG` completed successfully and serves production; an unauthenticated request to `/creator/offers` returns the expected `307` redirect to login.
 
 ### Cross-device signup confirmation fix: 2026-08-14
 
