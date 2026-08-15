@@ -10,7 +10,7 @@ const BENEFITS = [
 
 export function Hero() {
   return (
-    <section className="brand-hero relative overflow-hidden bg-dark px-5 pb-10 pt-14 sm:px-6 sm:pb-14 sm:pt-24 lg:pb-20 lg:pt-32">
+    <section className="brand-hero relative overflow-hidden bg-dark px-5 pb-10 pt-14 sm:px-6 sm:pb-14 sm:pt-24 lg:pb-12 lg:pt-16">
       <div className="relative z-10 mx-auto max-w-[1180px]">
         <div className="max-w-[760px]">
           <div className="brand-chip mb-4 inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-[11px] font-bold sm:mb-6 sm:px-4 sm:py-2 sm:text-xs">
@@ -25,7 +25,7 @@ export function Hero() {
             every decision on record, from the first offer to the final payment.
           </p>
 
-          <div className="mt-7 hidden max-w-[650px] gap-3 sm:grid sm:grid-cols-3">
+          <div className="mt-7 hidden max-w-[650px] gap-3 sm:grid sm:grid-cols-3 lg:mt-6">
             {BENEFITS.map(({ icon: Icon, title, detail }) => (
               <div key={title} className="flex items-center gap-3 rounded-2xl border border-purple/20 bg-white/[0.035] px-3.5 py-3">
                 <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-accent/25 via-purple/20 to-pink/20 text-cyan">
@@ -53,7 +53,7 @@ export function Hero() {
               Log in
             </Link>
           </div>
-          <div className="mt-8 hidden gap-3 sm:flex">
+          <div className="mt-8 hidden gap-3 sm:flex lg:mt-6">
             <Link
               href="/register?role=influencer"
               className={buttonClassName({ size: "lg", fullWidth: true, className: "sm:w-auto" })}
