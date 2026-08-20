@@ -5,6 +5,7 @@ import Link from "next/link";
 import { completeGoogleOnboarding, registerUser } from "@/actions/auth";
 import { Button } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/TextField";
+import { TurnstileWidget } from "@/components/auth/TurnstileWidget";
 import { NICHE_OPTIONS, GUARDIAN_RELATIONS } from "@/lib/domain/constants";
 import {
   AuthDivider,
@@ -58,6 +59,13 @@ export function RegisterForm({
   const [step1Error, setStep1Error] = useState("");
   const [step2Error, setStep2Error] = useState("");
   const [pending, setPending] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const [turnstileResetKey, setTurnstileResetKey] = useState(0);
+
+  function resetTurnstile() {
+    setTurnstileToken("");
+    setTurnstileResetKey((key) => key + 1);
+  }
 
   function goStep2() {
     if (!name.trim()) return setStep1Error("Enter your name.");
@@ -73,6 +81,10 @@ export function RegisterForm({
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setStep2Error("");
+    if (!isGoogleOnboarding && !turnstileToken) {
+      setStep2Error("Complete the security check before creating your account.");
+      return;
+    }
     setPending(true);
 
     const res =
@@ -89,6 +101,7 @@ export function RegisterForm({
               name,
               email,
               password,
+              turnstileToken,
               brandType,
               location: brandLocation,
             })
@@ -118,6 +131,7 @@ export function RegisterForm({
               name,
               email,
               password,
+              turnstileToken,
               niche: niche === OTHER_NICHE ? nicheOther : niche,
               location: infLocation,
               igHandle,
@@ -137,7 +151,10 @@ export function RegisterForm({
             });
 
     setPending(false);
-    if (!res.ok) setStep2Error(res.error);
+    if (!res.ok) {
+      setStep2Error(res.error);
+      if (!isGoogleOnboarding) resetTurnstile();
+    }
   }
 
   return (
@@ -148,6 +165,7 @@ export function RegisterForm({
           onClick={() => {
             setRole("influencer");
             setStep(1);
+            setTurnstileToken("");
           }}
           className={`flex-1 py-2.5 text-sm font-bold transition-colors ${
             role === "influencer" ? "bg-[#4f46e5] text-white" : "bg-transparent text-muted"
@@ -160,6 +178,7 @@ export function RegisterForm({
           onClick={() => {
             setRole("brand");
             setStep(1);
+            setTurnstileToken("");
           }}
           className={`flex-1 py-2.5 text-sm font-bold transition-colors ${
             role === "brand" ? "bg-[#4f46e5] text-white" : "bg-transparent text-muted"
@@ -236,7 +255,10 @@ export function RegisterForm({
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <button
             type="button"
-            onClick={() => setStep(1)}
+            onClick={() => {
+              setStep(1);
+              setTurnstileToken("");
+            }}
             className="text-left text-xs text-muted"
           >
             &#8592; Back
@@ -461,7 +483,26 @@ export function RegisterForm({
               {step2Error}
             </div>
           )}
-          <Button type="submit" disabled={pending} fullWidth>
+          {!isGoogleOnboarding && (
+            <TurnstileWidget
+              action="register"
+              resetKey={turnstileResetKey}
+              onVerify={setTurnstileToken}
+              onExpire={() => {
+                setTurnstileToken("");
+                setStep2Error("The security check expired. Please complete it again.");
+              }}
+              onError={() => {
+                setTurnstileToken("");
+                setStep2Error("The security check could not load. Refresh the page and try again.");
+              }}
+            />
+          )}
+          <Button
+            type="submit"
+            disabled={pending || (!isGoogleOnboarding && !turnstileToken)}
+            fullWidth
+          >
             {pending
               ? "Please wait..."
               : isGoogleOnboarding

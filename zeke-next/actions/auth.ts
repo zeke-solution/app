@@ -14,16 +14,26 @@ import {
   type UpdatePasswordInput,
 } from "@/lib/validation/auth.schema";
 import { roleHome } from "@/lib/auth/navigation";
+import {
+  verifyTurnstileToken,
+  type TurnstileProtectedInput,
+} from "@/lib/security/turnstile";
 
 export type ActionResult = { ok: true } | { ok: false; error: string };
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000").replace(/\/+$/, "");
+const TURNSTILE_ERROR = "Complete the security check and try again.";
 
 // Port of auth.js's doLogin().
-export async function signInUser(input: LoginInput): Promise<ActionResult> {
+export async function signInUser(
+  input: LoginInput & TurnstileProtectedInput,
+): Promise<ActionResult> {
   const parsed = loginSchema.safeParse(input);
   if (!parsed.success) {
     return { ok: false, error: parsed.error.issues[0]?.message ?? "Invalid input." };
+  }
+  if (!(await verifyTurnstileToken(input.turnstileToken, "login"))) {
+    return { ok: false, error: TURNSTILE_ERROR };
   }
 
   const supabase = await createClient();
@@ -54,10 +64,15 @@ export async function signInUser(input: LoginInput): Promise<ActionResult> {
 // Port of auth.js's doRegister(). Builds the same `meta` shape the
 // handle_new_user() Postgres trigger expects (raw_user_meta_data), so the
 // trigger needs no changes for this migration.
-export async function registerUser(input: RegisterInput): Promise<ActionResult> {
+export async function registerUser(
+  input: RegisterInput & TurnstileProtectedInput,
+): Promise<ActionResult> {
   const parsed = registerSchema.safeParse(input);
   if (!parsed.success) {
     return { ok: false, error: parsed.error.issues[0]?.message ?? "Invalid input." };
+  }
+  if (!(await verifyTurnstileToken(input.turnstileToken, "register"))) {
+    return { ok: false, error: TURNSTILE_ERROR };
   }
   const v = parsed.data;
 
@@ -200,10 +215,15 @@ export async function completeGoogleOnboarding(
 }
 
 // Port of auth.js's requestReset().
-export async function requestPasswordReset(input: ResetInput): Promise<ActionResult> {
+export async function requestPasswordReset(
+  input: ResetInput & TurnstileProtectedInput,
+): Promise<ActionResult> {
   const parsed = resetSchema.safeParse(input);
   if (!parsed.success) {
     return { ok: false, error: parsed.error.issues[0]?.message ?? "Invalid input." };
+  }
+  if (!(await verifyTurnstileToken(input.turnstileToken, "password_reset"))) {
+    return { ok: false, error: TURNSTILE_ERROR };
   }
 
   const supabase = await createClient();

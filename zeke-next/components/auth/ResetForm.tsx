@@ -5,20 +5,35 @@ import Link from "next/link";
 import { requestPasswordReset } from "@/actions/auth";
 import { Button } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/TextField";
+import { TurnstileWidget } from "@/components/auth/TurnstileWidget";
 
 export function ResetForm() {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [sent, setSent] = useState(false);
   const [pending, setPending] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const [turnstileResetKey, setTurnstileResetKey] = useState(0);
+
+  function resetTurnstile() {
+    setTurnstileToken("");
+    setTurnstileResetKey((key) => key + 1);
+  }
 
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
     setError("");
+    if (!turnstileToken) {
+      setError("Complete the security check before requesting a reset link.");
+      return;
+    }
     setPending(true);
-    const res = await requestPasswordReset({ email });
+    const res = await requestPasswordReset({ email, turnstileToken });
     setPending(false);
-    if (!res.ok) setError(res.error);
+    if (!res.ok) {
+      setError(res.error);
+      resetTurnstile();
+    }
     else setSent(true);
   }
 
@@ -48,8 +63,21 @@ export function ResetForm() {
         <>
           <p className="text-[13px] leading-relaxed text-muted">Enter your email and we&apos;ll send you a secure link to set a new password.</p>
           <TextField id="reset-email" label="Email" type="email" autoComplete="email" placeholder="you@example.com" value={email} onChange={(event) => setEmail(event.target.value)} />
+          <TurnstileWidget
+            action="password_reset"
+            resetKey={turnstileResetKey}
+            onVerify={setTurnstileToken}
+            onExpire={() => {
+              setTurnstileToken("");
+              setError("The security check expired. Please complete it again.");
+            }}
+            onError={() => {
+              setTurnstileToken("");
+              setError("The security check could not load. Refresh the page and try again.");
+            }}
+          />
           {error && <div className="rounded-[10px] border border-accent/20 bg-accent/10 px-3.5 py-2 text-xs text-accent">{error}</div>}
-          <Button type="submit" disabled={pending} fullWidth>{pending ? "Please wait..." : "Send Reset Link"}</Button>
+          <Button type="submit" disabled={pending || !turnstileToken} fullWidth>{pending ? "Please wait..." : "Send Reset Link"}</Button>
         </>
       )}
       <div className="border-t border-border pt-5 text-center text-sm text-muted">

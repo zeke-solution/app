@@ -5,6 +5,7 @@ import Link from "next/link";
 import { signInUser } from "@/actions/auth";
 import { Button } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/TextField";
+import { TurnstileWidget } from "@/components/auth/TurnstileWidget";
 import {
   AuthDivider,
   GoogleAuthButton,
@@ -17,14 +18,28 @@ export function LoginForm({ initialError = "" }: { initialError?: string }) {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(initialError);
   const [pending, setPending] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const [turnstileResetKey, setTurnstileResetKey] = useState(0);
+
+  function resetTurnstile() {
+    setTurnstileToken("");
+    setTurnstileResetKey((key) => key + 1);
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
+    if (!turnstileToken) {
+      setError("Complete the security check before signing in.");
+      return;
+    }
     setPending(true);
-    const res = await signInUser({ email, password });
+    const res = await signInUser({ email, password, turnstileToken });
     setPending(false);
-    if (!res.ok) setError(res.error);
+    if (!res.ok) {
+      setError(res.error);
+      resetTurnstile();
+    }
   }
 
   return (
@@ -71,12 +86,25 @@ export function LoginForm({ initialError = "" }: { initialError?: string }) {
           Forgot password?
         </Link>
       </div>
+      <TurnstileWidget
+        action="login"
+        resetKey={turnstileResetKey}
+        onVerify={setTurnstileToken}
+        onExpire={() => {
+          setTurnstileToken("");
+          setError("The security check expired. Please complete it again.");
+        }}
+        onError={() => {
+          setTurnstileToken("");
+          setError("The security check could not load. Refresh the page and try again.");
+        }}
+      />
       {error && (
         <div className="rounded-[10px] border border-accent/20 bg-accent/10 px-3.5 py-2 text-xs text-accent">
           {error}
         </div>
       )}
-      <Button type="submit" disabled={pending} fullWidth>
+      <Button type="submit" disabled={pending || !turnstileToken} fullWidth>
         {pending ? "Please wait..." : "Sign In"}
       </Button>
       <div className="border-t border-border pt-5 text-center text-xs leading-5 text-muted sm:text-sm">
