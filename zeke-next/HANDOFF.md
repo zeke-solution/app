@@ -2,7 +2,33 @@
 
 Last updated: 2026-08-21
 
-### Signed-in UI pass: weight cap, Shield tick, clickable stats, profile layout (local only, NOT committed): 2026-08-21
+### Security QA of the whole app (commit `50bf34e` pushed): 2026-08-21
+
+Full review, not only the day's UI diff. **No critical or high findings.** One real gap found and fixed; three hardening items left open; one test could not be run.
+
+**Fixed and shipped (`50bf34e`).** `igHandle` was length-capped and charset-restricted but `ytHandle`/`xHandle` were bare `z.string().trim().optional()` - no bound on length or characters - so unbounded arbitrary text reached the database, and the same day's UI work had started interpolating those values into outbound `href`s. Added constraints per network (YouTube permits hyphens, X does not) after checking existing rows first: 9 creator profiles, longest handle 13 chars, none rejected, so nobody is locked out of saving. Links now go through `socialUrl()` in `lib/domain/format.ts`, which strips the optional leading `@` the schema allows (otherwise `youtube.com/@@name`) and percent-encodes the handle. Not exploitable before the fix - the host was already fixed by the literal prefix - so this closed an input-validation gap, not a live hole. Proven against hostile legacy values: slashes encode instead of traversing and a `javascript:` value cannot form a scheme.
+
+**Verified sound, with the method used:**
+- **RLS holds.** Anonymous reads returned 0 rows across 12 tables; `admin_removal_jobs` hard-denies with 42501. Tested live against the anon key, not read from policy files.
+- **No privilege escalation.** `profiles_update_own` looks dangerously broad (`id = auth.uid()`, no column restriction) but `protect_profile_role_trigger` blocks `role` and `onboarding_completed` changes. Its only bypass is a **transaction-local** setting (`set_config(..., true)`) used solely by `complete_google_onboarding`, which requires a Google identity, locks the row `for update`, is one-shot (refuses unless `role = 'pending'`), and constrains `p_role` to `influencer|brand` - `admin` is unreachable.
+- **Shield state cannot be self-granted.** `protect_influencer_privileges_trigger` makes `shield_active`, `shield_expires`, `verified`, and `rating` admin-managed. This is what makes the new ShieldTick trustworthy.
+- All **43 `SECURITY DEFINER` functions set `search_path`**.
+- Service-role client is `server-only` guarded and all four call sites authorize before instantiating it.
+- **No open redirect** in `/auth/callback` - `next` is only compared to the literal `/update-password`, every redirect is `origin` plus a derived path.
+- Storage scoped to `<uid>/<dealId>/` with deal ownership and status checks, reads limited to deal parties or admin, bucket-level MIME and size limits.
+- JsonLd escapes `<` to `<`, so no `</script>` breakout. Final-link and legal-provider URLs are protocol-validated. `npm audit --omit=dev`: 0 vulnerabilities.
+- Turnstile and the Cloudflare rate limit are both live: 20 concurrent POSTs to `/login` produced 4x429. GETs are unaffected, which is correct - page loads are not the attack surface.
+
+**OPEN - hardening, deliberately not done:**
+1. **CSP has no `script-src` or `default-src`** (medium, the only one with real value). Live policy is `object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests`. It blocks framing, object embedding, base-tag hijacking, and form hijacking but provides **no XSS mitigation**. Adding `script-src` needs nonce plumbing through Next.js and a mistake white-screens the app; schedule it, do not rush it.
+2. **HSTS lacks `includeSubDomains`/`preload`** (low). **Do not enable blindly:** it would force HTTPS on every subdomain including `send`, which carries the Resend mail records. Audit subdomains first; low severity, real breakage risk.
+3. **Cloudflare rate limiting counts per edge colo** (informational). 16 of 20 concurrent POSTs got through one burst, so a distributed attacker's effective ceiling is well above the documented 10 req/10 s. Compounds the known Free-plan window limit; Turnstile is now the real barrier there.
+
+**NOT TESTED - the one gap.** Authenticated **horizontal** access: whether a signed-in creator can read another creator's deals, messages, or agreements. The policies (`deal_parties` and friends) read correctly and scope per row on `auth.uid()`, but that was verified by **reading SQL, not by attempting the access** - the only claim in this review resting on code review alone. Closing it needs throwaway accounts; the permission classifier blocked creating them this session. Highest-impact item left.
+
+**Backlog correction:** "Suggested work" item 6, *tighten legal-provider URL validation to HTTP(S) only*, is **already done** - `lib/validation/shield-case.schema.ts` rejects non-HTTP(S) schemes and embedded credentials. Strike it.
+
+### Signed-in UI pass: weight cap, Shield tick, clickable stats, profile layout (released, commit `ca5b07d`): 2026-08-21
 
 **First rendered QA of the signed-in dashboards.** Previous sessions never saw them; this one drove 13 authenticated routes in headless Chrome and measured computed styles rather than reading class names.
 
@@ -33,7 +59,7 @@ Last updated: 2026-08-21
 
 **Checks:** strict TypeScript clean, ESLint clean on `app` and `components`, production build compiled, `git diff --check` clean. Rendered verification at 1440px across 13 authenticated routes plus 4 auth routes, and at 390px for profile and overview: no horizontal overflow anywhere (scrollWidth == innerWidth), zero elements above weight 600. Harness route deleted.
 
-**Release state: NOT committed and NOT deployed.** 41 files changed, +342/-175, plus new `components/ui/ShieldTick.tsx`. Everything is in the working tree awaiting review.
+**Released.** Commit `ca5b07d` (`Make signed-in typography, Shield marking, and profile layout coherent`), 43 files, +471/-178 including the new `components/ui/ShieldTick.tsx`, pushed to `origin/main`. Deployment verified by fetching the live CSS bundle and confirming `.dashboard-shell` and the corrected cap selector (`[class~=font-extrabold]`, `[class~=font-black]`, `.auth-content`, `strong`) are actually served - a 200 alone would not have proven a fresh build. Six public routes return 200. The commit also carries the two 2026-08-20 handoff entries that had been sitting uncommitted in the working tree. **The signed-in pages themselves cannot be verified from outside**; they were verified against localhost with QA accounts that are now deleted.
 
 ### Cloudflare Turnstile authentication protection (released): 2026-08-20
 
