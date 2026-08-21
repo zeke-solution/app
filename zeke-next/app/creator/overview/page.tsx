@@ -1,6 +1,6 @@
 import { getSessionProfile } from "@/lib/auth/roles";
 import { createClient } from "@/lib/supabase/server";
-import { fmtNum } from "@/lib/domain/format";
+import { fmtNum, socialUrl } from "@/lib/domain/format";
 import type { DealStatus } from "@/lib/domain/deal-status";
 import { StatCard, StatGrid } from "@/components/ui/StatCard";
 import { Card } from "@/components/ui/Card";
@@ -77,7 +77,7 @@ export default async function CreatorOverviewPage() {
                 chip="IG"
                 chipClass="bg-accent/10 text-accent"
                 value={inf?.ig_followers}
-                href={inf?.handle ? `https://instagram.com/${inf.handle}` : null}
+                href={socialUrl("https://instagram.com/", inf?.handle)}
               />
               {inf?.yt_enabled && (
                 <PlatformRow
@@ -85,7 +85,7 @@ export default async function CreatorOverviewPage() {
                   chip="YT"
                   chipClass="bg-[#b91c1c]/10 text-[#b91c1c]"
                   value={inf?.yt_followers}
-                  href={inf?.yt_handle ? `https://youtube.com/@${inf.yt_handle}` : null}
+                  href={socialUrl("https://youtube.com/@", inf?.yt_handle)}
                 />
               )}
               {inf?.x_enabled && (
@@ -94,7 +94,7 @@ export default async function CreatorOverviewPage() {
                   chip="X"
                   chipClass="bg-[#0369a1]/10 text-[#0369a1]"
                   value={inf?.x_followers}
-                  href={inf?.x_handle ? `https://x.com/${inf.x_handle}` : null}
+                  href={socialUrl("https://x.com/", inf?.x_handle)}
                 />
               )}
             </div>

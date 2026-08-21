@@ -1,6 +1,6 @@
 import { getSessionProfile } from "@/lib/auth/roles";
 import { createClient } from "@/lib/supabase/server";
-import { fmtNum } from "@/lib/domain/format";
+import { fmtNum, socialUrl } from "@/lib/domain/format";
 import { DEAL_STATUS_META, dealStatusLabel, type DealStatus } from "@/lib/domain/deal-status";
 import { Card } from "@/components/ui/Card";
 import { InfluencerProfileForm } from "@/components/profile/InfluencerProfileForm";
@@ -68,20 +68,20 @@ export default async function CreatorProfilePage() {
               <PlatformStat
                 label="Instagram"
                 value={inf?.ig_followers}
-                href={inf?.handle ? `https://instagram.com/${inf.handle}` : null}
+                href={socialUrl("https://instagram.com/", inf?.handle)}
               />
               {inf?.yt_enabled && (
                 <PlatformStat
                   label="YouTube"
                   value={inf?.yt_followers}
-                  href={inf?.yt_handle ? `https://youtube.com/@${inf.yt_handle}` : null}
+                  href={socialUrl("https://youtube.com/@", inf?.yt_handle)}
                 />
               )}
               {inf?.x_enabled && (
                 <PlatformStat
                   label="Twitter / X"
                   value={inf?.x_followers}
-                  href={inf?.x_handle ? `https://x.com/${inf.x_handle}` : null}
+                  href={socialUrl("https://x.com/", inf?.x_handle)}
                 />
               )}
             </div>

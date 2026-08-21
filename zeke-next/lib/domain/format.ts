@@ -25,3 +25,19 @@ export function fmtDateShort(iso: string | null | undefined): string {
     month: "short",
   });
 }
+
+/**
+ * Builds an outbound link to a creator's profile on another network.
+ *
+ * Handles are stored with an optional leading "@" (the profile schema allows
+ * it), so strip it rather than emitting youtube.com/@@name. Returns null when
+ * no handle is saved so the caller renders plain text instead of a dead link.
+ *
+ * `base` is always a trusted literal and the handle charset is restricted by
+ * updateInfluencerProfileSchema, so the handle can only ever form a path
+ * segment - it cannot alter the host.
+ */
+export function socialUrl(base: string, handle: string | null | undefined): string | null {
+  const clean = (handle ?? "").trim().replace(/^@+/, "");
+  return clean ? `${base}${encodeURIComponent(clean)}` : null;
+}
