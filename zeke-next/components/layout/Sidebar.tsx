@@ -38,7 +38,7 @@ export function Sidebar({
     <aside className="brand-sidebar hidden w-[72px] flex-shrink-0 flex-col gap-1 overflow-y-auto border-r p-2 md:flex lg:w-60 lg:p-4">
       <div className="mb-3 flex items-center justify-center gap-2.5 border-b border-border px-1 pb-5 lg:justify-start lg:px-2">
         <div
-          className={`flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-cover bg-center text-xs font-black ${avatarClassName}`}
+          className={`flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-cover bg-center text-xs font-semibold ${avatarClassName}`}
           style={avatarUrl ? { backgroundImage: `url(${avatarUrl})` } : undefined}
         >
           {!avatarUrl && avatarInitials}

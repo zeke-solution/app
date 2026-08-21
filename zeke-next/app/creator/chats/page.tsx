@@ -39,7 +39,7 @@ export default async function CreatorChatsPage() {
               href={`/creator/chats/${d.id}`}
               className="mb-2 flex items-center gap-3.5 rounded-2xl border border-border bg-card p-5 transition-colors hover:border-accent/30"
             >
-              <div className="flex h-9.5 w-9.5 flex-shrink-0 items-center justify-center rounded-xl border border-accent/20 bg-accent/10 text-[11px] font-black text-accent">
+              <div className="flex h-9.5 w-9.5 flex-shrink-0 items-center justify-center rounded-xl border border-accent/20 bg-accent/10 text-[11px] font-semibold text-accent">
                 {brandName.slice(0, 2).toUpperCase()}
               </div>
               <div className="min-w-0 flex-1">

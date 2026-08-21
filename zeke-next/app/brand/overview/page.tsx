@@ -99,7 +99,7 @@ export default async function BrandOverviewPage() {
         {attention.length === 0 ? (
           <div className="rounded-2xl bg-zgreen/[0.08] p-5 sm:flex sm:items-center sm:justify-between sm:gap-4">
             <div>
-              <div className="text-sm font-black text-zgreen">You are caught up</div>
+              <div className="text-sm font-semibold text-zgreen">You are caught up</div>
               <p className="mt-1 text-sm text-muted">No creator response, review, payment, or dispute needs action.</p>
             </div>
             <Link
@@ -125,6 +125,7 @@ export default async function BrandOverviewPage() {
           valueColor={attention.length ? "#BE123C" : "#047857"}
           value={attention.length}
           label="Needs Attention"
+          href="/brand/partnerships"
         />
         <StatCard
           icon={<CampaignIcon width={18} height={18} />}
@@ -132,6 +133,7 @@ export default async function BrandOverviewPage() {
           valueColor="#4338CA"
           value={campaigns.length}
           label="Active Campaigns"
+          href="/brand/campaigns"
         />
         <StatCard
           icon={<DealsIcon width={18} height={18} />}
@@ -139,12 +141,14 @@ export default async function BrandOverviewPage() {
           valueColor="#047857"
           value={activePartnerships.length}
           label="Active Partnerships"
+          href="/brand/partnerships?view=all"
         />
         <StatCard
-          icon={<span className="text-base font-black">&#8377;</span>}
+          icon={<span className="text-base font-semibold">&#8377;</span>}
           iconColor="#92400E"
           value={`₹${fmtNum(totalSpent)}`}
           label="Total Spent"
+          href="/brand/partnerships?view=all"
         />
       </StatGrid>
 
@@ -221,7 +225,7 @@ function AttentionItem({ deal, brandId }: { deal: OverviewDeal; brandId: string 
       />
       <div className="min-w-0 flex-1">
         <div className="flex flex-wrap items-center gap-2">
-          <h3 className="truncate text-sm font-black text-light">{creatorName}</h3>
+          <h3 className="truncate text-sm font-semibold text-light">{creatorName}</h3>
           <DealStatusBadge status={deal.status} viewer="brand" />
         </div>
         <p className="mt-1 truncate text-xs text-muted">{deal.title}</p>
@@ -239,7 +243,7 @@ function CampaignSummary({ campaign, recipientCount }: { campaign: OverviewCampa
     <article className="rounded-2xl bg-card p-4">
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
-          <h3 className="truncate text-sm font-black text-light">{campaign.title}</h3>
+          <h3 className="truncate text-sm font-semibold text-light">{campaign.title}</h3>
           <p className="mt-1 text-xs text-muted">
             {campaign.platform ?? "Platform not set"}
             {campaign.deadline ? ` · Due ${fmtDateShort(campaign.deadline)}` : ""}
@@ -248,7 +252,7 @@ function CampaignSummary({ campaign, recipientCount }: { campaign: OverviewCampa
             {recipientCount} {recipientCount === 1 ? "creator invited" : "creators invited"}
           </p>
         </div>
-        <div className="flex-shrink-0 text-sm font-black text-gold">&#8377;{fmtNum(campaign.budget)}</div>
+        <div className="flex-shrink-0 text-sm font-semibold text-gold">&#8377;{fmtNum(campaign.budget)}</div>
       </div>
     </article>
   );
@@ -265,7 +269,7 @@ function RecentPartnership({ deal, brandId }: { deal: OverviewDeal; brandId: str
         className="h-10 w-10 rounded-xl bg-accent/10 text-[11px] text-accent"
       />
       <div className="min-w-0 flex-1">
-        <div className="truncate text-sm font-black text-light">{creatorName}</div>
+        <div className="truncate text-sm font-semibold text-light">{creatorName}</div>
         <div className="mt-0.5 truncate text-xs text-muted">{deal.title} · Updated {fmtDate(deal.updated_at)}</div>
       </div>
       <DealStatusBadge status={deal.status} viewer="brand" />
@@ -276,7 +280,7 @@ function RecentPartnership({ deal, brandId }: { deal: OverviewDeal; brandId: str
 function CompactEmpty({ title, text, href, action }: { title: string; text: string; href: string; action: string }) {
   return (
     <div className="rounded-2xl bg-card p-6 text-center">
-      <div className="text-sm font-black text-light">{title}</div>
+      <div className="text-sm font-semibold text-light">{title}</div>
       <p className="mt-1 text-xs leading-5 text-muted">{text}</p>
       <Link href={href} className="mt-3 inline-flex min-h-10 items-center text-sm font-bold text-accent">
         {action} &#8594;

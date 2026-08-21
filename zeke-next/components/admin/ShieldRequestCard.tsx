@@ -51,7 +51,7 @@ export function ShieldRequestCard({ request }: { request: ShieldRequestRow }) {
     <div className="mb-3 rounded-2xl border border-border bg-card p-4">
       <button onClick={() => setShowProfile(true)} className="mb-3 flex w-full items-center justify-between gap-3 text-left">
         <div className="flex items-center gap-2.5">
-          <div className="flex h-9.5 w-9.5 flex-shrink-0 items-center justify-center rounded-xl bg-gold/15 text-[11px] font-black text-gold">
+          <div className="flex h-9.5 w-9.5 flex-shrink-0 items-center justify-center rounded-xl bg-gold/15 text-[11px] font-semibold text-gold">
             {request.creatorName.slice(0, 2).toUpperCase()}
           </div>
           <div>
@@ -60,7 +60,7 @@ export function ShieldRequestCard({ request }: { request: ShieldRequestRow }) {
           </div>
         </div>
         <div className="flex-shrink-0 text-right">
-          <div className="text-sm font-black text-gold">₹{request.amount ?? 1999}</div>
+          <div className="text-sm font-semibold text-gold">₹{request.amount ?? 1999}</div>
           <Badge variant={status === "activated" ? "green" : status === "rejected" ? "danger" : "gold"}>
             {status}
           </Badge>

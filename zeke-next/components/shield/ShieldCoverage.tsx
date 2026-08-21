@@ -48,11 +48,11 @@ function CoverageList({
   const positive = tone === "green";
   return (
     <div className={`rounded-2xl border p-4 ${positive ? "border-zgreen/25 bg-zgreen/[0.05]" : "border-border bg-card"}`}>
-      <h3 className={`text-sm font-extrabold ${positive ? "text-zgreen" : "text-light"}`}>{title}</h3>
+      <h3 className={`text-sm font-semibold ${positive ? "text-zgreen" : "text-light"}`}>{title}</h3>
       <div className="mt-3 space-y-2">
         {items.map((item) => (
           <div key={item} className="flex items-start gap-2 text-xs leading-5 text-muted">
-            <span className={`mt-0.5 font-black ${positive ? "text-zgreen" : "text-light"}`}>
+            <span className={`mt-0.5 font-semibold ${positive ? "text-zgreen" : "text-light"}`}>
               {positive ? "✓" : "-"}
             </span>
             <span>{item}</span>

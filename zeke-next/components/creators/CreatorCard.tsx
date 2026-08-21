@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { fmtNum } from '@/lib/domain/format';
 import { ProfileAvatar } from '@/components/ui/ProfileAvatar';
+import { ShieldTick } from '@/components/ui/ShieldTick';
 
 export interface CreatorRow {
   id: string;
@@ -38,9 +39,10 @@ export function CreatorCard({
         <div className='min-w-0 flex-1'>
           <div className='flex items-center gap-1.5'>
             <div className='truncate text-sm font-bold text-light'>{name}</div>
-            {creator.shield_active && (
-              <span className='text-xs text-gold'>&#128737;</span>
-            )}
+            <ShieldTick
+              shieldActive={creator.shield_active}
+              shieldExpires={creator.shield_expires}
+            />
           </div>
           <div className='truncate text-xs text-muted'>
             {creator.handle ? '@' + creator.handle : creator.niche || ''}

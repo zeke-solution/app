@@ -38,7 +38,7 @@ export default async function CreatorOffersPage() {
             <div key={d.id} className="mb-3 rounded-2xl border border-border bg-card p-5">
               <div className="flex items-start justify-between gap-3">
                 <div className="flex items-center gap-2.5">
-                  <div className="flex h-9.5 w-9.5 flex-shrink-0 items-center justify-center rounded-xl border border-accent/20 bg-accent/10 text-[11px] font-black text-accent">
+                  <div className="flex h-9.5 w-9.5 flex-shrink-0 items-center justify-center rounded-xl border border-accent/20 bg-accent/10 text-[11px] font-semibold text-accent">
                     {brandName.slice(0, 2).toUpperCase()}
                   </div>
                   <div>
@@ -48,7 +48,7 @@ export default async function CreatorOffersPage() {
                     </div>
                   </div>
                 </div>
-                <div className="flex-shrink-0 text-sm font-black text-gold">₹{fmtNum(d.amount)}</div>
+                <div className="flex-shrink-0 text-sm font-semibold text-gold">₹{fmtNum(d.amount)}</div>
               </div>
               <OfferActions dealId={d.id} seenUpdatedAt={d.updated_at ?? ""} />
             </div>

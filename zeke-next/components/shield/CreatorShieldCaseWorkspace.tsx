@@ -144,7 +144,7 @@ export function CreatorShieldCaseWorkspace({
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
             <div className="text-xs text-muted">{shieldCase.brandName}</div>
-            <h1 className="mt-1 text-lg font-black text-light">{shieldCase.dealTitle}</h1>
+            <h1 className="mt-1 text-lg font-semibold text-light">{shieldCase.dealTitle}</h1>
             <div className="mt-1 text-[11px] text-muted">Case opened {fmtDate(shieldCase.openedAt)}</div>
           </div>
           <span className="rounded-full px-3 py-1 text-xs font-bold" style={{ color: meta.color, background: `${meta.color}1A` }}>
@@ -157,7 +157,7 @@ export function CreatorShieldCaseWorkspace({
 
       {!isClosed && shieldCase.creatorPath === "undecided" && (
         <section className="rounded-2xl border border-gold/30 bg-gold/[0.05] p-4 sm:p-5">
-          <h2 className="text-sm font-extrabold text-light">Choose what happens next</h2>
+          <h2 className="text-sm font-semibold text-light">Choose what happens next</h2>
           <p className="mt-1 text-xs leading-5 text-muted">You can begin with table talks and move to legal help later. Zeke will not start legal action for you.</p>
           <label className="mt-4 flex items-start gap-2.5 text-xs leading-5 text-light">
             <input type="checkbox" checked={contactConsent} onChange={(event) => setContactConsent(event.target.checked)} className="mt-1 accent-purple" />
@@ -180,7 +180,7 @@ export function CreatorShieldCaseWorkspace({
 
       {!isClosed && shieldCase.creatorPath === "follow_up" && (
         <section className="rounded-2xl border border-purple/25 bg-purple/[0.05] p-4 sm:p-5">
-          <h2 className="text-sm font-extrabold text-light">Assisted follow-up is active</h2>
+          <h2 className="text-sm font-semibold text-light">Assisted follow-up is active</h2>
           <p className="mt-1 text-xs leading-5 text-muted">Zeke can continue follow-ups and settlement discussions as long as you wish. You can decide to explore legal help at any time.</p>
           <details className="mt-3 rounded-xl border border-border bg-dark p-3">
             <summary className="cursor-pointer text-xs font-bold text-gold">I want to explore legal options</summary>
@@ -192,7 +192,7 @@ export function CreatorShieldCaseWorkspace({
 
       {!isClosed && shieldCase.creatorPath === "legal" && (
         <section className="rounded-2xl border border-gold/25 bg-gold/[0.04] p-4 sm:p-5">
-          <h2 className="text-sm font-extrabold text-light">Choose and contact a legal provider</h2>
+          <h2 className="text-sm font-semibold text-light">Choose and contact a legal provider</h2>
           <p className="mt-1 text-xs leading-5 text-muted">These are factual profiles, not rankings or recommendations. Check fit, conflicts and fees directly with the provider.</p>
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
             {providers.map((item) => (
@@ -241,7 +241,7 @@ export function CreatorShieldCaseWorkspace({
 
       <section className="grid gap-4 lg:grid-cols-2">
         <div className="rounded-2xl border border-border bg-card p-4">
-          <h2 className="text-sm font-extrabold text-light">Case timeline</h2>
+          <h2 className="text-sm font-semibold text-light">Case timeline</h2>
           <div className="mt-3 space-y-3">
             {updates.map((update) => (
               <div key={update.id} className="border-l-2 border-purple/30 pl-3">
@@ -262,7 +262,7 @@ export function CreatorShieldCaseWorkspace({
         </div>
 
         <div className="rounded-2xl border border-border bg-card p-4">
-          <h2 className="text-sm font-extrabold text-light">Evidence and records</h2>
+          <h2 className="text-sm font-semibold text-light">Evidence and records</h2>
           <p className="mt-1 text-[10px] leading-4 text-muted">Private to you and Zeke unless you explicitly mark a file for your selected provider.</p>
           <div className="mt-3 space-y-2">
             {documents.map((document) => (

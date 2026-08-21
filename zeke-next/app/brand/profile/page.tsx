@@ -39,13 +39,13 @@ export default async function BrandProfilePage() {
 
       <Card>
         <div className="mb-5 flex items-center gap-4">
-          <div className="brand-avatar flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full border-2 text-base font-black">
+          <div className="brand-avatar flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full border-2 text-base font-semibold">
             {initials}
           </div>
           <div>
-            <div className="text-lg font-black text-light">{name}</div>
+            <div className="text-lg font-semibold text-light">{name}</div>
             <div className="text-[13px] text-muted">{session.profile.location}</div>
-            <span className="mt-1.5 inline-block rounded-full border border-border bg-white/[0.03] px-2.5 py-0.5 text-[11px] font-bold text-muted">
+            <span className="mt-1.5 inline-block rounded-full border border-border bg-navy px-2.5 py-0.5 text-[11px] font-bold text-muted">
               {typeLabel}
             </span>
           </div>
@@ -84,7 +84,7 @@ export default async function BrandProfilePage() {
       </Card>
 
       <Card className="mt-4">
-        <div className="mb-2 text-sm font-black text-light">Account</div>
+        <div className="mb-2 text-sm font-semibold text-light">Account</div>
         <p className="mb-3 text-xs text-muted">
           Sign out safely on this device.
         </p>
@@ -97,7 +97,7 @@ export default async function BrandProfilePage() {
 function ProfileStat({ value, label, color }: { value: React.ReactNode; label: string; color?: string }) {
   return (
     <div className="rounded-xl border border-border bg-dark p-3 text-center">
-      <div className="text-base font-black" style={{ color: color ?? "var(--color-light)" }}>
+      <div className="text-base font-semibold" style={{ color: color ?? "var(--color-light)" }}>
         {value}
       </div>
       <div className="mt-0.5 text-[11px] text-muted">{label}</div>

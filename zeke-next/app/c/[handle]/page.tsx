@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { ShieldTick } from "@/components/ui/ShieldTick";
 import { fmtNum } from "@/lib/domain/format";
 import { getPublicCreatorProfile } from "@/lib/public-creator-profile";
 import { absoluteUrl, createPageMetadata, noIndexMetadata } from "@/lib/seo";
@@ -82,7 +83,11 @@ export default async function PublicCreatorPage({ params }: PublicCreatorPagePro
               </div>
               <div className="flex flex-wrap gap-2">
                 {creator.verified && <span className="rounded-full border border-cyan/30 bg-cyan/10 px-3 py-1 text-xs font-bold text-cyan">Verified</span>}
-                {creator.shield_active && <span className="rounded-full border border-purple/30 bg-purple/10 px-3 py-1 text-xs font-bold text-purple">Shield</span>}
+                {/* shield_active here is computed by get_public_creator_profile
+                    (migration 0012), which folds the shield_expires check into the
+                    boolean in SQL. An expired membership already arrives as false,
+                    so no date is needed on this side. */}
+                <ShieldTick shieldActive={creator.shield_active} variant="badge" />
               </div>
             </div>
             <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">

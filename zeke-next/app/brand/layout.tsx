@@ -41,7 +41,7 @@ export default async function BrandLayout({
   ];
 
   return (
-    <div className="min-h-screen bg-dark">
+    <div className="dashboard-shell min-h-screen bg-dark">
       <DashboardTopNav
         userId={session.id}
         homeHref="/brand/overview"

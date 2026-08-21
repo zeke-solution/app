@@ -1,8 +1,59 @@
 # Zeke Next.js handoff
 
-Last updated: 2026-08-15
+Last updated: 2026-08-21
 
-### Homepage hero shortened to fit a laptop screen (NOT yet committed or deployed): 2026-08-15
+### Signed-in UI pass: weight cap, Shield tick, clickable stats, profile layout (local only, NOT committed): 2026-08-21
+
+**First rendered QA of the signed-in dashboards.** Previous sessions never saw them; this one drove 13 authenticated routes in headless Chrome and measured computed styles rather than reading class names.
+
+**Getting in.** Local dev points at production Supabase, so dashboards 307 to /login. Two blockers, both solved without touching product code:
+- Turnstile (added 2026-08-20) fails closed, and `.env.local` had no keys. Added Cloudflare's official always-pass test keys locally; `.env.local` is gitignored and `lib/security/turnstile.ts` already defaults allowed hostnames to localhost outside production.
+- The Turnstile widget still cannot load in automation: `challenges.cloudflare.com` returns **403 to Chrome under CDP, headed or headless**. Working method: authenticate the account against Supabase's `/auth/v1/token` directly, then install the `sb-<ref>-auth-token` cookie (`base64-` prefix, chunked at 3180 chars) with `Network.setCookie`. Turnstile guards the login form, not the session, so this bypasses nothing that protects production.
+- Two throwaway QA accounts were created in production Supabase with the service role key, recorded to `created-rows.json`, and **deleted afterwards; verified 0 rows and 0 auth users remaining**. `brand_type` is constrained to `business|ngo|agency`.
+- Gotcha: Git Bash path-converts a leading-slash argv (`/creator/overview` became a `C:/...` path). Use `MSYS_NO_PATHCONV=1`.
+
+**1. Weight cap (audit item 15) - the cap existed but was broken three ways.** Measured, not guessed:
+- `[class*="font-bold"]` does **not** substring-match `font-extrabold`, and `font-black` was in no emphasis group. So emphasis on a non-heading fell to **400**, identical to body text, while the same emphasis on a heading resolved to 600. `app/brand/overview/page.tsx` rendered the creator name at 600 in `AttentionItem` (h3) and 400 in `RecentPartnership` (div) - one card stack, two weights.
+- `.auth-content` had **no cap at all**: login/register/reset/recovery rendered `font-black` at **900**.
+- The nav chrome is a *sibling* of `.dashboard-content`, not a child, so `Sidebar`/`DashboardTopNav`/`MobileBottomNav` sat outside the cap and rendered `font-bold` at **700** - navigation permanently heavier than the content it framed.
+- Fix: added the heavy classes to the 600 group explicitly, introduced `.dashboard-shell` on the three dashboard layout wrappers, extended the cap to shell + auth, and mapped `strong`/`b` to 600 (they carry real emphasis, so flattening them to 400 was wrong). Replaced 88 dead `font-black`/`font-extrabold` classes with `font-semibold` across 32 files so the source stops lying; that part is a zero-pixel change.
+- Verified: every signed-in and auth route now renders on exactly **two weights, 400 and 600**. Marketing is deliberately untouched - hero h1 still measures 800, matching the 2026-08-14 note. `AgreementPreview`, `/terms`, `/privacy` also untouched.
+
+**2. Shield tick (item 26).** New `components/ui/ShieldTick.tsx` is the single source of truth: filled shield + white check, `mark` and `badge` variants, resolved through `isShieldMembershipActive()`. Replaced the raw emoji at six call sites (CreatorCard, CampaignSendModal, creator profile, creator top nav, admin UsersDirectoryTable, admin EntityDetailModal). `CreatorCard` previously tested `shield_active` alone, so it kept showing the marker after expiry - the same gap migration 0023 closed for disputes.
+- `/c/[handle]` needs no change and has **no expiry bug**. This was flagged as open on first pass and was wrong: `get_public_creator_profile` (migration 0012) does not return the raw column, it returns `coalesce(shield_active,false) and (shield_expires is null or shield_expires >= current_date)`, so the expiry check happens in SQL and an expired member arrives as `false`. Verified against the live database; 0012 is the only migration defining the function. Reading the returned column list instead of the function body is what produced the false alarm.
+- Product/branding uses of the shield emoji (ShieldUpsellCard, login/register copy, "Activate", "Guardian required") are deliberately left: they name the product, not a person's status.
+
+**3. Clickable cards (item 24).** `StatCard` takes an optional `href` and becomes a link with hover elevation and a visible focus ring, staying a plain div otherwise. Wired all four creator and all four brand tiles. Platform/follower rows on the overview and profile now link out to the real Instagram/YouTube/X profile when a handle is saved, `target="_blank"` + `rel="noopener noreferrer"`.
+
+**4. Profile layout (item 25) + alignment (item 22).**
+- Measured all 11 dashboard routes: content left edge is 272 everywhere, right edge 1402 everywhere **except `/creator/profile` at 944** - it alone was capped at `max-w-2xl`, so the column jumped inward 458px when opening your own profile. It was the single outlier; brand profile already used full width.
+- Rebuilt the identity header social-style: avatar left, name + tick, handle, follower counts inline beside the person instead of in a separate card below, then niche chip and share link. `AvatarUpload` restructured to stack a larger 80px avatar over a compact text button, so the identity no longer starts past a wide upload control. Removed the duplicated Shield badge (the tick beside the name already says it).
+- Widened the column to match its siblings, then split below the header into `lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)]` - editing task left, reference and account right - the same grid idiom the overview page already uses, so a 1093px-wide username field does not happen.
+- Fixed three chips using `bg-white/[0.03]`, a dark-theme value that is invisible on the light dashboard canvas, so the niche pill rendered as bare text. The top-nav and NotificationsPanel uses of that value are on the dark chrome and were correctly left alone.
+
+**Checks:** strict TypeScript clean, ESLint clean on `app` and `components`, production build compiled, `git diff --check` clean. Rendered verification at 1440px across 13 authenticated routes plus 4 auth routes, and at 390px for profile and overview: no horizontal overflow anywhere (scrollWidth == innerWidth), zero elements above weight 600. Harness route deleted.
+
+**Release state: NOT committed and NOT deployed.** 41 files changed, +342/-175, plus new `components/ui/ShieldTick.tsx`. Everything is in the working tree awaiting review.
+
+### Cloudflare Turnstile authentication protection (released): 2026-08-20
+
+- Login, email/password registration, and password-reset requests now require Cloudflare Turnstile. Google OAuth onboarding remains exempt because Google already verifies the identity.
+- The client uses explicit rendering with Managed mode, dark theme, flexible sizing, and an always-visible widget. Each flow has a distinct action: `login`, `register`, or `password_reset`.
+- Server actions validate every token with Cloudflare Siteverify before calling Supabase. Validation fails closed on missing configuration, network errors, invalid/replayed tokens, action mismatch, or production-hostname mismatch. Production hostnames are `zekesolution.com` and `www.zekesolution.com`.
+- Cloudflare widget: `Zeke authentication`; hostnames apex plus `www`; Managed mode; pre-clearance off. Vercel production variables are `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`, and `TURNSTILE_ALLOWED_HOSTNAMES`. Never copy their values into source or documentation.
+- Local verification passed: strict TypeScript, focused ESLint, optimized 50-route production build, `git diff --check`, and browser E2E with Cloudflare's official test keys. The E2E proved login reaches Supabase only after a validated token, error flows reset the single-use token, and registration/reset receive tokens without creating accounts or sending mail.
+- Release: commit `a245f96` (`Protect authentication with Cloudflare Turnstile`) is pushed to `origin/main`. Vercel deployment `dpl_5nSgSkCad69DpRQPYP4ePnuStBFM` is Ready and aliased to both production hostnames. Live `/login` returns 200 through Cloudflare.
+- Live automation confirmed that all three routes load the production Turnstile API and mount, expose no missing-configuration/load error, and keep submit disabled when a bot-like headless browser receives no token. A normal production login window was opened for the human-visible Managed check; headless challenge rendering is not a reliable visual assertion.
+- This complements the existing Cloudflare WAF/rate-limit rule. The rate limit remains burst protection; Turnstile now adds per-request proof before authentication reaches Supabase.
+
+### Mobile text-field zoom QA (passed): 2026-08-20
+
+- Tested the live auth and recovery controls at 320px and 390px mobile widths: login email/password, registration step 1 and step 2 controls, reset email, and update-password fields.
+- Every focused text control computed to 16px; mobile viewport scale stayed at 1 and document width matched the viewport with no horizontal overflow.
+- Static audit confirmed dashboard inputs, selects, and textareas inherit the same 16px mobile rule through the dashboard-content shell; auth/recovery controls inherit it through the auth-content shell.
+- TypeScript passed after QA. Live /login, /register, /reset, and /update-password all returned HTTP 200. No source changes were needed and temporary QA artifacts were removed.
+
+### Homepage hero shortened to fit a laptop screen (pushed; deployment not yet verified): 2026-08-15
 
 - Owner asked for the desktop hero to "fit". Measurement showed two separate problems; the owner chose to fix the vertical one. **The horizontal problem is deliberately left open, see below.**
 - Baseline, measured on the LIVE site over the Chrome DevTools Protocol: hero 834px tall, CTA buttons ending 737px down the document. That put "Creators: Join Zeke" and "Brands: Get verified" **below the fold on 1366x768 and 1536x864 laptops**, two of the most common resolutions.
@@ -10,7 +61,9 @@ Last updated: 2026-08-15
 - Result: hero 834px -> 754px, CTA bottom 737px -> 709px. CTAs are now visible without scrolling on 1536x864 (721px viewport, 12px clearance), 1440x900 and 1920x1080. **1366x768 (625px viewport) still has the CTAs below the fold** and would need roughly another 84px, which would compromise the layout. Judged not worth it; flag to the owner if they disagree.
 - Verified unchanged at 390px (hero 480.6px, h1 34px), 768px and 1023px. The lg boundary at 1024px is clean (726.4px). No text wraps at any width; the 2026-08-11 benefit-chip wrapping regression has NOT returned. `h1` stays 64px/800 on desktop, consistent with the 2026-08-14 scale fix.
 - This partially reverts the 2026-08-13 "hero header spacing restore", which had deliberately raised desktop padding to `lg:pt-32 lg:pb-20` for a more prominent layout. That decision was made without measuring where the CTAs landed.
-- Checks: TypeScript clean, ESLint clean on the changed file, `git diff --check` clean, production build succeeded. **Not committed and not deployed** - the working tree also contains an unrelated modified `HANDOFF.md` and untracked hero-QA artifacts, so stage explicitly.
+- Checks: TypeScript clean, ESLint clean on the changed file, `git diff --check` clean, production build succeeded.
+- Release state: committed as `6c3993f` (`Shorten desktop hero so CTAs sit above the fold`) and pushed directly to `origin/main` on 2026-08-15. Local `main` and `origin/main` both resolved to `6c3993f2a7fdc7bddc166ef6c1314af350057789` immediately after the push. The resulting Vercel deployment has **not yet been verified**, so do not call the hero change live until the deployment is Ready and the rendered production homepage is checked.
+- Working-tree caution: `../HANDOFF.md`, `.chrome-hero-live-qa/`, and `.qa-hero-live.cjs` remain local/untracked and were not included in the push. Do not stage them accidentally.
 - STILL OPEN: the content column is fixed at 760px inside an 1180px container, leaving **420px of unused width at every desktop size**. This is leftover from removing the campaign-progress graphic on 2026-08-10; the layout was never rebalanced. The owner chose the vertical fix over this one, so it remains unaddressed.
 - Reusable measurement scripts now live at `C:\Users\SEO EXECUTIVE\AppData\Local\ZekeOps\measure-hero.cjs` (widths, card sizes, text wrapping) and `measure-cta.cjs` (CTA position against real laptop viewport heights). Both drive headless Chrome on an isolated profile and port so they do not disturb a running browser, and both take a URL, so they work against localhost or the live site. Usage: `node measure-hero.cjs 9231 http://127.0.0.1:3011/ 390,768,1440`. This is the "rendered check" the 2026-08-11 lesson calls for; a green build does not catch layout regressions.
 

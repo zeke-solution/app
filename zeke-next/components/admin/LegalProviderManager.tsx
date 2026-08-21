@@ -113,7 +113,7 @@ export function LegalProviderManager({ providers }: { providers: LegalProviderRo
       <form onSubmit={submit} className="rounded-2xl border border-border bg-card p-4 sm:p-5">
         <div className="flex items-center justify-between gap-2">
           <div>
-            <h2 className="text-sm font-extrabold text-light">{editing ? "Edit provider record" : "Add legal provider"}</h2>
+            <h2 className="text-sm font-semibold text-light">{editing ? "Edit provider record" : "Add legal provider"}</h2>
             <p className="mt-1 text-[10px] leading-4 text-muted">Use factual information only. Do not add rankings, outcome claims, paid placement or promotional language.</p>
           </div>
           {editing && <button type="button" onClick={cancel} className="text-xs text-muted">Cancel</button>}
@@ -143,7 +143,7 @@ export function LegalProviderManager({ providers }: { providers: LegalProviderRo
       </form>
 
       <section>
-        <h2 className="text-sm font-extrabold text-light">Provider records ({providers.length})</h2>
+        <h2 className="text-sm font-semibold text-light">Provider records ({providers.length})</h2>
         <div className="mt-3 grid gap-3 sm:grid-cols-2">
           {providers.map((provider) => (
             <div key={provider.id} className={`rounded-2xl border bg-card p-4 ${provider.active ? "border-border" : "border-border"}`}>

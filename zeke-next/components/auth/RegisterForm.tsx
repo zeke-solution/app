@@ -346,7 +346,7 @@ export function RegisterForm({
 
                 <div className="mb-3.5">
                   <div className="mb-2 flex items-center gap-2">
-                    <span className="rounded-md bg-accent/10 px-2 py-0.5 text-[11px] font-extrabold text-accent">
+                    <span className="rounded-md bg-accent/10 px-2 py-0.5 text-[11px] font-semibold text-accent">
                       IG
                     </span>
                     <span className="text-[13px] font-bold text-white">Instagram</span>
@@ -564,7 +564,7 @@ function PlatformToggle({
   return (
     <div className={noMargin ? "" : "mb-3"}>
       <div className="mb-2 flex items-center gap-2">
-        <span className={`rounded-md px-2 py-0.5 text-[11px] font-extrabold ${chipClass}`}>
+        <span className={`rounded-md px-2 py-0.5 text-[11px] font-semibold ${chipClass}`}>
           {chip}
         </span>
         <span className="text-[13px] font-bold text-white">{label}</span>

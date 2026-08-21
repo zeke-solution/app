@@ -5,6 +5,7 @@ import { fmtDate, fmtNum } from "@/lib/domain/format";
 import { Badge } from "@/components/ui/Badge";
 import { EntityDetailModal } from "@/components/admin/EntityDetailModal";
 import type { BrandDirectoryRow, CreatorDirectoryRow } from "@/actions/admin";
+import { ShieldTick } from "@/components/ui/ShieldTick";
 
 // Port of admin.js's loadBrandsDirectory()/loadCreatorsDirectory() row markup.
 export function UsersDirectoryTable({
@@ -108,7 +109,11 @@ export function UsersDirectoryTable({
             </div>
             <div>
               <div className="text-xs font-semibold uppercase tracking-wide text-muted sm:sr-only">Plan</div>
-              <Badge variant={c.shieldActive ? "gold" : "muted"}>{c.shieldActive ? "🛡 Shield" : "Free"}</Badge>
+              {c.shieldActive ? (
+                <ShieldTick shieldActive variant="badge" />
+              ) : (
+                <Badge variant="muted">Free</Badge>
+              )}
             </div>
           </div>
         </button>

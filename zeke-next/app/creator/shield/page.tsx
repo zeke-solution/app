@@ -74,7 +74,7 @@ export default async function CreatorShieldPage() {
 
       {!isShield && (
         <div className="mb-5 rounded-2xl border border-gold/25 bg-gradient-to-br from-gold/[0.10] to-transparent p-5">
-          <h2 className="text-base font-extrabold text-light">Activate Shield before you need it</h2>
+          <h2 className="text-base font-semibold text-light">Activate Shield before you need it</h2>
           <p className="mt-2 max-w-2xl text-sm leading-6 text-muted">
             Shield is a monthly support membership. It covers Zeke&apos;s follow-up and coordination work; it does not pay lawyer or court costs.
           </p>
@@ -94,7 +94,7 @@ export default async function CreatorShieldPage() {
           <section className="mt-6">
             <div className="mb-3 flex items-center justify-between">
               <div>
-                <h2 className="text-base font-extrabold text-light">Your Shield cases</h2>
+                <h2 className="text-base font-semibold text-light">Your Shield cases</h2>
                 <p className="mt-0.5 text-xs text-muted">Every decision, update and document stays in one case record.</p>
               </div>
               <Link href="/creator/deals" className="text-xs font-semibold text-accent hover:text-purple">
@@ -133,7 +133,7 @@ export default async function CreatorShieldPage() {
           </section>
 
           <section className="mt-6">
-            <h2 className="text-base font-extrabold text-light">Independent legal-provider pool</h2>
+            <h2 className="text-base font-semibold text-light">Independent legal-provider pool</h2>
             <p className="mt-1 text-xs leading-5 text-muted">
               Factual profiles only - no rankings, paid placement or referral commission. You contact and hire a provider directly.
             </p>

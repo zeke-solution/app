@@ -13,6 +13,7 @@ import {
   ShieldIcon,
 } from "@/components/layout/icons";
 import { noIndexMetadata } from "@/lib/seo";
+import { ShieldTick } from "@/components/ui/ShieldTick";
 
 export const metadata = noIndexMetadata;
 
@@ -46,15 +47,19 @@ export default async function CreatorLayout({
   ];
 
   return (
-    <div className="min-h-screen bg-dark">
+    <div className="dashboard-shell min-h-screen bg-dark">
       <DashboardTopNav
         userId={session.id}
         homeHref="/creator/overview"
         dealHrefPrefix="/creator/deals"
         badge={
-          <span className="rounded-full border border-border bg-white/[0.03] px-3 py-1 text-xs font-semibold text-muted">
-            {isShield ? "🛡 Shield" : "Free Creator"}
-          </span>
+          isShield ? (
+            <ShieldTick shieldActive variant="badge" />
+          ) : (
+            <span className="rounded-full border border-border bg-white/[0.03] px-3 py-1 text-xs font-semibold text-muted">
+              Free Creator
+            </span>
+          )
         }
       />
       <div className="flex min-h-[calc(100vh-64px)]">

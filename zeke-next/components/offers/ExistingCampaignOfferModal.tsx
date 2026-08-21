@@ -77,7 +77,7 @@ export function ExistingCampaignOfferModal({
       >
         <div className='flex items-start justify-between gap-3'>
           <div className='min-w-0'>
-            <h2 id='campaign-picker-title' className='text-base font-black text-light'>
+            <h2 id='campaign-picker-title' className='text-base font-semibold text-light'>
               {sentTitle ? 'Campaign sent' : 'Choose a campaign'}
             </h2>
             <p className='mt-1 text-xs text-muted'>
@@ -98,7 +98,7 @@ export function ExistingCampaignOfferModal({
 
         {sentTitle ? (
           <div className='mt-6 rounded-2xl border border-zgreen/25 bg-zgreen/[0.07] p-5 text-center'>
-            <div className='text-sm font-black text-zgreen'>Offer delivered</div>
+            <div className='text-sm font-semibold text-zgreen'>Offer delivered</div>
             <p className='mt-2 text-xs leading-5 text-muted'>
               The creator can review the brief and negotiate through chat before accepting.
             </p>
@@ -114,7 +114,7 @@ export function ExistingCampaignOfferModal({
           </div>
         ) : campaigns.length === 0 ? (
           <div className='mt-6 rounded-2xl border border-border bg-dark p-6 text-center'>
-            <div className='text-sm font-black text-light'>No active campaigns yet</div>
+            <div className='text-sm font-semibold text-light'>No active campaigns yet</div>
             <p className='mt-2 text-xs leading-5 text-muted'>
               Create and publish a complete campaign brief first. Then return to Discover and select it here.
             </p>
@@ -164,7 +164,7 @@ export function ExistingCampaignOfferModal({
                         )}
                       </span>
                     </span>
-                    <span className='flex-shrink-0 text-sm font-black text-gold'>
+                    <span className='flex-shrink-0 text-sm font-semibold text-gold'>
                       &#8377;{fmtNum(campaign.budget)}
                     </span>
                   </label>

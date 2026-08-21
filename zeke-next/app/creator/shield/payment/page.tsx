@@ -48,10 +48,10 @@ export default async function ShieldPaymentPage() {
               <ShieldIcon width={23} height={23} />
             </span>
             <div className='min-w-0'>
-              <div className='text-[11px] font-black uppercase tracking-[0.16em] text-gold'>
+              <div className='text-[11px] font-semibold uppercase tracking-[0.16em] text-gold'>
                 Zeke Shield
               </div>
-              <h1 className='mt-1 text-xl font-black text-light'>
+              <h1 className='mt-1 text-xl font-semibold text-light'>
                 One month of creator-controlled support
               </h1>
             </div>
@@ -59,7 +59,7 @@ export default async function ShieldPaymentPage() {
 
           <div className='mt-6 flex flex-wrap items-end justify-between gap-3 border-b border-border pb-5'>
             <div>
-              <div className='text-3xl font-black text-light'>
+              <div className='text-3xl font-semibold text-light'>
                 &#8377;{SHIELD_MONTHLY_PRICE_INR}
               </div>
               <div className='mt-1 text-xs text-muted'>
@@ -82,7 +82,7 @@ export default async function ShieldPaymentPage() {
         <div className='border-t border-border p-5 sm:p-7'>
           {isShield ? (
             <div className='rounded-xl border border-zgreen/25 bg-zgreen/[0.08] p-4'>
-              <div className='text-sm font-black text-zgreen'>Shield is already active</div>
+              <div className='text-sm font-semibold text-zgreen'>Shield is already active</div>
               <Link
                 href='/creator/shield'
                 className={buttonClassName({ variant: 'outline', size: 'sm', className: 'mt-3' })}

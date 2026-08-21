@@ -147,7 +147,7 @@ function PartnershipCard({ partnership, brandId }: { partnership: PartnershipRow
           />
           <div className="min-w-0 flex-1">
             <div className="flex flex-wrap items-center gap-2">
-              <h2 className="truncate text-sm font-black text-light">{creatorName}</h2>
+              <h2 className="truncate text-sm font-semibold text-light">{creatorName}</h2>
               <DealStatusBadge status={partnership.status} viewer="brand" />
             </div>
             <p className="mt-1 truncate text-sm text-muted">
@@ -160,7 +160,7 @@ function PartnershipCard({ partnership, brandId }: { partnership: PartnershipRow
           </div>
         </div>
         <div className="flex items-center justify-between gap-3 sm:flex-col sm:items-end">
-          <div className="text-sm font-black text-gold">&#8377;{fmtNum(partnership.amount)}</div>
+          <div className="text-sm font-semibold text-gold">&#8377;{fmtNum(partnership.amount)}</div>
           <Link
             href={action.href}
             className={buttonClassName({
@@ -180,7 +180,7 @@ function EmptyPartnerships({ view, hasPartnerships }: { view: PartnershipView; h
   if (view === "attention" && hasPartnerships) {
     return (
       <div className="rounded-2xl bg-zgreen/[0.08] p-8 text-center sm:p-10">
-        <div className="text-sm font-black text-zgreen">You are caught up</div>
+        <div className="text-sm font-semibold text-zgreen">You are caught up</div>
         <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-muted">
           Nothing needs a response right now. Active partnerships remain available in the Active view.
         </p>
@@ -196,7 +196,7 @@ function EmptyPartnerships({ view, hasPartnerships }: { view: PartnershipView; h
 
   return (
     <div className="rounded-2xl bg-card p-8 text-center sm:p-12">
-      <div className="text-sm font-black text-light">No partnerships here yet</div>
+      <div className="text-sm font-semibold text-light">No partnerships here yet</div>
       <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-muted">
         Find a creator and send an active campaign brief to begin.
       </p>

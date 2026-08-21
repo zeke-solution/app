@@ -87,31 +87,25 @@ export function AvatarUpload({
 
   return (
     <div>
-      <div className="flex items-center gap-3">
+      {/* Stacked so the avatar column stays narrow and the identity beside it
+          starts right next to the picture rather than past a wide button. */}
+      <div className="flex flex-col items-center gap-2">
         <div
-          className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-full border-2 border-accent/40 bg-accent/20 bg-cover bg-center text-base font-black text-accent"
+          className="flex h-20 w-20 flex-shrink-0 items-center justify-center rounded-full border-2 border-accent/40 bg-accent/20 bg-cover bg-center text-xl font-semibold text-accent"
           style={preview ? { backgroundImage: `url(${preview})` } : undefined}
           aria-label="Profile picture"
         >
           {!preview && initials}
         </div>
-        <div>
-          <button
-            type="button"
-            disabled={pending}
-            onClick={() => inputRef.current?.click()}
-            className="rounded-xl border border-border bg-card px-3 py-2 text-xs font-bold text-light disabled:opacity-50"
-          >
-            {pending
-              ? "Uploading..."
-              : preview
-                ? "Change profile picture"
-                : "Upload profile picture"}
-          </button>
-          <div className="mt-1 text-[10px] text-muted">
-            JPG, PNG or WebP - up to 5 MB
-          </div>
-        </div>
+        <button
+          type="button"
+          disabled={pending}
+          onClick={() => inputRef.current?.click()}
+          title="JPG, PNG or WebP - up to 5 MB"
+          className="rounded-lg px-2 py-1 text-xs font-semibold text-accent hover:bg-navy disabled:opacity-50"
+        >
+          {pending ? "Uploading..." : preview ? "Change" : "Upload photo"}
+        </button>
         <input
           ref={inputRef}
           type="file"

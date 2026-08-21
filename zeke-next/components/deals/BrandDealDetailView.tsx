@@ -104,7 +104,7 @@ export function BrandDealDetailView({
           <BackIcon />
         </Link>
         <div className="min-w-0 flex-1">
-          <div className="text-base font-extrabold text-light">{creatorName}</div>
+          <div className="text-base font-semibold text-light">{creatorName}</div>
           <div className="text-xs text-muted">
             {title} · ₹{fmtNum(amount)}
           </div>

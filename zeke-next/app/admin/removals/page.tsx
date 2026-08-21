@@ -63,7 +63,7 @@ export default async function AdminRemovalLogPage() {
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div className="min-w-0">
                   <div className="flex flex-wrap items-center gap-2">
-                    <h2 className="text-sm font-black text-light">{job.entity_label}</h2>
+                    <h2 className="text-sm font-semibold text-light">{job.entity_label}</h2>
                     <span
                       className={`rounded-full px-2.5 py-1 text-[10px] font-bold ${STATUS_CLASS[status]}`}
                     >
@@ -108,7 +108,7 @@ export default async function AdminRemovalLogPage() {
 
       {earlierEntries.length > 0 && (
         <section className="mt-8">
-          <h2 className="mb-3 text-sm font-black text-light">Earlier completed removals</h2>
+          <h2 className="mb-3 text-sm font-semibold text-light">Earlier completed removals</h2>
           <div className="space-y-2">
             {earlierEntries.map((entry) => {
               const actor = entry.actor as unknown as { display_name?: string } | null;
@@ -116,7 +116,7 @@ export default async function AdminRemovalLogPage() {
                 <article key={entry.id} className="rounded-2xl bg-card p-4">
                   <div className="flex flex-wrap items-start justify-between gap-3">
                     <div>
-                      <div className="text-sm font-black text-light">{entry.entity_label}</div>
+                      <div className="text-sm font-semibold text-light">{entry.entity_label}</div>
                       <div className="mt-0.5 break-all text-[11px] text-muted">
                         {entry.entity_type.replaceAll("_", " ")} · {entry.entity_id}
                       </div>

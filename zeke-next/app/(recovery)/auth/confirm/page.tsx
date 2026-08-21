@@ -13,7 +13,7 @@ export default async function ConfirmRecoveryPage({
   if (!validRequest) {
     return (
       <div className="rounded-2xl border border-danger/25 bg-card p-6 text-center">
-        <h1 className="text-lg font-black text-light">Recovery link unavailable</h1>
+        <h1 className="text-lg font-semibold text-light">Recovery link unavailable</h1>
         <p className="mt-2 text-sm leading-6 text-muted">
           This link is incomplete, expired, or has already been used. Request one fresh email and use only its newest link.
         </p>
@@ -32,7 +32,7 @@ export default async function ConfirmRecoveryPage({
       <div className="mx-auto flex h-11 w-11 items-center justify-center rounded-full border border-accent/25 bg-accent/10 text-lg text-accent">
         &#128274;
       </div>
-      <h1 className="mt-4 text-lg font-black text-light">Continue password recovery</h1>
+      <h1 className="mt-4 text-lg font-semibold text-light">Continue password recovery</h1>
       <p className="mt-2 text-sm leading-6 text-muted">
         Press continue to verify this one-time link and choose your new password. This works even when the email was requested on another device.
       </p>

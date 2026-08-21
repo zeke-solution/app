@@ -7,7 +7,7 @@ export default function AdminAccountPage() {
     <div className='mx-auto max-w-lg'>
       <PageHeader title='Admin account' description='Session controls for this device.' />
       <Card>
-        <div className='mb-2 text-sm font-black text-light'>Sign out</div>
+        <div className='mb-2 text-sm font-semibold text-light'>Sign out</div>
         <p className='mb-3 text-xs leading-5 text-muted'>
           End the current admin session safely.
         </p>

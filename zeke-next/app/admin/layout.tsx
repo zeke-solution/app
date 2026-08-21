@@ -38,7 +38,7 @@ export default async function AdminLayout({
   ];
 
   return (
-    <div className="min-h-screen bg-dark">
+    <div className="dashboard-shell min-h-screen bg-dark">
       <DashboardTopNav
         userId={session.id}
         homeHref="/admin/overview"

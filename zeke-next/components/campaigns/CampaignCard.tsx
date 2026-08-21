@@ -47,7 +47,7 @@ export function CampaignCard({
           </div>
         </div>
         <div className='flex-shrink-0 text-right'>
-          <div className='text-sm font-black text-gold'>
+          <div className='text-sm font-semibold text-gold'>
             &#8377;{fmtNum(campaign.budget)}
           </div>
           <div className='mt-1'>

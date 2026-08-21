@@ -13,7 +13,7 @@ export default async function ConfirmSignupPage({
   if (!validRequest) {
     return (
       <div className='rounded-2xl border border-danger/25 bg-card p-6 text-center'>
-        <h1 className='text-lg font-black text-light'>Confirmation link unavailable</h1>
+        <h1 className='text-lg font-semibold text-light'>Confirmation link unavailable</h1>
         <p className='mt-2 text-sm leading-6 text-muted'>
           This link is incomplete, expired, or has already been used. Try signing in with the
           password you chose during signup.
@@ -33,7 +33,7 @@ export default async function ConfirmSignupPage({
       <div className='mx-auto flex h-11 w-11 items-center justify-center rounded-full border border-accent/25 bg-accent/10 text-lg text-accent'>
         &#10003;
       </div>
-      <h1 className='mt-4 text-lg font-black text-light'>Confirm your Zeke account</h1>
+      <h1 className='mt-4 text-lg font-semibold text-light'>Confirm your Zeke account</h1>
       <p className='mt-2 text-sm leading-6 text-muted'>
         Press continue to verify your email and finish signing in. This works even when you open
         the email on a different device.

@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { searchCreators } from '@/actions/creators';
 import { sendCampaignOffers } from '@/actions/offers';
 import { Button } from '@/components/ui/Button';
+import { ShieldTick } from '@/components/ui/ShieldTick';
 import { ProfileAvatar } from '@/components/ui/ProfileAvatar';
 import { NICHE_OPTIONS } from '@/lib/domain/constants';
 import { fmtNum } from '@/lib/domain/format';
@@ -171,8 +172,12 @@ export function CampaignSendModal({
                     className='h-8 w-8 rounded-full bg-accent/15 text-[11px] text-accent'
                   />
                   <div className='min-w-0 flex-1'>
-                    <div className='text-[13px] font-bold text-light'>
-                      {name} {creator.shield_active ? '🛡' : ''}
+                    <div className='flex items-center gap-1.5 text-[13px] font-bold text-light'>
+                      <span className='truncate'>{name}</span>
+                      <ShieldTick
+                        shieldActive={creator.shield_active}
+                        shieldExpires={creator.shield_expires}
+                      />
                     </div>
                     <div className='text-[11px] text-muted'>
                       {[creator.niche, creator.profiles?.location]

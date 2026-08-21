@@ -5,6 +5,7 @@ import { getBrandDetail, getCreatorDetail, getDealDetail, type BrandDetail, type
 import { fmtDate, fmtNum } from "@/lib/domain/format";
 import { Badge } from "@/components/ui/Badge";
 import { AdminRemoveButton } from "@/components/admin/AdminRemoveButton";
+import { ShieldTick } from "@/components/ui/ShieldTick";
 
 type Target = { type: "brand"; id: string } | { type: "creator"; id: string } | { type: "deal"; id: string };
 
@@ -46,7 +47,7 @@ export function EntityDetailModal({ target, onClose }: { target: Target; onClose
 function Tile({ label, value, color }: { label: string; value: React.ReactNode; color?: string }) {
   return (
     <div className="rounded-[10px] border border-border bg-dark p-2.5 text-center">
-      <div className="text-sm font-black" style={{ color: color ?? "var(--color-light)" }}>{value}</div>
+      <div className="text-sm font-semibold" style={{ color: color ?? "var(--color-light)" }}>{value}</div>
       <div className="text-[10px] text-muted">{label}</div>
     </div>
   );
@@ -56,11 +57,11 @@ function BrandPanel({ brandId, brand, onClose }: { brandId: string; brand: Brand
   return (
     <div>
       <div className="mb-4 flex items-center gap-3">
-        <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-purple/15 text-base font-black text-purple">
+        <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-purple/15 text-base font-semibold text-purple">
           {brand.name.slice(0, 2).toUpperCase()}
         </div>
         <div className="min-w-0 flex-1">
-          <div className="text-lg font-black text-light">{brand.name}</div>
+          <div className="text-lg font-semibold text-light">{brand.name}</div>
           <div className="text-xs text-muted">
             {brand.type.replace(/^./, (c) => c.toUpperCase())} {brand.location ? `· ${brand.location}` : ""} · Joined {fmtDate(brand.joined)}
           </div>
@@ -124,7 +125,7 @@ function BrandPanel({ brandId, brand, onClose }: { brandId: string; brand: Brand
       )}
       <div className="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-danger/20 pt-4">
         <div>
-          <div className="text-xs font-black text-danger">Master account control</div>
+          <div className="text-xs font-semibold text-danger">Master account control</div>
           <div className="mt-0.5 text-[10px] text-muted">Deletes this account and all of its Zeke records.</div>
         </div>
         <AdminRemoveButton
@@ -144,12 +145,12 @@ function CreatorPanel({ creatorId, creator, onClose }: { creatorId: string; crea
   return (
     <div>
       <div className="mb-4 flex items-center gap-3">
-        <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-accent/15 text-base font-black text-accent">
+        <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-accent/15 text-base font-semibold text-accent">
           {creator.name.slice(0, 2).toUpperCase()}
         </div>
         <div className="min-w-0 flex-1">
-          <div className="text-lg font-black text-light">
-            {creator.name} {creator.shieldActive && <span className="text-sm text-gold">🛡</span>}
+          <div className="text-lg font-semibold text-light">
+            {creator.name} <ShieldTick shieldActive={creator.shieldActive} />
           </div>
           <div className="text-xs text-muted">
             {creator.niche} {creator.handle ? `· @${creator.handle}` : ""} {creator.location ? `· ${creator.location}` : ""}
@@ -195,7 +196,7 @@ function CreatorPanel({ creatorId, creator, onClose }: { creatorId: string; crea
       )}
       <div className="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-danger/20 pt-4">
         <div>
-          <div className="text-xs font-black text-danger">Master account control</div>
+          <div className="text-xs font-semibold text-danger">Master account control</div>
           <div className="mt-0.5 text-[10px] text-muted">Deletes this account and all of its Zeke records.</div>
         </div>
         <AdminRemoveButton
@@ -216,7 +217,7 @@ function DealPanel({ dealId, deal, onClose }: { dealId: string; deal: AdminDealD
     <div>
       <div className="mb-3.5 flex items-start gap-3">
         <div className="min-w-0 flex-1">
-          <div className="text-base font-black text-light">{deal.brandName} × {deal.creatorName}</div>
+          <div className="text-base font-semibold text-light">{deal.brandName} × {deal.creatorName}</div>
           <div className="text-[13px] text-muted">{deal.title} {deal.platform ? `· ${deal.platform}` : ""}</div>
         </div>
         <button onClick={onClose} className="text-2xl leading-none text-muted">&times;</button>
@@ -246,7 +247,7 @@ function DealPanel({ dealId, deal, onClose }: { dealId: string; deal: AdminDealD
       )}
       <div className="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-danger/20 pt-4">
         <div>
-          <div className="text-xs font-black text-danger">Master deal control</div>
+          <div className="text-xs font-semibold text-danger">Master deal control</div>
           <div className="mt-0.5 text-[10px] text-muted">Permanently removes this complete workflow.</div>
         </div>
         <AdminRemoveButton

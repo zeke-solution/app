@@ -144,7 +144,7 @@ export function CampaignsPageClient({
                 recipients={
                   recipients.length > 0 ? (
                     <details className='mt-3 rounded-xl bg-dark/70 px-3 py-2.5'>
-                      <summary className='flex min-h-8 cursor-pointer list-none items-center justify-between gap-3 text-xs font-black text-accent'>
+                      <summary className='flex min-h-8 cursor-pointer list-none items-center justify-between gap-3 text-xs font-semibold text-accent'>
                         <span>View invited creators</span>
                         <span className='rounded-full bg-card px-2 py-0.5 text-[11px] text-muted'>
                           {recipients.length}
@@ -247,7 +247,7 @@ function DirectCampaignCard({
           </div>
         </div>
         <div className='flex-shrink-0 text-right'>
-          <div className='text-sm font-black text-gold'>
+          <div className='text-sm font-semibold text-gold'>
             &#8377;{fmtNum(delivery.amount)}
           </div>
         </div>
@@ -557,7 +557,7 @@ function CreateCampaignForm({ onDone }: { onDone: () => void }) {
       className='mb-6 rounded-2xl border border-accent/20 bg-card p-4 sm:p-5'
     >
       <div className='mb-5'>
-        <div className='text-base font-black text-light'>
+        <div className='text-base font-semibold text-light'>
           Create a campaign brief
         </div>
         <p className='mt-1 text-xs leading-5 text-muted'>
@@ -779,7 +779,7 @@ function CreateCampaignForm({ onDone }: { onDone: () => void }) {
         </div>
 
         <aside className='h-fit rounded-2xl border border-border bg-dark p-4 lg:sticky lg:top-20'>
-          <div className='text-xs font-black uppercase tracking-[0.1em] text-muted'>
+          <div className='text-xs font-semibold uppercase tracking-[0.1em] text-muted'>
             Brief readiness
           </div>
           <div className='mt-3 space-y-2'>
@@ -824,10 +824,10 @@ function FormSection({
   return (
     <section>
       <div className='mb-3 flex items-center gap-2'>
-        <span className='flex h-6 w-6 items-center justify-center rounded-full bg-accent text-xs font-black text-white'>
+        <span className='flex h-6 w-6 items-center justify-center rounded-full bg-accent text-xs font-semibold text-white'>
           {number}
         </span>
-        <h3 className='text-sm font-black text-light'>{title}</h3>
+        <h3 className='text-sm font-semibold text-light'>{title}</h3>
       </div>
       {children}
     </section>
@@ -878,7 +878,7 @@ function ReadinessItem({
     <div className='flex items-center gap-2 text-xs'>
       <span
         className={
-          'flex h-5 w-5 items-center justify-center rounded-full font-black ' +
+          'flex h-5 w-5 items-center justify-center rounded-full font-semibold ' +
           (ready
             ? 'bg-zgreen/15 text-zgreen'
             : 'bg-border text-muted')

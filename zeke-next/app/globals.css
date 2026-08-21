@@ -436,19 +436,49 @@ h3 {
   line-height: 1.5rem;
 }
 
-/* Weight cap for dashboard body text: use font-semibold (600) as the heaviest
-   normal text weight. Headings keep their Sora weights. This replaces the old
-   pattern of 43 font-black + 16 font-extrabold across dashboard files. */
-.dashboard-content :where(p, span, a, button, td, th, label, li, div, section, article, details, summary):not(h1, h2, h3, h4, h5, h6) {
+/* Weight cap for signed-in and auth body text: 400 is normal, 600 is the
+   heaviest. Headings keep their Sora weights.
+
+   Both emphasis groups matter. Without the second rule, a name written as
+   `font-black` on a <div> fell back to 400 while the identical name written on
+   an <h3> resolved to 600, so the same role rendered at two weights on one
+   screen. `[class*="font-bold"]` does NOT substring-match `font-extrabold`,
+   which is why the heavy classes are listed explicitly. */
+:is(.dashboard-shell, .dashboard-content, .auth-content) :where(p, span, a, button, td, th, label, li, div, section, article, details, summary):not(h1, h2, h3, h4, h5, h6) {
   font-weight: 400;
 }
 
-.dashboard-content :where(p, span, a, button, td, th, label, li, div, section, article, details, summary)[class*="font-semibold"]:not(h1, h2, h3, h4, h5, h6) {
+:is(.dashboard-shell, .dashboard-content, .auth-content)
+  :where(p, span, a, button, td, th, label, li, div, section, article, details, summary):is(
+    [class*="font-semibold"],
+    [class*="font-bold"],
+    [class~="font-extrabold"],
+    [class~="font-black"]
+  ):not(h1, h2, h3, h4, h5, h6) {
   font-weight: 600;
 }
 
-.dashboard-content :where(p, span, a, button, td, th, label, li, div, section, article, details, summary)[class*="font-bold"]:not(h1, h2, h3, h4, h5, h6) {
+/* strong/b carry a UA-default 700. They mean emphasis, so they land on the
+   cap's emphasis step rather than being flattened to normal text. */
+:is(.dashboard-shell, .dashboard-content, .auth-content) :where(strong, b) {
   font-weight: 600;
+}
+
+/* The nav chrome (sidebar, top nav, bottom nav) renders as a sibling of
+   .dashboard-content, not inside it, so it sat outside the cap entirely: nav
+   labels resolved to 700 while identical emphasis in the page body resolved to
+   600, leaving the navigation permanently heavier than the content it frames.
+   .dashboard-shell wraps the whole signed-in layout so one ladder covers both. */
+.dashboard-shell :where(h1, h2, h3, h4, h5, h6) {
+  font-weight: 600;
+}
+
+/* Auth headings are capped too, but keep their own sizes: the auth hierarchy
+   (16px form content, 14px subtitles) is deliberate and differs from the
+   dashboard 22/18/16 ladder. */
+.auth-content :where(h1, h2, h3, h4, h5, h6) {
+  font-weight: 600;
+  letter-spacing: -0.02em;
 }
 
 .dashboard-content .brand-button-primary,

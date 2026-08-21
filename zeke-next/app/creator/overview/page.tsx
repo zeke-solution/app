@@ -48,19 +48,22 @@ export default async function CreatorOverviewPage() {
           valueColor="#047857"
           value={completedDeals.length}
           label="Deals Done"
+          href="/creator/deals"
         />
         <StatCard
           icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>}
           iconColor="#92400E"
           value={`₹${fmtNum(totalEarned)}`}
           label="Earned"
+          href="/creator/deals"
         />
-        <StatCard icon={<OffersIcon width={18} height={18} />} iconColor="#92400E" value={pendingRes.count ?? 0} label="New Offers" />
+        <StatCard icon={<OffersIcon width={18} height={18} />} iconColor="#92400E" value={pendingRes.count ?? 0} label="New Offers" href="/creator/offers" />
         <StatCard
           icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="#92400E" stroke="#92400E" strokeWidth="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>}
           iconColor="#92400E"
           value={inf?.rating ? `${inf.rating}/5` : "--"}
           label="Rating"
+          href="/creator/profile"
         />
       </StatGrid>
 
@@ -69,12 +72,30 @@ export default async function CreatorOverviewPage() {
           <SectionHeader title="Connected platforms" description="Your active audience channels" />
           <Card>
             <div className="flex flex-col gap-3">
-              <PlatformRow label="Instagram" chip="IG" chipClass="bg-accent/10 text-accent" value={inf?.ig_followers} />
+              <PlatformRow
+                label="Instagram"
+                chip="IG"
+                chipClass="bg-accent/10 text-accent"
+                value={inf?.ig_followers}
+                href={inf?.handle ? `https://instagram.com/${inf.handle}` : null}
+              />
               {inf?.yt_enabled && (
-                <PlatformRow label="YouTube" chip="YT" chipClass="bg-[#b91c1c]/10 text-[#b91c1c]" value={inf?.yt_followers} />
+                <PlatformRow
+                  label="YouTube"
+                  chip="YT"
+                  chipClass="bg-[#b91c1c]/10 text-[#b91c1c]"
+                  value={inf?.yt_followers}
+                  href={inf?.yt_handle ? `https://youtube.com/@${inf.yt_handle}` : null}
+                />
               )}
               {inf?.x_enabled && (
-                <PlatformRow label="Twitter / X" chip="X" chipClass="bg-[#0369a1]/10 text-[#0369a1]" value={inf?.x_followers} />
+                <PlatformRow
+                  label="Twitter / X"
+                  chip="X"
+                  chipClass="bg-[#0369a1]/10 text-[#0369a1]"
+                  value={inf?.x_followers}
+                  href={inf?.x_handle ? `https://x.com/${inf.x_handle}` : null}
+                />
               )}
             </div>
           </Card>
@@ -110,19 +131,35 @@ function PlatformRow({
   chip,
   chipClass,
   value,
+  href,
 }: {
   label: string;
   chip: string;
   chipClass: string;
   value: number | null | undefined;
+  /** The creator's profile on that network. Null when no handle is saved yet. */
+  href?: string | null;
 }) {
-  return (
-    <div className="flex items-center justify-between">
+  const body = (
+    <>
       <div className="flex items-center gap-2 text-sm text-light">
-        <span className={`rounded-md px-1.5 py-0.5 text-[11px] font-extrabold ${chipClass}`}>{chip}</span>
+        <span className={`rounded-md px-1.5 py-0.5 text-[11px] font-semibold ${chipClass}`}>{chip}</span>
         {label}
       </div>
-      <div className="text-sm font-bold text-light">{value ? fmtNum(value) : "--"}</div>
-    </div>
+      <div className="text-sm font-semibold text-light">{value ? fmtNum(value) : "--"}</div>
+    </>
+  );
+
+  if (!href) return <div className="flex items-center justify-between">{body}</div>;
+
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="-mx-2 flex items-center justify-between rounded-lg px-2 py-1 transition-colors hover:bg-navy focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+    >
+      {body}
+    </a>
   );
 }

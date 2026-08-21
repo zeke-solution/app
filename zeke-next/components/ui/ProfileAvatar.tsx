@@ -13,7 +13,7 @@ export function ProfileAvatar({
     <div
       role='img'
       aria-label={name + ' profile picture'}
-      className={'flex flex-shrink-0 items-center justify-center bg-cover bg-center font-black ' + className}
+      className={'flex flex-shrink-0 items-center justify-center bg-cover bg-center font-semibold ' + className}
       style={avatarUrl ? { backgroundImage: 'url(' + avatarUrl + ')' } : undefined}
     >
       {!avatarUrl && initials}

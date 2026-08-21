@@ -83,7 +83,7 @@ export function AdminRemoveButton({
                 !
               </div>
               <div className="min-w-0">
-                <h2 id={`remove-title-${entityId}`} className="text-base font-black text-light">
+                <h2 id={`remove-title-${entityId}`} className="text-base font-semibold text-light">
                   Permanently remove {entityLabel}?
                 </h2>
                 <p className="mt-1 text-xs leading-5 text-muted">{description}</p>
@@ -96,7 +96,7 @@ export function AdminRemoveButton({
 
             <label className="mt-4 block">
               <span className="text-[11px] font-semibold text-muted">
-                Type <span className="font-black text-danger">REMOVE</span> to confirm
+                Type <span className="font-semibold text-danger">REMOVE</span> to confirm
               </span>
               <input
                 autoFocus
@@ -127,7 +127,7 @@ export function AdminRemoveButton({
                 type="button"
                 onClick={remove}
                 disabled={pending || confirmation !== "REMOVE"}
-                className="rounded-xl border border-danger bg-danger px-4 py-2.5 text-sm font-black text-white disabled:cursor-not-allowed disabled:opacity-40"
+                className="rounded-xl border border-danger bg-danger px-4 py-2.5 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-40"
               >
                 {pending ? "Removing..." : "Remove forever"}
               </button>

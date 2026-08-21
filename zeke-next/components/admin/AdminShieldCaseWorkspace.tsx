@@ -82,7 +82,7 @@ export function AdminShieldCaseWorkspace({
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
             <div className="text-xs text-muted">{shieldCase.creatorName} × {shieldCase.brandName}</div>
-            <h1 className="mt-1 text-lg font-black text-light">{shieldCase.dealTitle}</h1>
+            <h1 className="mt-1 text-lg font-semibold text-light">{shieldCase.dealTitle}</h1>
             <div className="mt-1 text-[10px] text-muted">Opened {fmtDate(shieldCase.openedAt)}</div>
           </div>
           <span className="rounded-full px-3 py-1 text-xs font-bold" style={{ color: meta.color, background: `${meta.color}1A` }}>{meta.label}</span>
@@ -90,7 +90,7 @@ export function AdminShieldCaseWorkspace({
         <p className="mt-4 rounded-xl border border-border bg-dark p-3 text-xs leading-5 text-light">{shieldCase.reason}</p>
         <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-danger/20 pt-4">
           <div>
-            <div className="text-xs font-black text-danger">Master case control</div>
+            <div className="text-xs font-semibold text-danger">Master case control</div>
             <div className="mt-0.5 text-[10px] text-muted">Removes the case timeline and evidence; the underlying dispute remains.</div>
           </div>
           <AdminRemoveButton
@@ -113,7 +113,7 @@ export function AdminShieldCaseWorkspace({
 
       <section className="grid gap-4 lg:grid-cols-2">
         <div className="rounded-2xl border border-border bg-card p-4">
-          <h2 className="text-sm font-extrabold text-light">Case stage</h2>
+          <h2 className="text-sm font-semibold text-light">Case stage</h2>
           <p className="mt-1 text-[10px] leading-4 text-muted">Do not move to legal coordination until the creator confirms a direct provider engagement.</p>
           <select value={status} onChange={(e) => setStatus(e.target.value as ShieldCaseStatus)} className="mt-3 w-full rounded-xl border border-border bg-dark px-3 py-2 text-xs text-light">
             {Object.entries(SHIELD_CASE_STATUS).map(([value, item]) => <option key={value} value={value}>{item.label}</option>)}
@@ -124,7 +124,7 @@ export function AdminShieldCaseWorkspace({
         </div>
 
         <div className="rounded-2xl border border-border bg-card p-4">
-          <h2 className="text-sm font-extrabold text-light">Log communication</h2>
+          <h2 className="text-sm font-semibold text-light">Log communication</h2>
           <p className="mt-1 text-[10px] leading-4 text-muted">Record each brand follow-up, table talk and authorised lawyer coordination step.</p>
           <select value={updateKind} onChange={(e) => setUpdateKind(e.target.value as typeof updateKind)} className="mt-3 w-full rounded-xl border border-border bg-dark px-3 py-2 text-xs text-light">
             <option value="follow_up">Brand follow-up</option>
@@ -142,7 +142,7 @@ export function AdminShieldCaseWorkspace({
 
       <section className="grid gap-4 lg:grid-cols-2">
         <div className="rounded-2xl border border-border bg-card p-4">
-          <h2 className="text-sm font-extrabold text-light">Complete timeline</h2>
+          <h2 className="text-sm font-semibold text-light">Complete timeline</h2>
           <div className="mt-3 space-y-3">
             {updates.map((update) => (
               <div key={update.id} className="border-l-2 border-purple/30 pl-3">
@@ -153,7 +153,7 @@ export function AdminShieldCaseWorkspace({
           </div>
         </div>
         <div className="rounded-2xl border border-border bg-card p-4">
-          <h2 className="text-sm font-extrabold text-light">Case evidence</h2>
+          <h2 className="text-sm font-semibold text-light">Case evidence</h2>
           <div className="mt-3 space-y-2">
             {documents.map((document) => (
               <div key={document.id} className="rounded-xl border border-border bg-dark p-3">
